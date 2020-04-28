@@ -18,28 +18,30 @@ package org.springframework.cloud.cnb.boot;
 import java.util.Map;
 
 import org.springframework.cloud.cnb.core.CnbBinding;
-import org.springframework.cloud.cnb.jdbc.JdbcBinding;
 
 
-public class DataSourceCnbBindingProcessor implements CnbBindingProcessor {
+public class RedisCnbBindingProcessor implements CnbBindingProcessor {
+
+    public static final String REDIS_KIND = "redis";
+
     @Override
     public boolean accept(CnbBinding binding) {
-        return JdbcBinding.isJDCBBinding(binding);
+        return binding.getKind().equals(REDIS_KIND);
     }
 
     @Override
     public void process(CnbBinding binding, Map<String, Object> properties) {
-        JdbcBinding jdbcBinding = new JdbcBinding(binding);
-        properties.put("spring.datasource.url", jdbcBinding.getJdbcUrl());
-        properties.put("spring.datasource.username", jdbcBinding.getUsername());
-        properties.put("spring.datasource.password", jdbcBinding.getPassword());
-        properties.put("spring.datasource.driver-class-name", jdbcBinding.getDriverClassName());
+        properties.put("spring.redis.host", binding.getSecret().get("hostname")); //TODO: also support "host"
+        properties.put("spring.redis.port", binding.getSecret().get("port")); //TODO: handle missing
+        properties.put("spring.redis.password", binding.getSecret().get("password")); //TODO: handle missing
+
+        // TODO: spring.redis.ssl
     }
 
     @Override
     public CnbBindingProcessorProperties getProperties() {
         return CnbBindingProcessorProperties.builder()
-                .propertyPrefixes("spring.datasource")
+                .propertyPrefixes("spring.redis")
                 .build();
     }
 }

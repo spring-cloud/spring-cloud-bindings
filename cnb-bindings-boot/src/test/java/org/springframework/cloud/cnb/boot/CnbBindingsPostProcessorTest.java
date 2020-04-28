@@ -55,6 +55,8 @@ public class CnbBindingsPostProcessorTest {
                 .isEqualTo("mysql_password");
     }
 
+    // TODO: test multiple services
+
     @Test
     public void testNoBindingsPresent(){
         CnbBindingsPostProcessor environmentPostProcessor = new CnbBindingsPostProcessor();

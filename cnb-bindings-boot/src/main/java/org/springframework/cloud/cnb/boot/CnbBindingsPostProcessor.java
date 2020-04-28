@@ -74,6 +74,8 @@ public class CnbBindingsPostProcessor implements EnvironmentPostProcessor, Order
 	public void postProcessEnvironment(ConfigurableEnvironment environment,
 									   SpringApplication application) {
 
+		// TODO: allow users to disable processing of a given binding by name, kind, or processor
+
 		increaseInvocationCount();
 		CnbBindings bindings = CNBBindingsSingleton.getCnbBindingsInstance();
 

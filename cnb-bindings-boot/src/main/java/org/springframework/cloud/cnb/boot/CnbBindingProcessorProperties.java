@@ -54,6 +54,8 @@ public class CnbBindingProcessorProperties {
 	public static class Builder {
 		private CnbBindingProcessorProperties processorProperties = new CnbBindingProcessorProperties();
 
+		// Todo: add kind & provider, make serviceName the binding name
+
 		public Builder propertyPrefixes(String propertyPrefixes) {
 			this.processorProperties.propertyPrefixes = propertyPrefixes;
 			return this;

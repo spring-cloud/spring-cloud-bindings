@@ -18,28 +18,26 @@ package org.springframework.cloud.cnb.boot;
 import java.util.Map;
 
 import org.springframework.cloud.cnb.core.CnbBinding;
-import org.springframework.cloud.cnb.jdbc.JdbcBinding;
 
 
-public class DataSourceCnbBindingProcessor implements CnbBindingProcessor {
+public class CassandraCnbBindingProcessor implements CnbBindingProcessor {
+    public static final String CASSANDRA_KIND = "cassandra";
+
     @Override
     public boolean accept(CnbBinding binding) {
-        return JdbcBinding.isJDCBBinding(binding);
+        return binding.getKind().equals(CASSANDRA_KIND);
     }
 
     @Override
     public void process(CnbBinding binding, Map<String, Object> properties) {
-        JdbcBinding jdbcBinding = new JdbcBinding(binding);
-        properties.put("spring.datasource.url", jdbcBinding.getJdbcUrl());
-        properties.put("spring.datasource.username", jdbcBinding.getUsername());
-        properties.put("spring.datasource.password", jdbcBinding.getPassword());
-        properties.put("spring.datasource.driver-class-name", jdbcBinding.getDriverClassName());
+        properties.put("spring.data.cassandra.username", binding.getSecret().get("username"));
+        properties.put("spring.data.cassandra.password", binding.getSecret().get("password"));
+        properties.put("spring.data.cassandra.contact-points", binding.getSecret().get("node_ips"));
+        properties.put("spring.data.cassandra.port", binding.getSecret().get("port"));
     }
 
     @Override
     public CnbBindingProcessorProperties getProperties() {
-        return CnbBindingProcessorProperties.builder()
-                .propertyPrefixes("spring.datasource")
-                .build();
+        return null;
     }
 }
