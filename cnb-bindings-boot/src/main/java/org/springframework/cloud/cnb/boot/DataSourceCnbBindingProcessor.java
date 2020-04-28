@@ -18,22 +18,22 @@ package org.springframework.cloud.cnb.boot;
 import java.util.Map;
 
 import org.springframework.cloud.cnb.core.CnbBinding;
-import org.springframework.cloud.cnb.jdbc.JdbcUrlCreator;
+import org.springframework.cloud.cnb.jdbc.JdbcBinding;
 
 
 public class DataSourceCnbBindingProcessor implements CnbBindingProcessor{
     @Override
     public boolean accept(CnbBinding binding) {
-        return JdbcUrlCreator.isJDCBBinding(binding);
+        return JdbcBinding.isJDCBBinding(binding);
     }
 
     @Override
     public void process(CnbBinding binding, Map<String, Object> properties) {
-        JdbcUrlCreator jdbcUrlCreator = new JdbcUrlCreator(binding);
-        properties.put("spring.datasource.url", jdbcUrlCreator.getJdbcUrl());
-        properties.put("spring.datasource.username", jdbcUrlCreator.getUsername());
-        properties.put("spring.datasource.password", jdbcUrlCreator.getPassword());
-        properties.put("spring.datasource.driver-class-name", jdbcUrlCreator.getDriverClassName());
+        JdbcBinding jdbcBinding = new JdbcBinding(binding);
+        properties.put("spring.datasource.url", jdbcBinding.getJdbcUrl());
+        properties.put("spring.datasource.username", jdbcBinding.getUsername());
+        properties.put("spring.datasource.password", jdbcBinding.getPassword());
+        properties.put("spring.datasource.driver-class-name", jdbcBinding.getDriverClassName());
     }
 
     @Override

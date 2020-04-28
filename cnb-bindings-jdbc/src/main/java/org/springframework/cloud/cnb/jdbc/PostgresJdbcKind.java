@@ -15,10 +15,11 @@
  */
 package org.springframework.cloud.cnb.jdbc;
 
-import org.springframework.cloud.cnb.core.CnbBinding;
-
 import java.util.Arrays;
 import java.util.List;
+
+import org.springframework.cloud.cnb.core.CnbBinding;
+
 
 public class PostgresJdbcKind implements JdbcKind{
 

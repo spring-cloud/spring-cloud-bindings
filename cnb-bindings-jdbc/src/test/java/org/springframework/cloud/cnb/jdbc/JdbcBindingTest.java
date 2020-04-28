@@ -25,64 +25,76 @@ import org.springframework.cloud.cnb.core.CnbBinding;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class JdbcUrlCreatorTest {
+public class JdbcBindingTest {
 
     @Test
-    public void testJdbcUrlCreator_mysql() {
+    public void testIsJdbcBinding_false() {
+        CnbBinding notJdbcBinding = bindingWithKind("not-registered");
+        assertThat(JdbcBinding.isJDCBBinding(notJdbcBinding)).isFalse();
+    }
+
+    @Test
+    public void testJdbcBinding_mysql() {
         CnbBinding mysqlBinding = bindingWithKind("mysql");
-        JdbcUrlCreator jdbcUrlCreator = new JdbcUrlCreator(mysqlBinding);
-        assertThat(jdbcUrlCreator.getJdbcUrl()).
+        assertThat(JdbcBinding.isJDCBBinding(mysqlBinding)).isTrue();
+        JdbcBinding jdbcBinding = new JdbcBinding(mysqlBinding);
+        assertThat(jdbcBinding.getJdbcUrl()).
                 isEqualTo("jdbc:mysql://10.0.4.35:3306/some-db?user=some-username&password=some-password");
     }
 
     @Test
-    public void testJdbcUrlCreator_db2() {
+    public void testJdbcBinding_db2() {
         CnbBinding db2Binding = bindingWithKind("db2");
-        JdbcUrlCreator jdbcUrlCreator = new JdbcUrlCreator(db2Binding);
+        assertThat(JdbcBinding.isJDCBBinding(db2Binding)).isTrue();
+        JdbcBinding jdbcBinding = new JdbcBinding(db2Binding);
 
-        assertThat(jdbcUrlCreator.getJdbcUrl()).
+        assertThat(jdbcBinding.getJdbcUrl()).
                 isEqualTo("jdbc:db2://10.0.4.35:3306/some-db?user=some-username&password=some-password");
-        assertThat(jdbcUrlCreator.getDriverClassName()).
+        assertThat(jdbcBinding.getDriverClassName()).
                 isEqualTo("com.ibm.db2.jcc.DB2Driver");
     }
 
     @Test
-    public void testJdbcUrlCreator_oracle() {
+    public void testJdbcBinding_oracle() {
         CnbBinding oracleBinding = bindingWithKind("oracle");
-        JdbcUrlCreator jdbcUrlCreator = new JdbcUrlCreator(oracleBinding);
-        assertThat(jdbcUrlCreator.getJdbcUrl())
+        assertThat(JdbcBinding.isJDCBBinding(oracleBinding)).isTrue();
+        JdbcBinding jdbcBinding = new JdbcBinding(oracleBinding);
+        assertThat(jdbcBinding.getJdbcUrl())
                 .isEqualTo("jdbc:oracle://10.0.4.35:3306/some-db?user=some-username&password=some-password");
-        assertThat(jdbcUrlCreator.getDriverClassName()).
+        assertThat(jdbcBinding.getDriverClassName()).
                 isEqualTo("oracle.jdbc.OracleDriver");
     }
 
     @Test
-    public void testJdbcUrlCreator_postgres() {
-        CnbBinding oracleBinding = bindingWithKind("postgres");
-        JdbcUrlCreator jdbcUrlCreator = new JdbcUrlCreator(oracleBinding);
-        assertThat(jdbcUrlCreator.getJdbcUrl())
+    public void testJdbcBinding_postgres() {
+        CnbBinding postgresBinding = bindingWithKind("postgres");
+        assertThat(JdbcBinding.isJDCBBinding(postgresBinding)).isTrue();
+        JdbcBinding jdbcBinding = new JdbcBinding(postgresBinding);
+        assertThat(jdbcBinding.getJdbcUrl())
                 .isEqualTo("jdbc:postgres://10.0.4.35:3306/some-db?user=some-username&password=some-password");
-        assertThat(jdbcUrlCreator.getDriverClassName()).
+        assertThat(jdbcBinding.getDriverClassName()).
                 isEqualTo("org.postgresql.Driver");
     }
 
     @Test
-    public void testJdbcUrlCreator_postgresql() {
-        CnbBinding oracleBinding = bindingWithKind("postgresql");
-        JdbcUrlCreator jdbcUrlCreator = new JdbcUrlCreator(oracleBinding);
-        assertThat(jdbcUrlCreator.getJdbcUrl())
+    public void testJdbcBinding_postgresql() {
+        CnbBinding postgresBinding = bindingWithKind("postgresql");
+        assertThat(JdbcBinding.isJDCBBinding(postgresBinding)).isTrue();
+        JdbcBinding jdbcBinding = new JdbcBinding(postgresBinding);
+        assertThat(jdbcBinding.getJdbcUrl())
                 .isEqualTo("jdbc:postgres://10.0.4.35:3306/some-db?user=some-username&password=some-password");
-        assertThat(jdbcUrlCreator.getDriverClassName()).
+        assertThat(jdbcBinding.getDriverClassName()).
                 isEqualTo("org.postgresql.Driver");
     }
 
     @Test
-    public void testJdbcUrlCreator_sqlserver() {
-        CnbBinding oracleBinding = bindingWithKind("sqlserver");
-        JdbcUrlCreator jdbcUrlCreator = new JdbcUrlCreator(oracleBinding);
-        assertThat(jdbcUrlCreator.getJdbcUrl())
+    public void testJdbcBinding_sqlserver() {
+        CnbBinding sqlserverBinding = bindingWithKind("sqlserver");
+        assertThat(JdbcBinding.isJDCBBinding(sqlserverBinding)).isTrue();
+        JdbcBinding jdbcBinding = new JdbcBinding(sqlserverBinding);
+        assertThat(jdbcBinding.getJdbcUrl())
                 .isEqualTo("jdbc:sqlserver://10.0.4.35:3306/some-db?user=some-username&password=some-password");
-        assertThat(jdbcUrlCreator.getDriverClassName()).
+        assertThat(jdbcBinding.getDriverClassName()).
                 isEqualTo("com.microsoft.sqlserver.jdbc.SQLServerDriver");
     }
 

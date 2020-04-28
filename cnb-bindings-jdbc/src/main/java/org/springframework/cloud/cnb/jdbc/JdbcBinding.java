@@ -21,7 +21,7 @@ import org.springframework.cloud.cnb.core.CnbBinding;
 import org.springframework.cloud.cnb.core.IllegalBindingException;
 
 
-public class JdbcUrlCreator {
+public class JdbcBinding {
     private static final String JDBC_PREFIX = "jdbc:";
     private final CnbBinding binding;
     private final JdbcKind kind;
@@ -36,20 +36,16 @@ public class JdbcUrlCreator {
         return false;
     }
 
-    public JdbcUrlCreator(CnbBinding binding) {
+    public JdbcBinding(CnbBinding binding) {
         ServiceLoader<JdbcKind> loader = ServiceLoader.load(JdbcKind.class);
-        JdbcKind jdbcKind = null;
         for (JdbcKind kind : loader) {
             if (kind.forBinding(binding)) {
-                jdbcKind = kind;
-                break;
+                this.kind = kind;
+                this.binding = binding;
+                return;
             }
         }
-        if (jdbcKind == null) {
-            throw new IllegalBindingException("no matching jdbc kind for binding");
-        }
-        this.kind = jdbcKind;
-        this.binding = binding;
+        throw new IllegalBindingException("no matching jdbc kind for binding");
     }
 
     public String getJdbcUrl() {
