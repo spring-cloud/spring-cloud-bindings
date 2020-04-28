@@ -1,1 +1,5 @@
 org.springframework.cloud.cnb.jdbc.MysqlJdbcKind
+org.springframework.cloud.cnb.jdbc.DB2JdbcKind
+org.springframework.cloud.cnb.jdbc.OracleJdbcKind
+org.springframework.cloud.cnb.jdbc.PostgresJdbcKind
+org.springframework.cloud.cnb.jdbc.SqlServerJdbcKind

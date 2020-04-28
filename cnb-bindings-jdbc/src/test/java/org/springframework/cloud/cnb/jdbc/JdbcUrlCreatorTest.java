@@ -28,18 +28,73 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class JdbcUrlCreatorTest {
 
     @Test
-    public void testJdbcUrlCreator() {
-        Map<String,String> mysqlMetadata = new HashMap<String,String>();
-        mysqlMetadata.put("kind", "mysql");
-        Map<String,String> mysqlSecret = new HashMap<String,String>();
-        mysqlSecret.put("hostname", "10.0.4.35");
-        mysqlSecret.put("port", "3306");
-        mysqlSecret.put("db", "some-db");
-        mysqlSecret.put("username", "some-username");
-        mysqlSecret.put("password", "some-password");
-        CnbBinding mysqlBinding = new CnbBinding(mysqlMetadata, mysqlSecret);
+    public void testJdbcUrlCreator_mysql() {
+        CnbBinding mysqlBinding = bindingWithKind("mysql");
         JdbcUrlCreator jdbcUrlCreator = new JdbcUrlCreator(mysqlBinding);
-        String url = jdbcUrlCreator.getJdbcUrl();
-        assertThat(url).isEqualTo("jdbc:mysql://10.0.4.35:3306/some-db?user=some-username&password=some-password");
+        assertThat(jdbcUrlCreator.getJdbcUrl()).
+                isEqualTo("jdbc:mysql://10.0.4.35:3306/some-db?user=some-username&password=some-password");
+    }
+
+    @Test
+    public void testJdbcUrlCreator_db2() {
+        CnbBinding db2Binding = bindingWithKind("db2");
+        JdbcUrlCreator jdbcUrlCreator = new JdbcUrlCreator(db2Binding);
+
+        assertThat(jdbcUrlCreator.getJdbcUrl()).
+                isEqualTo("jdbc:db2://10.0.4.35:3306/some-db?user=some-username&password=some-password");
+        assertThat(jdbcUrlCreator.getDriverClassName()).
+                isEqualTo("com.ibm.db2.jcc.DB2Driver");
+    }
+
+    @Test
+    public void testJdbcUrlCreator_oracle() {
+        CnbBinding oracleBinding = bindingWithKind("oracle");
+        JdbcUrlCreator jdbcUrlCreator = new JdbcUrlCreator(oracleBinding);
+        assertThat(jdbcUrlCreator.getJdbcUrl())
+                .isEqualTo("jdbc:oracle://10.0.4.35:3306/some-db?user=some-username&password=some-password");
+        assertThat(jdbcUrlCreator.getDriverClassName()).
+                isEqualTo("oracle.jdbc.OracleDriver");
+    }
+
+    @Test
+    public void testJdbcUrlCreator_postgres() {
+        CnbBinding oracleBinding = bindingWithKind("postgres");
+        JdbcUrlCreator jdbcUrlCreator = new JdbcUrlCreator(oracleBinding);
+        assertThat(jdbcUrlCreator.getJdbcUrl())
+                .isEqualTo("jdbc:postgres://10.0.4.35:3306/some-db?user=some-username&password=some-password");
+        assertThat(jdbcUrlCreator.getDriverClassName()).
+                isEqualTo("org.postgresql.Driver");
+    }
+
+    @Test
+    public void testJdbcUrlCreator_postgresql() {
+        CnbBinding oracleBinding = bindingWithKind("postgresql");
+        JdbcUrlCreator jdbcUrlCreator = new JdbcUrlCreator(oracleBinding);
+        assertThat(jdbcUrlCreator.getJdbcUrl())
+                .isEqualTo("jdbc:postgres://10.0.4.35:3306/some-db?user=some-username&password=some-password");
+        assertThat(jdbcUrlCreator.getDriverClassName()).
+                isEqualTo("org.postgresql.Driver");
+    }
+
+    @Test
+    public void testJdbcUrlCreator_sqlserver() {
+        CnbBinding oracleBinding = bindingWithKind("sqlserver");
+        JdbcUrlCreator jdbcUrlCreator = new JdbcUrlCreator(oracleBinding);
+        assertThat(jdbcUrlCreator.getJdbcUrl())
+                .isEqualTo("jdbc:sqlserver://10.0.4.35:3306/some-db?user=some-username&password=some-password");
+        assertThat(jdbcUrlCreator.getDriverClassName()).
+                isEqualTo("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+    }
+
+    public CnbBinding bindingWithKind(String kind) {
+        Map<String, String> metadata = new HashMap<String, String>();
+        metadata.put("kind", kind);
+        Map<String, String> secret = new HashMap<String, String>();
+        secret.put("hostname", "10.0.4.35");
+        secret.put("port", "3306");
+        secret.put("db", "some-db");
+        secret.put("username", "some-username");
+        secret.put("password", "some-password");
+        return new CnbBinding(metadata, secret);
     }
 }
