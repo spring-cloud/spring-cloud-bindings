@@ -151,6 +151,7 @@
                     </excludes>
                     <!-- see https://stackoverflow.com/questions/18107375/getting-skipping-jacoco-execution-due-to-missing-execution-data-file-upon-exec -->
                     <argLine>${argLine}</argLine>
+                    <forkMode>once</forkMode>
                 </configuration>
             </plugin>
             <plugin>
