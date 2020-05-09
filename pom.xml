@@ -5,13 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.springframework.cloud</groupId>
-    <artifactId>cnb-bindings-parent</artifactId>
+    <artifactId>bindings</artifactId>
     <version>0.0.1.BUILD-SNAPSHOT</version>
-    <packaging>pom</packaging>
 
-    <name>CNB Bindings Parent</name>
+    <name>Cloud Native Buildpacks Bindings</name>
     <description>Java Library for Accessing CNB Bindings</description>
-    <url>https://github.com/spring-cloud-incubator/cnb-bindings</url>
+    <url>https://github.com/spring-cloud-incubator/bindings</url>
 
     <licenses>
         <license>
@@ -21,9 +20,9 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/spring-cloud-incubator/cnb-bindings</url>
-        <connection>scm:git:git://github.com/spring-cloud-incubator/cnb-bindings.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/spring-cloud-incubator/cnb-bindings.git</developerConnection>
+        <url>https://github.com/spring-cloud-incubator/bindings</url>
+        <connection>scm:git:git://github.com/spring-cloud-incubator/bindings.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/spring-cloud-incubator/bindings.git</developerConnection>
     </scm>
 
     <properties>
@@ -42,19 +41,6 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
-    <modules>
-        <module>cnb-bindings</module>
-        <module>cnb-bindings-jdbc</module>
-        <module>cnb-bindings-boot</module>
-    </modules>
-
-    <developers>
-        <developer>
-            <name>Emily Casey</name>
-            <id>ekcasey</id>
-        </developer>
-    </developers>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -64,56 +50,84 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-
-            <dependency>
-                <groupId>org.jetbrains</groupId>
-                <artifactId>annotations</artifactId>
-                <version>${jetbrains-annotations.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>${jetbrains-annotations.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${maven-compiler-plugin.version}</version>
-                    <configuration>
-                        <compilerArgs>
-                            <arg>-Werror</arg>
-                            <arg>-Xlint:all</arg>
-                            <arg>-Xlint:-options</arg>
-                            <arg>-Xlint:-processing</arg>
-                            <arg>-Xlint:-serial</arg>
-                        </compilerArgs>
-                        <showWarnings>true</showWarnings>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <version>${maven-source-plugin.version}</version>
-                    <executions>
-                        <execution>
-                            <id>attach-sources</id>
-                            <goals>
-                                <goal>jar</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${maven-surefire-plugin.version}</version>
-                    <configuration>
-                        <runOrder>random</runOrder>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <compilerArgs>
+                        <arg>-Werror</arg>
+                        <arg>-Xlint:all</arg>
+                        <arg>-Xlint:-options</arg>
+                        <arg>-Xlint:-processing</arg>
+                        <arg>-Xlint:-serial</arg>
+                    </compilerArgs>
+                    <showWarnings>true</showWarnings>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven-source-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <runOrder>random</runOrder>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
 </project>
