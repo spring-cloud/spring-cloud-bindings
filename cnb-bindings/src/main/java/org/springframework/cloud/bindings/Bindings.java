@@ -103,7 +103,7 @@ public final class Bindings {
      */
     public @Nullable Binding findBinding(@NotNull String name) {
         for (Binding binding : bindings) {
-            if (binding.getName().equals(name)) {
+            if (binding.getName().equalsIgnoreCase(name)) {
                 return binding;
             }
         }
@@ -133,8 +133,8 @@ public final class Bindings {
         List<Binding> filtered = new ArrayList<>();
 
         for (Binding binding : bindings) {
-            if ((kind == null || binding.getKind().equals(kind)) &&
-                    (provider == null) || binding.getProvider().equals(provider)) {
+            if ((kind == null || binding.getKind().equalsIgnoreCase(kind)) &&
+                    (provider == null) || binding.getProvider().equalsIgnoreCase(provider)) {
 
                 filtered.add(binding);
             }

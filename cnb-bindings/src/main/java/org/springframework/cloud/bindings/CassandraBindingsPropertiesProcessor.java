@@ -29,7 +29,7 @@ public final class CassandraBindingsPropertiesProcessor implements BindingsPrope
     /**
      * The {@link Binding} kind that this processor is interested in: {@value}.
      **/
-    public static final String KIND = "cassandra";
+    public static final String KIND = "Cassandra";
 
     @Override
     public void process(@NonNull Bindings bindings, @NotNull Map<String, Object> properties) {

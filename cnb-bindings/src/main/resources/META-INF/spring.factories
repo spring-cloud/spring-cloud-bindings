@@ -3,5 +3,10 @@ org.springframework.boot.env.EnvironmentPostProcessor=\
 # Included implementations
 org.springframework.cloud.bindings.BindingsPropertiesProcessor=\
   org.springframework.cloud.bindings.CassandraBindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.Db2BindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.MongoDbBindingsPropertiesProcessor, \
-  org.springframework.cloud.bindings.RedisBindingsPropertiesProcessor
+  org.springframework.cloud.bindings.MySqlBindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.OracleBindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.PostgreSqlBindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.RedisBindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.SqlServerBindingsPropertiesProcessor

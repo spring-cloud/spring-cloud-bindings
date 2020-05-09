@@ -43,18 +43,6 @@ public class JdbcBindingTest {
     }
 
     @Test
-    public void testJdbcBinding_db2() {
-        Binding db2Binding = bindingWithKind("db2");
-        assertThat(JdbcBinding.isJDCBBinding(db2Binding)).isTrue();
-        JdbcBinding jdbcBinding = new JdbcBinding(db2Binding);
-
-        assertThat(jdbcBinding.getJdbcUrl()).
-                isEqualTo("jdbc:db2://10.0.4.35:3306/some-db?user=some-username&password=some-password");
-        assertThat(jdbcBinding.getDriverClassName()).
-                isEqualTo("com.ibm.db2.jcc.DB2Driver");
-    }
-
-    @Test
     public void testJdbcBinding_oracle() {
         Binding oracleBinding = bindingWithKind("oracle");
         assertThat(JdbcBinding.isJDCBBinding(oracleBinding)).isTrue();

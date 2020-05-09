@@ -28,7 +28,7 @@ public final class MongoDbBindingsPropertiesProcessor implements BindingsPropert
     /**
      * The {@link Binding} kind that this processor is interested in: {@value}.
      **/
-    public static final String KIND = "mongodb";
+    public static final String KIND = "MongoDB";
 
     @Override
     public void process(@NonNull Bindings bindings, @NonNull Map<String, Object> properties) {

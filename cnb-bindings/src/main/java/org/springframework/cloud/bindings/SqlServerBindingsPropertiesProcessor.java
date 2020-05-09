@@ -24,21 +24,24 @@ import java.util.Map;
 /**
  * An implementation of {@link BindingsPropertiesProcessor} that detects {@link Binding}s of kind: {@value KIND}.
  */
-public final class RedisBindingsPropertiesProcessor implements BindingsPropertiesProcessor {
+public final class SqlServerBindingsPropertiesProcessor implements BindingsPropertiesProcessor {
 
     /**
      * The {@link Binding} kind that this processor is interested in: {@value}.
      **/
-    public static final String KIND = "Redis";
+    public static final String KIND = "SQLServer";
 
     @Override
     public void process(@NonNull Bindings bindings, @NotNull Map<String, Object> properties) {
         bindings.filterBindings(KIND).forEach(binding -> {
             Map<String, String> secret = binding.getSecret();
 
-            properties.put("spring.redis.host", secret.get("hostname"));
-            properties.put("spring.redis.password", secret.get("password"));
-            properties.put("spring.redis.port", secret.get("port"));
+            properties.put("spring.datasource.driver-class-name", "com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            properties.put("spring.datasource.password", secret.get("password"));
+            properties.put("spring.datasource.url", String.format("jdbc:sqlserver://%s:%s/%s?user=%s&password=%s",
+                    secret.get("host"), secret.get("port"), secret.get("db"), secret.get("username"),
+                    secret.get("password")));
+            properties.put("spring.datasource.username", secret.get("username"));
         });
     }
 
