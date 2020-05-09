@@ -21,15 +21,15 @@ package org.springframework.cloud.cnb.core;
  */
 public final class CNBBindingsSingleton {
 
-	private static CnbBindings INSTANCE;
+	private static Bindings INSTANCE;
 
 	private CNBBindingsSingleton() {
 
 	}
 
-	public synchronized static CnbBindings getCnbBindingsInstance() {
+	public synchronized static Bindings getCnbBindingsInstance() {
 		if (INSTANCE == null) {
-			INSTANCE = new CnbBindings();
+			INSTANCE = new Bindings();
 		}
 		return INSTANCE;
 	}

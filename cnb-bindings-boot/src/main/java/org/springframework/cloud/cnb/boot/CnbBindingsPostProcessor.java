@@ -26,7 +26,7 @@ import org.springframework.boot.context.event.ApplicationPreparedEvent;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.cloud.cnb.core.CNBBindingsSingleton;
 import org.springframework.cloud.cnb.core.CnbBinding;
-import org.springframework.cloud.cnb.core.CnbBindings;
+import org.springframework.cloud.cnb.core.Bindings;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.Ordered;
@@ -77,7 +77,7 @@ public class CnbBindingsPostProcessor implements EnvironmentPostProcessor, Order
 		// TODO: allow users to disable processing of a given binding by name, kind, or processor
 
 		increaseInvocationCount();
-		CnbBindings bindings = CNBBindingsSingleton.getCnbBindingsInstance();
+		Bindings bindings = CNBBindingsSingleton.getCnbBindingsInstance();
 
 		if (bindings.hasBindings()) {
 			List<CnbBinding> allBindings = bindings.findAllBindings();

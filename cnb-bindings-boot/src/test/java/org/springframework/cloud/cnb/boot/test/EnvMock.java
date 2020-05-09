@@ -21,7 +21,7 @@ import java.util.Map;
 
 import mockit.MockUp;
 
-import org.springframework.cloud.cnb.core.CnbBindings;
+import org.springframework.cloud.cnb.core.Bindings;
 
 
 /**
@@ -36,7 +36,7 @@ public class EnvMock {
         this.mockUp = new MockUp<System>() {
             @mockit.Mock
             public String getenv(String name) {
-                if (name.equalsIgnoreCase(CnbBindings.CNB_BINDINGS)) {
+                if (name.equalsIgnoreCase(Bindings.CNB_BINDINGS)) {
                     return cnbBindingsPath;
                 }
                 return env.get(name);

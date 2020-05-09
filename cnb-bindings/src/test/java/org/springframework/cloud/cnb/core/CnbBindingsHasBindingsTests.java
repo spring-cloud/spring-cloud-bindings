@@ -29,14 +29,14 @@ public class CnbBindingsHasBindingsTests {
 	@Test
 	public void testHasBindings() {
 		new EnvMock("some/path");
-		CnbBindings cnbBindings = new CnbBindings();
-		assertThat(cnbBindings.hasBindings()).isTrue();
+		Bindings bindings = new Bindings();
+		assertThat(bindings.hasBindings()).isTrue();
 	}
 
 	@Test
 	@Ignore
 	public void testHasBindingsFalse() {
-		CnbBindings cnbBindings = new CnbBindings();
-		assertThat(cnbBindings.hasBindings()).isFalse();
+		Bindings bindings = new Bindings();
+		assertThat(bindings.hasBindings()).isFalse();
 	}
 }
