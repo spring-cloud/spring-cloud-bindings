@@ -1,41 +1,31 @@
-*~
-.#*
-*#
-*.sw*
-_site/
-.factorypath
-.gradletasknamecache
-.DS_Store
-.checkstyle
-*.attach*
-/application.yml
-/application.properties
-asciidoctor.css
-atlassian-ide-plugin.xml
-bin/
-build/
-dump.rdb
-out
-spring-shell.log
+HELP.md
 target/
-test-output
-logs/
-scdf-logs/
-.flattened-pom.xml
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**
+!**/src/test/**
 
-# Eclipse artifacts, including WTP generated manifests
+### STS ###
+.apt_generated
 .classpath
+.factorypath
 .project
-.settings/
+.settings
 .springBeans
-spring-*/src/main/java/META-INF/MANIFEST.MF
+.sts4-cache
 
-# IDEA artifacts and output dirs
+### IntelliJ IDEA ###
+.idea
+*.iws
 *.iml
 *.ipr
-*.iws
-.idea/
-rebel.xml
 
-# VSCode artifacts
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+
+### VS Code ###
 .vscode/
