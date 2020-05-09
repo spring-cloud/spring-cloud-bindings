@@ -50,11 +50,11 @@ public final class BindingsEnvironmentPostProcessor implements EnvironmentPostPr
      */
     public static final String BINDINGS_PROPERTY_SOURCE_NAME = "cnbBindings";
 
+    final List<BindingsPropertiesProcessor> processors;
+
     private final Log log = LogFactory.getLog(getClass());
 
     private final Bindings bindings;
-
-    private final List<BindingsPropertiesProcessor> processors;
 
     /**
      * Creates a new instance of {@code BindingsEnvironmentPostProcessor} using the {@link Bindings} available in the

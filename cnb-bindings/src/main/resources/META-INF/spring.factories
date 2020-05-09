@@ -1,2 +1,5 @@
 org.springframework.boot.env.EnvironmentPostProcessor=\
   org.springframework.cloud.bindings.BindingsEnvironmentPostProcessor
+# Included implementations
+org.springframework.cloud.bindings.BindingsPropertiesProcessor=\
+  org.springframework.cloud.bindings.CassandraBindingsPropertiesProcessor

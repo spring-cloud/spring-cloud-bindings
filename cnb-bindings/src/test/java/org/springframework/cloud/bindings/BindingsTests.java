@@ -23,8 +23,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -78,17 +76,12 @@ final class BindingsTests {
 
         private final Bindings bindings = new Bindings(
                 new Binding("test-name-1", Paths.get("src/test/resources/test-name-1"),
-                        metadata("test-kind-1", "test-provider-1"), Collections.emptyMap()),
+                        new FluentMap().withEntry("kind", "test-kind-1").withEntry("provider", "test-provider-1"),
+                        Collections.emptyMap()),
                 new Binding("test-name-2", Paths.get("src/test/resources/test-name-2"),
-                        metadata("test-kind-2", "test-provider-2"), Collections.emptyMap())
+                        new FluentMap().withEntry("kind", "test-kind-2").withEntry("provider", "test-provider-2"),
+                        Collections.emptyMap())
         );
-
-        private Map<String, String> metadata(String kind, String provider) {
-            Map<String, String> metadata = new HashMap<>(2);
-            metadata.put("kind", kind);
-            metadata.put("provider", provider);
-            return metadata;
-        }
 
         @Test
         @DisplayName("returns content")

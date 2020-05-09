@@ -113,4 +113,11 @@ final class BindingsEnvironmentPostProcessorTest {
         assertThat(new BindingsEnvironmentPostProcessor(new Bindings()).getOrder())
                 .isLessThan(ConfigFileApplicationListener.DEFAULT_ORDER);
     }
+
+    @Test
+    @DisplayName("included implementations are registered")
+    void includedImplementations() {
+        assertThat(new BindingsEnvironmentPostProcessor().processors).hasSize(1);
+    }
+
 }

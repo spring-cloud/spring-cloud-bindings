@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 the original author or authors.
+ * Copyright 2020 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,17 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.cloud.cnb.boot;
 
-import java.util.Map;
+package org.springframework.cloud.bindings;
 
-import org.springframework.cloud.cnb.Binding;
+import java.util.HashMap;
 
-public interface CnbBindingProcessor {
+final class FluentMap extends HashMap<String, String> {
 
-	boolean accept(Binding binding);
+    FluentMap withEntry(String key, String value) {
+        put(key, value);
+        return this;
+    }
 
-	void process(Binding binding, Map<String, Object> properties);
-
-	CnbBindingProcessorProperties getProperties();
 }
