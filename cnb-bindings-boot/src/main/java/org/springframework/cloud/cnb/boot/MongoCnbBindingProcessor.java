@@ -17,7 +17,7 @@ package org.springframework.cloud.cnb.boot;
 
 import java.util.Map;
 
-import org.springframework.cloud.cnb.core.Binding;
+import org.springframework.cloud.cnb.Binding;
 
 public class MongoCnbBindingProcessor implements CnbBindingProcessor {
     private static final String MONGO_KIND = "mongodb";

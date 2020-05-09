@@ -15,7 +15,7 @@
  */
 package org.springframework.cloud.cnb.boot.test;
 
-import org.springframework.cloud.cnb.core.Binding;
+import org.springframework.cloud.cnb.Binding;
 import org.springframework.cloud.cnb.jdbc.JdbcKind;
 
 public class TestJdbcKind implements JdbcKind {

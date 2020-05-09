@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import org.springframework.cloud.cnb.core.Binding;
+import org.springframework.cloud.cnb.Binding;
 
 
 import static org.assertj.core.api.Assertions.assertThat;

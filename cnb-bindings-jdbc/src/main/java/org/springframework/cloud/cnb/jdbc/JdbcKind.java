@@ -15,7 +15,7 @@
  */
 package org.springframework.cloud.cnb.jdbc;
 
-import org.springframework.cloud.cnb.core.Binding;
+import org.springframework.cloud.cnb.Binding;
 
 public interface JdbcKind {
     boolean forBinding(Binding binding);

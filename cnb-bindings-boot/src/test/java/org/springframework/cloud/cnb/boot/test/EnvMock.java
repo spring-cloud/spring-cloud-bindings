@@ -21,7 +21,7 @@ import java.util.Map;
 
 import mockit.MockUp;
 
-import org.springframework.cloud.cnb.core.Bindings;
+import org.springframework.cloud.cnb.Bindings;
 
 
 /**

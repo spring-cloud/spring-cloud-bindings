@@ -17,7 +17,7 @@ package org.springframework.cloud.cnb.jdbc;
 
 import java.util.ServiceLoader;
 
-import org.springframework.cloud.cnb.core.Binding;
+import org.springframework.cloud.cnb.Binding;
 import org.springframework.cloud.cnb.core.IllegalBindingException;
 
 

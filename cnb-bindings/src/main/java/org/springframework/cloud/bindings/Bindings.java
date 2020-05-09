@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.cloud.cnb.core;
+package org.springframework.cloud.bindings;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -23,9 +23,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -58,35 +58,34 @@ public final class Bindings {
      *
      * @param path the path to populate the {@code Bindings} from.
      */
-    public Bindings(@NotNull String path) {
+    public Bindings(String path) {
+        if (path == null) {
+            this.bindings = Collections.emptyList();
+            return;
+        }
+
         Path p = Paths.get(path);
 
         if (!Files.exists(p)) {
             this.bindings = Collections.emptyList();
-        } else if (!Files.isDirectory(p)) {
+            return;
+        }
+
+        if (!Files.isDirectory(p)) {
             throw new IllegalArgumentException(String.format("%s is not a directory", p));
-        } else {
-            try {
-                this.bindings = Files.list(p)
-                        .map(Binding::new)
-                        .collect(Collectors.toList());
-            } catch (IOException e) {
-                throw new IllegalStateException(String.format("unable to list children of '%s'", path), e);
-            }
+        }
+
+        try {
+            this.bindings = Files.list(p)
+                    .map(Binding::new)
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            throw new IllegalStateException(String.format("unable to list children of '%s'", path), e);
         }
     }
 
-    /**
-     * Indicates whether the {@code $CNB_BINDINGS} is and zero or more bindings will be available.
-     *
-     * @return {@code true} if {@code $CNB_BINDINGS} is set, {@code false} otherwise.
-     */
-    public static boolean hasBindings() {
-        return hasBindings(System.getenv());
-    }
-
-    static boolean hasBindings(@NotNull Map<String, String> environment) {
-        return environment.containsKey(CNB_BINDINGS);
+    Bindings(@NotNull Binding... bindings) {
+        this.bindings = Arrays.asList(bindings);
     }
 
     /**
@@ -113,13 +112,13 @@ public final class Bindings {
     }
 
     /**
-     * Returns zero or more {@link Binding}s with a given kind.  Equivalent to {@link #getBindings(String, String)}.
+     * Returns zero or more {@link Binding}s with a given kind.  Equivalent to {@link #filterBindings(String, String)}.
      *
      * @param kind the kind of the {@code Binding} to find.
      * @return the collection of {@code Binding}s with a given kind.
      */
-    public @NotNull List<Binding> getBindings(@Nullable String kind) {
-        return getBindings(kind, null);
+    public @NotNull List<Binding> filterBindings(@Nullable String kind) {
+        return filterBindings(kind, null);
     }
 
     /**
@@ -130,7 +129,7 @@ public final class Bindings {
      * @param provider the provider of {@code Binding} to find
      * @return the collection of {@code Binding}s with a given kind and provider.
      */
-    public @NotNull List<Binding> getBindings(@Nullable String kind, @Nullable String provider) {
+    public @NotNull List<Binding> filterBindings(@Nullable String kind, @Nullable String provider) {
         List<Binding> filtered = new ArrayList<>();
 
         for (Binding binding : bindings) {

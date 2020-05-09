@@ -18,7 +18,7 @@ package org.springframework.cloud.cnb.jdbc;
 import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.cloud.cnb.core.Binding;
+import org.springframework.cloud.cnb.Binding;
 
 
 public class PostgresJdbcKind implements JdbcKind{

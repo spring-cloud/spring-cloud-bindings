@@ -17,7 +17,7 @@ package org.springframework.cloud.cnb.boot;
 
 import java.util.Map;
 
-import org.springframework.cloud.cnb.core.Binding;
+import org.springframework.cloud.cnb.Binding;
 import org.springframework.cloud.cnb.jdbc.JdbcBinding;
 
 
