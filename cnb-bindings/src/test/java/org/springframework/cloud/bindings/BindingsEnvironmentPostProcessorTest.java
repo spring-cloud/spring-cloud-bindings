@@ -117,7 +117,7 @@ final class BindingsEnvironmentPostProcessorTest {
     @Test
     @DisplayName("included implementations are registered")
     void includedImplementations() {
-        assertThat(new BindingsEnvironmentPostProcessor().processors).hasSize(1);
+        assertThat(new BindingsEnvironmentPostProcessor().processors).hasSize(2);
     }
 
 }
