@@ -15,7 +15,7 @@
  */
 package org.springframework.cloud.cnb.jdbc;
 
-import org.springframework.cloud.cnb.core.CnbBinding;
+import org.springframework.cloud.cnb.core.Binding;
 
 public class OracleJdbcKind implements JdbcKind{
 
@@ -23,7 +23,7 @@ public class OracleJdbcKind implements JdbcKind{
     public static final String ORACLE_SCHEME = "oracle";
 
     @Override
-    public boolean forBinding(CnbBinding binding) {
+    public boolean forBinding(Binding binding) {
         return binding.getKind().equals(ORACLE_KIND);
     }
 

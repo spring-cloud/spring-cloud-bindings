@@ -17,16 +17,16 @@ package org.springframework.cloud.cnb.jdbc;
 
 import java.util.ServiceLoader;
 
-import org.springframework.cloud.cnb.core.CnbBinding;
+import org.springframework.cloud.cnb.core.Binding;
 import org.springframework.cloud.cnb.core.IllegalBindingException;
 
 
 public class JdbcBinding {
     private static final String JDBC_PREFIX = "jdbc:";
-    private final CnbBinding binding;
+    private final Binding binding;
     private final JdbcKind kind;
 
-    public static boolean isJDCBBinding(CnbBinding binding) {
+    public static boolean isJDCBBinding(Binding binding) {
         ServiceLoader<JdbcKind> loader = ServiceLoader.load(JdbcKind.class);
         for (JdbcKind kind : loader) {
             if (kind.forBinding(binding)) {
@@ -36,7 +36,7 @@ public class JdbcBinding {
         return false;
     }
 
-    public JdbcBinding(CnbBinding binding) {
+    public JdbcBinding(Binding binding) {
         ServiceLoader<JdbcKind> loader = ServiceLoader.load(JdbcKind.class);
         for (JdbcKind kind : loader) {
             if (kind.forBinding(binding)) {

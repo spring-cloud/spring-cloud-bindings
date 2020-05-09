@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import org.springframework.cloud.cnb.core.CnbBinding;
+import org.springframework.cloud.cnb.core.Binding;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,7 +33,7 @@ public class RedisCnbBindingProcessorTests {
         RedisCnbBindingProcessor bindingProcessor = new RedisCnbBindingProcessor();
         Map<String, String> bindingMetadata = new HashMap<String, String>();
         bindingMetadata.put("kind", "redis");
-        CnbBinding binding = new CnbBinding(bindingMetadata, new HashMap<String, String>());
+        Binding binding = new Binding(bindingMetadata, new HashMap<String, String>());
         assertThat(bindingProcessor.accept(binding)).isTrue();
     }
 
@@ -42,7 +42,7 @@ public class RedisCnbBindingProcessorTests {
         RedisCnbBindingProcessor bindingProcessor = new RedisCnbBindingProcessor();
         Map<String, String> bindingMetadata = new HashMap<String, String>();
         bindingMetadata.put("kind", "mysql");
-        CnbBinding binding = new CnbBinding(bindingMetadata, new HashMap<String, String>());
+        Binding binding = new Binding(bindingMetadata, new HashMap<String, String>());
         assertThat(bindingProcessor.accept(binding)).isFalse();
     }
 
@@ -55,7 +55,7 @@ public class RedisCnbBindingProcessorTests {
         bindingSecret.put("hostname", "10.0.4.35");
         bindingSecret.put("port", "6379");
         bindingSecret.put("password", "some-password");
-        CnbBinding binding = new CnbBinding(bindingMetadata, bindingSecret);
+        Binding binding = new Binding(bindingMetadata, bindingSecret);
         Map<String,Object> properties = new HashMap<String,Object>();
         bindingProcessor.process(binding, properties);
         assertThat(properties.get("spring.redis.host")).isEqualTo("10.0.4.35");

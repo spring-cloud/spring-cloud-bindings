@@ -17,18 +17,18 @@ package org.springframework.cloud.cnb.boot;
 
 import java.util.Map;
 
-import org.springframework.cloud.cnb.core.CnbBinding;
+import org.springframework.cloud.cnb.core.Binding;
 import org.springframework.cloud.cnb.jdbc.JdbcBinding;
 
 
 public class DataSourceCnbBindingProcessor implements CnbBindingProcessor {
     @Override
-    public boolean accept(CnbBinding binding) {
+    public boolean accept(Binding binding) {
         return JdbcBinding.isJDCBBinding(binding);
     }
 
     @Override
-    public void process(CnbBinding binding, Map<String, Object> properties) {
+    public void process(Binding binding, Map<String, Object> properties) {
         JdbcBinding jdbcBinding = new JdbcBinding(binding);
         properties.put("spring.datasource.url", jdbcBinding.getJdbcUrl());
         properties.put("spring.datasource.username", jdbcBinding.getUsername());

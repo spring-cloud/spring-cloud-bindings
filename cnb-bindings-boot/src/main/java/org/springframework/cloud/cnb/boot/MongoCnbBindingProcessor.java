@@ -17,18 +17,18 @@ package org.springframework.cloud.cnb.boot;
 
 import java.util.Map;
 
-import org.springframework.cloud.cnb.core.CnbBinding;
+import org.springframework.cloud.cnb.core.Binding;
 
 public class MongoCnbBindingProcessor implements CnbBindingProcessor {
     private static final String MONGO_KIND = "mongodb";
 
     @Override
-    public boolean accept(CnbBinding binding) {
+    public boolean accept(Binding binding) {
         return binding.getKind().equals(MONGO_KIND);
     }
 
     @Override
-    public void process(CnbBinding binding, Map<String, Object> properties) {
+    public void process(Binding binding, Map<String, Object> properties) {
         properties.put("spring.redis.mongodb.uri", binding.getSecret().get("uri"));
 
         // TODO: build uri from discrete fields?

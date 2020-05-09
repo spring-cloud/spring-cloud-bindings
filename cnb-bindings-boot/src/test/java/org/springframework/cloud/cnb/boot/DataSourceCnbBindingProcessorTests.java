@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import org.springframework.cloud.cnb.core.CnbBinding;
+import org.springframework.cloud.cnb.core.Binding;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,7 +33,7 @@ public class DataSourceCnbBindingProcessorTests {
         DataSourceCnbBindingProcessor bindingProcessor = new DataSourceCnbBindingProcessor();
         Map<String, String> bindingMetadata = new HashMap<String, String>();
         bindingMetadata.put("kind", "mysql");
-        CnbBinding binding = new CnbBinding(bindingMetadata, new HashMap<String, String>());
+        Binding binding = new Binding(bindingMetadata, new HashMap<String, String>());
         assertThat(bindingProcessor.accept(binding)).isTrue();
     }
 
@@ -42,7 +42,7 @@ public class DataSourceCnbBindingProcessorTests {
         DataSourceCnbBindingProcessor bindingProcessor = new DataSourceCnbBindingProcessor();
         Map<String, String> bindingMetadata = new HashMap<String, String>();
         bindingMetadata.put("kind", "redis");
-        CnbBinding binding = new CnbBinding(bindingMetadata, new HashMap<String, String>());
+        Binding binding = new Binding(bindingMetadata, new HashMap<String, String>());
         assertThat(bindingProcessor.accept(binding)).isFalse();
     }
 
@@ -57,7 +57,7 @@ public class DataSourceCnbBindingProcessorTests {
         bindingSecret.put("db", "some-db");
         bindingSecret.put("username", "some-username");
         bindingSecret.put("password", "some-password");
-        CnbBinding binding = new CnbBinding(bindingMetadata, bindingSecret);
+        Binding binding = new Binding(bindingMetadata, bindingSecret);
         Map<String,Object> properties = new HashMap<String,Object>();
         bindingProcessor.process(binding, properties);
         assertThat(properties.get("spring.datasource.url")).isEqualTo("jdbc:testscheme://10.0.4.35:3306/some-db?user=some-username&password=some-password");

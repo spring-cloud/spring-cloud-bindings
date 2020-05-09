@@ -18,7 +18,7 @@ package org.springframework.cloud.cnb.jdbc;
 import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.cloud.cnb.core.CnbBinding;
+import org.springframework.cloud.cnb.core.Binding;
 
 
 public class PostgresJdbcKind implements JdbcKind{
@@ -27,7 +27,7 @@ public class PostgresJdbcKind implements JdbcKind{
     public static final String POSTGRES_SCHEME = "postgres";
 
     @Override
-    public boolean forBinding(CnbBinding binding) {
+    public boolean forBinding(Binding binding) {
         return POSTGRES_KINDS.contains(binding.getKind());
     }
 

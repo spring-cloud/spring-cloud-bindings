@@ -15,7 +15,7 @@
  */
 package org.springframework.cloud.cnb.jdbc;
 
-import org.springframework.cloud.cnb.core.CnbBinding;
+import org.springframework.cloud.cnb.core.Binding;
 
 public class DB2JdbcKind implements JdbcKind{
 
@@ -23,7 +23,7 @@ public class DB2JdbcKind implements JdbcKind{
     public static final String DB2_SCHEME = "db2";
 
     @Override
-    public boolean forBinding(CnbBinding binding) {
+    public boolean forBinding(Binding binding) {
         return binding.getKind().equals(DB2_KIND);
     }
 

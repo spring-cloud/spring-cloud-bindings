@@ -17,7 +17,7 @@ package org.springframework.cloud.cnb.boot;
 
 import java.util.Map;
 
-import org.springframework.cloud.cnb.core.CnbBinding;
+import org.springframework.cloud.cnb.core.Binding;
 
 
 public class RedisCnbBindingProcessor implements CnbBindingProcessor {
@@ -25,12 +25,12 @@ public class RedisCnbBindingProcessor implements CnbBindingProcessor {
     public static final String REDIS_KIND = "redis";
 
     @Override
-    public boolean accept(CnbBinding binding) {
+    public boolean accept(Binding binding) {
         return binding.getKind().equals(REDIS_KIND);
     }
 
     @Override
-    public void process(CnbBinding binding, Map<String, Object> properties) {
+    public void process(Binding binding, Map<String, Object> properties) {
         properties.put("spring.redis.host", binding.getSecret().get("hostname")); //TODO: also support "host"
         properties.put("spring.redis.port", binding.getSecret().get("port")); //TODO: handle missing
         properties.put("spring.redis.password", binding.getSecret().get("password")); //TODO: handle missing

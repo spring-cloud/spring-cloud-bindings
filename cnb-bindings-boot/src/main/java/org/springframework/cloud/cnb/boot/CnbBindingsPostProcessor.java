@@ -25,7 +25,7 @@ import org.springframework.boot.context.config.ConfigFileApplicationListener;
 import org.springframework.boot.context.event.ApplicationPreparedEvent;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.cloud.cnb.core.CNBBindingsSingleton;
-import org.springframework.cloud.cnb.core.CnbBinding;
+import org.springframework.cloud.cnb.core.Binding;
 import org.springframework.cloud.cnb.core.Bindings;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
@@ -80,20 +80,20 @@ public class CnbBindingsPostProcessor implements EnvironmentPostProcessor, Order
 		Bindings bindings = CNBBindingsSingleton.getCnbBindingsInstance();
 
 		if (bindings.hasBindings()) {
-			List<CnbBinding> allBindings = bindings.findAllBindings();
+			List<Binding> allBindings = bindings.findAllBindings();
 
 			List<CnbBindingProcessor> cnbBindingProcessors = SpringFactoriesLoader
 					.loadFactories(CnbBindingProcessor.class, getClass().getClassLoader());
 			AnnotationAwareOrderComparator.sort(cnbBindingProcessors);
 
 			for (CnbBindingProcessor processor : cnbBindingProcessors) {
-				List<CnbBinding> cnbBindings = allBindings.stream()
+				List<Binding> cnbBindings = allBindings.stream()
 						.filter(processor::accept)
 						.collect(Collectors.toList());
 
 
 				if (cnbBindings.size() == 1) {
-					CnbBinding binding = cnbBindings.get(0);
+					Binding binding = cnbBindings.get(0);
 					Map<String, Object> properties = new LinkedHashMap<>();
 
 					processor.process(binding, properties);

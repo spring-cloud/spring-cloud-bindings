@@ -19,7 +19,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
-import java.lang.reflect.UndeclaredThrowableException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -42,7 +41,7 @@ public final class Bindings {
      */
     public static final String CNB_BINDINGS = "CNB_BINDINGS";
 
-    private final List<CnbBinding> bindings;
+    private final List<Binding> bindings;
 
     /**
      * Creates a new {@code Bindings} instance, using the {@code $CNB_BINDINGS} environment variable to determine the
@@ -69,10 +68,10 @@ public final class Bindings {
         } else {
             try {
                 this.bindings = Files.list(p)
-                        .map(c -> new CnbBinding(c))
+                        .map(Binding::new)
                         .collect(Collectors.toList());
             } catch (IOException e) {
-                throw new UndeclaredThrowableException(e);
+                throw new IllegalStateException(String.format("unable to list children of '%s'", path), e);
             }
         }
     }
@@ -91,13 +90,20 @@ public final class Bindings {
     }
 
     /**
+     * Returns all the {@link Binding}s that were found during construction.
+     */
+    public @NotNull List<Binding> getBindings() {
+        return bindings;
+    }
+
+    /**
      * Returns a {@link Binding} with a given name.
      *
      * @param name the name of the {@code Binding} to find.
      * @return the {@code Binding} with a given name if it exists, {@code null} otherwise.
      */
-    public @Nullable CnbBinding findBinding(@NotNull String name) {
-        for (CnbBinding binding : this.bindings) {
+    public @Nullable Binding findBinding(@NotNull String name) {
+        for (Binding binding : bindings) {
             if (binding.getName().equals(name)) {
                 return binding;
             }
@@ -107,20 +113,13 @@ public final class Bindings {
     }
 
     /**
-     * Returns all the {@link Binding}s that were found during construction.
-     */
-    public @NotNull List<CnbBinding> findBindings() {
-        return this.bindings;
-    }
-
-    /**
-     * Returns zero or more {@link Binding}s with a given kind.  Equivalent to {@link #findBindings(String, String)}.
+     * Returns zero or more {@link Binding}s with a given kind.  Equivalent to {@link #getBindings(String, String)}.
      *
      * @param kind the kind of the {@code Binding} to find.
      * @return the collection of {@code Binding}s with a given kind.
      */
-    public @NotNull List<CnbBinding> findBindings(@Nullable String kind) {
-        return findBindings(kind, null);
+    public @NotNull List<Binding> getBindings(@Nullable String kind) {
+        return getBindings(kind, null);
     }
 
     /**
@@ -131,18 +130,18 @@ public final class Bindings {
      * @param provider the provider of {@code Binding} to find
      * @return the collection of {@code Binding}s with a given kind and provider.
      */
-    public @NotNull List<CnbBinding> findBindings(@Nullable String kind, @Nullable String provider) {
-        List<CnbBinding> bindings = new ArrayList<>();
+    public @NotNull List<Binding> getBindings(@Nullable String kind, @Nullable String provider) {
+        List<Binding> filtered = new ArrayList<>();
 
-        for (CnbBinding binding : this.bindings) {
+        for (Binding binding : bindings) {
             if ((kind == null || binding.getKind().equals(kind)) &&
                     (provider == null) || binding.getProvider().equals(provider)) {
 
-                bindings.add(binding);
+                filtered.add(binding);
             }
         }
 
-        return bindings;
+        return filtered;
     }
 
 }

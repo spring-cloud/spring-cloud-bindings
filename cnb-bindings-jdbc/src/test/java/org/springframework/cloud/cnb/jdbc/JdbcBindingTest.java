@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import org.springframework.cloud.cnb.core.CnbBinding;
+import org.springframework.cloud.cnb.core.Binding;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -29,13 +29,13 @@ public class JdbcBindingTest {
 
     @Test
     public void testIsJdbcBinding_false() {
-        CnbBinding notJdbcBinding = bindingWithKind("not-registered");
+        Binding notJdbcBinding = bindingWithKind("not-registered");
         assertThat(JdbcBinding.isJDCBBinding(notJdbcBinding)).isFalse();
     }
 
     @Test
     public void testJdbcBinding_mysql() {
-        CnbBinding mysqlBinding = bindingWithKind("mysql");
+        Binding mysqlBinding = bindingWithKind("mysql");
         assertThat(JdbcBinding.isJDCBBinding(mysqlBinding)).isTrue();
         JdbcBinding jdbcBinding = new JdbcBinding(mysqlBinding);
         assertThat(jdbcBinding.getJdbcUrl()).
@@ -44,7 +44,7 @@ public class JdbcBindingTest {
 
     @Test
     public void testJdbcBinding_db2() {
-        CnbBinding db2Binding = bindingWithKind("db2");
+        Binding db2Binding = bindingWithKind("db2");
         assertThat(JdbcBinding.isJDCBBinding(db2Binding)).isTrue();
         JdbcBinding jdbcBinding = new JdbcBinding(db2Binding);
 
@@ -56,7 +56,7 @@ public class JdbcBindingTest {
 
     @Test
     public void testJdbcBinding_oracle() {
-        CnbBinding oracleBinding = bindingWithKind("oracle");
+        Binding oracleBinding = bindingWithKind("oracle");
         assertThat(JdbcBinding.isJDCBBinding(oracleBinding)).isTrue();
         JdbcBinding jdbcBinding = new JdbcBinding(oracleBinding);
         assertThat(jdbcBinding.getJdbcUrl())
@@ -67,7 +67,7 @@ public class JdbcBindingTest {
 
     @Test
     public void testJdbcBinding_postgres() {
-        CnbBinding postgresBinding = bindingWithKind("postgres");
+        Binding postgresBinding = bindingWithKind("postgres");
         assertThat(JdbcBinding.isJDCBBinding(postgresBinding)).isTrue();
         JdbcBinding jdbcBinding = new JdbcBinding(postgresBinding);
         assertThat(jdbcBinding.getJdbcUrl())
@@ -78,7 +78,7 @@ public class JdbcBindingTest {
 
     @Test
     public void testJdbcBinding_postgresql() {
-        CnbBinding postgresBinding = bindingWithKind("postgresql");
+        Binding postgresBinding = bindingWithKind("postgresql");
         assertThat(JdbcBinding.isJDCBBinding(postgresBinding)).isTrue();
         JdbcBinding jdbcBinding = new JdbcBinding(postgresBinding);
         assertThat(jdbcBinding.getJdbcUrl())
@@ -89,7 +89,7 @@ public class JdbcBindingTest {
 
     @Test
     public void testJdbcBinding_sqlserver() {
-        CnbBinding sqlserverBinding = bindingWithKind("sqlserver");
+        Binding sqlserverBinding = bindingWithKind("sqlserver");
         assertThat(JdbcBinding.isJDCBBinding(sqlserverBinding)).isTrue();
         JdbcBinding jdbcBinding = new JdbcBinding(sqlserverBinding);
         assertThat(jdbcBinding.getJdbcUrl())
@@ -98,7 +98,7 @@ public class JdbcBindingTest {
                 isEqualTo("com.microsoft.sqlserver.jdbc.SQLServerDriver");
     }
 
-    public CnbBinding bindingWithKind(String kind) {
+    public Binding bindingWithKind(String kind) {
         Map<String, String> metadata = new HashMap<String, String>();
         metadata.put("kind", kind);
         Map<String, String> secret = new HashMap<String, String>();
@@ -107,6 +107,6 @@ public class JdbcBindingTest {
         secret.put("db", "some-db");
         secret.put("username", "some-username");
         secret.put("password", "some-password");
-        return new CnbBinding(metadata, secret);
+        return new Binding(metadata, secret);
     }
 }

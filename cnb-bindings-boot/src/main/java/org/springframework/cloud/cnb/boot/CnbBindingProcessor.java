@@ -17,13 +17,13 @@ package org.springframework.cloud.cnb.boot;
 
 import java.util.Map;
 
-import org.springframework.cloud.cnb.core.CnbBinding;
+import org.springframework.cloud.cnb.core.Binding;
 
 public interface CnbBindingProcessor {
 
-	boolean accept(CnbBinding binding);
+	boolean accept(Binding binding);
 
-	void process(CnbBinding binding, Map<String, Object> properties);
+	void process(Binding binding, Map<String, Object> properties);
 
 	CnbBindingProcessorProperties getProperties();
 }

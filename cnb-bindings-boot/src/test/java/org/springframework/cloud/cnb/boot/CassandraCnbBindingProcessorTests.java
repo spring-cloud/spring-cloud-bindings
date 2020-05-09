@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import org.springframework.cloud.cnb.core.CnbBinding;
+import org.springframework.cloud.cnb.core.Binding;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,7 +32,7 @@ public class CassandraCnbBindingProcessorTests {
         CassandraCnbBindingProcessor bindingProcessor = new CassandraCnbBindingProcessor();
         Map<String, String> bindingMetadata = new HashMap<String, String>();
         bindingMetadata.put("kind", "cassandra");
-        CnbBinding binding = new CnbBinding(bindingMetadata, new HashMap<String, String>());
+        Binding binding = new Binding(bindingMetadata, new HashMap<String, String>());
         assertThat(bindingProcessor.accept(binding)).isTrue();
     }
 
@@ -41,7 +41,7 @@ public class CassandraCnbBindingProcessorTests {
         CassandraCnbBindingProcessor bindingProcessor = new CassandraCnbBindingProcessor();
         Map<String, String> bindingMetadata = new HashMap<String, String>();
         bindingMetadata.put("kind", "mysql");
-        CnbBinding binding = new CnbBinding(bindingMetadata, new HashMap<String, String>());
+        Binding binding = new Binding(bindingMetadata, new HashMap<String, String>());
         assertThat(bindingProcessor.accept(binding)).isFalse();
     }
 
@@ -55,7 +55,7 @@ public class CassandraCnbBindingProcessorTests {
         bindingSecret.put("node_ips", "10.0.4.35,10.0.4.36");
         bindingSecret.put("password", "some-password");
         bindingSecret.put("username", "some-username");
-        CnbBinding binding = new CnbBinding(bindingMetadata, bindingSecret);
+        Binding binding = new Binding(bindingMetadata, bindingSecret);
         Map<String,Object> properties = new HashMap<String,Object>();
         bindingProcessor.process(binding, properties);
         assertThat(properties.get("spring.data.cassandra.username")).isEqualTo("some-username");

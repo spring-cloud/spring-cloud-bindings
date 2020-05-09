@@ -15,10 +15,10 @@
  */
 package org.springframework.cloud.cnb.jdbc;
 
-import org.springframework.cloud.cnb.core.CnbBinding;
+import org.springframework.cloud.cnb.core.Binding;
 
 public interface JdbcKind {
-    boolean forBinding(CnbBinding binding);
+    boolean forBinding(Binding binding);
     String getScheme();
     String getDriverClassName();
 }

@@ -22,23 +22,23 @@ import java.io.IOException;
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
-public class BindingsTests {
+final class BindingsTests {
 
     @Test
     void constructFromNonExistentDirectory() {
         String path = "src/test/resources/non-existent";
         Bindings b = new Bindings(path);
 
-        assertThat(b.findBindings()).isEmpty();
+        assertThat(b.getBindings()).isEmpty();
     }
 
     @Test
     void constructFromNonDirectory() throws IOException {
         String path = File.createTempFile("bindings", "").getPath();
-        Bindings b = new Bindings(path);
 
-        assertThat(b.findBindings()).isEmpty();
+        assertThatIllegalArgumentException().isThrownBy(() -> new Bindings(path));
     }
 
     @Test
@@ -46,7 +46,7 @@ public class BindingsTests {
         String path = "src/test/resources";
         Bindings b = new Bindings(path);
 
-        assertThat(b.findBindings()).hasSize(2);
+        assertThat(b.getBindings()).hasSize(2);
     }
 
     @Test
@@ -56,11 +56,11 @@ public class BindingsTests {
     }
 
     @Test
-    void getAllBindings() {
+    void getBindings() {
         String path = "src/test/resources";
         Bindings b = new Bindings(path);
 
-        assertThat(b.findBindings()).hasSize(2);
+        assertThat(b.getBindings()).hasSize(2);
     }
 
     @Test
@@ -68,7 +68,7 @@ public class BindingsTests {
         String path = "src/test/resources";
         Bindings b = new Bindings(path);
 
-        assertThat(b.findBindings("test-kind-1", null)).containsExactly(new Binding());
+        assertThat(b.getBindings("test-kind-1", null)).hasSize(1);
     }
 
     @Test
@@ -76,7 +76,7 @@ public class BindingsTests {
         String path = "src/test/resources";
         Bindings b = new Bindings(path);
 
-        assertThat(b.findBindings(null, "test-provider-1")).containsExactly(new Binding());
+        assertThat(b.getBindings(null, "test-provider-1")).hasSize(1);
     }
 
 }

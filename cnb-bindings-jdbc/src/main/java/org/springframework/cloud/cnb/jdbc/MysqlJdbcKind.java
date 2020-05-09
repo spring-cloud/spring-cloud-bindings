@@ -15,7 +15,7 @@
  */
 package org.springframework.cloud.cnb.jdbc;
 
-import org.springframework.cloud.cnb.core.CnbBinding;
+import org.springframework.cloud.cnb.core.Binding;
 
 public class MysqlJdbcKind implements JdbcKind{
 
@@ -23,7 +23,7 @@ public class MysqlJdbcKind implements JdbcKind{
     public static final String MYSQL_SCHEME = "mysql";
 
     @Override
-    public boolean forBinding(CnbBinding binding) {
+    public boolean forBinding(Binding binding) {
         return binding.getKind().equals(MYSQL_KIND);
     }
 

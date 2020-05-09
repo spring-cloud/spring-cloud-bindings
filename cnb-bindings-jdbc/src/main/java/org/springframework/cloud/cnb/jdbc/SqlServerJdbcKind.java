@@ -15,7 +15,7 @@
  */
 package org.springframework.cloud.cnb.jdbc;
 
-import org.springframework.cloud.cnb.core.CnbBinding;
+import org.springframework.cloud.cnb.core.Binding;
 
 public class SqlServerJdbcKind implements JdbcKind{
 
@@ -23,7 +23,7 @@ public class SqlServerJdbcKind implements JdbcKind{
     public static final String SQLSERVER_SCHEME = "sqlserver";
 
     @Override
-    public boolean forBinding(CnbBinding binding) {
+    public boolean forBinding(Binding binding) {
         return binding.getKind().equals(SQLSERVER_KIND);
     }
 

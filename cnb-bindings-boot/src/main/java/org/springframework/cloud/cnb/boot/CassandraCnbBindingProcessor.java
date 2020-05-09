@@ -15,21 +15,21 @@
  */
 package org.springframework.cloud.cnb.boot;
 
-import java.util.Map;
+import org.springframework.cloud.cnb.core.Binding;
 
-import org.springframework.cloud.cnb.core.CnbBinding;
+import java.util.Map;
 
 
 public class CassandraCnbBindingProcessor implements CnbBindingProcessor {
     public static final String CASSANDRA_KIND = "cassandra";
 
     @Override
-    public boolean accept(CnbBinding binding) {
+    public boolean accept(Binding binding) {
         return binding.getKind().equals(CASSANDRA_KIND);
     }
 
     @Override
-    public void process(CnbBinding binding, Map<String, Object> properties) {
+    public void process(Binding binding, Map<String, Object> properties) {
         properties.put("spring.data.cassandra.username", binding.getSecret().get("username"));
         properties.put("spring.data.cassandra.password", binding.getSecret().get("password"));
         properties.put("spring.data.cassandra.contact-points", binding.getSecret().get("node_ips"));

@@ -15,13 +15,13 @@
  */
 package org.springframework.cloud.cnb.boot.test;
 
-import org.springframework.cloud.cnb.core.CnbBinding;
+import org.springframework.cloud.cnb.core.Binding;
 import org.springframework.cloud.cnb.jdbc.JdbcKind;
 
 public class TestJdbcKind implements JdbcKind {
 
     @Override
-    public boolean forBinding(CnbBinding binding) {
+    public boolean forBinding(Binding binding) {
         if (binding.getKind().equals("test-kind")) {
             return true;
         }

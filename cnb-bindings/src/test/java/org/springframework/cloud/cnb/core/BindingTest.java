@@ -16,27 +16,24 @@
 package org.springframework.cloud.cnb.core;
 
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import org.springframework.cloud.cnb.core.test.EnvMock;
+import java.nio.file.Paths;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+final class BindingTest {
 
-public class CnbBindingsHasBindingsTests {
+    @Test
+    void test() {
+        Binding binding = new Binding(Paths.get("src/test/resources/test-name-1"));
 
-	@Test
-	public void testHasBindings() {
-		new EnvMock("some/path");
-		Bindings bindings = new Bindings();
-		assertThat(bindings.hasBindings()).isTrue();
-	}
+        assertThat(binding.getKind()).isEqualTo("test-kind-1");
+        assertThat(binding.getProvider()).isEqualTo("test-provider-1");
+        assertThat(binding.getMetadataFilePath("test-key"))
+                .isEqualTo(Paths.get("src/test/resources/test-name-1/metadata/test-key"));
+        assertThat(binding.getSecretFilePath("test-key"))
+                .isEqualTo(Paths.get("src/test/resources/test-name-1/secret/test-key"));
+    }
 
-	@Test
-	@Ignore
-	public void testHasBindingsFalse() {
-		Bindings bindings = new Bindings();
-		assertThat(bindings.hasBindings()).isFalse();
-	}
 }

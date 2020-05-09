@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import org.springframework.cloud.cnb.core.CnbBinding;
+import org.springframework.cloud.cnb.core.Binding;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,7 +33,7 @@ public class MongoCnbBindingProcessorTests {
         MongoCnbBindingProcessor bindingProcessor = new MongoCnbBindingProcessor();
         Map<String, String> bindingMetadata = new HashMap<String, String>();
         bindingMetadata.put("kind", "mongodb");
-        CnbBinding binding = new CnbBinding(bindingMetadata, new HashMap<String, String>());
+        Binding binding = new Binding(bindingMetadata, new HashMap<String, String>());
         assertThat(bindingProcessor.accept(binding)).isTrue();
     }
 
@@ -42,7 +42,7 @@ public class MongoCnbBindingProcessorTests {
         MongoCnbBindingProcessor bindingProcessor = new MongoCnbBindingProcessor();
         Map<String, String> bindingMetadata = new HashMap<String, String>();
         bindingMetadata.put("kind", "mysql");
-        CnbBinding binding = new CnbBinding(bindingMetadata, new HashMap<String, String>());
+        Binding binding = new Binding(bindingMetadata, new HashMap<String, String>());
         assertThat(bindingProcessor.accept(binding)).isFalse();
     }
 
@@ -53,7 +53,7 @@ public class MongoCnbBindingProcessorTests {
         bindingMetadata.put("kind", "mongodb");
         Map<String,String> bindingSecret = new HashMap<String,String>();
         bindingSecret.put("uri", "some-uri");
-        CnbBinding binding = new CnbBinding(bindingMetadata, bindingSecret);
+        Binding binding = new Binding(bindingMetadata, bindingSecret);
         Map<String,Object> properties = new HashMap<String,Object>();
         bindingProcessor.process(binding, properties);
         assertThat(properties.get("spring.redis.mongodb.uri")).isEqualTo("some-uri");
