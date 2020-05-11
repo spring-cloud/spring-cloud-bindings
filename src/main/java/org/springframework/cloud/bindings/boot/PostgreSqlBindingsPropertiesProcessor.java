@@ -25,6 +25,8 @@ import java.util.Map;
 
 /**
  * An implementation of {@link BindingsPropertiesProcessor} that detects {@link Binding}s of kind: {@value KIND}.
+ *
+ * @see <a href="https://jdbc.postgresql.org/documentation/80/connect.html">JDBC URL Format</a>
  */
 public final class PostgreSqlBindingsPropertiesProcessor implements BindingsPropertiesProcessor {
 
@@ -40,9 +42,8 @@ public final class PostgreSqlBindingsPropertiesProcessor implements BindingsProp
 
             properties.put("spring.datasource.driver-class-name", "org.postgresql.Driver");
             properties.put("spring.datasource.password", secret.get("password"));
-            properties.put("spring.datasource.url", String.format("jdbc:postgres://%s:%s/%s?user=%s&password=%s",
-                    secret.get("host"), secret.get("port"), secret.get("db"), secret.get("username"),
-                    secret.get("password")));
+            properties.put("spring.datasource.url", String.format("jdbc:postgres://%s:%s/%s",
+                    secret.get("host"), secret.get("port"), secret.get("database")));
             properties.put("spring.datasource.username", secret.get("username"));
         });
     }
