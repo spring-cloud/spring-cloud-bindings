@@ -25,6 +25,8 @@ import java.util.Map;
 
 /**
  * An implementation of {@link BindingsPropertiesProcessor} that detects {@link Binding}s of kind: {@value KIND}.
+ *
+ * @see <a href="https://www.ibm.com/support/knowledgecenter/SSEPGG_11.5.0/com.ibm.db2.luw.apdv.java.doc/src/tpc/imjcc_r0052342.html">JDBC URL Format</a>
  */
 public final class Db2BindingsPropertiesProcessor implements BindingsPropertiesProcessor {
 
@@ -40,9 +42,8 @@ public final class Db2BindingsPropertiesProcessor implements BindingsPropertiesP
 
             properties.put("spring.datasource.driver-class-name", "com.ibm.db2.jcc.DB2Driver");
             properties.put("spring.datasource.password", secret.get("password"));
-            properties.put("spring.datasource.url", String.format("jdbc:db2://%s:%s/%s?user=%s&password=%s",
-                    secret.get("host"), secret.get("port"), secret.get("db"), secret.get("username"),
-                    secret.get("password")));
+            properties.put("spring.datasource.url", String.format("jdbc:db2://%s:%s/%s",
+                    secret.get("host"), secret.get("port"), secret.get("database")));
             properties.put("spring.datasource.username", secret.get("username"));
         });
     }

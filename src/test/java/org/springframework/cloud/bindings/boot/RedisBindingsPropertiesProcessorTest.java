@@ -41,14 +41,14 @@ final class RedisBindingsPropertiesProcessorTest {
                 new Binding("test-name", Paths.get("test-path"),
                         Collections.singletonMap("kind", KIND),
                         new FluentMap()
-                                .withEntry("hostname", "test-hostname")
+                                .withEntry("host", "test-host")
                                 .withEntry("password", "test-password")
                                 .withEntry("port", "test-port")
                 )
         ), properties);
 
         assertThat(properties)
-                .containsEntry("spring.redis.host", "test-hostname")
+                .containsEntry("spring.redis.host", "test-host")
                 .containsEntry("spring.redis.password", "test-password")
                 .containsEntry("spring.redis.port", "test-port");
     }
