@@ -22,6 +22,7 @@ import org.springframework.cloud.bindings.Bindings;
 import java.util.Map;
 
 import static org.springframework.cloud.bindings.boot.Guards.isKindEnabled;
+import static org.springframework.cloud.bindings.boot.PutIfPresent.put;
 
 /**
  * An implementation of {@link BindingsPropertiesProcessor} that detects {@link Binding}s of kind: {@value KIND}.
@@ -42,10 +43,14 @@ public final class CassandraBindingsPropertiesProcessor implements BindingsPrope
         bindings.filterBindings(KIND).forEach(binding -> {
             Map<String, String> secret = binding.getSecret();
 
-            properties.put("spring.data.cassandra.contact-points", secret.get("node_ips"));
-            properties.put("spring.data.cassandra.password", secret.get("password"));
-            properties.put("spring.data.cassandra.port", secret.get("port"));
-            properties.put("spring.data.cassandra.username", secret.get("username"));
+            put(properties, "spring.data.cassandra.cluster-name").ifPresent(secret, "cluster-name");
+            put(properties, "spring.data.cassandra.compression").ifPresent(secret, "compression");
+            put(properties, "spring.data.cassandra.contact-points").ifPresent(secret, "contact-points");
+            put(properties, "spring.data.cassandra.keyspace-name").ifPresent(secret, "keyspace-name");
+            put(properties, "spring.data.cassandra.password").ifPresent(secret, "password");
+            put(properties, "spring.data.cassandra.port").ifPresent(secret, "port");
+            put(properties, "spring.data.cassandra.ssl").ifPresent(secret, "ssl");
+            put(properties, "spring.data.cassandra.username").ifPresent(secret, "username");
         });
     }
 

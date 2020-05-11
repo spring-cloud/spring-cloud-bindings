@@ -37,9 +37,13 @@ final class CassandraBindingsPropertiesProcessorTest {
             new Binding("test-name", Paths.get("test-path"),
                     Collections.singletonMap("kind", KIND),
                     new FluentMap()
-                            .withEntry("node_ips", "test-node-ips")
+                            .withEntry("cluster-name", "test-cluster-name")
+                            .withEntry("compression", "test-compression")
+                            .withEntry("contact-points", "test-contact-points")
+                            .withEntry("keyspace-name", "test-keyspace-name")
                             .withEntry("password", "test-password")
                             .withEntry("port", "test-port")
+                            .withEntry("ssl", "test-ssl")
                             .withEntry("username", "test-username")
             )
     );
@@ -51,9 +55,13 @@ final class CassandraBindingsPropertiesProcessorTest {
     void test() {
         new CassandraBindingsPropertiesProcessor().process(bindings, properties);
         assertThat(properties)
-                .containsEntry("spring.data.cassandra.contact-points", "test-node-ips")
+                .containsEntry("spring.data.cassandra.cluster-name", "test-cluster-name")
+                .containsEntry("spring.data.cassandra.compression", "test-compression")
+                .containsEntry("spring.data.cassandra.contact-points", "test-contact-points")
+                .containsEntry("spring.data.cassandra.keyspace-name", "test-keyspace-name")
                 .containsEntry("spring.data.cassandra.password", "test-password")
                 .containsEntry("spring.data.cassandra.port", "test-port")
+                .containsEntry("spring.data.cassandra.ssl", "test-ssl")
                 .containsEntry("spring.data.cassandra.username", "test-username");
     }
 
