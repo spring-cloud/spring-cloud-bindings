@@ -18,7 +18,12 @@ package org.springframework.cloud.bindings.boot;
 
 import org.jetbrains.annotations.NotNull;
 
-final class KindGuard {
+final class Guards {
+
+    static boolean isGlobalEnabled() {
+        String value = System.getProperty("org.springframework.cloud.bindings.boot.enable", "false");
+        return Boolean.parseBoolean(value);
+    }
 
     static boolean isKindEnabled(@NotNull String kind) {
         String property = String.format("org.springframework.cloud.bindings.boot.%s.enable", kind.toLowerCase());

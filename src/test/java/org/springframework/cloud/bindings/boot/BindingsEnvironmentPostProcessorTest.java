@@ -17,7 +17,10 @@
 package org.springframework.cloud.bindings.boot;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junitpioneer.jupiter.ClearSystemProperty;
+import org.junitpioneer.jupiter.SetSystemProperty;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.context.config.ConfigFileApplicationListener;
 import org.springframework.cloud.bindings.Binding;
@@ -40,86 +43,108 @@ final class BindingsEnvironmentPostProcessorTest {
     private final MockEnvironment environment = new MockEnvironment();
 
     @Test
-    @DisplayName("does not create PropertySource if no bindings")
-    void noBindings() {
-        new BindingsEnvironmentPostProcessor(new Bindings()).postProcessEnvironment(environment, application);
-
-        assertThat(environment.getPropertySources()).hasSize(1);
-    }
-
-    @Test
-    @DisplayName("does not create PropertySource if no properties")
-    void noProperties() {
+    @DisplayName("is disabled by default")
+    @ClearSystemProperty(key = "org.springframework.cloud.bindings.boot.enable")
+    void disabledByDefault() {
         new BindingsEnvironmentPostProcessor(
                 new Bindings(
                         new Binding("test-name", Paths.get("test-path"),
                                 Collections.emptyMap(), Collections.emptyMap())
-                )
+                ),
+                (environment, properties) -> properties.put("test-key", "test-value")
         ).postProcessEnvironment(environment, application);
 
         assertThat(environment.getPropertySources()).hasSize(1);
     }
 
-    @Test
-    @DisplayName("creates PropertySource with properties")
-    void containsProperties() {
-        new BindingsEnvironmentPostProcessor(
-                new Bindings(
-                        new Binding("test-name", Paths.get("test-path"),
-                                Collections.emptyMap(), Collections.emptyMap())
-                ),
-                (environment, properties) -> properties.put("test-key", "test-value")
-        ).postProcessEnvironment(environment, application);
+    @Nested
+    @DisplayName("when enabled")
+    @SetSystemProperty(key = "org.springframework.cloud.bindings.boot.enable", value = "true")
+    final class Enabled {
 
-        assertThat(environment.getPropertySources()).hasSize(2);
-        assertThat(environment.getProperty("test-key")).isEqualTo("test-value");
-    }
+        @Test
+        @DisplayName("does not create PropertySource if no bindings")
+        void noBindings() {
+            new BindingsEnvironmentPostProcessor(new Bindings()).postProcessEnvironment(environment, application);
 
-    @Test
-    @DisplayName("adds PropertySource after CommandLinePropertySource")
-    void withCommandLinePropertySource() {
-        environment.getPropertySources().addFirst(new SimpleCommandLinePropertySource());
+            assertThat(environment.getPropertySources()).hasSize(1);
+        }
 
-        new BindingsEnvironmentPostProcessor(
-                new Bindings(
-                        new Binding("test-name", Paths.get("test-path"),
-                                Collections.emptyMap(), Collections.emptyMap())
-                ),
-                (environment, properties) -> properties.put("test-key", "test-value")
-        ).postProcessEnvironment(environment, application);
+        @Test
+        @DisplayName("does not create PropertySource if no properties")
+        void noProperties() {
+            new BindingsEnvironmentPostProcessor(
+                    new Bindings(
+                            new Binding("test-name", Paths.get("test-path"),
+                                    Collections.emptyMap(), Collections.emptyMap())
+                    )
+            ).postProcessEnvironment(environment, application);
 
-        PropertySource<?> propertySource = environment.getPropertySources().get(BINDINGS_PROPERTY_SOURCE_NAME);
-        assertThat(propertySource).isNotNull();
-        assertThat(environment.getPropertySources().precedenceOf(propertySource)).isEqualTo(1);
-    }
+            assertThat(environment.getPropertySources()).hasSize(1);
+        }
 
-    @Test
-    @DisplayName("adds PropertySource first")
-    void withoutCommandLinePropertySource() {
-        new BindingsEnvironmentPostProcessor(
-                new Bindings(
-                        new Binding("test-name", Paths.get("test-path"),
-                                Collections.emptyMap(), Collections.emptyMap())
-                ),
-                (environment, properties) -> properties.put("test-key", "test-value")
-        ).postProcessEnvironment(environment, application);
+        @Test
+        @DisplayName("creates PropertySource with properties")
+        void containsProperties() {
+            new BindingsEnvironmentPostProcessor(
+                    new Bindings(
+                            new Binding("test-name", Paths.get("test-path"),
+                                    Collections.emptyMap(), Collections.emptyMap())
+                    ),
+                    (environment, properties) -> properties.put("test-key", "test-value")
+            ).postProcessEnvironment(environment, application);
 
-        PropertySource<?> propertySource = environment.getPropertySources().get(BINDINGS_PROPERTY_SOURCE_NAME);
-        assertThat(propertySource).isNotNull();
-        assertThat(environment.getPropertySources().precedenceOf(propertySource)).isEqualTo(0);
-    }
+            assertThat(environment.getPropertySources()).hasSize(2);
+            assertThat(environment.getProperty("test-key")).isEqualTo("test-value");
+        }
 
-    @Test
-    @DisplayName("has order before ConfigFileApplicationListener")
-    void order() {
-        assertThat(new BindingsEnvironmentPostProcessor(new Bindings()).getOrder())
-                .isLessThan(ConfigFileApplicationListener.DEFAULT_ORDER);
-    }
+        @Test
+        @DisplayName("adds PropertySource after CommandLinePropertySource")
+        void withCommandLinePropertySource() {
+            environment.getPropertySources().addFirst(new SimpleCommandLinePropertySource());
 
-    @Test
-    @DisplayName("included implementations are registered")
-    void includedImplementations() {
-        assertThat(new BindingsEnvironmentPostProcessor().processors).hasSize(8);
+            new BindingsEnvironmentPostProcessor(
+                    new Bindings(
+                            new Binding("test-name", Paths.get("test-path"),
+                                    Collections.emptyMap(), Collections.emptyMap())
+                    ),
+                    (environment, properties) -> properties.put("test-key", "test-value")
+            ).postProcessEnvironment(environment, application);
+
+            PropertySource<?> propertySource = environment.getPropertySources().get(BINDINGS_PROPERTY_SOURCE_NAME);
+            assertThat(propertySource).isNotNull();
+            assertThat(environment.getPropertySources().precedenceOf(propertySource)).isEqualTo(1);
+        }
+
+        @Test
+        @DisplayName("adds PropertySource first")
+        void withoutCommandLinePropertySource() {
+            new BindingsEnvironmentPostProcessor(
+                    new Bindings(
+                            new Binding("test-name", Paths.get("test-path"),
+                                    Collections.emptyMap(), Collections.emptyMap())
+                    ),
+                    (environment, properties) -> properties.put("test-key", "test-value")
+            ).postProcessEnvironment(environment, application);
+
+            PropertySource<?> propertySource = environment.getPropertySources().get(BINDINGS_PROPERTY_SOURCE_NAME);
+            assertThat(propertySource).isNotNull();
+            assertThat(environment.getPropertySources().precedenceOf(propertySource)).isEqualTo(0);
+        }
+
+        @Test
+        @DisplayName("has order before ConfigFileApplicationListener")
+        void order() {
+            assertThat(new BindingsEnvironmentPostProcessor(new Bindings()).getOrder())
+                    .isLessThan(ConfigFileApplicationListener.DEFAULT_ORDER);
+        }
+
+        @Test
+        @DisplayName("included implementations are registered")
+        void includedImplementations() {
+            assertThat(new BindingsEnvironmentPostProcessor().processors).hasSize(8);
+        }
+
     }
 
 }
