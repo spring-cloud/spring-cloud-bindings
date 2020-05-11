@@ -52,8 +52,7 @@ final class Db2BindingsPropertiesProcessorTest {
         assertThat(properties)
                 .containsEntry("spring.datasource.driver-class-name", "com.ibm.db2.jcc.DB2Driver")
                 .containsEntry("spring.datasource.password", "test-password")
-                .containsEntry("spring.datasource.url",
-                        "jdbc:db2://test-host:test-port/test-database")
+                .containsEntry("spring.datasource.url", "jdbc:db2://test-host:test-port/test-database")
                 .containsEntry("spring.datasource.username", "test-username");
     }
 

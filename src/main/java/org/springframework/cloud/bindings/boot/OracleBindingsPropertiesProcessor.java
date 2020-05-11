@@ -25,6 +25,8 @@ import java.util.Map;
 
 /**
  * An implementation of {@link BindingsPropertiesProcessor} that detects {@link Binding}s of kind: {@value KIND}.
+ *
+ * @see <a href="https://docs.oracle.com/cd/E11882_01/appdev.112/e13995/oracle/jdbc/OracleDriver.html">JDBC URL Format</a>
  */
 public final class OracleBindingsPropertiesProcessor implements BindingsPropertiesProcessor {
 
@@ -40,9 +42,8 @@ public final class OracleBindingsPropertiesProcessor implements BindingsProperti
 
             properties.put("spring.datasource.driver-class-name", "oracle.jdbc.OracleDriver");
             properties.put("spring.datasource.password", secret.get("password"));
-            properties.put("spring.datasource.url", String.format("jdbc:oracle://%s:%s/%s?user=%s&password=%s",
-                    secret.get("host"), secret.get("port"), secret.get("db"), secret.get("username"),
-                    secret.get("password")));
+            properties.put("spring.datasource.url", String.format("jdbc:oracle://%s:%s/%s",
+                    secret.get("host"), secret.get("port"), secret.get("database")));
             properties.put("spring.datasource.username", secret.get("username"));
         });
     }
