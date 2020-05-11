@@ -36,118 +36,118 @@ Each auto-configuration is triggered by the kind of binding.  Each auto-configur
 Kind: `cassandra`
 Disable Property: `org.springframework.cloud.bindings.boot.cassandra.enable`
 
-| Property | Value
-| -------- | -----
-| `spring.data.cassandra.cluster-name` | `{secret.cluster-name}`
-| `spring.data.cassandra.compression` | `{secret.compression}`
-| `spring.data.cassandra.contact-points` | `{secret.contact-points}`
-| `spring.data.cassandra.keyspace-name` | `{secret.keyspace-name}`
-| `spring.data.cassandra.password` | `{secret.password}`
-| `spring.data.cassandra.port` | `{secret.port}`
-| `spring.data.cassandra.ssl` | `{secret.ssl}`
-| `spring.data.cassandra.username` | `{secret.username}`
+| Property | Value (`{secret}`)
+| -------- | ------------------
+| `spring.data.cassandra.cluster-name` | `{cluster-name}`
+| `spring.data.cassandra.compression` | `{compression}`
+| `spring.data.cassandra.contact-points` | `{contact-points}`
+| `spring.data.cassandra.keyspace-name` | `{keyspace-name}`
+| `spring.data.cassandra.password` | `{password}`
+| `spring.data.cassandra.port` | `{port}`
+| `spring.data.cassandra.ssl` | `{ssl}`
+| `spring.data.cassandra.username` | `{username}`
 
 ### Couchbase
 Kind: `couchbase`
 Disable Property: `org.springframework.cloud.bindings.boot.couchbase.enable`
 
-| Property | Value
-| -------- | -----
-| `spring.couchbase.bootstrap-hosts` | `{secret.bootstrap-hosts}`
-| `spring.couchbase.bucket.name` | `{secret.bucket.name}`
-| `spring.couchbase.bucket.password` | `{secret.bucket.passsword}`
-| `spring.couchbase.env.bootstrap.http-direct-port` | `{secret.env.bootstrap.http-direct-port}`
-| `spring.couchbase.env.bootstrap.http-ssl-port` | `{secret.env.bootstrap.http-ssl-port}`
-| `spring.couchbase.password` | `{secret.password}`
-| `spring.couchbase.username` | `{secret.username}`
+| Property | Value (`{secret}`)
+| -------- | ------------------
+| `spring.couchbase.bootstrap-hosts` | `{bootstrap-hosts}`
+| `spring.couchbase.bucket.name` | `{bucket.name}`
+| `spring.couchbase.bucket.password` | `{bucket.passsword}`
+| `spring.couchbase.env.bootstrap.http-direct-port` | `{env.bootstrap.http-direct-port}`
+| `spring.couchbase.env.bootstrap.http-ssl-port` | `{env.bootstrap.http-ssl-port}`
+| `spring.couchbase.password` | `{password}`
+| `spring.couchbase.username` | `{username}`
 
 ### DB2 RDBMS
 Kind: `DB2`
 Disable Property: `org.springframework.cloud.bindings.boot.db2.enable`
 
-| Property | Value
-| -------- | -----
+| Property | Value (`{secret}`)
+| -------- | ------------------
 | `spring.datasource.driver-class-name` | `com.ibm.db2.jcc.DB2Driver`
-| `spring.datasource.password` | `{secret.password}`
-| `spring.datasource.url` | `jdbc:db2://{secret.host}:{secret.port}/{secret.database}`
-| `spring.datasource.username` | `{secret.username}`
+| `spring.datasource.password` | `{password}`
+| `spring.datasource.url` | `jdbc:db2://{host}:{port}/{database}`
+| `spring.datasource.username` | `{username}`
 
 ### MongoDB
 Kind: `MongoDB`
 Disable Property: `org.springframework.cloud.bindings.boot.mongodb.enable`
 
-| Property | Value
-| -------- | -----
-| `spring.mongodb.authentication-database` | `{secret.authentication-database}`
-| `spring.mongodb.database` | `{secret.database}`
-| `spring.mongodb.grid-fs-database` | `{secret.grid-fs-database}`
-| `spring.mongodb.host` | `{secret.host}`
-| `spring.mongodb.password` | `{secret.password}`
-| `spring.mongodb.port` | `{secret.port}`
-| `spring.mongodb.uri` | `{secret.uri}`
-| `spring.mongodb.username` | `{secret.username}`
+| Property | Value (`{secret}`)
+| -------- | ------------------
+| `spring.mongodb.authentication-database` | `{authentication-database}`
+| `spring.mongodb.database` | `{database}`
+| `spring.mongodb.grid-fs-database` | `{grid-fs-database}`
+| `spring.mongodb.host` | `{host}`
+| `spring.mongodb.password` | `{password}`
+| `spring.mongodb.port` | `{port}`
+| `spring.mongodb.uri` | `{uri}`
+| `spring.mongodb.username` | `{username}`
 
 ### MySQL RDBMS
 Kind: `MySQL`
 Disable Property: `org.springframework.cloud.bindings.boot.mysql.enable`
 
-| Property | Value
-| -------- | -----
+| Property | Value (`{secret}`)
+| -------- | ------------------
 | `spring.datasource.driver-class-name` | `org.mariadb.jdbc.Driver` or `com.mysql.cj.jdbc.Driver` depending on classpath
-| `spring.datasource.password` | `{secret.password}`
-| `spring.datasource.url` | `jdbc:mysql://{secret.host}:{secret.port}/{secret.database}`
-| `spring.datasource.username` | `{secret.username}`
+| `spring.datasource.password` | `{password}`
+| `spring.datasource.url` | `jdbc:mysql://{host}:{port}/{database}`
+| `spring.datasource.username` | `{username}`
 
 ### Oracle RDBMS
 Kind: `Oracle`
 Disable Property: `org.springframework.cloud.bindings.boot.oracle.enable`
 
-| Property | Value
-| -------- | -----
+| Property | Value (`{secret}`)
+| -------- | ------------------
 | `spring.datasource.driver-class-name` | `oracle.jdbc.OracleDriver`
-| `spring.datasource.password` | `{secret.password}`
-| `spring.datasource.url` | `jdbc:oracle://{secret.host}:{secret.port}/{secret.database}`
-| `spring.datasource.username` | `{secret.username}`
+| `spring.datasource.password` | `{password}`
+| `spring.datasource.url` | `jdbc:oracle://{host}:{port}/{database}`
+| `spring.datasource.username` | `{username}`
 
 ### PostgreSQL RDBMS
 Kind: `PostgreSQL`
 Disable Property: `org.springframework.cloud.bindings.boot.postgresql.enable`
 
-| Property | Value
-| -------- | -----
+| Property | Value (`{secret}`)
+| -------- | ------------------
 | `spring.datasource.driver-class-name` | `org.postgresql.Driver`
-| `spring.datasource.password` | `{secret.password}`
-| `spring.datasource.url` | `jdbc:postgres://{secret.host}:{secret.port}/{secret.database}`
-| `spring.datasource.username` | `{secret.username}`
+| `spring.datasource.password` | `{password}`
+| `spring.datasource.url` | `jdbc:postgres://{host}:{port}/{database}`
+| `spring.datasource.username` | `{username}`
 
 ### Redis RDBMS
 Kind: `Redis`
 Disable Property: `org.springframework.cloud.bindings.boot.redis.enable`
 
-| Property | Value
-| -------- | -----
-| `spring.redis.client-name` | `{secret.client-name}`
-| `spring.redis.cluster.max-redirects` | `{secret.cluster.max-redirects}`
-| `spring.redis.cluster.nodes` | `{secret.cluster-nodes}`
-| `spring.redis.database` | `{secret.database}`
-| `spring.redis.host` | `{secret.host}`
-| `spring.redis.password` | `{secret.password}`
-| `spring.redis.port` | `{secret.port}`
-| `spring.redis.sentinel.master` | `{secret.sentinel.master}`
-| `spring.redis.sentinel.nodes` | `{secret.sentinel.nodes}`
-| `spring.redis.ssl` | `{secret.ssl}`
-| `spring.redis.url` | `{secret.url}`
+| Property | Value (`{secret}`)
+| -------- | ------------------
+| `spring.redis.client-name` | `{client-name}`
+| `spring.redis.cluster.max-redirects` | `{cluster.max-redirects}`
+| `spring.redis.cluster.nodes` | `{cluster-nodes}`
+| `spring.redis.database` | `{database}`
+| `spring.redis.host` | `{host}`
+| `spring.redis.password` | `{password}`
+| `spring.redis.port` | `{port}`
+| `spring.redis.sentinel.master` | `{sentinel.master}`
+| `spring.redis.sentinel.nodes` | `{sentinel.nodes}`
+| `spring.redis.ssl` | `{ssl}`
+| `spring.redis.url` | `{url}`
 
 ### Oracle RDBMS
 Kind: `SQLServer`
 Disable Property: `org.springframework.cloud.bindings.boot.sqlserver.enable`
 
-| Property | Value
-| -------- | -----
+| Property | Value (`{secret}`)
+| -------- | ------------------
 | `spring.datasource.driver-class-name` | `com.microsoft.sqlserver.jdbc.SQLServerDriver`
-| `spring.datasource.password` | `{secret.password}`
-| `spring.datasource.url` | `jdbc:sqlserver://{secret.host}:{secret.port}/{secret.database}`
-| `spring.datasource.username` | `{secret.username}`
+| `spring.datasource.password` | `{password}`
+| `spring.datasource.url` | `jdbc:sqlserver://{host}:{port}/{database}`
+| `spring.datasource.username` | `{username}`
 
 ## License
 This buildpack is released under version 2.0 of the [Apache License][a].
