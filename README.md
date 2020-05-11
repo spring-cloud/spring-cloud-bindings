@@ -47,6 +47,20 @@ Disable Property: `org.springframework.cloud.bindings.boot.cassandra.enable`
 | `spring.data.cassandra.ssl` | `{secret.ssl}`
 | `spring.data.cassandra.username` | `{secret.username}`
 
+### Couchbase
+Kind: `couchbase`
+Disable Property: `org.springframework.cloud.bindings.boot.couchbase.enable`
+
+| Property | Value
+| -------- | -----
+| `spring.couchbase.bootstrap-hosts` | `{secret.bootstrap-hosts}`
+| `spring.couchbase.bucket.name` | `{secret.bucket.name}`
+| `spring.couchbase.bucket.password` | `{secret.bucket.passsword}`
+| `spring.couchbase.env.bootstrap.http-direct-port` | `{secret.env.bootstrap.http-direct-port}`
+| `spring.couchbase.env.bootstrap.http-ssl-port` | `{secret.env.bootstrap.http-ssl-port}`
+| `spring.couchbase.password` | `{secret.password}`
+| `spring.couchbase.username` | `{secret.username}`
+
 ### DB2 RDBMS
 Kind: `DB2`
 Disable Property: `org.springframework.cloud.bindings.boot.db2.enable`
