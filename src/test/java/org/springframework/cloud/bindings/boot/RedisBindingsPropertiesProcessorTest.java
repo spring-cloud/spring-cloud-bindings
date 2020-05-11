@@ -18,6 +18,7 @@ package org.springframework.cloud.bindings.boot;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junitpioneer.jupiter.SetSystemProperty;
 import org.springframework.cloud.bindings.Binding;
 import org.springframework.cloud.bindings.Bindings;
 import org.springframework.cloud.bindings.FluentMap;
@@ -32,25 +33,34 @@ import static org.springframework.cloud.bindings.boot.RedisBindingsPropertiesPro
 @DisplayName("Redis BindingsPropertiesProcessor")
 final class RedisBindingsPropertiesProcessorTest {
 
+    private final Bindings bindings = new Bindings(
+            new Binding("test-name", Paths.get("test-path"),
+                    Collections.singletonMap("kind", KIND),
+                    new FluentMap()
+                            .withEntry("host", "test-host")
+                            .withEntry("password", "test-password")
+                            .withEntry("port", "test-port")
+            )
+    );
+
+    private final HashMap<String, Object> properties = new HashMap<>();
+
     @Test
     @DisplayName("contributes properties")
     void test() {
-        HashMap<String, Object> properties = new HashMap<>();
-
-        new RedisBindingsPropertiesProcessor().process(new Bindings(
-                new Binding("test-name", Paths.get("test-path"),
-                        Collections.singletonMap("kind", KIND),
-                        new FluentMap()
-                                .withEntry("host", "test-host")
-                                .withEntry("password", "test-password")
-                                .withEntry("port", "test-port")
-                )
-        ), properties);
-
+        new RedisBindingsPropertiesProcessor().process(bindings, properties);
         assertThat(properties)
                 .containsEntry("spring.redis.host", "test-host")
                 .containsEntry("spring.redis.password", "test-password")
                 .containsEntry("spring.redis.port", "test-port");
+    }
+
+    @Test
+    @DisplayName("can be disabled")
+    @SetSystemProperty(key = "org.springframework.cloud.bindings.boot.redis.enable", value = "false")
+    void disabled() {
+        new RedisBindingsPropertiesProcessor().process(bindings, properties);
+        assertThat(properties).isEmpty();
     }
 
 }
