@@ -18,27 +18,15 @@ package org.springframework.cloud.bindings.boot;
 
 import java.util.Map;
 
-final class PutIfPresent {
+final class PropertyMapper {
+
+    private final Map<String, String> source;
 
     private final Map<String, Object> destination;
 
-    private final String key;
-
-    PutIfPresent(Map<String, Object> destination, String key) {
+    PropertyMapper(Map<String, String> source, Map<String, Object> destination) {
+        this.source = source;
         this.destination = destination;
-        this.key = key;
-    }
-
-    static PutIfPresent put(Map<String, Object> destination, String key) {
-        return new PutIfPresent(destination, key);
-    }
-
-    void ifPresent(Map<String, String> source, String key) {
-        if (!source.containsKey(key)) {
-            return;
-        }
-
-        destination.put(this.key, source.get(key));
     }
 
 }

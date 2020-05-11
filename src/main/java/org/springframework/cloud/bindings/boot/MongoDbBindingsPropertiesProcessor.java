@@ -41,9 +41,9 @@ public final class MongoDbBindingsPropertiesProcessor implements BindingsPropert
         }
 
         bindings.filterBindings(KIND).forEach(binding -> {
-            Map<String, String> secret = binding.getSecret();
+            MapMapper map = new MapMapper(binding.getSecret(), properties);
 
-            properties.put("spring.mongodb.uri", secret.get("uri"));
+            map.from("uri").to("spring.mongodb.uri");
         });
     }
 

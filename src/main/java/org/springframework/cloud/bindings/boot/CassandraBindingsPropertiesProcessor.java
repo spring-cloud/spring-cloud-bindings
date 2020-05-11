@@ -23,7 +23,6 @@ import org.springframework.core.env.Environment;
 import java.util.Map;
 
 import static org.springframework.cloud.bindings.boot.Guards.isKindEnabled;
-import static org.springframework.cloud.bindings.boot.PutIfPresent.put;
 
 /**
  * An implementation of {@link BindingsPropertiesProcessor} that detects {@link Binding}s of kind: {@value KIND}.
@@ -42,16 +41,16 @@ public final class CassandraBindingsPropertiesProcessor implements BindingsPrope
         }
 
         bindings.filterBindings(KIND).forEach(binding -> {
-            Map<String, String> secret = binding.getSecret();
+            MapMapper map = new MapMapper(binding.getSecret(), properties);
 
-            put(properties, "spring.data.cassandra.cluster-name").ifPresent(secret, "cluster-name");
-            put(properties, "spring.data.cassandra.compression").ifPresent(secret, "compression");
-            put(properties, "spring.data.cassandra.contact-points").ifPresent(secret, "contact-points");
-            put(properties, "spring.data.cassandra.keyspace-name").ifPresent(secret, "keyspace-name");
-            put(properties, "spring.data.cassandra.password").ifPresent(secret, "password");
-            put(properties, "spring.data.cassandra.port").ifPresent(secret, "port");
-            put(properties, "spring.data.cassandra.ssl").ifPresent(secret, "ssl");
-            put(properties, "spring.data.cassandra.username").ifPresent(secret, "username");
+            map.from("cluster-name").to("spring.data.cassandra.cluster-name");
+            map.from("compression").to("spring.data.cassandra.compression");
+            map.from("contact-points").to("spring.data.cassandra.contact-points");
+            map.from("keyspace-name").to("spring.data.cassandra.keyspace-name");
+            map.from("password").to("spring.data.cassandra.password");
+            map.from("port").to("spring.data.cassandra.port");
+            map.from("ssl").to("spring.data.cassandra.ssl");
+            map.from("username").to("spring.data.cassandra.username");
         });
     }
 

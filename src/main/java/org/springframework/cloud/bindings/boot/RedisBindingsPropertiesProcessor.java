@@ -41,11 +41,11 @@ public final class RedisBindingsPropertiesProcessor implements BindingsPropertie
         }
 
         bindings.filterBindings(KIND).forEach(binding -> {
-            Map<String, String> secret = binding.getSecret();
+            MapMapper map = new MapMapper(binding.getSecret(), properties);
 
-            properties.put("spring.redis.host", secret.get("host"));
-            properties.put("spring.redis.password", secret.get("password"));
-            properties.put("spring.redis.port", secret.get("port"));
+            map.from("host").to("spring.redis.host");
+            map.from("password").to("spring.redis.password");
+            map.from("port").to("spring.redis.port");
         });
     }
 

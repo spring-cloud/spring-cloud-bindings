@@ -43,13 +43,14 @@ public final class SqlServerBindingsPropertiesProcessor implements BindingsPrope
         }
 
         bindings.filterBindings(KIND).forEach(binding -> {
-            Map<String, String> secret = binding.getSecret();
+            MapMapper map = new MapMapper(binding.getSecret(), properties);
+
+            map.from("password").to("spring.datasource.password");
+            map.from("host", "port", "database").to("spring.datasource.url",
+                    (host, port, database) -> String.format("jdbc:sqlserver://%s:%s/%s", host, port, database));
+            map.from("username").to("spring.datasource.username");
 
             properties.put("spring.datasource.driver-class-name", "com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            properties.put("spring.datasource.password", secret.get("password"));
-            properties.put("spring.datasource.url", String.format("jdbc:sqlserver://%s:%s/%s",
-                    secret.get("host"), secret.get("port"), secret.get("database")));
-            properties.put("spring.datasource.username", secret.get("username"));
         });
     }
 

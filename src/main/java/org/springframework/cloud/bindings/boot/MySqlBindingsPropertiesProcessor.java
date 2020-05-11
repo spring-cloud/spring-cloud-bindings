@@ -43,6 +43,14 @@ public final class MySqlBindingsPropertiesProcessor implements BindingsPropertie
         }
 
         bindings.filterBindings(KIND).forEach(binding -> {
+            MapMapper map = new MapMapper(binding.getSecret(), properties);
+
+            map.from("password").to("spring.datasource.password");
+            map.from("host", "port", "database").to("spring.datasource.url",
+                    (host, port, database) -> String.format("jdbc:mysql://%s:%s/%s", host, port, database));
+            map.from("username").to("spring.datasource.username");
+
+
             Map<String, String> secret = binding.getSecret();
 
             try {
@@ -55,11 +63,6 @@ public final class MySqlBindingsPropertiesProcessor implements BindingsPropertie
                 } catch (ClassNotFoundException ignored) {
                 }
             }
-
-            properties.put("spring.datasource.password", secret.get("password"));
-            properties.put("spring.datasource.url", String.format("jdbc:mysql://%s:%s/%s",
-                    secret.get("host"), secret.get("port"), secret.get("database")));
-            properties.put("spring.datasource.username", secret.get("username"));
         });
     }
 

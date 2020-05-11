@@ -43,13 +43,14 @@ public final class Db2BindingsPropertiesProcessor implements BindingsPropertiesP
         }
 
         bindings.filterBindings(KIND).forEach(binding -> {
-            Map<String, String> secret = binding.getSecret();
+            MapMapper map = new MapMapper(binding.getSecret(), properties);
+
+            map.from("password").to("spring.datasource.password");
+            map.from("host", "port", "database").to("spring.datasource.url",
+                    (host, port, database) -> String.format("jdbc:db2://%s:%s/%s", host, port, database));
+            map.from("username").to("spring.datasource.username");
 
             properties.put("spring.datasource.driver-class-name", "com.ibm.db2.jcc.DB2Driver");
-            properties.put("spring.datasource.password", secret.get("password"));
-            properties.put("spring.datasource.url", String.format("jdbc:db2://%s:%s/%s",
-                    secret.get("host"), secret.get("port"), secret.get("database")));
-            properties.put("spring.datasource.username", secret.get("username"));
         });
     }
 
