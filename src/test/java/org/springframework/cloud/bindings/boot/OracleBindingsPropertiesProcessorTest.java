@@ -18,6 +18,7 @@ package org.springframework.cloud.bindings.boot;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junitpioneer.jupiter.SetSystemProperty;
 import org.springframework.cloud.bindings.Binding;
 import org.springframework.cloud.bindings.Bindings;
 import org.springframework.cloud.bindings.FluentMap;
@@ -32,28 +33,37 @@ import static org.springframework.cloud.bindings.boot.OracleBindingsPropertiesPr
 @DisplayName("Oracle BindingsPropertiesProcessor")
 final class OracleBindingsPropertiesProcessorTest {
 
+    private final Bindings bindings = new Bindings(
+            new Binding("test-name", Paths.get("test-path"),
+                    Collections.singletonMap("kind", KIND),
+                    new FluentMap()
+                            .withEntry("database", "test-database")
+                            .withEntry("host", "test-host")
+                            .withEntry("password", "test-password")
+                            .withEntry("port", "test-port")
+                            .withEntry("username", "test-username")
+            )
+    );
+
+    private final HashMap<String, Object> properties = new HashMap<>();
+
     @Test
     @DisplayName("contributes properties")
     void test() {
-        HashMap<String, Object> properties = new HashMap<>();
-
-        new OracleBindingsPropertiesProcessor().process(new Bindings(
-                new Binding("test-name", Paths.get("test-path"),
-                        Collections.singletonMap("kind", KIND),
-                        new FluentMap()
-                                .withEntry("database", "test-database")
-                                .withEntry("host", "test-host")
-                                .withEntry("password", "test-password")
-                                .withEntry("port", "test-port")
-                                .withEntry("username", "test-username")
-                )
-        ), properties);
-
+        new OracleBindingsPropertiesProcessor().process(bindings, properties);
         assertThat(properties)
                 .containsEntry("spring.datasource.driver-class-name", "oracle.jdbc.OracleDriver")
                 .containsEntry("spring.datasource.password", "test-password")
                 .containsEntry("spring.datasource.url", "jdbc:oracle://test-host:test-port/test-database")
                 .containsEntry("spring.datasource.username", "test-username");
+    }
+
+    @Test
+    @DisplayName("can be disabled")
+    @SetSystemProperty(key = "org.springframework.cloud.bindings.boot.oracle.enable", value = "false")
+    void disabled() {
+        new OracleBindingsPropertiesProcessor().process(bindings, properties);
+        assertThat(properties).isEmpty();
     }
 
 }

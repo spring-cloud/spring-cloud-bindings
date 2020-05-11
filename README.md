@@ -30,10 +30,11 @@ The more common usage of the library is opt-in automatic Spring Boot configurati
 * Adds a `PropertySource` with binding-specific Spring Boot configuration properties.
 
 ## Auto-Configurations
+Each auto-configuration is triggered by the kind of binding.  Each auto-configuration can be disabled using a System Property specific to that kind and defaults to enable.
 
 ### Cassandra
 Kind: `cassandra`
-Property: `org.springframework.cloud.bindings.boot.cassandra.enabled`
+Disable Property: `org.springframework.cloud.bindings.boot.cassandra.enable`
 
 | Property | Value
 | -------- | -----
@@ -44,7 +45,7 @@ Property: `org.springframework.cloud.bindings.boot.cassandra.enabled`
 
 ### DB2 RDBMS
 Kind: `DB2`
-Property: `org.springframework.cloud.bindings.boot.db2.enabled`
+Disable Property: `org.springframework.cloud.bindings.boot.db2.enable`
 
 | Property | Value
 | -------- | -----
@@ -55,7 +56,7 @@ Property: `org.springframework.cloud.bindings.boot.db2.enabled`
 
 ### MongoDB
 Kind: `MongoDB`
-Property: `org.springframework.cloud.bindings.boot.mongodb.enabled`
+Disable Property: `org.springframework.cloud.bindings.boot.mongodb.enable`
 
 | Property | Value
 | -------- | -----
@@ -63,7 +64,7 @@ Property: `org.springframework.cloud.bindings.boot.mongodb.enabled`
 
 ### MySQL RDBMS
 Kind: `MySQL`
-Property: `org.springframework.cloud.bindings.boot.mysql.enabled`
+Disable Property: `org.springframework.cloud.bindings.boot.mysql.enable`
 
 | Property | Value
 | -------- | -----
@@ -74,7 +75,7 @@ Property: `org.springframework.cloud.bindings.boot.mysql.enabled`
 
 ### Oracle RDBMS
 Kind: `Oracle`
-Property: `org.springframework.cloud.bindings.boot.oracle.enabled`
+Disable Property: `org.springframework.cloud.bindings.boot.oracle.enable`
 
 | Property | Value
 | -------- | -----
@@ -85,7 +86,7 @@ Property: `org.springframework.cloud.bindings.boot.oracle.enabled`
 
 ### PostgreSQL RDBMS
 Kind: `PostgreSQL`
-Property: `org.springframework.cloud.bindings.boot.postgresql.enabled`
+Disable Property: `org.springframework.cloud.bindings.boot.postgresql.enable`
 
 | Property | Value
 | -------- | -----
@@ -96,7 +97,7 @@ Property: `org.springframework.cloud.bindings.boot.postgresql.enabled`
 
 ### Redis RDBMS
 Kind: `Redis`
-Property: `org.springframework.cloud.bindings.boot.redis.enabled`
+Disable Property: `org.springframework.cloud.bindings.boot.redis.enable`
 
 | Property | Value
 | -------- | -----
@@ -106,7 +107,7 @@ Property: `org.springframework.cloud.bindings.boot.redis.enabled`
 
 ### Oracle RDBMS
 Kind: `SQLServer`
-Property: `org.springframework.cloud.bindings.boot.sqlserver.enabled`
+Disable Property: `org.springframework.cloud.bindings.boot.sqlserver.enable`
 
 | Property | Value
 | -------- | -----

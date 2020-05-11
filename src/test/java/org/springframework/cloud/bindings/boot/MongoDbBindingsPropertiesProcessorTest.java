@@ -18,6 +18,7 @@ package org.springframework.cloud.bindings.boot;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junitpioneer.jupiter.SetSystemProperty;
 import org.springframework.cloud.bindings.Binding;
 import org.springframework.cloud.bindings.Bindings;
 import org.springframework.cloud.bindings.FluentMap;
@@ -32,21 +33,30 @@ import static org.springframework.cloud.bindings.boot.MongoDbBindingsPropertiesP
 @DisplayName("MongoDB BindingsPropertiesProcessor")
 final class MongoDbBindingsPropertiesProcessorTest {
 
+    private final Bindings bindings = new Bindings(
+            new Binding("test-name", Paths.get("test-path"),
+                    Collections.singletonMap("kind", KIND),
+                    new FluentMap()
+                            .withEntry("uri", "test-uri")
+            )
+    );
+
+    private final HashMap<String, Object> properties = new HashMap<>();
+
     @Test
     @DisplayName("contributes properties")
     void test() {
-        HashMap<String, Object> properties = new HashMap<>();
-
-        new MongoDbBindingsPropertiesProcessor().process(new Bindings(
-                new Binding("test-name", Paths.get("test-path"),
-                        Collections.singletonMap("kind", KIND),
-                        new FluentMap()
-                                .withEntry("uri", "test-uri")
-                )
-        ), properties);
-
+        new MongoDbBindingsPropertiesProcessor().process(bindings, properties);
         assertThat(properties)
                 .containsEntry("spring.mongodb.uri", "test-uri");
+    }
+
+    @Test
+    @DisplayName("can be disabled")
+    @SetSystemProperty(key = "org.springframework.cloud.bindings.boot.mongodb.enable", value = "false")
+    void disabled() {
+        new MongoDbBindingsPropertiesProcessor().process(bindings, properties);
+        assertThat(properties).isEmpty();
     }
 
 }
