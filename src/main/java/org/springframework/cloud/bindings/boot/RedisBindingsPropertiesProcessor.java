@@ -38,7 +38,7 @@ public final class RedisBindingsPropertiesProcessor implements BindingsPropertie
         bindings.filterBindings(KIND).forEach(binding -> {
             Map<String, String> secret = binding.getSecret();
 
-            properties.put("spring.redis.host", secret.get("hostname"));
+            properties.put("spring.redis.host", secret.get("host"));
             properties.put("spring.redis.password", secret.get("password"));
             properties.put("spring.redis.port", secret.get("port"));
         });
