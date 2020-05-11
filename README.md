@@ -112,9 +112,17 @@ Disable Property: `org.springframework.cloud.bindings.boot.redis.enable`
 
 | Property | Value
 | -------- | -----
-| `spring.datasource.host` | `{secret.host}`
-| `spring.datasource.password` | `{secret.password}`
-| `spring.datasource.port` | `{secret.port}`
+| `spring.redis.client-name` | `{secret.client-name}`
+| `spring.redis.cluster.max-redirects` | `{secret.cluster.max-redirects}`
+| `spring.redis.cluster.nodes` | `{secret.cluster-nodes}`
+| `spring.redis.database` | `{secret.database}`
+| `spring.redis.host` | `{secret.host}`
+| `spring.redis.password` | `{secret.password}`
+| `spring.redis.port` | `{secret.port}`
+| `spring.redis.sentinel.master` | `{secret.sentinel.master}`
+| `spring.redis.sentinel.nodes` | `{secret.sentinel.nodes}`
+| `spring.redis.ssl` | `{secret.ssl}`
+| `spring.redis.url` | `{secret.url}`
 
 ### Oracle RDBMS
 Kind: `SQLServer`

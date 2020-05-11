@@ -43,9 +43,17 @@ public final class RedisBindingsPropertiesProcessor implements BindingsPropertie
         bindings.filterBindings(KIND).forEach(binding -> {
             MapMapper map = new MapMapper(binding.getSecret(), properties);
 
+            map.from("client-name").to("spring.redis.client-name");
+            map.from("cluster.max-redirects").to("spring.redis.cluster.max-redirects");
+            map.from("cluster.nodes").to("spring.redis.cluster.nodes");
+            map.from("database").to("spring.redis.database");
             map.from("host").to("spring.redis.host");
             map.from("password").to("spring.redis.password");
             map.from("port").to("spring.redis.port");
+            map.from("sentinel.master").to("spring.redis.sentinel.master");
+            map.from("sentinel.nodes").to("spring.redis.sentinel.nodes");
+            map.from("ssl").to("spring.redis.ssl");
+            map.from("url").to("spring.redis.url");
         });
     }
 

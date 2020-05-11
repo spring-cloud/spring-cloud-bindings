@@ -37,9 +37,17 @@ final class RedisBindingsPropertiesProcessorTest {
             new Binding("test-name", Paths.get("test-path"),
                     Collections.singletonMap("kind", KIND),
                     new FluentMap()
+                            .withEntry("client-name", "test-client-name")
+                            .withEntry("cluster.max-redirects", "test-cluster-max-redirects")
+                            .withEntry("cluster.nodes", "test-cluster-nodes")
+                            .withEntry("database", "test-database")
                             .withEntry("host", "test-host")
                             .withEntry("password", "test-password")
                             .withEntry("port", "test-port")
+                            .withEntry("sentinel.master", "test-sentinel-master")
+                            .withEntry("sentinel.nodes", "test-sentinel-nodes")
+                            .withEntry("ssl", "test-ssl")
+                            .withEntry("url", "test-url")
             )
     );
 
@@ -52,9 +60,17 @@ final class RedisBindingsPropertiesProcessorTest {
     void test() {
         new RedisBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties)
+                .containsEntry("spring.redis.client-name", "test-client-name")
+                .containsEntry("spring.redis.cluster.max-redirects", "test-cluster-max-redirects")
+                .containsEntry("spring.redis.cluster.nodes", "test-cluster-nodes")
+                .containsEntry("spring.redis.database", "test-database")
                 .containsEntry("spring.redis.host", "test-host")
                 .containsEntry("spring.redis.password", "test-password")
-                .containsEntry("spring.redis.port", "test-port");
+                .containsEntry("spring.redis.port", "test-port")
+                .containsEntry("spring.redis.sentinel.master", "test-sentinel-master")
+                .containsEntry("spring.redis.sentinel.nodes", "test-sentinel-nodes")
+                .containsEntry("spring.redis.ssl", "test-ssl")
+                .containsEntry("spring.redis.url", "test-url");
     }
 
     @Test
