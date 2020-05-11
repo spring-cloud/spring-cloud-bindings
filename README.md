@@ -72,6 +72,25 @@ Disable Property: `org.springframework.cloud.bindings.boot.db2.enable`
 | `spring.datasource.url` | `jdbc:db2://{host}:{port}/{database}`
 | `spring.datasource.username` | `{username}`
 
+
+### Elasticsearch
+Kind: `Elasticsearch`
+Disable Property: `org.springframework.cloud.bindings.boot.elasticsearch.enable`
+
+| Property | Value (`{secret}`)
+| -------- | ------------------
+| `spring.data.elasticsearch.client.reactive.endpoints` | `{endpoints}`
+| `spring.data.elasticsearch.client.reactive.password` | `{password}`
+| `spring.data.elasticsearch.client.reactive.use-ssl` | `{use-ssl}`
+| `spring.data.elasticsearch.client.reactive.username` | `{username}`
+| `spring.elasticsearch.jest.password` | `{password}`
+| `spring.elasticsearch.jest.proxy.host` | `{proxy.host}`
+| `spring.elasticsearch.jest.proxy.port` | `{proxy.port}`
+| `spring.elasticsearch.jest.username` | `{username}`
+| `spring.elasticsearch.rest.password` | `{password}`
+| `spring.elasticsearch.rest.uris` | `{uris}`
+| `spring.elasticsearch.rest.username` | `{username}`
+
 ### MongoDB
 Kind: `MongoDB`
 Disable Property: `org.springframework.cloud.bindings.boot.mongodb.enable`
@@ -138,7 +157,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.redis.enable`
 | `spring.redis.ssl` | `{ssl}`
 | `spring.redis.url` | `{url}`
 
-### Oracle RDBMS
+### SQLServer RDBMS
 Kind: `SQLServer`
 Disable Property: `org.springframework.cloud.bindings.boot.sqlserver.enable`
 

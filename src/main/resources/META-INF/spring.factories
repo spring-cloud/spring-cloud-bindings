@@ -6,6 +6,7 @@ org.springframework.cloud.bindings.boot.BindingsPropertiesProcessor=\
   org.springframework.cloud.bindings.boot.CassandraBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.CouchbaseBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.Db2BindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.boot.ElasticsearchBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.MongoDbBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.MySqlBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.OracleBindingsPropertiesProcessor, \
