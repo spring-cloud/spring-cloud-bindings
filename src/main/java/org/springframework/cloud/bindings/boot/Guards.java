@@ -16,17 +16,18 @@
 
 package org.springframework.cloud.bindings.boot;
 
+import org.springframework.core.env.Environment;
+
 final class Guards {
 
-    static boolean isGlobalEnabled() {
-        String value = System.getProperty("org.springframework.cloud.bindings.boot.enable", "false");
-        return Boolean.parseBoolean(value);
+    static boolean isGlobalEnabled(Environment environment) {
+        return environment.getProperty("org.springframework.cloud.bindings.boot.enable", Boolean.class, false);
     }
 
-    static boolean isKindEnabled(String kind) {
-        String property = String.format("org.springframework.cloud.bindings.boot.%s.enable", kind.toLowerCase());
-        String value = System.getProperty(property, "true");
-        return Boolean.parseBoolean(value);
+    static boolean isKindEnabled(Environment environment, String kind) {
+        return environment.getProperty(
+                String.format("org.springframework.cloud.bindings.boot.%s.enable", kind.toLowerCase()),
+                Boolean.class, true);
     }
 
 }

@@ -18,6 +18,7 @@ package org.springframework.cloud.bindings.boot;
 
 import org.springframework.cloud.bindings.Binding;
 import org.springframework.cloud.bindings.Bindings;
+import org.springframework.core.env.Environment;
 
 import java.util.Map;
 
@@ -36,8 +37,8 @@ public final class PostgreSqlBindingsPropertiesProcessor implements BindingsProp
     public static final String KIND = "PostgreSQL";
 
     @Override
-    public void process(Bindings bindings, Map<String, Object> properties) {
-        if (!isKindEnabled(KIND)) {
+    public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {
+        if (!isKindEnabled(environment, KIND)) {
             return;
         }
 

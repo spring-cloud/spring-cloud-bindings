@@ -18,10 +18,10 @@ package org.springframework.cloud.bindings.boot;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junitpioneer.jupiter.SetSystemProperty;
 import org.springframework.cloud.bindings.Binding;
 import org.springframework.cloud.bindings.Bindings;
 import org.springframework.cloud.bindings.FluentMap;
+import org.springframework.mock.env.MockEnvironment;
 
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -45,12 +45,14 @@ final class Db2BindingsPropertiesProcessorTest {
             )
     );
 
+    private final MockEnvironment environment = new MockEnvironment();
+
     private final HashMap<String, Object> properties = new HashMap<>();
 
     @Test
     @DisplayName("contributes properties")
     void test() {
-        new Db2BindingsPropertiesProcessor().process(bindings, properties);
+        new Db2BindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties)
                 .containsEntry("spring.datasource.driver-class-name", "com.ibm.db2.jcc.DB2Driver")
                 .containsEntry("spring.datasource.password", "test-password")
@@ -60,9 +62,11 @@ final class Db2BindingsPropertiesProcessorTest {
 
     @Test
     @DisplayName("can be disabled")
-    @SetSystemProperty(key = "org.springframework.cloud.bindings.boot.db2.enable", value = "false")
     void disabled() {
-        new Db2BindingsPropertiesProcessor().process(bindings, properties);
+        environment.setProperty("org.springframework.cloud.bindings.boot.db2.enable", "false");
+
+        new Db2BindingsPropertiesProcessor().process(environment, bindings, properties);
+
         assertThat(properties).isEmpty();
     }
 
