@@ -1,4 +1,5 @@
 org.springframework.boot.env.EnvironmentPostProcessor=\
+  org.springframework.cloud.bindings.boot.BindingFlattenedEnvironmentPostProcessor, \
   org.springframework.cloud.bindings.boot.BindingSpecificEnvironmentPostProcessor
 # Included implementations
 org.springframework.cloud.bindings.boot.BindingsPropertiesProcessor=\
