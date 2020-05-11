@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-package org.springframework.cloud.bindings;
+package org.springframework.cloud.bindings.boot;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.context.config.ConfigFileApplicationListener;
+import org.springframework.cloud.bindings.Binding;
+import org.springframework.cloud.bindings.Bindings;
 import org.springframework.core.env.PropertySource;
 import org.springframework.core.env.SimpleCommandLinePropertySource;
 import org.springframework.mock.env.MockEnvironment;
@@ -28,7 +30,7 @@ import java.nio.file.Paths;
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.cloud.bindings.BindingsEnvironmentPostProcessor.BINDINGS_PROPERTY_SOURCE_NAME;
+import static org.springframework.cloud.bindings.boot.BindingsEnvironmentPostProcessor.BINDINGS_PROPERTY_SOURCE_NAME;
 
 @DisplayName("Bindings EnvironmentPostProcessor")
 final class BindingsEnvironmentPostProcessorTest {

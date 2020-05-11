@@ -14,17 +14,20 @@
  * limitations under the License.
  */
 
-package org.springframework.cloud.bindings;
+package org.springframework.cloud.bindings.boot;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.cloud.bindings.Binding;
+import org.springframework.cloud.bindings.Bindings;
+import org.springframework.cloud.bindings.FluentMap;
 
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.cloud.bindings.OracleBindingsPropertiesProcessor.KIND;
+import static org.springframework.cloud.bindings.boot.OracleBindingsPropertiesProcessor.KIND;
 
 @DisplayName("Oracle BindingsPropertiesProcessor")
 final class OracleBindingsPropertiesProcessorTest {

@@ -1,12 +1,12 @@
 org.springframework.boot.env.EnvironmentPostProcessor=\
-  org.springframework.cloud.bindings.BindingsEnvironmentPostProcessor
+  org.springframework.cloud.bindings.boot.BindingsEnvironmentPostProcessor
 # Included implementations
-org.springframework.cloud.bindings.BindingsPropertiesProcessor=\
-  org.springframework.cloud.bindings.CassandraBindingsPropertiesProcessor, \
-  org.springframework.cloud.bindings.Db2BindingsPropertiesProcessor, \
-  org.springframework.cloud.bindings.MongoDbBindingsPropertiesProcessor, \
-  org.springframework.cloud.bindings.MySqlBindingsPropertiesProcessor, \
-  org.springframework.cloud.bindings.OracleBindingsPropertiesProcessor, \
-  org.springframework.cloud.bindings.PostgreSqlBindingsPropertiesProcessor, \
-  org.springframework.cloud.bindings.RedisBindingsPropertiesProcessor, \
-  org.springframework.cloud.bindings.SqlServerBindingsPropertiesProcessor
+org.springframework.cloud.bindings.boot.BindingsPropertiesProcessor=\
+  org.springframework.cloud.bindings.boot.CassandraBindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.boot.Db2BindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.boot.MongoDbBindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.boot.MySqlBindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.boot.OracleBindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.boot.PostgreSqlBindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.boot.RedisBindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.boot.SqlServerBindingsPropertiesProcessor

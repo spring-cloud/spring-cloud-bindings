@@ -14,27 +14,30 @@
  * limitations under the License.
  */
 
-package org.springframework.cloud.bindings;
+package org.springframework.cloud.bindings.boot;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.cloud.bindings.Binding;
+import org.springframework.cloud.bindings.Bindings;
+import org.springframework.cloud.bindings.FluentMap;
 
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.cloud.bindings.MySqlBindingsPropertiesProcessor.KIND;
+import static org.springframework.cloud.bindings.boot.SqlServerBindingsPropertiesProcessor.KIND;
 
-@DisplayName("MySQL BindingsPropertiesProcessor")
-final class MySqlBindingsPropertiesProcessorTest {
+@DisplayName("SQLServer BindingsPropertiesProcessor")
+final class SqlServerBindingsPropertiesProcessorTest {
 
     @Test
     @DisplayName("contributes properties")
     void test() {
         HashMap<String, Object> properties = new HashMap<>();
 
-        new MySqlBindingsPropertiesProcessor().process(new Bindings(
+        new SqlServerBindingsPropertiesProcessor().process(new Bindings(
                 new Binding("test-name", Paths.get("test-path"),
                         Collections.singletonMap("kind", KIND),
                         new FluentMap()
@@ -47,9 +50,10 @@ final class MySqlBindingsPropertiesProcessorTest {
         ), properties);
 
         assertThat(properties)
-                .containsEntry("spring.datasource.driver-class-name", "org.mariadb.jdbc.Driver")
+                .containsEntry("spring.datasource.driver-class-name", "com.microsoft.sqlserver.jdbc.SQLServerDriver")
                 .containsEntry("spring.datasource.password", "test-password")
-                .containsEntry("spring.datasource.url", "jdbc:mysql://test-host:test-port/test-db?user=test-username&password=test-password")
+                .containsEntry("spring.datasource.url",
+                        "jdbc:sqlserver://test-host:test-port/test-db?user=test-username&password=test-password")
                 .containsEntry("spring.datasource.username", "test-username");
     }
 

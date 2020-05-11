@@ -14,31 +14,35 @@
  * limitations under the License.
  */
 
-package org.springframework.cloud.bindings;
+package org.springframework.cloud.bindings.boot;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.cloud.bindings.Binding;
+import org.springframework.cloud.bindings.Bindings;
+import org.springframework.cloud.bindings.FluentMap;
 
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.cloud.bindings.CassandraBindingsPropertiesProcessor.KIND;
+import static org.springframework.cloud.bindings.boot.MySqlBindingsPropertiesProcessor.KIND;
 
-@DisplayName("Cassandra BindingsPropertiesProcessor")
-final class CassandraBindingsPropertiesProcessorTest {
+@DisplayName("MySQL BindingsPropertiesProcessor")
+final class MySqlBindingsPropertiesProcessorTest {
 
     @Test
     @DisplayName("contributes properties")
     void test() {
         HashMap<String, Object> properties = new HashMap<>();
 
-        new CassandraBindingsPropertiesProcessor().process(new Bindings(
+        new MySqlBindingsPropertiesProcessor().process(new Bindings(
                 new Binding("test-name", Paths.get("test-path"),
                         Collections.singletonMap("kind", KIND),
                         new FluentMap()
-                                .withEntry("node_ips", "test-node-ips")
+                                .withEntry("db", "test-db")
+                                .withEntry("host", "test-host")
                                 .withEntry("password", "test-password")
                                 .withEntry("port", "test-port")
                                 .withEntry("username", "test-username")
@@ -46,10 +50,10 @@ final class CassandraBindingsPropertiesProcessorTest {
         ), properties);
 
         assertThat(properties)
-                .containsEntry("spring.data.cassandra.contact-points", "test-node-ips")
-                .containsEntry("spring.data.cassandra.password", "test-password")
-                .containsEntry("spring.data.cassandra.port", "test-port")
-                .containsEntry("spring.data.cassandra.username", "test-username");
+                .containsEntry("spring.datasource.driver-class-name", "org.mariadb.jdbc.Driver")
+                .containsEntry("spring.datasource.password", "test-password")
+                .containsEntry("spring.datasource.url", "jdbc:mysql://test-host:test-port/test-db?user=test-username&password=test-password")
+                .containsEntry("spring.datasource.username", "test-username");
     }
 
 }

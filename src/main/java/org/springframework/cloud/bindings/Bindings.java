@@ -84,7 +84,12 @@ public final class Bindings {
         }
     }
 
-    Bindings(@NotNull Binding... bindings) {
+    /**
+     * Creates a new {@code Bindings} instance using the specified content.
+     *
+     * @param bindings the {@code Binding}s.
+     */
+    public Bindings(@NotNull Binding... bindings) {
         this.bindings = Arrays.asList(bindings);
     }
 

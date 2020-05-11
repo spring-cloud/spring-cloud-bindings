@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package org.springframework.cloud.bindings;
+package org.springframework.cloud.bindings.boot;
 
+import org.springframework.cloud.bindings.Binding;
+import org.springframework.cloud.bindings.Bindings;
 import org.springframework.lang.NonNull;
 
 import java.util.Map;

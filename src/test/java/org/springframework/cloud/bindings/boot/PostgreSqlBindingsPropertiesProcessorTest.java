@@ -14,40 +14,47 @@
  * limitations under the License.
  */
 
-package org.springframework.cloud.bindings;
+package org.springframework.cloud.bindings.boot;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.cloud.bindings.Binding;
+import org.springframework.cloud.bindings.Bindings;
+import org.springframework.cloud.bindings.FluentMap;
 
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.cloud.bindings.RedisBindingsPropertiesProcessor.KIND;
+import static org.springframework.cloud.bindings.boot.PostgreSqlBindingsPropertiesProcessor.KIND;
 
-@DisplayName("Redis BindingsPropertiesProcessor")
-final class RedisBindingsPropertiesProcessorTest {
+@DisplayName("PostgreSQL BindingsPropertiesProcessor")
+final class PostgreSqlBindingsPropertiesProcessorTest {
 
     @Test
     @DisplayName("contributes properties")
     void test() {
         HashMap<String, Object> properties = new HashMap<>();
 
-        new RedisBindingsPropertiesProcessor().process(new Bindings(
+        new PostgreSqlBindingsPropertiesProcessor().process(new Bindings(
                 new Binding("test-name", Paths.get("test-path"),
                         Collections.singletonMap("kind", KIND),
                         new FluentMap()
-                                .withEntry("hostname", "test-hostname")
+                                .withEntry("db", "test-db")
+                                .withEntry("host", "test-host")
                                 .withEntry("password", "test-password")
                                 .withEntry("port", "test-port")
+                                .withEntry("username", "test-username")
                 )
         ), properties);
 
         assertThat(properties)
-                .containsEntry("spring.redis.host", "test-hostname")
-                .containsEntry("spring.redis.password", "test-password")
-                .containsEntry("spring.redis.port", "test-port");
+                .containsEntry("spring.datasource.driver-class-name", "org.postgresql.Driver")
+                .containsEntry("spring.datasource.password", "test-password")
+                .containsEntry("spring.datasource.url",
+                        "jdbc:postgres://test-host:test-port/test-db?user=test-username&password=test-password")
+                .containsEntry("spring.datasource.username", "test-username");
     }
 
 }

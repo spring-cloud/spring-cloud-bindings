@@ -14,36 +14,45 @@
  * limitations under the License.
  */
 
-package org.springframework.cloud.bindings;
+package org.springframework.cloud.bindings.boot;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.cloud.bindings.Binding;
+import org.springframework.cloud.bindings.Bindings;
+import org.springframework.cloud.bindings.FluentMap;
 
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.cloud.bindings.MongoDbBindingsPropertiesProcessor.KIND;
+import static org.springframework.cloud.bindings.boot.CassandraBindingsPropertiesProcessor.KIND;
 
-@DisplayName("MongoDB BindingsPropertiesProcessor")
-final class MongoDbBindingsPropertiesProcessorTest {
+@DisplayName("Cassandra BindingsPropertiesProcessor")
+final class CassandraBindingsPropertiesProcessorTest {
 
     @Test
     @DisplayName("contributes properties")
     void test() {
         HashMap<String, Object> properties = new HashMap<>();
 
-        new MongoDbBindingsPropertiesProcessor().process(new Bindings(
+        new CassandraBindingsPropertiesProcessor().process(new Bindings(
                 new Binding("test-name", Paths.get("test-path"),
                         Collections.singletonMap("kind", KIND),
                         new FluentMap()
-                                .withEntry("uri", "test-uri")
+                                .withEntry("node_ips", "test-node-ips")
+                                .withEntry("password", "test-password")
+                                .withEntry("port", "test-port")
+                                .withEntry("username", "test-username")
                 )
         ), properties);
 
         assertThat(properties)
-                .containsEntry("spring.mongodb.uri", "test-uri");
+                .containsEntry("spring.data.cassandra.contact-points", "test-node-ips")
+                .containsEntry("spring.data.cassandra.password", "test-password")
+                .containsEntry("spring.data.cassandra.port", "test-port")
+                .containsEntry("spring.data.cassandra.username", "test-username");
     }
 
 }

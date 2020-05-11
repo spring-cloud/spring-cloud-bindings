@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-package org.springframework.cloud.bindings;
+package org.springframework.cloud.bindings.boot;
 
 import org.jetbrains.annotations.NotNull;
+import org.springframework.cloud.bindings.Binding;
+import org.springframework.cloud.bindings.Bindings;
 import org.springframework.lang.NonNull;
 
 import java.util.Map;
@@ -24,21 +26,21 @@ import java.util.Map;
 /**
  * An implementation of {@link BindingsPropertiesProcessor} that detects {@link Binding}s of kind: {@value KIND}.
  */
-public final class OracleBindingsPropertiesProcessor implements BindingsPropertiesProcessor {
+public final class SqlServerBindingsPropertiesProcessor implements BindingsPropertiesProcessor {
 
     /**
      * The {@link Binding} kind that this processor is interested in: {@value}.
      **/
-    public static final String KIND = "Oracle";
+    public static final String KIND = "SQLServer";
 
     @Override
     public void process(@NonNull Bindings bindings, @NotNull Map<String, Object> properties) {
         bindings.filterBindings(KIND).forEach(binding -> {
             Map<String, String> secret = binding.getSecret();
 
-            properties.put("spring.datasource.driver-class-name", "oracle.jdbc.OracleDriver");
+            properties.put("spring.datasource.driver-class-name", "com.microsoft.sqlserver.jdbc.SQLServerDriver");
             properties.put("spring.datasource.password", secret.get("password"));
-            properties.put("spring.datasource.url", String.format("jdbc:oracle://%s:%s/%s?user=%s&password=%s",
+            properties.put("spring.datasource.url", String.format("jdbc:sqlserver://%s:%s/%s?user=%s&password=%s",
                     secret.get("host"), secret.get("port"), secret.get("db"), secret.get("username"),
                     secret.get("password")));
             properties.put("spring.datasource.username", secret.get("username"));

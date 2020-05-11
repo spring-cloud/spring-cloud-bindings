@@ -18,9 +18,9 @@ package org.springframework.cloud.bindings;
 
 import java.util.HashMap;
 
-final class FluentMap extends HashMap<String, String> {
+public final class FluentMap extends HashMap<String, String> {
 
-    FluentMap withEntry(String key, String value) {
+    public FluentMap withEntry(String key, String value) {
         put(key, value);
         return this;
     }
