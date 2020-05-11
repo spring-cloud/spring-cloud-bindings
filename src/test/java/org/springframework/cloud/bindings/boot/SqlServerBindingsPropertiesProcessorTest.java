@@ -41,7 +41,7 @@ final class SqlServerBindingsPropertiesProcessorTest {
                 new Binding("test-name", Paths.get("test-path"),
                         Collections.singletonMap("kind", KIND),
                         new FluentMap()
-                                .withEntry("db", "test-db")
+                                .withEntry("database", "test-database")
                                 .withEntry("host", "test-host")
                                 .withEntry("password", "test-password")
                                 .withEntry("port", "test-port")
@@ -52,8 +52,7 @@ final class SqlServerBindingsPropertiesProcessorTest {
         assertThat(properties)
                 .containsEntry("spring.datasource.driver-class-name", "com.microsoft.sqlserver.jdbc.SQLServerDriver")
                 .containsEntry("spring.datasource.password", "test-password")
-                .containsEntry("spring.datasource.url",
-                        "jdbc:sqlserver://test-host:test-port/test-db?user=test-username&password=test-password")
+                .containsEntry("spring.datasource.url", "jdbc:sqlserver://test-host:test-port/test-database")
                 .containsEntry("spring.datasource.username", "test-username");
     }
 
