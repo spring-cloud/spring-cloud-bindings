@@ -25,6 +25,8 @@ import java.util.Map;
 
 /**
  * An implementation of {@link BindingsPropertiesProcessor} that detects {@link Binding}s of kind: {@value KIND}.
+ *
+ * @see <a href="https://docs.microsoft.com/en-us/sql/connect/jdbc/building-the-connection-url?view=sql-server-ver15">JDBC URL Format</a>
  */
 public final class SqlServerBindingsPropertiesProcessor implements BindingsPropertiesProcessor {
 
@@ -40,9 +42,8 @@ public final class SqlServerBindingsPropertiesProcessor implements BindingsPrope
 
             properties.put("spring.datasource.driver-class-name", "com.microsoft.sqlserver.jdbc.SQLServerDriver");
             properties.put("spring.datasource.password", secret.get("password"));
-            properties.put("spring.datasource.url", String.format("jdbc:sqlserver://%s:%s/%s?user=%s&password=%s",
-                    secret.get("host"), secret.get("port"), secret.get("db"), secret.get("username"),
-                    secret.get("password")));
+            properties.put("spring.datasource.url", String.format("jdbc:sqlserver://%s:%s/%s",
+                    secret.get("host"), secret.get("port"), secret.get("database")));
             properties.put("spring.datasource.username", secret.get("username"));
         });
     }
