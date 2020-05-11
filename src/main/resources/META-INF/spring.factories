@@ -9,6 +9,7 @@ org.springframework.cloud.bindings.boot.BindingsPropertiesProcessor=\
   org.springframework.cloud.bindings.boot.ElasticsearchBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.MongoDbBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.MySqlBindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.boot.Neo4JBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.OracleBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.PostgreSqlBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.RedisBindingsPropertiesProcessor, \

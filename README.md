@@ -117,6 +117,16 @@ Disable Property: `org.springframework.cloud.bindings.boot.mysql.enable`
 | `spring.datasource.url` | `jdbc:mysql://{host}:{port}/{database}`
 | `spring.datasource.username` | `{username}`
 
+### Neo4J
+Kind: `Neo4J`
+Disable Property: `org.springframework.cloud.bindings.boot.neo4j.enable`
+
+| Property | Value (`{secret}`)
+| -------- | ------------------
+| `spring.data.neo4j.password` | `{password}`
+| `spring.data.neo4j.uri` | `{uri}`
+| `spring.data.neo4j.username` | `{username}`
+
 ### Oracle RDBMS
 Kind: `Oracle`
 Disable Property: `org.springframework.cloud.bindings.boot.oracle.enable`
