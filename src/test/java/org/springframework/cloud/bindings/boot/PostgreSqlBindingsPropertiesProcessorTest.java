@@ -18,10 +18,10 @@ package org.springframework.cloud.bindings.boot;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junitpioneer.jupiter.SetSystemProperty;
 import org.springframework.cloud.bindings.Binding;
 import org.springframework.cloud.bindings.Bindings;
 import org.springframework.cloud.bindings.FluentMap;
+import org.springframework.mock.env.MockEnvironment;
 
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -45,12 +45,14 @@ final class PostgreSqlBindingsPropertiesProcessorTest {
             )
     );
 
+    private final MockEnvironment environment = new MockEnvironment();
+
     private final HashMap<String, Object> properties = new HashMap<>();
 
     @Test
     @DisplayName("contributes properties")
     void test() {
-        new PostgreSqlBindingsPropertiesProcessor().process(bindings, properties);
+        new PostgreSqlBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties)
                 .containsEntry("spring.datasource.driver-class-name", "org.postgresql.Driver")
                 .containsEntry("spring.datasource.password", "test-password")
@@ -60,9 +62,11 @@ final class PostgreSqlBindingsPropertiesProcessorTest {
 
     @Test
     @DisplayName("can be disabled")
-    @SetSystemProperty(key = "org.springframework.cloud.bindings.boot.postgresql.enable", value = "false")
     void disabled() {
-        new PostgreSqlBindingsPropertiesProcessor().process(bindings, properties);
+        environment.setProperty("org.springframework.cloud.bindings.boot.postgresql.enable", "false");
+
+        new PostgreSqlBindingsPropertiesProcessor().process(environment, bindings, properties);
+
         assertThat(properties).isEmpty();
     }
 

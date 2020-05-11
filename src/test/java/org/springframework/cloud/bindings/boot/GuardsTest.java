@@ -19,7 +19,7 @@ package org.springframework.cloud.bindings.boot;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junitpioneer.jupiter.SetSystemProperty;
+import org.springframework.mock.env.MockEnvironment;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.cloud.bindings.boot.Guards.isGlobalEnabled;
@@ -32,24 +32,26 @@ final class GuardsTest {
     @DisplayName("Global Guard")
     final class GlobalGuard {
 
+        private final MockEnvironment environment = new MockEnvironment();
+
         @Test
         @DisplayName("returns false if unset")
         void unset() {
-            assertThat(isGlobalEnabled()).isFalse();
+            assertThat(isGlobalEnabled(environment)).isFalse();
         }
 
         @Test
         @DisplayName("returns the set value of true")
-        @SetSystemProperty(key = "org.springframework.cloud.bindings.boot.enable", value = "true")
         void setTrue() {
-            assertThat(isGlobalEnabled()).isTrue();
+            environment.setProperty("org.springframework.cloud.bindings.boot.enable", "true");
+            assertThat(isGlobalEnabled(environment)).isTrue();
         }
 
         @Test
         @DisplayName("returns the set value of false")
-        @SetSystemProperty(key = "org.springframework.cloud.bindings.boot.enable", value = "false")
         void setFalse() {
-            assertThat(isGlobalEnabled()).isFalse();
+            environment.setProperty("org.springframework.cloud.bindings.boot.enable", "false");
+            assertThat(isGlobalEnabled(environment)).isFalse();
         }
 
     }
@@ -58,24 +60,26 @@ final class GuardsTest {
     @DisplayName("Kind Guard")
     final class KindGuard {
 
+        private final MockEnvironment environment = new MockEnvironment();
+
         @Test
         @DisplayName("returns true if unset")
         void unset() {
-            assertThat(isKindEnabled("Test")).isTrue();
+            assertThat(isKindEnabled(environment, "Test")).isTrue();
         }
 
         @Test
         @DisplayName("returns the set value of true")
-        @SetSystemProperty(key = "org.springframework.cloud.bindings.boot.test.enable", value = "true")
         void setTrue() {
-            assertThat(isKindEnabled("Test")).isTrue();
+            environment.setProperty("org.springframework.cloud.bindings.boot.test.enable", "true");
+            assertThat(isKindEnabled(environment, "Test")).isTrue();
         }
 
         @Test
         @DisplayName("returns the set value of false")
-        @SetSystemProperty(key = "org.springframework.cloud.bindings.boot.test.enable", value = "false")
         void setFalse() {
-            assertThat(isKindEnabled("Test")).isFalse();
+            environment.setProperty("org.springframework.cloud.bindings.boot.test.enable", "false");
+            assertThat(isKindEnabled(environment, "Test")).isFalse();
         }
 
     }

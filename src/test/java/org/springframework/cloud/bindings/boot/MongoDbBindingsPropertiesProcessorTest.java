@@ -18,10 +18,10 @@ package org.springframework.cloud.bindings.boot;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junitpioneer.jupiter.SetSystemProperty;
 import org.springframework.cloud.bindings.Binding;
 import org.springframework.cloud.bindings.Bindings;
 import org.springframework.cloud.bindings.FluentMap;
+import org.springframework.mock.env.MockEnvironment;
 
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -41,21 +41,25 @@ final class MongoDbBindingsPropertiesProcessorTest {
             )
     );
 
+    private final MockEnvironment environment = new MockEnvironment();
+
     private final HashMap<String, Object> properties = new HashMap<>();
 
     @Test
     @DisplayName("contributes properties")
     void test() {
-        new MongoDbBindingsPropertiesProcessor().process(bindings, properties);
+        new MongoDbBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties)
                 .containsEntry("spring.mongodb.uri", "test-uri");
     }
 
     @Test
     @DisplayName("can be disabled")
-    @SetSystemProperty(key = "org.springframework.cloud.bindings.boot.mongodb.enable", value = "false")
     void disabled() {
-        new MongoDbBindingsPropertiesProcessor().process(bindings, properties);
+        environment.setProperty("org.springframework.cloud.bindings.boot.mongodb.enable", "false");
+
+        new MongoDbBindingsPropertiesProcessor().process(environment, bindings, properties);
+
         assertThat(properties).isEmpty();
     }
 

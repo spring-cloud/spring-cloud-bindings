@@ -18,10 +18,10 @@ package org.springframework.cloud.bindings.boot;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junitpioneer.jupiter.SetSystemProperty;
 import org.springframework.cloud.bindings.Binding;
 import org.springframework.cloud.bindings.Bindings;
 import org.springframework.cloud.bindings.FluentMap;
+import org.springframework.mock.env.MockEnvironment;
 
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -45,12 +45,14 @@ final class OracleBindingsPropertiesProcessorTest {
             )
     );
 
+    private final MockEnvironment environment = new MockEnvironment();
+
     private final HashMap<String, Object> properties = new HashMap<>();
 
     @Test
     @DisplayName("contributes properties")
     void test() {
-        new OracleBindingsPropertiesProcessor().process(bindings, properties);
+        new OracleBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties)
                 .containsEntry("spring.datasource.driver-class-name", "oracle.jdbc.OracleDriver")
                 .containsEntry("spring.datasource.password", "test-password")
@@ -60,9 +62,11 @@ final class OracleBindingsPropertiesProcessorTest {
 
     @Test
     @DisplayName("can be disabled")
-    @SetSystemProperty(key = "org.springframework.cloud.bindings.boot.oracle.enable", value = "false")
     void disabled() {
-        new OracleBindingsPropertiesProcessor().process(bindings, properties);
+        environment.setProperty("org.springframework.cloud.bindings.boot.oracle.enable", "false");
+
+        new OracleBindingsPropertiesProcessor().process(environment, bindings, properties);
+
         assertThat(properties).isEmpty();
     }
 

@@ -17,10 +17,7 @@
 package org.springframework.cloud.bindings.boot;
 
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junitpioneer.jupiter.ClearSystemProperty;
-import org.junitpioneer.jupiter.SetSystemProperty;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.context.config.ConfigFileApplicationListener;
 import org.springframework.cloud.bindings.Binding;
@@ -37,58 +34,52 @@ final class BindingFlattenedEnvironmentPostProcessorTest {
 
     private final SpringApplication application = new SpringApplication();
 
-    private final MockEnvironment environment = new MockEnvironment();
+    private final MockEnvironment environment = new MockEnvironment()
+            .withProperty("org.springframework.cloud.bindings.boot.enable", "true");
 
     @Test
     @DisplayName("is disabled by default")
-    @ClearSystemProperty(key = "org.springframework.cloud.bindings.boot.enable")
     void disabledByDefault() {
         new BindingFlattenedEnvironmentPostProcessor(
                 new Bindings(
                         new Binding("test-name", Paths.get("test-path"),
                                 Collections.emptyMap(), Collections.emptyMap())
                 )
-        ).postProcessEnvironment(environment, application);
+        ).postProcessEnvironment(new MockEnvironment(), application);
 
         assertThat(environment.getPropertySources()).hasSize(1);
     }
 
-    @Nested
-    @DisplayName("when enabled")
-    @SetSystemProperty(key = "org.springframework.cloud.bindings.boot.enable", value = "true")
-    final class Enabled {
 
-        @Test
-        @DisplayName("does not create PropertySource if no bindings")
-        void noBindings() {
-            new BindingFlattenedEnvironmentPostProcessor(new Bindings()).postProcessEnvironment(environment, application);
+    @Test
+    @DisplayName("does not create PropertySource if no bindings")
+    void noBindings() {
+        new BindingFlattenedEnvironmentPostProcessor(new Bindings()).postProcessEnvironment(environment, application);
 
-            assertThat(environment.getPropertySources()).hasSize(1);
-        }
+        assertThat(environment.getPropertySources()).hasSize(1);
+    }
 
-        @Test
-        @DisplayName("creates PropertySource with properties")
-        void containsProperties() {
-            new BindingFlattenedEnvironmentPostProcessor(
-                    new Bindings(
-                            new Binding("test-name", Paths.get("test-path"),
-                                    Collections.singletonMap("test-metadata-key", "test-metadata-value"),
-                                    Collections.singletonMap("test-secret-key", "test-secret-value"))
-                    )
-            ).postProcessEnvironment(environment, application);
+    @Test
+    @DisplayName("creates PropertySource with properties")
+    void containsProperties() {
+        new BindingFlattenedEnvironmentPostProcessor(
+                new Bindings(
+                        new Binding("test-name", Paths.get("test-path"),
+                                Collections.singletonMap("test-metadata-key", "test-metadata-value"),
+                                Collections.singletonMap("test-secret-key", "test-secret-value"))
+                )
+        ).postProcessEnvironment(environment, application);
 
-            assertThat(environment.getPropertySources()).hasSize(2);
-            assertThat(environment.getProperty("cnb.bindings.test-name.metadata.test-metadata-key")).isEqualTo("test-metadata-value");
-            assertThat(environment.getProperty("cnb.bindings.test-name.secret.test-secret-key")).isEqualTo("test-secret-value");
-        }
+        assertThat(environment.getPropertySources()).hasSize(2);
+        assertThat(environment.getProperty("cnb.bindings.test-name.metadata.test-metadata-key")).isEqualTo("test-metadata-value");
+        assertThat(environment.getProperty("cnb.bindings.test-name.secret.test-secret-key")).isEqualTo("test-secret-value");
+    }
 
-        @Test
-        @DisplayName("has order before ConfigFileApplicationListener")
-        void order() {
-            assertThat(new BindingFlattenedEnvironmentPostProcessor(new Bindings()).getOrder())
-                    .isLessThan(ConfigFileApplicationListener.DEFAULT_ORDER);
-        }
-
+    @Test
+    @DisplayName("has order before ConfigFileApplicationListener")
+    void order() {
+        assertThat(new BindingFlattenedEnvironmentPostProcessor(new Bindings()).getOrder())
+                .isLessThan(ConfigFileApplicationListener.DEFAULT_ORDER);
     }
 
 }

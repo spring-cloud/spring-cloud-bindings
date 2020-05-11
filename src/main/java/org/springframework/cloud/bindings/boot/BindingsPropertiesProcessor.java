@@ -17,6 +17,7 @@
 package org.springframework.cloud.bindings.boot;
 
 import org.springframework.cloud.bindings.Bindings;
+import org.springframework.core.env.Environment;
 
 import java.util.Map;
 
@@ -30,9 +31,10 @@ public interface BindingsPropertiesProcessor {
     /**
      * Transform the currently accumulated {@link Bindings}-related properties.
      *
-     * @param bindings   the {@code Bindings} exposed to the application.
-     * @param properties the currently accumulated properties.
+     * @param environment the {@link Environment} that the processor is executing with.
+     * @param bindings    the {@code Bindings} exposed to the application.
+     * @param properties  the currently accumulated properties.
      */
-    void process(Bindings bindings, Map<String, Object> properties);
+    void process(Environment environment, Bindings bindings, Map<String, Object> properties);
 
 }

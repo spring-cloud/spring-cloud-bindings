@@ -23,7 +23,6 @@ import org.springframework.boot.context.config.ConfigFileApplicationListener;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.cloud.bindings.Bindings;
 import org.springframework.core.Ordered;
-import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.PropertySource;
 import org.springframework.core.io.support.SpringFactoriesLoader;
@@ -66,7 +65,6 @@ public final class BindingSpecificEnvironmentPostProcessor implements Environmen
         this.bindings = new Bindings();
         this.processors = SpringFactoriesLoader.
                 loadFactories(BindingsPropertiesProcessor.class, getClass().getClassLoader());
-        AnnotationAwareOrderComparator.sort(this.processors);
     }
 
     BindingSpecificEnvironmentPostProcessor(Bindings bindings, BindingsPropertiesProcessor... processors) {
@@ -76,7 +74,7 @@ public final class BindingSpecificEnvironmentPostProcessor implements Environmen
 
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
-        if (!isGlobalEnabled()) {
+        if (!isGlobalEnabled(environment)) {
             return;
         }
 
@@ -86,7 +84,7 @@ public final class BindingSpecificEnvironmentPostProcessor implements Environmen
         }
 
         Map<String, Object> properties = new HashMap<>();
-        processors.forEach(processor -> processor.process(bindings, properties));
+        processors.forEach(processor -> processor.process(environment, bindings, properties));
         if (properties.isEmpty()) {
             log.debug("No properties set from CNB Bindings. Skipping PropertySource creation.");
             return;
