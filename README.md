@@ -38,9 +38,13 @@ Disable Property: `org.springframework.cloud.bindings.boot.cassandra.enable`
 
 | Property | Value
 | -------- | -----
-| `spring.data.cassandra.contact-points` | `{secret.node_ips}`
+| `spring.data.cassandra.cluster-name` | `{secret.cluster-name}`
+| `spring.data.cassandra.compression` | `{secret.compression}`
+| `spring.data.cassandra.contact-points` | `{secret.contact-points}`
+| `spring.data.cassandra.keyspace-name` | `{secret.keyspace-name}`
 | `spring.data.cassandra.password` | `{secret.password}`
 | `spring.data.cassandra.port` | `{secret.port}`
+| `spring.data.cassandra.ssl` | `{secret.ssl}`
 | `spring.data.cassandra.username` | `{secret.username}`
 
 ### DB2 RDBMS
