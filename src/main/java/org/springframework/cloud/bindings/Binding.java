@@ -15,8 +15,6 @@
  */
 package org.springframework.cloud.bindings;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -42,7 +40,7 @@ public final class Binding {
     /**
      * Creates a new {@code Binding} instance using the specified file system root.
      */
-    public Binding(@NotNull Path path) {
+    public Binding(Path path) {
         this.name = path.getFileName().toString();
         this.path = path;
         this.metadata = createFilePerEntryMap(path.resolve("metadata"));
@@ -57,9 +55,7 @@ public final class Binding {
      * @param metadata the metadata of the {@code Binding}.
      * @param secret   the secret of the {@code Binding}.
      */
-    public Binding(@NotNull String name, @NotNull Path path, @NotNull Map<String, String> metadata,
-                   @NotNull Map<String, String> secret) {
-
+    public Binding(String name, Path path, Map<String, String> metadata, Map<String, String> secret) {
         this.name = name;
         this.path = path;
         this.metadata = metadata;
@@ -69,42 +65,42 @@ public final class Binding {
     /**
      * Returns the name of the binding.
      */
-    public @NotNull String getName() {
+    public String getName() {
         return name;
     }
 
     /**
      * Returns the path of the binding.
      */
-    public @NotNull Path getPath() {
+    public Path getPath() {
         return path;
     }
 
     /**
      * Returns the metadata of the binding.
      */
-    public @NotNull Map<String, String> getMetadata() {
+    public Map<String, String> getMetadata() {
         return metadata;
     }
 
     /**
      * Returns the secret of the binding.
      */
-    public @NotNull Map<String, String> getSecret() {
+    public Map<String, String> getSecret() {
         return secret;
     }
 
     /**
      * Returns the kind of the binding.  Equivalent to {@code getMetadata().get("kind")}.
      */
-    public @NotNull String getKind() {
+    public String getKind() {
         return metadata.get("kind");
     }
 
     /**
      * Returns the provider of the binding.  Equivalent to {@code getMetadata().get("provider")}.
      */
-    public @NotNull String getProvider() {
+    public String getProvider() {
         return metadata.get("provider");
     }
 
@@ -113,7 +109,7 @@ public final class Binding {
      *
      * @param name the name of the metadata key.
      */
-    public @NotNull Path getMetadataFilePath(@NotNull String name) {
+    public Path getMetadataFilePath(String name) {
         return this.path.resolve("metadata").resolve(name);
     }
 
@@ -122,7 +118,7 @@ public final class Binding {
      *
      * @param name the name of the secret key.
      */
-    public @NotNull Path getSecretFilePath(@NotNull String name) {
+    public Path getSecretFilePath(String name) {
         return this.path.resolve("secret").resolve(name);
     }
 
@@ -142,7 +138,7 @@ public final class Binding {
         return Objects.hash(name, path, metadata, secret);
     }
 
-    private @NotNull Map<String, String> createFilePerEntryMap(@NotNull Path path) {
+    private Map<String, String> createFilePerEntryMap(Path path) {
         try {
             return Files.list(path)
                     .collect(Collectors.toMap(

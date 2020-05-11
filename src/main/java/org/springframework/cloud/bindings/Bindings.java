@@ -15,14 +15,12 @@
  */
 package org.springframework.cloud.bindings;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.springframework.lang.Nullable;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -58,7 +56,7 @@ public final class Bindings {
      *
      * @param path the path to populate the {@code Bindings} from.
      */
-    public Bindings(String path) {
+    public Bindings(@Nullable String path) {
         if (path == null) {
             this.bindings = Collections.emptyList();
             return;
@@ -89,14 +87,14 @@ public final class Bindings {
      *
      * @param bindings the {@code Binding}s.
      */
-    public Bindings(@NotNull Binding... bindings) {
+    public Bindings(Binding... bindings) {
         this.bindings = Arrays.asList(bindings);
     }
 
     /**
      * Returns all the {@link Binding}s that were found during construction.
      */
-    public @NotNull List<Binding> getBindings() {
+    public List<Binding> getBindings() {
         return bindings;
     }
 
@@ -106,14 +104,12 @@ public final class Bindings {
      * @param name the name of the {@code Binding} to find.
      * @return the {@code Binding} with a given name if it exists, {@code null} otherwise.
      */
-    public @Nullable Binding findBinding(@NotNull String name) {
-        for (Binding binding : bindings) {
-            if (binding.getName().equalsIgnoreCase(name)) {
-                return binding;
-            }
-        }
-
-        return null;
+    @Nullable
+    public Binding findBinding(String name) {
+        return bindings.stream()
+                .filter(binding -> binding.getName().equalsIgnoreCase(name))
+                .findFirst()
+                .orElse(null);
     }
 
     /**
@@ -122,7 +118,7 @@ public final class Bindings {
      * @param kind the kind of the {@code Binding} to find.
      * @return the collection of {@code Binding}s with a given kind.
      */
-    public @NotNull List<Binding> filterBindings(@Nullable String kind) {
+    public List<Binding> filterBindings(@Nullable String kind) {
         return filterBindings(kind, null);
     }
 
@@ -134,18 +130,12 @@ public final class Bindings {
      * @param provider the provider of {@code Binding} to find
      * @return the collection of {@code Binding}s with a given kind and provider.
      */
-    public @NotNull List<Binding> filterBindings(@Nullable String kind, @Nullable String provider) {
-        List<Binding> filtered = new ArrayList<>();
-
-        for (Binding binding : bindings) {
-            if ((kind == null || binding.getKind().equalsIgnoreCase(kind)) &&
-                    (provider == null) || binding.getProvider().equalsIgnoreCase(provider)) {
-
-                filtered.add(binding);
-            }
-        }
-
-        return filtered;
+    public List<Binding> filterBindings(@Nullable String kind, @Nullable String provider) {
+        return bindings.stream()
+                .filter(binding ->
+                        (kind == null || binding.getKind().equalsIgnoreCase(kind)) &&
+                                (provider == null) || binding.getProvider().equalsIgnoreCase(provider))
+                .collect(Collectors.toList());
     }
 
 }
