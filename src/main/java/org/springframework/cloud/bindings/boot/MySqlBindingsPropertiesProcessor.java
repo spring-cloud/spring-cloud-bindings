@@ -16,10 +16,8 @@
 
 package org.springframework.cloud.bindings.boot;
 
-import org.jetbrains.annotations.NotNull;
 import org.springframework.cloud.bindings.Binding;
 import org.springframework.cloud.bindings.Bindings;
-import org.springframework.lang.NonNull;
 
 import java.util.Map;
 
@@ -38,7 +36,7 @@ public final class MySqlBindingsPropertiesProcessor implements BindingsPropertie
     public static final String KIND = "MySQL";
 
     @Override
-    public void process(@NonNull Bindings bindings, @NotNull Map<String, Object> properties) {
+    public void process(Bindings bindings, Map<String, Object> properties) {
         if (!isKindEnabled(KIND)) {
             return;
         }

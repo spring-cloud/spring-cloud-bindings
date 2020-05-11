@@ -14,19 +14,7 @@
  * limitations under the License.
  */
 
+@NonNullApi
 package org.springframework.cloud.bindings.boot;
 
-final class Guards {
-
-    static boolean isGlobalEnabled() {
-        String value = System.getProperty("org.springframework.cloud.bindings.boot.enable", "false");
-        return Boolean.parseBoolean(value);
-    }
-
-    static boolean isKindEnabled(String kind) {
-        String property = String.format("org.springframework.cloud.bindings.boot.%s.enable", kind.toLowerCase());
-        String value = System.getProperty(property, "true");
-        return Boolean.parseBoolean(value);
-    }
-
-}
+import org.springframework.lang.NonNullApi;

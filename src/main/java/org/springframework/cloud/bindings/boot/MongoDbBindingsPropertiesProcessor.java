@@ -18,7 +18,6 @@ package org.springframework.cloud.bindings.boot;
 
 import org.springframework.cloud.bindings.Binding;
 import org.springframework.cloud.bindings.Bindings;
-import org.springframework.lang.NonNull;
 
 import java.util.Map;
 
@@ -35,7 +34,7 @@ public final class MongoDbBindingsPropertiesProcessor implements BindingsPropert
     public static final String KIND = "MongoDB";
 
     @Override
-    public void process(@NonNull Bindings bindings, @NonNull Map<String, Object> properties) {
+    public void process(Bindings bindings, Map<String, Object> properties) {
         if (!isKindEnabled(KIND)) {
             return;
         }

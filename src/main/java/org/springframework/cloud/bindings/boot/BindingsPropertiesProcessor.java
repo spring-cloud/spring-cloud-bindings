@@ -17,7 +17,6 @@
 package org.springframework.cloud.bindings.boot;
 
 import org.springframework.cloud.bindings.Bindings;
-import org.springframework.lang.NonNull;
 
 import java.util.Map;
 
@@ -34,6 +33,6 @@ public interface BindingsPropertiesProcessor {
      * @param bindings   the {@code Bindings} exposed to the application.
      * @param properties the currently accumulated properties.
      */
-    void process(@NonNull Bindings bindings, @NonNull Map<String, Object> properties);
+    void process(Bindings bindings, Map<String, Object> properties);
 
 }
