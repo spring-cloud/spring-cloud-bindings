@@ -22,7 +22,7 @@ import org.springframework.lang.NonNull;
 
 import java.util.Map;
 
-import static org.springframework.cloud.bindings.boot.KindGuard.isKindEnabled;
+import static org.springframework.cloud.bindings.boot.Guards.isKindEnabled;
 
 /**
  * An implementation of {@link BindingsPropertiesProcessor} that detects {@link Binding}s of kind: {@value KIND}.

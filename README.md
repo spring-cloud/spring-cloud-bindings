@@ -30,7 +30,7 @@ The more common usage of the library is opt-in automatic Spring Boot configurati
 * Adds a `PropertySource` with binding-specific Spring Boot configuration properties.
 
 ## Auto-Configurations
-Each auto-configuration is triggered by the kind of binding.  Each auto-configuration can be disabled using a System Property specific to that kind and defaults to enable.
+Each auto-configuration is triggered by the kind of binding.  Each auto-configuration can be disabled using a System Property specific to that kind and defaults to enable. Auto-configuration is disabled by default and can be enabled by setting the `org.springframework.cloud.bindings.boot.enable` System Property to `true`.
 
 ### Cassandra
 Kind: `cassandra`

@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.springframework.cloud.bindings.boot.Guards.isGlobalEnabled;
 import static org.springframework.core.env.CommandLinePropertySource.COMMAND_LINE_PROPERTY_SOURCE_NAME;
 
 /**
@@ -43,6 +44,8 @@ import static org.springframework.core.env.CommandLinePropertySource.COMMAND_LIN
  * This implementation generates a single instance of {@code Bindings} and then calls all implementations of
  * {@link BindingsPropertiesProcessor} registered with {@link SpringFactoriesLoader} allowing them to generate any
  * properties from the contents of the {@code Bindings}.
+ * <p>
+ * Must be enabled by setting the {@code org.springframework.cloud.bindings.boot.enable} System Property to {@code true}.
  */
 public final class BindingsEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
 
@@ -78,6 +81,10 @@ public final class BindingsEnvironmentPostProcessor implements EnvironmentPostPr
     @Override
     public void postProcessEnvironment(@NotNull ConfigurableEnvironment environment,
                                        @NotNull SpringApplication application) {
+
+        if (!isGlobalEnabled()) {
+            return;
+        }
 
         if (bindings.getBindings().isEmpty()) {
             log.debug("No CNB Bindings found. Skipping Environment post-processing.");

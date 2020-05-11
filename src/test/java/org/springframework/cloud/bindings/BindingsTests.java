@@ -31,7 +31,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 final class BindingsTests {
 
     @Nested
-    @DisplayName("Constructor")
+    @DisplayName("when constructed")
     final class Constructor {
 
         @Test
@@ -71,7 +71,7 @@ final class BindingsTests {
     }
 
     @Nested
-    @DisplayName("Content")
+    @DisplayName("with content")
     final class Content {
 
         private final Bindings bindings = new Bindings(
