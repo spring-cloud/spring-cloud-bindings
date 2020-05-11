@@ -37,7 +37,14 @@ final class MongoDbBindingsPropertiesProcessorTest {
             new Binding("test-name", Paths.get("test-path"),
                     Collections.singletonMap("kind", KIND),
                     new FluentMap()
+                            .withEntry("authentication-database", "test-authentication-database")
+                            .withEntry("database", "test-database")
+                            .withEntry("grid-fs-database", "test-grid-fs-database")
+                            .withEntry("host", "test-host")
+                            .withEntry("password", "test-password")
+                            .withEntry("port", "test-port")
                             .withEntry("uri", "test-uri")
+                            .withEntry("username", "test-username")
             )
     );
 
@@ -50,7 +57,14 @@ final class MongoDbBindingsPropertiesProcessorTest {
     void test() {
         new MongoDbBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties)
-                .containsEntry("spring.mongodb.uri", "test-uri");
+                .containsEntry("spring.mongodb.authentication-database", "test-authentication-database")
+                .containsEntry("spring.mongodb.database", "test-database")
+                .containsEntry("spring.mongodb.grid-fs-database", "test-grid-fs-database")
+                .containsEntry("spring.mongodb.host", "test-host")
+                .containsEntry("spring.mongodb.password", "test-password")
+                .containsEntry("spring.mongodb.port", "test-port")
+                .containsEntry("spring.mongodb.uri", "test-uri")
+                .containsEntry("spring.mongodb.username", "test-username");
     }
 
     @Test
