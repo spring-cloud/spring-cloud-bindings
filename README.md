@@ -64,7 +64,14 @@ Disable Property: `org.springframework.cloud.bindings.boot.mongodb.enable`
 
 | Property | Value
 | -------- | -----
+| `spring.mongodb.authentication-database` | `{secret.authentication-database}`
+| `spring.mongodb.database` | `{secret.database}`
+| `spring.mongodb.grid-fs-database` | `{secret.grid-fs-database}`
+| `spring.mongodb.host` | `{secret.host}`
+| `spring.mongodb.password` | `{secret.password}`
+| `spring.mongodb.port` | `{secret.port}`
 | `spring.mongodb.uri` | `{secret.uri}`
+| `spring.mongodb.username` | `{secret.username}`
 
 ### MySQL RDBMS
 Kind: `MySQL`
