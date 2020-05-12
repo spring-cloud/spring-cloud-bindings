@@ -91,6 +91,17 @@ Disable Property: `org.springframework.cloud.bindings.boot.elasticsearch.enable`
 | `spring.elasticsearch.rest.uris` | `{uris}`
 | `spring.elasticsearch.rest.username` | `{username}`
 
+### Kafka
+Kind: `kafka`
+Disable Property: `org.springframework.cloud.bindings.boot.kafka.enable`
+
+| Property | Value (`{secret}`)
+| -------- | ------------------
+| `spring.kafka.bootstrap-servers` | `{bootstrap-servers}`
+| `spring.kafka.consumer.bootstrap-servers` | `{consumer.bootstrap-servers}`
+| `spring.kafka.producer.bootstrap-servers` | `{producer.bootstrap-servers}`
+| `spring.kafka.streams.bootstrap-servers` | `{streams.bootstrap-servers}`
+
 ### MongoDB
 Kind: `MongoDB`
 Disable Property: `org.springframework.cloud.bindings.boot.mongodb.enable`
