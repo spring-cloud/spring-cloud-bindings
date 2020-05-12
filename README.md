@@ -149,6 +149,19 @@ Disable Property: `org.springframework.cloud.bindings.boot.postgresql.enable`
 | `spring.datasource.url` | `jdbc:postgres://{host}:{port}/{database}`
 | `spring.datasource.username` | `{username}`
 
+### RabbitMQ RDBMS
+Kind: `RabbitMQ`
+Disable Property: `org.springframework.cloud.bindings.boot.rabbitmq.enable`
+
+| Property | Value (`{secret}`)
+| -------- | ------------------
+| `spring.rabbitmq.addresses` | `{addresses}`
+| `spring.rabbitmq.host` | `{host}`
+| `spring.rabbitmq.password` | `{password}`
+| `spring.rabbitmq.port` | `{port}`
+| `spring.rabbitmq.username` | `{username}`
+| `spring.rabbitmq.virtual-host` | `{virtual-host}`
+
 ### Redis RDBMS
 Kind: `Redis`
 Disable Property: `org.springframework.cloud.bindings.boot.redis.enable`
