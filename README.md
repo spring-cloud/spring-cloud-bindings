@@ -36,171 +36,171 @@ Each auto-configuration is triggered by the kind of binding.  Each auto-configur
 Kind: `cassandra`
 Disable Property: `org.springframework.cloud.bindings.boot.cassandra.enable`
 
-| Property | Value (`{secret}`)
+| Property | Value
 | -------- | ------------------
-| `spring.data.cassandra.cluster-name` | `{cluster-name}`
-| `spring.data.cassandra.compression` | `{compression}`
-| `spring.data.cassandra.contact-points` | `{contact-points}`
-| `spring.data.cassandra.keyspace-name` | `{keyspace-name}`
-| `spring.data.cassandra.password` | `{password}`
-| `spring.data.cassandra.port` | `{port}`
-| `spring.data.cassandra.ssl` | `{ssl}`
-| `spring.data.cassandra.username` | `{username}`
+| `spring.data.cassandra.cluster-name` | `{secret/cluster-name}`
+| `spring.data.cassandra.compression` | `{secret/compression}`
+| `spring.data.cassandra.contact-points` | `{secret/contact-points}`
+| `spring.data.cassandra.keyspace-name` | `{secret/keyspace-name}`
+| `spring.data.cassandra.password` | `{secret/password}`
+| `spring.data.cassandra.port` | `{secret/port}`
+| `spring.data.cassandra.ssl` | `{secret/ssl}`
+| `spring.data.cassandra.username` | `{secret/username}`
 
 ### Couchbase
 Kind: `couchbase`
 Disable Property: `org.springframework.cloud.bindings.boot.couchbase.enable`
 
-| Property | Value (`{secret}`)
+| Property | Value
 | -------- | ------------------
-| `spring.couchbase.bootstrap-hosts` | `{bootstrap-hosts}`
-| `spring.couchbase.bucket.name` | `{bucket.name}`
-| `spring.couchbase.bucket.password` | `{bucket.passsword}`
-| `spring.couchbase.env.bootstrap.http-direct-port` | `{env.bootstrap.http-direct-port}`
-| `spring.couchbase.env.bootstrap.http-ssl-port` | `{env.bootstrap.http-ssl-port}`
-| `spring.couchbase.password` | `{password}`
-| `spring.couchbase.username` | `{username}`
+| `spring.couchbase.bootstrap-hosts` | `{secret/bootstrap-hosts}`
+| `spring.couchbase.bucket.name` | `{secret/bucket.name}`
+| `spring.couchbase.bucket.password` | `{secret/bucket.passsword}`
+| `spring.couchbase.env.bootstrap.http-direct-port` | `{secret/env.bootstrap.http-direct-port}`
+| `spring.couchbase.env.bootstrap.http-ssl-port` | `{secret/env.bootstrap.http-ssl-port}`
+| `spring.couchbase.password` | `{secret/password}`
+| `spring.couchbase.username` | `{secret/username}`
 
 ### DB2 RDBMS
 Kind: `DB2`
 Disable Property: `org.springframework.cloud.bindings.boot.db2.enable`
 
-| Property | Value (`{secret}`)
+| Property | Value
 | -------- | ------------------
 | `spring.datasource.driver-class-name` | `com.ibm.db2.jcc.DB2Driver`
-| `spring.datasource.password` | `{password}`
-| `spring.datasource.url` | `jdbc:db2://{host}:{port}/{database}`
-| `spring.datasource.username` | `{username}`
+| `spring.datasource.password` | `{secret/password}`
+| `spring.datasource.url` | `jdbc:db2://{secret/host}:{secret/port}/{secret/database}`
+| `spring.datasource.username` | `{secret/username}`
 
 
 ### Elasticsearch
 Kind: `Elasticsearch`
 Disable Property: `org.springframework.cloud.bindings.boot.elasticsearch.enable`
 
-| Property | Value (`{secret}`)
+| Property | Value
 | -------- | ------------------
-| `spring.data.elasticsearch.client.reactive.endpoints` | `{endpoints}`
-| `spring.data.elasticsearch.client.reactive.password` | `{password}`
-| `spring.data.elasticsearch.client.reactive.use-ssl` | `{use-ssl}`
-| `spring.data.elasticsearch.client.reactive.username` | `{username}`
-| `spring.elasticsearch.jest.password` | `{password}`
-| `spring.elasticsearch.jest.proxy.host` | `{proxy.host}`
-| `spring.elasticsearch.jest.proxy.port` | `{proxy.port}`
-| `spring.elasticsearch.jest.username` | `{username}`
-| `spring.elasticsearch.rest.password` | `{password}`
-| `spring.elasticsearch.rest.uris` | `{uris}`
-| `spring.elasticsearch.rest.username` | `{username}`
+| `spring.data.elasticsearch.client.reactive.endpoints` | `{secret/endpoints}`
+| `spring.data.elasticsearch.client.reactive.password` | `{secret/password}`
+| `spring.data.elasticsearch.client.reactive.use-ssl` | `{secret/use-ssl}`
+| `spring.data.elasticsearch.client.reactive.username` | `{secret/username}`
+| `spring.elasticsearch.jest.password` | `{secret/password}`
+| `spring.elasticsearch.jest.proxy.host` | `{secret/proxy.host}`
+| `spring.elasticsearch.jest.proxy.port` | `{secret/proxy.port}`
+| `spring.elasticsearch.jest.username` | `{secret/username}`
+| `spring.elasticsearch.rest.password` | `{secret/password}`
+| `spring.elasticsearch.rest.uris` | `{secret/uris}`
+| `spring.elasticsearch.rest.username` | `{secret/username}`
 
 ### Kafka
 Kind: `kafka`
 Disable Property: `org.springframework.cloud.bindings.boot.kafka.enable`
 
-| Property | Value (`{secret}`)
+| Property | Value
 | -------- | ------------------
-| `spring.kafka.bootstrap-servers` | `{bootstrap-servers}`
-| `spring.kafka.consumer.bootstrap-servers` | `{consumer.bootstrap-servers}`
-| `spring.kafka.producer.bootstrap-servers` | `{producer.bootstrap-servers}`
-| `spring.kafka.streams.bootstrap-servers` | `{streams.bootstrap-servers}`
+| `spring.kafka.bootstrap-servers` | `{secret/bootstrap-servers}`
+| `spring.kafka.consumer.bootstrap-servers` | `{secret/consumer.bootstrap-servers}`
+| `spring.kafka.producer.bootstrap-servers` | `{secret/producer.bootstrap-servers}`
+| `spring.kafka.streams.bootstrap-servers` | `{secret/streams.bootstrap-servers}`
 
 ### MongoDB
 Kind: `MongoDB`
 Disable Property: `org.springframework.cloud.bindings.boot.mongodb.enable`
 
-| Property | Value (`{secret}`)
+| Property | Value
 | -------- | ------------------
-| `spring.mongodb.authentication-database` | `{authentication-database}`
-| `spring.mongodb.database` | `{database}`
-| `spring.mongodb.grid-fs-database` | `{grid-fs-database}`
-| `spring.mongodb.host` | `{host}`
-| `spring.mongodb.password` | `{password}`
-| `spring.mongodb.port` | `{port}`
-| `spring.mongodb.uri` | `{uri}`
-| `spring.mongodb.username` | `{username}`
+| `spring.mongodb.authentication-database` | `{secret/authentication-database}`
+| `spring.mongodb.database` | `{secret/database}`
+| `spring.mongodb.grid-fs-database` | `{secret/grid-fs-database}`
+| `spring.mongodb.host` | `{secret/host}`
+| `spring.mongodb.password` | `{secret/password}`
+| `spring.mongodb.port` | `{secret/port}`
+| `spring.mongodb.uri` | `{secret/uri}`
+| `spring.mongodb.username` | `{secret/username}`
 
 ### MySQL RDBMS
 Kind: `MySQL`
 Disable Property: `org.springframework.cloud.bindings.boot.mysql.enable`
 
-| Property | Value (`{secret}`)
+| Property | Value
 | -------- | ------------------
 | `spring.datasource.driver-class-name` | `org.mariadb.jdbc.Driver` or `com.mysql.cj.jdbc.Driver` depending on classpath
-| `spring.datasource.password` | `{password}`
-| `spring.datasource.url` | `jdbc:mysql://{host}:{port}/{database}`
-| `spring.datasource.username` | `{username}`
+| `spring.datasource.password` | `{secret/password}`
+| `spring.datasource.url` | `jdbc:mysql://{secret/host}:{secret/port}/{secret/database}`
+| `spring.datasource.username` | `{secret/username}`
 
 ### Neo4J
 Kind: `Neo4J`
 Disable Property: `org.springframework.cloud.bindings.boot.neo4j.enable`
 
-| Property | Value (`{secret}`)
+| Property | Value
 | -------- | ------------------
-| `spring.data.neo4j.password` | `{password}`
-| `spring.data.neo4j.uri` | `{uri}`
-| `spring.data.neo4j.username` | `{username}`
+| `spring.data.neo4j.password` | `{secret/password}`
+| `spring.data.neo4j.uri` | `{secret/uri}`
+| `spring.data.neo4j.username` | `{secret/username}`
 
 ### Oracle RDBMS
 Kind: `Oracle`
 Disable Property: `org.springframework.cloud.bindings.boot.oracle.enable`
 
-| Property | Value (`{secret}`)
+| Property | Value
 | -------- | ------------------
 | `spring.datasource.driver-class-name` | `oracle.jdbc.OracleDriver`
-| `spring.datasource.password` | `{password}`
-| `spring.datasource.url` | `jdbc:oracle://{host}:{port}/{database}`
-| `spring.datasource.username` | `{username}`
+| `spring.datasource.password` | `{secret/password}`
+| `spring.datasource.url` | `jdbc:oracle://{secret/host}:{secret/port}/{secret/database}`
+| `spring.datasource.username` | `{secret/username}`
 
 ### PostgreSQL RDBMS
 Kind: `PostgreSQL`
 Disable Property: `org.springframework.cloud.bindings.boot.postgresql.enable`
 
-| Property | Value (`{secret}`)
+| Property | Value
 | -------- | ------------------
 | `spring.datasource.driver-class-name` | `org.postgresql.Driver`
-| `spring.datasource.password` | `{password}`
-| `spring.datasource.url` | `jdbc:postgres://{host}:{port}/{database}`
-| `spring.datasource.username` | `{username}`
+| `spring.datasource.password` | `{secret/password}`
+| `spring.datasource.url` | `jdbc:postgres://{secret/host}:{secret/port}/{secret/database}`
+| `spring.datasource.username` | `{secret/username}`
 
 ### RabbitMQ RDBMS
 Kind: `RabbitMQ`
 Disable Property: `org.springframework.cloud.bindings.boot.rabbitmq.enable`
 
-| Property | Value (`{secret}`)
+| Property | Value
 | -------- | ------------------
-| `spring.rabbitmq.addresses` | `{addresses}`
-| `spring.rabbitmq.host` | `{host}`
-| `spring.rabbitmq.password` | `{password}`
-| `spring.rabbitmq.port` | `{port}`
-| `spring.rabbitmq.username` | `{username}`
-| `spring.rabbitmq.virtual-host` | `{virtual-host}`
+| `spring.rabbitmq.addresses` | `{secret/addresses}`
+| `spring.rabbitmq.host` | `{secret/host}`
+| `spring.rabbitmq.password` | `{secret/password}`
+| `spring.rabbitmq.port` | `{secret/port}`
+| `spring.rabbitmq.username` | `{secret/username}`
+| `spring.rabbitmq.virtual-host` | `{secret/virtual-host}`
 
 ### Redis RDBMS
 Kind: `Redis`
 Disable Property: `org.springframework.cloud.bindings.boot.redis.enable`
 
-| Property | Value (`{secret}`)
+| Property | Value
 | -------- | ------------------
-| `spring.redis.client-name` | `{client-name}`
-| `spring.redis.cluster.max-redirects` | `{cluster.max-redirects}`
-| `spring.redis.cluster.nodes` | `{cluster-nodes}`
-| `spring.redis.database` | `{database}`
-| `spring.redis.host` | `{host}`
-| `spring.redis.password` | `{password}`
-| `spring.redis.port` | `{port}`
-| `spring.redis.sentinel.master` | `{sentinel.master}`
-| `spring.redis.sentinel.nodes` | `{sentinel.nodes}`
-| `spring.redis.ssl` | `{ssl}`
-| `spring.redis.url` | `{url}`
+| `spring.redis.client-name` | `{secret/client-name}`
+| `spring.redis.cluster.max-redirects` | `{secret/cluster.max-redirects}`
+| `spring.redis.cluster.nodes` | `{secret/cluster-nodes}`
+| `spring.redis.database` | `{secret/database}`
+| `spring.redis.host` | `{secret/host}`
+| `spring.redis.password` | `{secret/password}`
+| `spring.redis.port` | `{secret/port}`
+| `spring.redis.sentinel.master` | `{secret/sentinel.master}`
+| `spring.redis.sentinel.nodes` | `{secret/sentinel.nodes}`
+| `spring.redis.ssl` | `{secret/ssl}`
+| `spring.redis.url` | `{secret/url}`
 
 ### SQLServer RDBMS
 Kind: `SQLServer`
 Disable Property: `org.springframework.cloud.bindings.boot.sqlserver.enable`
 
-| Property | Value (`{secret}`)
+| Property | Value
 | -------- | ------------------
 | `spring.datasource.driver-class-name` | `com.microsoft.sqlserver.jdbc.SQLServerDriver`
-| `spring.datasource.password` | `{password}`
-| `spring.datasource.url` | `jdbc:sqlserver://{host}:{port}/{database}`
-| `spring.datasource.username` | `{username}`
+| `spring.datasource.password` | `{secret/password}`
+| `spring.datasource.url` | `jdbc:sqlserver://{secret/host}:{secret/port}/{secret/database}`
+| `spring.datasource.username` | `{secret/username}`
 
 ## License
 This buildpack is released under version 2.0 of the [Apache License][a].
