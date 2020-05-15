@@ -31,7 +31,7 @@ final class KafkaBindingsPropertiesProcessor implements BindingsPropertiesProces
     /**
      * The {@link Binding} kind that this processor is interested in: {@value}.
      **/
-    public static final String KIND = "Cassandra";
+    public static final String KIND = "Kafka";
 
     @Override
     public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {
