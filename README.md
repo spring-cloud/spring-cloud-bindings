@@ -202,6 +202,16 @@ Disable Property: `org.springframework.cloud.bindings.boot.sqlserver.enable`
 | `spring.datasource.url` | `jdbc:sqlserver://{secret/host}:{secret/port}/{secret/database}`
 | `spring.datasource.username` | `{secret/username}`
 
+### Wavefront
+
+Kind: `Wavefront`
+Disable Property: `org.springframework.cloud.bindings.boot.wavefront.enable`
+
+| Property | Value
+| -------- | ------------------
+| `management.metrics.export.wavefront.api-token` | `{secret/api-token}`
+| `management.metrics.export.wavefront.uri` | `{secret/uri}`
+
 ## License
 This buildpack is released under version 2.0 of the [Apache License][a].
 
