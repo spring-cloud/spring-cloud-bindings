@@ -16,12 +16,13 @@
 
 package org.springframework.cloud.bindings.boot;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.context.config.ConfigFileApplicationListener;
+import org.springframework.boot.context.event.ApplicationPreparedEvent;
 import org.springframework.boot.env.EnvironmentPostProcessor;
+import org.springframework.boot.logging.DeferredLog;
 import org.springframework.cloud.bindings.Bindings;
+import org.springframework.context.ApplicationListener;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.PropertySource;
@@ -44,7 +45,8 @@ import static org.springframework.cloud.bindings.boot.PropertySourceContributor.
  * Must be enabled by setting the {@code org.springframework.cloud.bindings.boot.enable} System Property to
  * {@code true}.
  */
-public final class BindingSpecificEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
+public final class BindingSpecificEnvironmentPostProcessor implements ApplicationListener<ApplicationPreparedEvent>,
+        EnvironmentPostProcessor, Ordered {
 
     /**
      * The name of the {@link PropertySource} created by the {@code BindingsEnvironmentPostProcessor}: {@value}.
@@ -53,7 +55,7 @@ public final class BindingSpecificEnvironmentPostProcessor implements Environmen
 
     final List<BindingsPropertiesProcessor> processors;
 
-    private final Log log = LogFactory.getLog(getClass());
+    private final DeferredLog log = new DeferredLog();
 
     private final Bindings bindings;
 
@@ -70,6 +72,17 @@ public final class BindingSpecificEnvironmentPostProcessor implements Environmen
     BindingSpecificEnvironmentPostProcessor(Bindings bindings, BindingsPropertiesProcessor... processors) {
         this.bindings = bindings;
         this.processors = Arrays.asList(processors);
+    }
+
+    @Override
+    public int getOrder() {
+        // Before ConfigFileApplicationListener so values there can use values from {@link Bindings}.
+        return ConfigFileApplicationListener.DEFAULT_ORDER - 1;
+    }
+
+    @Override
+    public void onApplicationEvent(ApplicationPreparedEvent event) {
+        this.log.switchTo(getClass());
     }
 
     @Override
@@ -92,12 +105,6 @@ public final class BindingSpecificEnvironmentPostProcessor implements Environmen
 
         log.info("Creating binding-specific PropertySource from CNB Bindings");
         contributePropertySource(BINDING_SPECIFIC_PROPERTY_SOURCE_NAME, properties, environment);
-    }
-
-    @Override
-    public int getOrder() {
-        // Before ConfigFileApplicationListener so values there can use values from {@link Bindings}.
-        return ConfigFileApplicationListener.DEFAULT_ORDER - 1;
     }
 
 }

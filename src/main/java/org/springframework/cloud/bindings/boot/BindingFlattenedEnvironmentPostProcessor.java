@@ -16,12 +16,13 @@
 
 package org.springframework.cloud.bindings.boot;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.context.config.ConfigFileApplicationListener;
+import org.springframework.boot.context.event.ApplicationPreparedEvent;
 import org.springframework.boot.env.EnvironmentPostProcessor;
+import org.springframework.boot.logging.DeferredLog;
 import org.springframework.cloud.bindings.Bindings;
+import org.springframework.context.ApplicationListener;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.ConfigurableEnvironment;
 
@@ -34,11 +35,12 @@ import static org.springframework.cloud.bindings.boot.PropertySourceContributor.
  * An implementation of {@link EnvironmentPostProcessor} that generates properties from {@link Bindings} with a
  * flattened format: {@code cnb.bindings.{name}.{metadata,secret}.*}.
  */
-public final class BindingFlattenedEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
+public final class BindingFlattenedEnvironmentPostProcessor implements ApplicationListener<ApplicationPreparedEvent>,
+        EnvironmentPostProcessor, Ordered {
 
     public static final String BINDING_FLATTENED_PROPERTY_SOURCE_NAME = "cnbBindingFlattened";
 
-    private final Log log = LogFactory.getLog(getClass());
+    private final DeferredLog log = new DeferredLog();
 
     private final Bindings bindings;
 
@@ -52,6 +54,17 @@ public final class BindingFlattenedEnvironmentPostProcessor implements Environme
 
     BindingFlattenedEnvironmentPostProcessor(Bindings bindings) {
         this.bindings = bindings;
+    }
+
+    @Override
+    public int getOrder() {
+        // Before ConfigFileApplicationListener so values there can use values from {@link Bindings}.
+        return ConfigFileApplicationListener.DEFAULT_ORDER - 1;
+    }
+
+    @Override
+    public void onApplicationEvent(ApplicationPreparedEvent event) {
+        this.log.switchTo(getClass());
     }
 
     @Override
@@ -73,12 +86,6 @@ public final class BindingFlattenedEnvironmentPostProcessor implements Environme
 
         log.info("Creating flattened PropertySource from CNB Bindings");
         contributePropertySource(BINDING_FLATTENED_PROPERTY_SOURCE_NAME, properties, environment);
-    }
-
-    @Override
-    public int getOrder() {
-        // Before ConfigFileApplicationListener so values there can use values from {@link Bindings}.
-        return ConfigFileApplicationListener.DEFAULT_ORDER - 1;
     }
 
 }
