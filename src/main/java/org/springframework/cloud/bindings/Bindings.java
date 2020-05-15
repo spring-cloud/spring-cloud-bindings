@@ -134,7 +134,7 @@ public final class Bindings {
         return bindings.stream()
                 .filter(binding ->
                         (kind == null || binding.getKind().equalsIgnoreCase(kind)) &&
-                                (provider == null) || binding.getProvider().equalsIgnoreCase(provider))
+                                (provider == null || binding.getProvider().equalsIgnoreCase(provider)))
                 .collect(Collectors.toList());
     }
 
