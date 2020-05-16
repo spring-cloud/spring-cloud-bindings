@@ -6,7 +6,7 @@
 
     <groupId>org.springframework.cloud</groupId>
     <artifactId>bindings</artifactId>
-    <version>0.0.1.BUILD-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
 
     <name>Spring Cloud Cloud Native Buildpacks Bindings</name>
     <description>Java Library and Auto-configuration for Cloud Native Buildpack Bindings</description>
@@ -26,7 +26,7 @@
     <properties>
         <java.version>1.8</java.version>
         <jsr305.version>3.0.2</jsr305.version>
-        <spring-boot.version>2.2.7.RELEASE</spring-boot.version>
+        <spring-boot.version>2.3.0.RELEASE</spring-boot.version>
 
         <!-- Plugins -->
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>

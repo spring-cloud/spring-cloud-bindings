@@ -53,9 +53,9 @@ public final class BindingSpecificEnvironmentPostProcessor implements Applicatio
      */
     public static final String BINDING_SPECIFIC_PROPERTY_SOURCE_NAME = "cnbBindingSpecific";
 
-    final List<BindingsPropertiesProcessor> processors;
+    private static final DeferredLog LOG = new DeferredLog();
 
-    private final DeferredLog log = new DeferredLog();
+    final List<BindingsPropertiesProcessor> processors;
 
     private final Bindings bindings;
 
@@ -82,7 +82,7 @@ public final class BindingSpecificEnvironmentPostProcessor implements Applicatio
 
     @Override
     public void onApplicationEvent(ApplicationPreparedEvent event) {
-        this.log.switchTo(getClass());
+        LOG.switchTo(getClass());
     }
 
     @Override
@@ -92,18 +92,18 @@ public final class BindingSpecificEnvironmentPostProcessor implements Applicatio
         }
 
         if (bindings.getBindings().isEmpty()) {
-            log.debug("No CNB Bindings found. Skipping Environment post-processing.");
+            LOG.debug("No CNB Bindings found. Skipping Environment post-processing.");
             return;
         }
 
         Map<String, Object> properties = new HashMap<>();
         processors.forEach(processor -> processor.process(environment, bindings, properties));
         if (properties.isEmpty()) {
-            log.debug("No properties set from CNB Bindings. Skipping PropertySource creation.");
+            LOG.debug("No properties set from CNB Bindings. Skipping PropertySource creation.");
             return;
         }
 
-        log.info("Creating binding-specific PropertySource from CNB Bindings");
+        LOG.info("Creating binding-specific PropertySource from CNB Bindings");
         contributePropertySource(BINDING_SPECIFIC_PROPERTY_SOURCE_NAME, properties, environment);
     }
 

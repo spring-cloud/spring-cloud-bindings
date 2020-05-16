@@ -24,7 +24,7 @@ if (bindings.size() > 0) {
 ```
 
 ## Spring Boot Configuration
-The more common usage of the library is opt-in automatic Spring Boot configuration.  Setting the `org.springframework.cloud.bindings.boot.enabled=true` System Property results in the following:
+The more common usage of the library is opt-in automatic Spring Boot configuration.  Setting the `org.springframework.cloud.bindings.boot.enable=true` System Property results in the following:
 
 * Adds a `PropertySource` with a flattened representation (`cnb.bindings.{name}.{metadata,secret}.*`) of the bindings.
 * Adds a `PropertySource` with binding-specific Spring Boot configuration properties.
