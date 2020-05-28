@@ -45,13 +45,11 @@ public final class MySqlBindingsPropertiesProcessor implements BindingsPropertie
         bindings.filterBindings(KIND).forEach(binding -> {
             MapMapper map = new MapMapper(binding.getSecret(), properties);
 
+            //jdbc properties
             map.from("password").to("spring.datasource.password");
             map.from("host", "port", "database").to("spring.datasource.url",
                     (host, port, database) -> String.format("jdbc:mysql://%s:%s/%s", host, port, database));
             map.from("username").to("spring.datasource.username");
-
-
-            Map<String, String> secret = binding.getSecret();
 
             try {
                 Class.forName("org.mariadb.jdbc.Driver", false, getClass().getClassLoader());
@@ -63,6 +61,12 @@ public final class MySqlBindingsPropertiesProcessor implements BindingsPropertie
                 } catch (ClassNotFoundException ignored) {
                 }
             }
+
+            //r2dbc properties
+            map.from("password").to("spring.r2dbc.password");
+            map.from("host", "port", "database").to("spring.r2dbc.url",
+                    (host, port, database) -> String.format("r2dbc:mysql://%s:%s/%s", host, port, database));
+            map.from("username").to("spring.r2dbc.username");
         });
     }
 

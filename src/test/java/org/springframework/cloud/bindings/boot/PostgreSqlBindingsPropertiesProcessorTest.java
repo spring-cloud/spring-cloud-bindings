@@ -50,14 +50,24 @@ final class PostgreSqlBindingsPropertiesProcessorTest {
     private final HashMap<String, Object> properties = new HashMap<>();
 
     @Test
-    @DisplayName("contributes properties")
-    void test() {
+    @DisplayName("contributes jdbc properties")
+    void testJdbc() {
         new PostgreSqlBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties)
                 .containsEntry("spring.datasource.driver-class-name", "org.postgresql.Driver")
                 .containsEntry("spring.datasource.password", "test-password")
                 .containsEntry("spring.datasource.url", "jdbc:postgres://test-host:test-port/test-database")
                 .containsEntry("spring.datasource.username", "test-username");
+    }
+
+    @Test
+    @DisplayName("contributes r2dbc properties")
+    void testR2dbc() {
+        new PostgreSqlBindingsPropertiesProcessor().process(environment, bindings, properties);
+        assertThat(properties)
+                .containsEntry("spring.r2dbc.password", "test-password")
+                .containsEntry("spring.r2dbc.url", "r2dbc:postgres://test-host:test-port/test-database")
+                .containsEntry("spring.r2dbc.username", "test-username");
     }
 
     @Test
