@@ -15,6 +15,7 @@
  */
 package org.springframework.cloud.bindings;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -141,6 +142,8 @@ public final class Binding {
     private Map<String, String> createFilePerEntryMap(Path path) {
         try {
             return Files.list(path)
+                    .filter(p -> !p.getFileName().toString().startsWith("."))
+                    .filter(p -> !new File(p.toString()).isDirectory())
                     .collect(Collectors.toMap(
                             p -> p.getFileName().toString(),
                             p -> {

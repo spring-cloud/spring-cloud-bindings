@@ -39,4 +39,17 @@ final class BindingTest {
                 .isEqualTo(Paths.get("src/test/resources/test-name-1/secret/test-key"));
     }
 
+    @Test
+    @DisplayName("populates k8s style content from filesystem")
+    void testK8s() {
+        //When bindings are provided as a k8s configmap secret pairs data files will be symlinks to hidden directories
+        Binding binding = new Binding(Paths.get("src/test/resources/test-k8s"));
+
+        assertThat(binding.getKind()).isEqualTo("test-kind-1");
+        assertThat(binding.getProvider()).isEqualTo("test-provider-1");
+        assertThat(binding.getMetadataFilePath("test-key"))
+                .isEqualTo(Paths.get("src/test/resources/test-k8s/metadata/test-key"));
+        assertThat(binding.getSecretFilePath("test-key"))
+                .isEqualTo(Paths.get("src/test/resources/test-k8s/secret/test-key"));
+    }
 }
