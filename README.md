@@ -214,6 +214,17 @@ Disable Property: `org.springframework.cloud.bindings.boot.config.enable`
 | `spring.cloud.config.client.oauth2.clientSecret` |  `{secret/client-secret}`
 | `spring.cloud.config.client.oauth2.accessTokenUri` | `{secret/access-token-uri}`
 
+### SCS Eureka
+Kind: `Eureka`
+Disable Property: `org.springframework.cloud.bindings.boot.eureka.enable`
+
+| Property | Value
+| -------- | ------------------
+| `eureka.client.oauth2.client-id` | `{secret/client-id}`
+| `eureka.client.oauth2.access-token-uri` | `{secret/access-token-uri}`
+| `eureka.client.region` | `default`
+| `eureka.client.serviceUrl.defaultZone` | `{secret/uri}/eureka/`
+
 ### SQLServer RDBMS
 Kind: `SQLServer`
 Disable Property: `org.springframework.cloud.bindings.boot.sqlserver.enable`
@@ -237,17 +248,6 @@ Disable Property: `org.springframework.cloud.bindings.boot.wavefront.enable`
 | -------- | ------------------
 | `management.metrics.export.wavefront.api-token` | `{secret/api-token}`
 | `management.metrics.export.wavefront.uri` | `{secret/uri}`
-
-### Eureka
-Kind: `Eureka`
-Disable Property: `org.springframework.cloud.bindings.boot.eureka.enable`
-
-| Property | Value
-| -------- | ------------------
-| `eureka.client.oauth2.client-id` | `{secret/client-id}`
-| `eureka.client.oauth2.access-token-uri` | `{secret/access-token-uri}`
-| `eureka.client.region` | `default`
-| `eureka.client.serviceUrl.defaultZone` | `{secret/uri}/eureka/`
 
 ## License
 This buildpack is released under version 2.0 of the [Apache License][a].
