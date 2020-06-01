@@ -203,6 +203,17 @@ Disable Property: `org.springframework.cloud.bindings.boot.redis.enable`
 | `spring.redis.ssl` | `{secret/ssl}`
 | `spring.redis.url` | `{secret/url}`
 
+## SCS Config Server
+Kind: `Config`
+Disable Property: `org.springframework.cloud.bindings.boot.config.enable`
+
+| Property | Value
+| -------- | ------------------
+| `spring.cloud.config.uri` | `{secret/uri}`
+| `spring.cloud.config.client.oauth2.clientId` | `{secret/client-id}`
+| `spring.cloud.config.client.oauth2.clientSecret` |  `{secret/client-secret}`
+| `spring.cloud.config.client.oauth2.accessTokenUri` | `{secret/access-token-uri}`
+
 ### SQLServer RDBMS
 Kind: `SQLServer`
 Disable Property: `org.springframework.cloud.bindings.boot.sqlserver.enable`
