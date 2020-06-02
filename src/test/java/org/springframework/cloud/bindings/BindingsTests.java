@@ -65,7 +65,7 @@ final class BindingsTests {
             String path = "src/test/resources";
             Bindings b = new Bindings(path);
 
-            assertThat(b.getBindings()).hasSize(2);
+            assertThat(b.getBindings()).hasSize(3);
         }
 
     }
@@ -102,5 +102,4 @@ final class BindingsTests {
         }
 
     }
-
 }
