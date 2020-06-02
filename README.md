@@ -105,6 +105,17 @@ Disable Property: `org.springframework.cloud.bindings.boot.kafka.enable`
 | `spring.kafka.producer.bootstrap-servers` | `{secret/producer.bootstrap-servers}`
 | `spring.kafka.streams.bootstrap-servers` | `{secret/streams.bootstrap-servers}`
 
+### LDAP
+Kind: `LDAP`
+Disable Property: `org.springframework.cloud.bindings.boot.ldap.enable`
+
+| Property | Value
+| -------- | ------------------
+| `spring.ldap.base` | `{secret/base}`
+| `spring.ldap.password` | `{secret/password}`
+| `spring.ldap.urls` | `{secret/urls}`
+| `spring.ldap.username` | `{secret/username}`
+
 ### MongoDB
 Kind: `MongoDB`
 Disable Property: `org.springframework.cloud.bindings.boot.mongodb.enable`
