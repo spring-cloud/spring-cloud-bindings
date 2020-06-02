@@ -13,6 +13,7 @@ org.springframework.cloud.bindings.boot.BindingsPropertiesProcessor=\
   org.springframework.cloud.bindings.boot.ElasticsearchBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.EurekaBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.KafkaBindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.boot.LDAPBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.MongoDbBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.MySqlBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.Neo4JBindingsPropertiesProcessor, \
