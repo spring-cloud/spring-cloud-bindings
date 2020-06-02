@@ -45,12 +45,19 @@ public final class SqlServerBindingsPropertiesProcessor implements BindingsPrope
         bindings.filterBindings(KIND).forEach(binding -> {
             MapMapper map = new MapMapper(binding.getSecret(), properties);
 
+            //jdbc properties
             map.from("password").to("spring.datasource.password");
             map.from("host", "port", "database").to("spring.datasource.url",
                     (host, port, database) -> String.format("jdbc:sqlserver://%s:%s/%s", host, port, database));
             map.from("username").to("spring.datasource.username");
 
             properties.put("spring.datasource.driver-class-name", "com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
+            //r2dbc properties
+            map.from("password").to("spring.r2dbc.password");
+            map.from("host", "port", "database").to("spring.r2dbc.url",
+                    (host, port, database) -> String.format("r2dbc:sqlserver://%s:%s/%s", host, port, database));
+            map.from("username").to("spring.r2dbc.username");
         });
     }
 

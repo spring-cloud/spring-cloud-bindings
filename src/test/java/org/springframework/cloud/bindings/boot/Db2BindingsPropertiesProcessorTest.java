@@ -50,8 +50,8 @@ final class Db2BindingsPropertiesProcessorTest {
     private final HashMap<String, Object> properties = new HashMap<>();
 
     @Test
-    @DisplayName("contributes properties")
-    void test() {
+    @DisplayName("contributes jdbc properties")
+    void testJdbc() {
         new Db2BindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties)
                 .containsEntry("spring.datasource.driver-class-name", "com.ibm.db2.jcc.DB2Driver")
@@ -59,6 +59,15 @@ final class Db2BindingsPropertiesProcessorTest {
                 .containsEntry("spring.datasource.url", "jdbc:db2://test-host:test-port/test-database")
                 .containsEntry("spring.datasource.username", "test-username");
     }
+
+    @Test
+    @DisplayName("contributes r2dbc properties")
+    void testR2dbc() {
+        new Db2BindingsPropertiesProcessor().process(environment, bindings, properties);
+        assertThat(properties)
+                .containsEntry("spring.r2dbc.password", "test-password")
+                .containsEntry("spring.r2dbc.url", "r2dbc:db2://test-host:test-port/test-database")
+                .containsEntry("spring.r2dbc.username", "test-username");    }
 
     @Test
     @DisplayName("can be disabled")

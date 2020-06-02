@@ -71,6 +71,9 @@ Disable Property: `org.springframework.cloud.bindings.boot.db2.enable`
 | `spring.datasource.password` | `{secret/password}`
 | `spring.datasource.url` | `jdbc:db2://{secret/host}:{secret/port}/{secret/database}`
 | `spring.datasource.username` | `{secret/username}`
+| `spring.r2dbc.url` | `r2dbc:db2://{secret/host}:{secret/port}/{secret/database}`
+| `spring.r2dbc.password` | `{secret/password}`
+| `spring.r2dbc.username` | `{secret/username}`
 
 
 ### Elasticsearch
@@ -127,6 +130,9 @@ Disable Property: `org.springframework.cloud.bindings.boot.mysql.enable`
 | `spring.datasource.password` | `{secret/password}`
 | `spring.datasource.url` | `jdbc:mysql://{secret/host}:{secret/port}/{secret/database}`
 | `spring.datasource.username` | `{secret/username}`
+| `spring.r2dbc.url` | `r2dbc:mysql://{secret/host}:{secret/port}/{secret/database}`
+| `spring.r2dbc.password` | `{secret/password}`
+| `spring.r2dbc.username` | `{secret/username}`
 
 ### Neo4J
 Kind: `Neo4J`
@@ -148,6 +154,9 @@ Disable Property: `org.springframework.cloud.bindings.boot.oracle.enable`
 | `spring.datasource.password` | `{secret/password}`
 | `spring.datasource.url` | `jdbc:oracle://{secret/host}:{secret/port}/{secret/database}`
 | `spring.datasource.username` | `{secret/username}`
+| `spring.r2dbc.url` | `r2dbc:oracle://{secret/host}:{secret/port}/{secret/database}`
+| `spring.r2dbc.password` | `{secret/password}`
+| `spring.r2dbc.username` | `{secret/username}`
 
 ### PostgreSQL RDBMS
 Kind: `PostgreSQL`
@@ -159,6 +168,9 @@ Disable Property: `org.springframework.cloud.bindings.boot.postgresql.enable`
 | `spring.datasource.password` | `{secret/password}`
 | `spring.datasource.url` | `jdbc:postgres://{secret/host}:{secret/port}/{secret/database}`
 | `spring.datasource.username` | `{secret/username}`
+| `spring.r2dbc.url` | `r2dbc:postgres://{secret/host}:{secret/port}/{secret/database}`
+| `spring.r2dbc.password` | `{secret/password}`
+| `spring.r2dbc.username` | `{secret/username}`
 
 ### RabbitMQ RDBMS
 Kind: `RabbitMQ`
@@ -201,6 +213,9 @@ Disable Property: `org.springframework.cloud.bindings.boot.sqlserver.enable`
 | `spring.datasource.password` | `{secret/password}`
 | `spring.datasource.url` | `jdbc:sqlserver://{secret/host}:{secret/port}/{secret/database}`
 | `spring.datasource.username` | `{secret/username}`
+| `spring.r2dbc.url` | `r2dbc:sqlserver://{secret/host}:{secret/port}/{secret/database}`
+| `spring.r2dbc.password` | `{secret/password}`
+| `spring.r2dbc.username` | `{secret/username}`
 
 ### Wavefront
 
