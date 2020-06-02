@@ -27,11 +27,11 @@ import static org.springframework.cloud.bindings.boot.Guards.isKindEnabled;
 /**
  * An implementation of {@link BindingsPropertiesProcessor} that detects {@link Binding}s of kind: {@value KIND}.
  */
-final class EurekaBindingsPropertiesProcessor implements BindingsPropertiesProcessor {
+final class ConfigServerBindingsPropertiesProcessor implements BindingsPropertiesProcessor {
     /**
      * The {@link Binding} kind that this processor is interested in: {@value}.
      **/
-    public static final String KIND = "Eureka";
+    public static final String KIND = "Config";
 
     @Override
     public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {
@@ -41,14 +41,10 @@ final class EurekaBindingsPropertiesProcessor implements BindingsPropertiesProce
 
         bindings.filterBindings(KIND).forEach(binding -> {
             MapMapper map = new MapMapper(binding.getSecret(), properties);
-
-            map.from("client-id").to("eureka.client.oauth2.client-id");
-            map.from("access-token-uri").to("eureka.client.oauth2.access-token-uri");
-            map.from("uri").to("eureka.client.serviceUrl.defaultZone",
-                    (uri) -> String.format("%s/eureka/", uri)
-            );
-
-            properties.put("eureka.client.region", "default");
+            map.from("uri").to("spring.cloud.config.uri");
+            map.from("client-id").to("spring.cloud.config.client.oauth2.clientId");
+            map.from("client-secret").to("spring.cloud.config.client.oauth2.clientSecret");
+            map.from("access-token-uri").to("spring.cloud.config.client.oauth2.accessTokenUri");
         });
 
     }
