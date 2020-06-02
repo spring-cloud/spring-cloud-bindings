@@ -7,9 +7,11 @@ org.springframework.boot.env.EnvironmentPostProcessor=\
 # Included implementations
 org.springframework.cloud.bindings.boot.BindingsPropertiesProcessor=\
   org.springframework.cloud.bindings.boot.CassandraBindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.boot.ConfigServerBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.CouchbaseBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.Db2BindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.ElasticsearchBindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.boot.EurekaBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.KafkaBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.MongoDbBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.MySqlBindingsPropertiesProcessor, \
@@ -19,6 +21,4 @@ org.springframework.cloud.bindings.boot.BindingsPropertiesProcessor=\
   org.springframework.cloud.bindings.boot.RabbitMqBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.RedisBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.SqlServerBindingsPropertiesProcessor, \
-  org.springframework.cloud.bindings.boot.WavefrontBindingsPropertiesProcessor, \
-  org.springframework.cloud.bindings.boot.EurekaBindingsPropertiesProcessor, \
-  org.springframework.cloud.bindings.boot.ConfigServerBindingsPropertiesProcessor
+  org.springframework.cloud.bindings.boot.WavefrontBindingsPropertiesProcessor
