@@ -260,6 +260,59 @@ Disable Property: `org.springframework.cloud.bindings.boot.wavefront.enable`
 | `management.metrics.export.wavefront.api-token` | `{secret/api-token}`
 | `management.metrics.export.wavefront.uri` | `{secret/uri}`
 
+
+## Extending Spring Boot Configuration
+
+Consumers can extend the `BindingSpecificEnvironmentPostProcessor` with support for additional bindings by registering additional implementations of the `BindingsPropertiesProcessor`.
+
+Within the `process` method, custom processors should make desired modifications to the application properties, using the contents of the bindings to compute property values as appropriate. Custom processors are strongly encouraged to use the `kind` of each binding to filter for bindings intended for that processor.
+
+Below is an example that processes a single binding of `kind` `myservice`. If such a binding exists this processor sets `my.service.enabled=true` and sets `my.service.uri` to the value of `uri` found in the binding secret.
+
+```
+package com.example;
+
+
+import org.springframework.cloud.bindings.Binding;
+import org.springframework.cloud.bindings.Bindings;
+import org.springframework.cloud.bindings.boot.BindingsPropertiesProcessor;
+import org.springframework.core.env.Environment;
+
+import java.util.List;
+import java.util.Map;
+
+public final class MyServiceBindingsPropertiesProcessor implements BindingsPropertiesProcessor {
+
+    public static final String KIND = "myservice";
+
+    @Override
+    public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {
+        if (!environment.getProperty("com.example.bindings.myservice.enable", Boolean.class, true)) {
+            return;
+        }
+        List<Binding> myBindings = bindings.filterBindings(KIND);
+        if (myBindings.size() == 0) {
+            return;
+        }
+        properties.put("my.service.uri", myBindings.get(0).getSecret().get("uri"));
+        properties.put("my.service.enabled", true);
+    }
+
+}
+```
+
+These lines from the above example allow users to set `com.example.bindings.myservice.enable=false` to disable the processor entirely:
+```
+        if (!environment.getProperty("com.example.bindings.myservice.enable", Boolean.class, true)) {
+            return;
+        }
+```
+
+You must add an entry in `META_INF/spring.factories` so that your custom processor can be discovered.
+```
+org.springframework.cloud.bindings.boot.BindingsPropertiesProcessor=com.example.MyServiceBindingsPropertiesProcessor
+```
+
 ## License
 This buildpack is released under version 2.0 of the [Apache License][a].
 
