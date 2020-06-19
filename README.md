@@ -267,6 +267,46 @@ Disable Property: `org.springframework.cloud.bindings.boot.sqlserver.enable`
 | `spring.r2dbc.password` | `{secret/password}`
 | `spring.r2dbc.username` | `{secret/username}`
 
+
+### Vault
+Kind: `Vault`
+Disable Property: `org.springframework.cloud.bindings.boot.vault.enable`
+
+Any Provider:
+| Property | Value
+| -------- | ------------------
+| `spring.cloud.vault.uri` | `{secret/uri}`
+| `spring.cloud.vault.namespace` | `{secret/namespace}`
+
+Provider: `approle`
+| Property | Value
+| -------- | ------------------
+| `spring.cloud.vault.authentication` | `APPROLE`
+| `spring.cloud.vault.app-role.role-id` | `{secret/role-id}`
+| `spring.cloud.vault.app-role.secret-id` | `{secret/secret-id}`
+| `spring.cloud.vault.app-role.role` | `{secret/role}`
+| `spring.cloud.vault.app-role.app-role-path` | `{secret/app-role-path}`
+
+Provider: `cert`
+| Property | Value
+| -------- | ------------------
+| `spring.cloud.vault.authentication` | `CERT`
+| `spring.cloud.vault.ssl.key-store` | `${CNB_BINDINGS}/{name}/secret/keystore.jks`
+| `spring.cloud.vault.ssl.key-store-password` | `{secret/key-store-password}`
+| `spring.cloud.vault.ssl.cert-auth-path` | `{secret/cert-auth-path}`
+
+Provider: `cubbyhole`
+| Property | Value
+| -------- | ------------------
+| `spring.cloud.vault.authentication` | `CUBBYHOLE`
+| `spring.cloud.vault.token` | `{secret/token}`
+
+Provider: `token`
+| Property | Value
+| -------- | ------------------
+| `spring.cloud.vault.authentication` | `TOKEN`
+| `spring.cloud.vault.token` | `{secret/token}`
+
 ### Wavefront
 
 Kind: `Wavefront`
