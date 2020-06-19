@@ -236,6 +236,23 @@ Disable Property: `org.springframework.cloud.bindings.boot.eureka.enable`
 | `eureka.client.region` | `default`
 | `eureka.client.serviceUrl.defaultZone` | `{secret/uri}/eureka/`
 
+## Spring Security OAuth2
+Kind: `OAuth2`
+Disable Property: `org.springframework.cloud.bindings.boot.oauth2.enable`
+
+| Property | Value
+| -------- | ------------------
+| `spring.security.oauth2.client.registration.{name}.client-id` | `{secret/client-id}`
+| `spring.security.oauth2.client.registration.{name}.client-secret` | `{secret/client-secret}`
+| `spring.security.oauth2.client.registration.{name}.provider` | `{metadata/provider}`
+| `spring.security.oauth2.client.provider.{metadata/provider}.issuer-uri` | `{secret/issuer-uri}`
+| `spring.security.oauth2.client.provider.{metadata/provider}.authorization-uri` | `{secret/authorization-uri}`
+| `spring.security.oauth2.client.provider.{metadata/provider}.token-uri` | `{secret/token-uri}`
+| `spring.security.oauth2.client.provider.{metadata/provider}.user-info-uri` | `{secret/user-info-uri}`
+| `spring.security.oauth2.client.provider.{metadata/provider}.user-info-authentication-method` | `{secret/user-info-authentication-method}`
+| `spring.security.oauth2.client.provider.{metadata/provider}.jwk-set-uri` | `{secret/jwk-set-uri}`
+| `spring.security.oauth2.client.provider.{metadata/provider}.user-name-attribute` | `{secret/user-name-attribute}`
+
 ### SQLServer RDBMS
 Kind: `SQLServer`
 Disable Property: `org.springframework.cloud.bindings.boot.sqlserver.enable`
