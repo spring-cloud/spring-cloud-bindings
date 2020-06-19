@@ -21,5 +21,6 @@ org.springframework.cloud.bindings.boot.BindingsPropertiesProcessor=\
   org.springframework.cloud.bindings.boot.PostgreSqlBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.RabbitMqBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.RedisBindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.boot.SpringSecurityOAuth2BindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.SqlServerBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.WavefrontBindingsPropertiesProcessor
