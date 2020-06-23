@@ -80,6 +80,70 @@ final class VaultPropertiesProcessorTest {
                     .withEntry("cert-auth-path", "test-cert-auth-path")
     );
 
+    private final Binding awsEc2Binding = new Binding(
+            "test-name", Paths.get("test-path"),
+            metadata(),
+            baseSecret()
+                    .withEntry("method", "aws_ec2")
+                    .withEntry("role", "test-role")
+                    .withEntry("aws-ec2-path", "test-aws-ec2-path")
+                    .withEntry("identity-document", "test-identity-document")
+                    .withEntry("nonce", "test-nonce")
+    );
+
+    private final Binding awsIamBinding = new Binding(
+            "test-name", Paths.get("test-path"),
+            metadata(),
+            baseSecret()
+                    .withEntry("method", "aws_iam")
+                    .withEntry("role", "test-role")
+                    .withEntry("aws-path", "test-aws-path")
+                    .withEntry("server-id", "test-server-id")
+                    .withEntry("endpoint-uri", "test-endpoint-uri")
+    );
+
+    private final Binding azureMsiBinding = new Binding(
+            "test-name", Paths.get("test-path"),
+            metadata(),
+            baseSecret()
+                    .withEntry("method", "azure_msi")
+                    .withEntry("role", "test-role")
+                    .withEntry("azure-path", "test-azure-path")
+    );
+
+    private final Binding gcpGceBinding = new Binding(
+            "test-name", Paths.get("test-path"),
+            metadata(),
+            baseSecret()
+                    .withEntry("method", "gcp_gce")
+                    .withEntry("role", "test-role")
+                    .withEntry("gcp-path", "test-gcp-path")
+                    .withEntry("service-account", "test-service-account")
+    );
+
+    private final Binding gcpIamBinding = new Binding(
+            "test-name", Paths.get("test-path"),
+            metadata(),
+            baseSecret()
+                    .withEntry("method", "gcp_iam")
+                    .withEntry("credentials.json", "credentials JSON contents!")
+                    .withEntry("encoded-key", "test-encoded-key")
+                    .withEntry("gcp-path", "test-gcp-path")
+                    .withEntry("jwt-validity", "test-jwt-validity")
+                    .withEntry("project-id", "test-project-id")
+                    .withEntry("role", "test-role")
+                    .withEntry("service-account-id", "test-service-account-id")
+    );
+
+    private final Binding k8sBinding = new Binding(
+            "test-name", Paths.get("test-path"),
+            metadata(),
+            baseSecret()
+                    .withEntry("method", "kubernetes")
+                    .withEntry("role", "test-role")
+                    .withEntry("kubernetes-path", "test-kubernetes-path")
+    );
+
     private final MockEnvironment environment = new MockEnvironment();
 
     private final HashMap<String, Object> properties = new HashMap<>();
@@ -131,6 +195,88 @@ final class VaultPropertiesProcessorTest {
                 .containsEntry("spring.cloud.vault.ssl.key-store", "test-path/secret/keystore.jks")
                 .containsEntry("spring.cloud.vault.ssl.key-store-password", "test-key-store-password")
                 .containsEntry("spring.cloud.vault.ssl.cert-auth-path", "test-cert-auth-path");
+    }
+
+    @Test
+    @DisplayName("Supports AWS EC2 authentication")
+    void testAwsEc2Authentication() {
+        new VaultBindingsPropertiesProcessor().process(environment, new Bindings(awsEc2Binding), properties);
+        assertThat(properties)
+                .containsEntry("spring.cloud.vault.uri", "test-uri")
+                .containsEntry("spring.cloud.vault.namespace", "test-namespace")
+                .containsEntry("spring.cloud.vault.authentication", "AWS_EC2")
+                .containsEntry("spring.cloud.vault.aws-ec2.role", "test-role")
+                .containsEntry("spring.cloud.vault.aws-ec2.aws-ec2-path", "test-aws-ec2-path")
+                .containsEntry("spring.cloud.vault.aws-ec2.identity-document", "test-identity-document")
+                .containsEntry("spring.cloud.vault.aws-ec2.nonce", "test-nonce");
+    }
+
+    @Test
+    @DisplayName("Supports AWS IAM authentication")
+    void testAwsIamAuthentication() {
+        new VaultBindingsPropertiesProcessor().process(environment, new Bindings(awsIamBinding), properties);
+        assertThat(properties)
+                .containsEntry("spring.cloud.vault.uri", "test-uri")
+                .containsEntry("spring.cloud.vault.namespace", "test-namespace")
+                .containsEntry("spring.cloud.vault.authentication", "AWS_IAM")
+                .containsEntry("spring.cloud.vault.aws-iam.role", "test-role")
+                .containsEntry("spring.cloud.vault.aws-iam.aws-path", "test-aws-path")
+                .containsEntry("spring.cloud.vault.aws-iam.server-id", "test-server-id")
+                .containsEntry("spring.cloud.vault.aws-iam.endpoint-uri", "test-endpoint-uri");
+    }
+
+    @Test
+    @DisplayName("Supports Azure MSI authentication")
+    void testAzureMsiAuthentication() {
+        new VaultBindingsPropertiesProcessor().process(environment, new Bindings(azureMsiBinding), properties);
+        assertThat(properties)
+                .containsEntry("spring.cloud.vault.uri", "test-uri")
+                .containsEntry("spring.cloud.vault.namespace", "test-namespace")
+                .containsEntry("spring.cloud.vault.authentication", "AZURE_MSI")
+                .containsEntry("spring.cloud.vault.azure-msi.role", "test-role")
+                .containsEntry("spring.cloud.vault.azure-msi.azure-path", "test-azure-path");
+    }
+
+    @Test
+    @DisplayName("Supports GCP GCE authentication")
+    void testGcpGceAuthentication() {
+        new VaultBindingsPropertiesProcessor().process(environment, new Bindings(gcpGceBinding), properties);
+        assertThat(properties)
+                .containsEntry("spring.cloud.vault.uri", "test-uri")
+                .containsEntry("spring.cloud.vault.namespace", "test-namespace")
+                .containsEntry("spring.cloud.vault.authentication", "GCP_GCE")
+                .containsEntry("spring.cloud.vault.gcp-gce.role", "test-role")
+                .containsEntry("spring.cloud.vault.gcp-gce.gcp-path", "test-gcp-path")
+                .containsEntry("spring.cloud.vault.gcp-gce.service-account", "test-service-account");
+    }
+
+    @Test
+    @DisplayName("Supports GCP IAM authentication")
+    void testGcpIamAuthentication() {
+        new VaultBindingsPropertiesProcessor().process(environment, new Bindings(gcpIamBinding), properties);
+        assertThat(properties)
+                .containsEntry("spring.cloud.vault.uri", "test-uri")
+                .containsEntry("spring.cloud.vault.namespace", "test-namespace")
+                .containsEntry("spring.cloud.vault.authentication", "GCP_IAM")
+                .containsEntry("spring.cloud.vault.gcp-iam.role", "test-role")
+                .containsEntry("spring.cloud.vault.gcp-iam.credentials.location", "test-path/secret/credentials.json")
+                .containsEntry("spring.cloud.vault.gcp-iam.credentials.encoded-key", "test-encoded-key")
+                .containsEntry("spring.cloud.vault.gcp-iam.gcp-path", "test-gcp-path")
+                .containsEntry("spring.cloud.vault.gcp-iam.jwt-validity", "test-jwt-validity")
+                .containsEntry("spring.cloud.vault.gcp-iam.project-id", "test-project-id")
+                .containsEntry("spring.cloud.vault.gcp-iam.service-account-id", "test-service-account-id");
+    }
+
+    @Test
+    @DisplayName("Supports Kubernetes authentication")
+    void testK8sAuthentication() {
+        new VaultBindingsPropertiesProcessor().process(environment, new Bindings(k8sBinding), properties);
+        assertThat(properties)
+                .containsEntry("spring.cloud.vault.uri", "test-uri")
+                .containsEntry("spring.cloud.vault.namespace", "test-namespace")
+                .containsEntry("spring.cloud.vault.authentication", "KUBERNETES")
+                .containsEntry("spring.cloud.vault.kubernetes.role", "test-role")
+                .containsEntry("spring.cloud.vault.kubernetes.kubernetes-path", "test-kubernetes-path");
     }
 
     @Test

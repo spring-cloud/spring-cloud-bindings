@@ -275,37 +275,82 @@ Disable Property: `org.springframework.cloud.bindings.boot.vault.enable`
 Any Provider:
 | Property | Value
 | -------- | ------------------
-| `spring.cloud.vault.uri` | `{secret/uri}`
+| `spring.cloud.vault.authentication` | `{secret/method}`
 | `spring.cloud.vault.namespace` | `{secret/namespace}`
+| `spring.cloud.vault.uri` | `{secret/uri}`
 
 If `{secret/method}` is equal to `approle`:
 | Property | Value
 | -------- | ------------------
-| `spring.cloud.vault.authentication` | `APPROLE`
-| `spring.cloud.vault.app-role.role-id` | `{secret/role-id}`
-| `spring.cloud.vault.app-role.secret-id` | `{secret/secret-id}`
-| `spring.cloud.vault.app-role.role` | `{secret/role}`
 | `spring.cloud.vault.app-role.app-role-path` | `{secret/app-role-path}`
+| `spring.cloud.vault.app-role.role-id` | `{secret/role-id}`
+| `spring.cloud.vault.app-role.role` | `{secret/role}`
+| `spring.cloud.vault.app-role.secret-id` | `{secret/secret-id}`
+
+If `{secret/method}` is equal to `aws_ec2`:
+| Property | Value
+| -------- | ------------------
+| `spring.cloud.vault.aws-ec2.aws-ec2-path` | `{secret/aws-ec2-path}`
+| `spring.cloud.vault.aws-ec2.identity-document` | `{secret/aws-ec2-identity-document}`
+| `spring.cloud.vault.aws-ec2.nonce` | `{secret/nonce}`
+| `spring.cloud.vault.aws-ec2.role` | `{secret/role}`
+
+If `{secret/method}` is equal to `aws_iam`:
+| Property | Value
+| -------- | ------------------
+| `spring.cloud.vault.aws-iam.aws-path` | `{secret/aws-path}`
+| `spring.cloud.vault.aws-iam.endpoint-uri` | `{secret/endpoint-uri}`
+| `spring.cloud.vault.aws-iam.role` | `{secret/token}`
+| `spring.cloud.vault.aws-iam.server-id` | `{secret/server-id}`
+
+If `{secret/method}` is equal to `azure_msi`:
+| Property | Value
+| -------- | ------------------
+| `spring.cloud.vault.azure-msi.azure-path` | `{secret/azure-path}`
+| `spring.cloud.vault.azure-msi.role` | `{secret/role}`
 
 If `{secret/method}` is equal to `cert`:
 | Property | Value
 | -------- | ------------------
-| `spring.cloud.vault.authentication` | `CERT`
-| `spring.cloud.vault.ssl.key-store` | `${CNB_BINDINGS}/{name}/secret/keystore.jks`
-| `spring.cloud.vault.ssl.key-store-password` | `{secret/key-store-password}`
 | `spring.cloud.vault.ssl.cert-auth-path` | `{secret/cert-auth-path}`
+| `spring.cloud.vault.ssl.key-store-password` | `{secret/key-store-password}`
+| `spring.cloud.vault.ssl.key-store` | `${CNB_BINDINGS}/{name}/secret/keystore.jks`
 
 If `{secret/method}` is equal to `cubbyhole`:
 | Property | Value
 | -------- | ------------------
-| `spring.cloud.vault.authentication` | `CUBBYHOLE`
 | `spring.cloud.vault.token` | `{secret/token}`
+
+If `{secret/method}` is equal to `gcp_gce`:
+| Property | Value
+| -------- | ------------------
+| `spring.cloud.vault.gcp-gce.gcp-path` | `{secret/gcp-path}`
+| `spring.cloud.vault.gcp-gce.role` | `{secret/role}`
+| `spring.cloud.vault.gcp-gce.service-account` | `{secret/service-account}`
+
+
+If `{secret/method}` is equal to `gcp_iam`:
+| Property | Value
+| -------- | ------------------
+| `spring.cloud.vault.gcp-iam.credentials.encoded-key` | `{secret/encoded-key}`
+| `spring.cloud.vault.gcp-iam.credentials.location` | `${CNB_BINDINGS}/{name}/secret/credentials.json`
+| `spring.cloud.vault.gcp-iam.gcp-path` | `{secret/gcp-path}`
+| `spring.cloud.vault.gcp-iam.jwt-validity` | `{secret/jwt-validity}`
+| `spring.cloud.vault.gcp-iam.project-id` | `{secret/project-id}`
+| `spring.cloud.vault.gcp-iam.role` | `{secret/role}`
+| `spring.cloud.vault.gcp-iam.service-account-id` | `{secret/service-account-id}`
+
+If `{secret/method}` is equal to `kubernetes`:
+| Property | Value
+| -------- | ------------------
+| `spring.cloud.vault.kubernetes.kubernetes-path` | `{secret/kubernetes-path}`
+| `spring.cloud.vault.kubernetes.role` | `{secret/role}`
 
 If `{secret/method}` is equal to `token`:
 | Property | Value
 | -------- | ------------------
-| `spring.cloud.vault.authentication` | `TOKEN`
 | `spring.cloud.vault.token` | `{secret/token}`
+
 
 ### Wavefront
 
