@@ -16,8 +16,11 @@
 
 package org.springframework.cloud.bindings.boot;
 
+import org.springframework.boot.context.event.ApplicationPreparedEvent;
+import org.springframework.boot.logging.DeferredLog;
 import org.springframework.cloud.bindings.Binding;
 import org.springframework.cloud.bindings.Bindings;
+import org.springframework.context.ApplicationListener;
 import org.springframework.core.env.Environment;
 
 import java.util.Map;
@@ -27,12 +30,14 @@ import static org.springframework.cloud.bindings.boot.Guards.isKindEnabled;
 /**
  * An implementation of {@link BindingsPropertiesProcessor} that detects {@link Binding}s of kind: {@value KIND}.
  */
-public final class VaultBindingsPropertiesProcessor implements BindingsPropertiesProcessor {
+public final class VaultBindingsPropertiesProcessor implements BindingsPropertiesProcessor, ApplicationListener<ApplicationPreparedEvent> {
 
     /**
      * The {@link Binding} kind that this processor is interested in: {@value}.
      **/
     public static final String KIND = "Vault";
+
+    private static final DeferredLog LOG = new DeferredLog();
 
     @Override
     public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {
@@ -47,6 +52,7 @@ public final class VaultBindingsPropertiesProcessor implements BindingsPropertie
 
             String authenticationMethod = binding.getSecret().get("method");
             if (authenticationMethod == null) {
+                LOG.warn(String.format("Key 'method' is missing from secret of binding '%s'", binding.getName()));
                 return;
             }
             properties.put("spring.cloud.vault.authentication", authenticationMethod);
@@ -102,8 +108,14 @@ public final class VaultBindingsPropertiesProcessor implements BindingsPropertie
                     map.from("role").to("spring.cloud.vault.kubernetes.role");
                     map.from("kubernetes-path").to("spring.cloud.vault.kubernetes.kubernetes-path");
                     break;
+                default:
+                    LOG.warn(String.format("Binding '%s' contains unrecognized 'method'", binding.getName()));
             }
         });
     }
 
+    @Override
+    public void onApplicationEvent(ApplicationPreparedEvent event) {
+        LOG.switchTo(getClass());
+    }
 }

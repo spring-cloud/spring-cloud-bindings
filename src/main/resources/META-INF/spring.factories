@@ -1,6 +1,7 @@
 org.springframework.context.ApplicationListener=\
   org.springframework.cloud.bindings.boot.BindingFlattenedEnvironmentPostProcessor, \
-  org.springframework.cloud.bindings.boot.BindingSpecificEnvironmentPostProcessor
+  org.springframework.cloud.bindings.boot.BindingSpecificEnvironmentPostProcessor, \
+  org.springframework.cloud.bindings.boot.VaultBindingsPropertiesProcessor
 org.springframework.boot.env.EnvironmentPostProcessor=\
   org.springframework.cloud.bindings.boot.BindingFlattenedEnvironmentPostProcessor, \
   org.springframework.cloud.bindings.boot.BindingSpecificEnvironmentPostProcessor
