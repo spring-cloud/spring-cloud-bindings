@@ -278,7 +278,7 @@ Any Provider:
 | `spring.cloud.vault.uri` | `{secret/uri}`
 | `spring.cloud.vault.namespace` | `{secret/namespace}`
 
-Provider: `approle`
+If `{secret/method}` is equal to `approle`:
 | Property | Value
 | -------- | ------------------
 | `spring.cloud.vault.authentication` | `APPROLE`
@@ -287,7 +287,7 @@ Provider: `approle`
 | `spring.cloud.vault.app-role.role` | `{secret/role}`
 | `spring.cloud.vault.app-role.app-role-path` | `{secret/app-role-path}`
 
-Provider: `cert`
+If `{secret/method}` is equal to `cert`:
 | Property | Value
 | -------- | ------------------
 | `spring.cloud.vault.authentication` | `CERT`
@@ -295,13 +295,13 @@ Provider: `cert`
 | `spring.cloud.vault.ssl.key-store-password` | `{secret/key-store-password}`
 | `spring.cloud.vault.ssl.cert-auth-path` | `{secret/cert-auth-path}`
 
-Provider: `cubbyhole`
+If `{secret/method}` is equal to `cubbyhole`:
 | Property | Value
 | -------- | ------------------
 | `spring.cloud.vault.authentication` | `CUBBYHOLE`
 | `spring.cloud.vault.token` | `{secret/token}`
 
-Provider: `token`
+If `{secret/method}` is equal to `token`:
 | Property | Value
 | -------- | ------------------
 | `spring.cloud.vault.authentication` | `TOKEN`

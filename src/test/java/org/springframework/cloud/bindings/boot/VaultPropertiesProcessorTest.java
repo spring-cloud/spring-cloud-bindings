@@ -24,7 +24,6 @@ import org.springframework.cloud.bindings.FluentMap;
 import org.springframework.mock.env.MockEnvironment;
 
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,21 +38,24 @@ final class VaultPropertiesProcessorTest {
                 .withEntry("namespace", "test-namespace");
     }
 
-    private FluentMap baseMetadata() {
+    private FluentMap metadata() {
         return new FluentMap()
                 .withEntry("kind", KIND);
     }
 
     private final Binding tokenBinding = new Binding(
             "test-name", Paths.get("test-path"),
-            baseMetadata().withEntry("provider", "token"),
-            baseSecret().withEntry("token", "test-token")
+            metadata(),
+            baseSecret()
+                    .withEntry("method", "token")
+                    .withEntry("token", "test-token")
     );
 
     private final Binding appRoleBinding = new Binding(
             "test-name", Paths.get("test-path"),
-            baseMetadata().withEntry("provider", "approle"),
+            metadata(),
             baseSecret()
+                    .withEntry("method", "approle")
                     .withEntry("role-id", "test-role-id")
                     .withEntry("secret-id", "test-secret-id")
                     .withEntry("role", "test-role")
@@ -62,14 +64,17 @@ final class VaultPropertiesProcessorTest {
 
     private final Binding cubbyholeBinding = new Binding(
             "test-name", Paths.get("test-path"),
-            baseMetadata().withEntry("provider", "cubbyhole"),
-            baseSecret().withEntry("token", "test-token")
+            metadata(),
+            baseSecret()
+                    .withEntry("method", "cubbyhole")
+                    .withEntry("token", "test-token")
     );
 
     private final Binding certBinding = new Binding(
             "test-name", Paths.get("test-path"),
-            baseMetadata().withEntry("provider", "cert"),
+            metadata(),
             baseSecret()
+                    .withEntry("method", "cert")
                     .withEntry("keystore.jks", "key store contents!")
                     .withEntry("key-store-password", "test-key-store-password")
                     .withEntry("cert-auth-path", "test-cert-auth-path")
@@ -129,12 +134,12 @@ final class VaultPropertiesProcessorTest {
     }
 
     @Test
-    @DisplayName("Handles missing provider")
+    @DisplayName("Doesn't fail when method is missing")
     void testMissingProvider() {
         new VaultBindingsPropertiesProcessor().process(environment, new Bindings(new Binding(
                 "test-name",
                 Paths.get("test-path"),
-                baseMetadata(),
+                metadata(),
                 baseSecret()
         )), properties);
         assertThat(properties)
