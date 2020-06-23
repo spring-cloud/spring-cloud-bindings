@@ -155,7 +155,7 @@ final class VaultPropertiesProcessorTest {
         assertThat(properties)
                 .containsEntry("spring.cloud.vault.uri", "test-uri")
                 .containsEntry("spring.cloud.vault.namespace", "test-namespace")
-                .containsEntry("spring.cloud.vault.authentication", "TOKEN")
+                .containsEntry("spring.cloud.vault.authentication", "token")
                 .containsEntry("spring.cloud.vault.token", "test-token");
     }
 
@@ -166,7 +166,7 @@ final class VaultPropertiesProcessorTest {
         assertThat(properties)
                 .containsEntry("spring.cloud.vault.uri", "test-uri")
                 .containsEntry("spring.cloud.vault.namespace", "test-namespace")
-                .containsEntry("spring.cloud.vault.authentication", "APPROLE")
+                .containsEntry("spring.cloud.vault.authentication", "approle")
                 .containsEntry("spring.cloud.vault.app-role.role-id", "test-role-id")
                 .containsEntry("spring.cloud.vault.app-role.secret-id", "test-secret-id")
                 .containsEntry("spring.cloud.vault.app-role.role", "test-role")
@@ -180,7 +180,7 @@ final class VaultPropertiesProcessorTest {
         assertThat(properties)
                 .containsEntry("spring.cloud.vault.uri", "test-uri")
                 .containsEntry("spring.cloud.vault.namespace", "test-namespace")
-                .containsEntry("spring.cloud.vault.authentication", "CUBBYHOLE")
+                .containsEntry("spring.cloud.vault.authentication", "cubbyhole")
                 .containsEntry("spring.cloud.vault.token", "test-token");
     }
 
@@ -191,7 +191,7 @@ final class VaultPropertiesProcessorTest {
         assertThat(properties)
                 .containsEntry("spring.cloud.vault.uri", "test-uri")
                 .containsEntry("spring.cloud.vault.namespace", "test-namespace")
-                .containsEntry("spring.cloud.vault.authentication", "CERT")
+                .containsEntry("spring.cloud.vault.authentication", "cert")
                 .containsEntry("spring.cloud.vault.ssl.key-store", "test-path/secret/keystore.jks")
                 .containsEntry("spring.cloud.vault.ssl.key-store-password", "test-key-store-password")
                 .containsEntry("spring.cloud.vault.ssl.cert-auth-path", "test-cert-auth-path");
@@ -204,7 +204,7 @@ final class VaultPropertiesProcessorTest {
         assertThat(properties)
                 .containsEntry("spring.cloud.vault.uri", "test-uri")
                 .containsEntry("spring.cloud.vault.namespace", "test-namespace")
-                .containsEntry("spring.cloud.vault.authentication", "AWS_EC2")
+                .containsEntry("spring.cloud.vault.authentication", "aws_ec2")
                 .containsEntry("spring.cloud.vault.aws-ec2.role", "test-role")
                 .containsEntry("spring.cloud.vault.aws-ec2.aws-ec2-path", "test-aws-ec2-path")
                 .containsEntry("spring.cloud.vault.aws-ec2.identity-document", "test-identity-document")
@@ -218,7 +218,7 @@ final class VaultPropertiesProcessorTest {
         assertThat(properties)
                 .containsEntry("spring.cloud.vault.uri", "test-uri")
                 .containsEntry("spring.cloud.vault.namespace", "test-namespace")
-                .containsEntry("spring.cloud.vault.authentication", "AWS_IAM")
+                .containsEntry("spring.cloud.vault.authentication", "aws_iam")
                 .containsEntry("spring.cloud.vault.aws-iam.role", "test-role")
                 .containsEntry("spring.cloud.vault.aws-iam.aws-path", "test-aws-path")
                 .containsEntry("spring.cloud.vault.aws-iam.server-id", "test-server-id")
@@ -232,7 +232,7 @@ final class VaultPropertiesProcessorTest {
         assertThat(properties)
                 .containsEntry("spring.cloud.vault.uri", "test-uri")
                 .containsEntry("spring.cloud.vault.namespace", "test-namespace")
-                .containsEntry("spring.cloud.vault.authentication", "AZURE_MSI")
+                .containsEntry("spring.cloud.vault.authentication", "azure_msi")
                 .containsEntry("spring.cloud.vault.azure-msi.role", "test-role")
                 .containsEntry("spring.cloud.vault.azure-msi.azure-path", "test-azure-path");
     }
@@ -244,7 +244,7 @@ final class VaultPropertiesProcessorTest {
         assertThat(properties)
                 .containsEntry("spring.cloud.vault.uri", "test-uri")
                 .containsEntry("spring.cloud.vault.namespace", "test-namespace")
-                .containsEntry("spring.cloud.vault.authentication", "GCP_GCE")
+                .containsEntry("spring.cloud.vault.authentication", "gcp_gce")
                 .containsEntry("spring.cloud.vault.gcp-gce.role", "test-role")
                 .containsEntry("spring.cloud.vault.gcp-gce.gcp-path", "test-gcp-path")
                 .containsEntry("spring.cloud.vault.gcp-gce.service-account", "test-service-account");
@@ -257,7 +257,7 @@ final class VaultPropertiesProcessorTest {
         assertThat(properties)
                 .containsEntry("spring.cloud.vault.uri", "test-uri")
                 .containsEntry("spring.cloud.vault.namespace", "test-namespace")
-                .containsEntry("spring.cloud.vault.authentication", "GCP_IAM")
+                .containsEntry("spring.cloud.vault.authentication", "gcp_iam")
                 .containsEntry("spring.cloud.vault.gcp-iam.role", "test-role")
                 .containsEntry("spring.cloud.vault.gcp-iam.credentials.location", "test-path/secret/credentials.json")
                 .containsEntry("spring.cloud.vault.gcp-iam.credentials.encoded-key", "test-encoded-key")
@@ -274,7 +274,7 @@ final class VaultPropertiesProcessorTest {
         assertThat(properties)
                 .containsEntry("spring.cloud.vault.uri", "test-uri")
                 .containsEntry("spring.cloud.vault.namespace", "test-namespace")
-                .containsEntry("spring.cloud.vault.authentication", "KUBERNETES")
+                .containsEntry("spring.cloud.vault.authentication", "kubernetes")
                 .containsEntry("spring.cloud.vault.kubernetes.role", "test-role")
                 .containsEntry("spring.cloud.vault.kubernetes.kubernetes-path", "test-kubernetes-path");
     }

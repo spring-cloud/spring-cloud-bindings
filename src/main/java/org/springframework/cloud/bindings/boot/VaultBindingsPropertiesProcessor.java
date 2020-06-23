@@ -45,13 +45,12 @@ public final class VaultBindingsPropertiesProcessor implements BindingsPropertie
             map.from("uri").to("spring.cloud.vault.uri");
             map.from("namespace").to("spring.cloud.vault.namespace"); // vault enterprise feature
 
-            String method = binding.getSecret().get("method");
-            if (method == null) {
+            String authenticationMethod = binding.getSecret().get("method");
+            if (authenticationMethod == null) {
                 return;
             }
-            String authenticationMethod = method.toUpperCase();
             properties.put("spring.cloud.vault.authentication", authenticationMethod);
-            switch (authenticationMethod) {
+            switch (authenticationMethod.toUpperCase()) {
                 case "TOKEN":
                 case "CUBBYHOLE":
                     map.from("token").to("spring.cloud.vault.token");
