@@ -50,7 +50,7 @@ public final class VaultBindingsPropertiesProcessor implements BindingsPropertie
             map.from("uri").to("spring.cloud.vault.uri");
             map.from("namespace").to("spring.cloud.vault.namespace"); // vault enterprise feature
 
-            String authenticationMethod = binding.getSecret().get("method");
+            String authenticationMethod = binding.getSecret().get("authentication-method");
             if (authenticationMethod == null) {
                 LOG.warn(String.format("Key 'method' is missing from secret of binding '%s'", binding.getName()));
                 return;

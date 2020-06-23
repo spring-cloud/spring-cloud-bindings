@@ -47,7 +47,7 @@ final class VaultPropertiesProcessorTest {
             "test-name", Paths.get("test-path"),
             metadata(),
             baseSecret()
-                    .withEntry("method", "token")
+                    .withEntry("authentication-method", "token")
                     .withEntry("token", "test-token")
     );
 
@@ -55,7 +55,7 @@ final class VaultPropertiesProcessorTest {
             "test-name", Paths.get("test-path"),
             metadata(),
             baseSecret()
-                    .withEntry("method", "approle")
+                    .withEntry("authentication-method", "approle")
                     .withEntry("role-id", "test-role-id")
                     .withEntry("secret-id", "test-secret-id")
                     .withEntry("role", "test-role")
@@ -66,7 +66,7 @@ final class VaultPropertiesProcessorTest {
             "test-name", Paths.get("test-path"),
             metadata(),
             baseSecret()
-                    .withEntry("method", "cubbyhole")
+                    .withEntry("authentication-method", "cubbyhole")
                     .withEntry("token", "test-token")
     );
 
@@ -74,7 +74,7 @@ final class VaultPropertiesProcessorTest {
             "test-name", Paths.get("test-path"),
             metadata(),
             baseSecret()
-                    .withEntry("method", "cert")
+                    .withEntry("authentication-method", "cert")
                     .withEntry("keystore.jks", "key store contents!")
                     .withEntry("key-store-password", "test-key-store-password")
                     .withEntry("cert-auth-path", "test-cert-auth-path")
@@ -84,7 +84,7 @@ final class VaultPropertiesProcessorTest {
             "test-name", Paths.get("test-path"),
             metadata(),
             baseSecret()
-                    .withEntry("method", "aws_ec2")
+                    .withEntry("authentication-method", "aws_ec2")
                     .withEntry("role", "test-role")
                     .withEntry("aws-ec2-path", "test-aws-ec2-path")
                     .withEntry("identity-document", "test-identity-document")
@@ -95,7 +95,7 @@ final class VaultPropertiesProcessorTest {
             "test-name", Paths.get("test-path"),
             metadata(),
             baseSecret()
-                    .withEntry("method", "aws_iam")
+                    .withEntry("authentication-method", "aws_iam")
                     .withEntry("role", "test-role")
                     .withEntry("aws-path", "test-aws-path")
                     .withEntry("server-id", "test-server-id")
@@ -106,7 +106,7 @@ final class VaultPropertiesProcessorTest {
             "test-name", Paths.get("test-path"),
             metadata(),
             baseSecret()
-                    .withEntry("method", "azure_msi")
+                    .withEntry("authentication-method", "azure_msi")
                     .withEntry("role", "test-role")
                     .withEntry("azure-path", "test-azure-path")
     );
@@ -115,7 +115,7 @@ final class VaultPropertiesProcessorTest {
             "test-name", Paths.get("test-path"),
             metadata(),
             baseSecret()
-                    .withEntry("method", "gcp_gce")
+                    .withEntry("authentication-method", "gcp_gce")
                     .withEntry("role", "test-role")
                     .withEntry("gcp-path", "test-gcp-path")
                     .withEntry("service-account", "test-service-account")
@@ -125,7 +125,7 @@ final class VaultPropertiesProcessorTest {
             "test-name", Paths.get("test-path"),
             metadata(),
             baseSecret()
-                    .withEntry("method", "gcp_iam")
+                    .withEntry("authentication-method", "gcp_iam")
                     .withEntry("credentials.json", "credentials JSON contents!")
                     .withEntry("encoded-key", "test-encoded-key")
                     .withEntry("gcp-path", "test-gcp-path")
@@ -139,7 +139,7 @@ final class VaultPropertiesProcessorTest {
             "test-name", Paths.get("test-path"),
             metadata(),
             baseSecret()
-                    .withEntry("method", "kubernetes")
+                    .withEntry("authentication-method", "kubernetes")
                     .withEntry("role", "test-role")
                     .withEntry("kubernetes-path", "test-kubernetes-path")
     );
