@@ -70,14 +70,14 @@ public final class VaultBindingsPropertiesProcessor implements BindingsPropertie
                 case "AWS_EC2":
                     map.from("role").to("spring.cloud.vault.aws-ec2.role");
                     map.from("aws-ec2-path").to("spring.cloud.vault.aws-ec2.aws-ec2-path");
-                    map.from("identity-document").to("spring.cloud.vault.aws-ec2.identity-document");
+                    map.from("aws-ec2-instance-identity-document").to("spring.cloud.vault.aws-ec2.identity-document");
                     map.from("nonce").to("spring.cloud.vault.aws-ec2.nonce");
                     break;
                 case "AWS_IAM":
                     map.from("role").to("spring.cloud.vault.aws-iam.role");
                     map.from("aws-path").to("spring.cloud.vault.aws-iam.aws-path");
-                    map.from("server-id").to("spring.cloud.vault.aws-iam.server-id");
-                    map.from("endpoint-uri").to("spring.cloud.vault.aws-iam.endpoint-uri");
+                    map.from("aws-iam-server-id").to("spring.cloud.vault.aws-iam.server-id");
+                    map.from("aws-sts-endpoint-uri").to("spring.cloud.vault.aws-iam.endpoint-uri");
                     break;
                 case "AZURE_MSI":
                     map.from("role").to("spring.cloud.vault.azure-msi.role");
@@ -91,7 +91,7 @@ public final class VaultBindingsPropertiesProcessor implements BindingsPropertie
                 case "GCP_GCE":
                     map.from("role").to("spring.cloud.vault.gcp-gce.role");
                     map.from("gcp-path").to("spring.cloud.vault.gcp-gce.gcp-path");
-                    map.from("service-account").to("spring.cloud.vault.gcp-gce.service-account");
+                    map.from("gcp-service-account").to("spring.cloud.vault.gcp-gce.service-account");
                     break;
                 case "GCP_IAM":
                     if (binding.getSecret().containsKey("credentials.json")) {
@@ -101,8 +101,8 @@ public final class VaultBindingsPropertiesProcessor implements BindingsPropertie
                     map.from("encoded-key").to("spring.cloud.vault.gcp-iam.credentials.encoded-key");
                     map.from("gcp-path").to("spring.cloud.vault.gcp-iam.gcp-path");
                     map.from("jwt-validity").to("spring.cloud.vault.gcp-iam.jwt-validity");
-                    map.from("project-id").to("spring.cloud.vault.gcp-iam.project-id");
-                    map.from("service-account-id").to("spring.cloud.vault.gcp-iam.service-account-id");
+                    map.from("gcp-project-id").to("spring.cloud.vault.gcp-iam.project-id");
+                    map.from("gcp-service-account").to("spring.cloud.vault.gcp-iam.service-account");
                     break;
                 case "KUBERNETES":
                     map.from("role").to("spring.cloud.vault.kubernetes.role");

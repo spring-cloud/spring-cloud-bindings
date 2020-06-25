@@ -34,8 +34,8 @@ final class VaultPropertiesProcessorTest {
 
     private FluentMap baseSecret() {
         return new FluentMap()
-                .withEntry("uri", "test-uri")
-                .withEntry("namespace", "test-namespace");
+                .withEntry("namespace", "test-namespace")
+                .withEntry("uri", "test-uri");
     }
 
     private FluentMap metadata() {
@@ -55,11 +55,11 @@ final class VaultPropertiesProcessorTest {
             "test-name", Paths.get("test-path"),
             metadata(),
             baseSecret()
+                    .withEntry("app-role-path", "test-app-role-path")
                     .withEntry("authentication-method", "approle")
+                    .withEntry("role", "test-role")
                     .withEntry("role-id", "test-role-id")
                     .withEntry("secret-id", "test-secret-id")
-                    .withEntry("role", "test-role")
-                    .withEntry("app-role-path", "test-app-role-path")
     );
 
     private final Binding cubbyholeBinding = new Binding(
@@ -75,9 +75,9 @@ final class VaultPropertiesProcessorTest {
             metadata(),
             baseSecret()
                     .withEntry("authentication-method", "cert")
-                    .withEntry("keystore.jks", "key store contents!")
-                    .withEntry("key-store-password", "test-key-store-password")
                     .withEntry("cert-auth-path", "test-cert-auth-path")
+                    .withEntry("key-store-password", "test-key-store-password")
+                    .withEntry("keystore.jks", "key store contents!")
     );
 
     private final Binding awsEc2Binding = new Binding(
@@ -85,10 +85,10 @@ final class VaultPropertiesProcessorTest {
             metadata(),
             baseSecret()
                     .withEntry("authentication-method", "aws_ec2")
-                    .withEntry("role", "test-role")
-                    .withEntry("aws-ec2-path", "test-aws-ec2-path")
-                    .withEntry("identity-document", "test-identity-document")
+                    .withEntry("aws-ec2-instance-identity-document", "test-identity-document")
                     .withEntry("nonce", "test-nonce")
+                    .withEntry("aws-ec2-path", "test-aws-ec2-path")
+                    .withEntry("role", "test-role")
     );
 
     private final Binding awsIamBinding = new Binding(
@@ -96,10 +96,10 @@ final class VaultPropertiesProcessorTest {
             metadata(),
             baseSecret()
                     .withEntry("authentication-method", "aws_iam")
-                    .withEntry("role", "test-role")
+                    .withEntry("aws-iam-server-id", "test-server-id")
                     .withEntry("aws-path", "test-aws-path")
-                    .withEntry("server-id", "test-server-id")
-                    .withEntry("endpoint-uri", "test-endpoint-uri")
+                    .withEntry("aws-sts-endpoint-uri", "test-endpoint-uri")
+                    .withEntry("role", "test-role")
     );
 
     private final Binding azureMsiBinding = new Binding(
@@ -107,8 +107,8 @@ final class VaultPropertiesProcessorTest {
             metadata(),
             baseSecret()
                     .withEntry("authentication-method", "azure_msi")
-                    .withEntry("role", "test-role")
                     .withEntry("azure-path", "test-azure-path")
+                    .withEntry("role", "test-role")
     );
 
     private final Binding gcpGceBinding = new Binding(
@@ -116,9 +116,9 @@ final class VaultPropertiesProcessorTest {
             metadata(),
             baseSecret()
                     .withEntry("authentication-method", "gcp_gce")
-                    .withEntry("role", "test-role")
                     .withEntry("gcp-path", "test-gcp-path")
-                    .withEntry("service-account", "test-service-account")
+                    .withEntry("gcp-service-account", "test-service-account")
+                    .withEntry("role", "test-role")
     );
 
     private final Binding gcpIamBinding = new Binding(
@@ -129,10 +129,10 @@ final class VaultPropertiesProcessorTest {
                     .withEntry("credentials.json", "credentials JSON contents!")
                     .withEntry("encoded-key", "test-encoded-key")
                     .withEntry("gcp-path", "test-gcp-path")
+                    .withEntry("gcp-project-id", "test-project-id")
+                    .withEntry("gcp-service-account", "test-service-account")
                     .withEntry("jwt-validity", "test-jwt-validity")
-                    .withEntry("project-id", "test-project-id")
                     .withEntry("role", "test-role")
-                    .withEntry("service-account-id", "test-service-account-id")
     );
 
     private final Binding k8sBinding = new Binding(
@@ -264,7 +264,7 @@ final class VaultPropertiesProcessorTest {
                 .containsEntry("spring.cloud.vault.gcp-iam.gcp-path", "test-gcp-path")
                 .containsEntry("spring.cloud.vault.gcp-iam.jwt-validity", "test-jwt-validity")
                 .containsEntry("spring.cloud.vault.gcp-iam.project-id", "test-project-id")
-                .containsEntry("spring.cloud.vault.gcp-iam.service-account-id", "test-service-account-id");
+                .containsEntry("spring.cloud.vault.gcp-iam.service-account", "test-service-account");
     }
 
     @Test

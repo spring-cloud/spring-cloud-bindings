@@ -291,7 +291,7 @@ If `{secret/authentication-method}` is equal to `aws_ec2`:
 | Property | Value
 | -------- | ------------------
 | `spring.cloud.vault.aws-ec2.aws-ec2-path` | `{secret/aws-ec2-path}`
-| `spring.cloud.vault.aws-ec2.identity-document` | `{secret/aws-ec2-identity-document}`
+| `spring.cloud.vault.aws-ec2.identity-document` | `{secret/aws-ec2-instance-identity-document}`
 | `spring.cloud.vault.aws-ec2.nonce` | `{secret/nonce}`
 | `spring.cloud.vault.aws-ec2.role` | `{secret/role}`
 
@@ -299,9 +299,9 @@ If `{secret/authentication-method}` is equal to `aws_iam`:
 | Property | Value
 | -------- | ------------------
 | `spring.cloud.vault.aws-iam.aws-path` | `{secret/aws-path}`
-| `spring.cloud.vault.aws-iam.endpoint-uri` | `{secret/endpoint-uri}`
-| `spring.cloud.vault.aws-iam.role` | `{secret/token}`
-| `spring.cloud.vault.aws-iam.server-id` | `{secret/server-id}`
+| `spring.cloud.vault.aws-iam.endpoint-uri` | `{secret/aws-sts-endpoint-uri}`
+| `spring.cloud.vault.aws-iam.role` | `{secret/role}`
+| `spring.cloud.vault.aws-iam.server-id` | `{secret/aws-iam-server-id}`
 
 If `{secret/authentication-method}` is equal to `azure_msi`:
 | Property | Value
@@ -326,7 +326,7 @@ If `{secret/authentication-method}` is equal to `gcp_gce`:
 | -------- | ------------------
 | `spring.cloud.vault.gcp-gce.gcp-path` | `{secret/gcp-path}`
 | `spring.cloud.vault.gcp-gce.role` | `{secret/role}`
-| `spring.cloud.vault.gcp-gce.service-account` | `{secret/service-account}`
+| `spring.cloud.vault.gcp-gce.service-account` | `{secret/gcp-service-account}`
 
 
 If `{secret/authentication-method}` is equal to `gcp_iam`:
@@ -336,9 +336,9 @@ If `{secret/authentication-method}` is equal to `gcp_iam`:
 | `spring.cloud.vault.gcp-iam.credentials.location` | `${CNB_BINDINGS}/{name}/secret/credentials.json`
 | `spring.cloud.vault.gcp-iam.gcp-path` | `{secret/gcp-path}`
 | `spring.cloud.vault.gcp-iam.jwt-validity` | `{secret/jwt-validity}`
-| `spring.cloud.vault.gcp-iam.project-id` | `{secret/project-id}`
+| `spring.cloud.vault.gcp-iam.project-id` | `{secret/gcp-project-id}`
 | `spring.cloud.vault.gcp-iam.role` | `{secret/role}`
-| `spring.cloud.vault.gcp-iam.service-account-id` | `{secret/service-account-id}`
+| `spring.cloud.vault.gcp-iam.service-account` | `{secret/gcp-service-account}`
 
 If `{secret/authentication-method}` is equal to `kubernetes`:
 | Property | Value
