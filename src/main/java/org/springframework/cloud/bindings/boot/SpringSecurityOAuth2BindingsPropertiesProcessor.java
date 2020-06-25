@@ -16,8 +16,11 @@
 
 package org.springframework.cloud.bindings.boot;
 
+import org.springframework.boot.context.event.ApplicationPreparedEvent;
+import org.springframework.boot.logging.DeferredLog;
 import org.springframework.cloud.bindings.Binding;
 import org.springframework.cloud.bindings.Bindings;
+import org.springframework.context.ApplicationListener;
 import org.springframework.core.env.Environment;
 
 import java.util.*;
@@ -27,12 +30,14 @@ import static org.springframework.cloud.bindings.boot.Guards.isKindEnabled;
 /**
  * An implementation of {@link BindingsPropertiesProcessor} that detects {@link Binding}s of kind: {@value KIND}.
  */
-public final class SpringSecurityOAuth2BindingsPropertiesProcessor implements BindingsPropertiesProcessor {
+public final class SpringSecurityOAuth2BindingsPropertiesProcessor implements BindingsPropertiesProcessor, ApplicationListener<ApplicationPreparedEvent> {
 
     /**
      * The {@link Binding} kind that this processor is interested in: {@value}.
      **/
     public static final String KIND = "OAuth2";
+
+    private static final DeferredLog LOG = new DeferredLog();
 
     @Override
     public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {
@@ -43,6 +48,10 @@ public final class SpringSecurityOAuth2BindingsPropertiesProcessor implements Bi
         bindings.filterBindings(KIND).forEach(binding -> {
             MapMapper map = new MapMapper(binding.getSecret(), properties);
             String provider = binding.getProvider();
+            if (provider == null) {
+                LOG.warn(String.format("Binding '%s' is missing required 'provider' and will not be processed.", binding.getName()));
+                return;
+            }
             String clientName = binding.getName();
             properties.put(String.format("spring.security.oauth2.client.registration.%s.provider", clientName), provider);
             map.from("client-id").to(String.format("spring.security.oauth2.client.registration.%s.client-id", clientName));
@@ -57,4 +66,8 @@ public final class SpringSecurityOAuth2BindingsPropertiesProcessor implements Bi
         });
     }
 
+    @Override
+    public void onApplicationEvent(ApplicationPreparedEvent event) {
+        LOG.switchTo(getClass());
+    }
 }

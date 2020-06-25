@@ -63,6 +63,13 @@ final class SpringSecurityOAuth2BindingsPropertiesProcessorTest {
                             .withEntry("user-info-authentication-method", "my-provider-user-info-authentication-method")
                             .withEntry("jwk-set-uri", "my-provider-jwk-set-uri")
                             .withEntry("user-name-attribute", "my-provider-user-name-attribute")
+            ),
+            // Don't crash when provider is missing
+            new Binding("test-missing-provider", Paths.get("test-path"),
+                    new FluentMap()
+                            .withEntry("kind", KIND),
+                    new FluentMap()
+                            .withEntry("client-id", "my-provider-client-id")
             )
     );
 
@@ -81,8 +88,9 @@ final class SpringSecurityOAuth2BindingsPropertiesProcessorTest {
         ;
     }
 
+    @Test
     @DisplayName("contributes client properties for OIDC providers")
-    void testOIDCProvider() {
+    void testOidcProvider() {
         new SpringSecurityOAuth2BindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties)
                 .containsEntry("spring.security.oauth2.client.registration.test-name-2.client-id", "okta-client-id")
@@ -92,6 +100,7 @@ final class SpringSecurityOAuth2BindingsPropertiesProcessorTest {
         ;
     }
 
+    @Test
     @DisplayName("contributes client properties for non-OIDC providers")
     void testProvider() {
         new SpringSecurityOAuth2BindingsPropertiesProcessor().process(environment, bindings, properties);
