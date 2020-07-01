@@ -1,0 +1,16 @@
+---
+platform: linux
+
+image_resource:
+  type: registry-image
+  source:
+    repository: cfje/spring-cloud-bindings
+
+inputs:
+- name: source
+
+caches:
+- path: maven
+
+run:
+  path: source/scripts/test.sh

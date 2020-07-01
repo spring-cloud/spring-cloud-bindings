@@ -1,0 +1,21 @@
+---
+platform: linux
+
+image_resource:
+  type: registry-image
+  source:
+    repository: cfje/spring-cloud-bindings
+
+inputs:
+- name: source
+
+caches:
+- path: maven
+
+outputs:
+- name: source
+
+run:
+  path: source/scripts/bump-version.sh
+  args:
+  - minor
