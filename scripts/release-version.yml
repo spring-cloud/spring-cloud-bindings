@@ -1,0 +1,20 @@
+---
+platform: linux
+
+image_resource:
+  type: registry-image
+  source:
+    repository: cfje/spring-cloud-bindings
+
+inputs:
+- name: source
+
+caches:
+- path: maven
+
+outputs:
+- name: source
+- name: version
+
+run:
+  path: source/scripts/release-version.sh
