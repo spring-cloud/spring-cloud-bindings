@@ -23,7 +23,7 @@ import org.springframework.mock.env.MockEnvironment;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.cloud.bindings.boot.Guards.isGlobalEnabled;
-import static org.springframework.cloud.bindings.boot.Guards.isKindEnabled;
+import static org.springframework.cloud.bindings.boot.Guards.isTypeEnabled;
 
 @DisplayName("Guards")
 final class GuardsTest {
@@ -57,29 +57,29 @@ final class GuardsTest {
     }
 
     @Nested
-    @DisplayName("Kind Guard")
-    final class KindGuard {
+    @DisplayName("Type Guard")
+    final class TypeGuard {
 
         private final MockEnvironment environment = new MockEnvironment();
 
         @Test
         @DisplayName("returns true if unset")
         void unset() {
-            assertThat(isKindEnabled(environment, "Test")).isTrue();
+            assertThat(isTypeEnabled(environment, "Test")).isTrue();
         }
 
         @Test
         @DisplayName("returns the set value of true")
         void setTrue() {
             environment.setProperty("org.springframework.cloud.bindings.boot.test.enable", "true");
-            assertThat(isKindEnabled(environment, "Test")).isTrue();
+            assertThat(isTypeEnabled(environment, "Test")).isTrue();
         }
 
         @Test
         @DisplayName("returns the set value of false")
         void setFalse() {
             environment.setProperty("org.springframework.cloud.bindings.boot.test.enable", "false");
-            assertThat(isKindEnabled(environment, "Test")).isFalse();
+            assertThat(isTypeEnabled(environment, "Test")).isFalse();
         }
 
     }

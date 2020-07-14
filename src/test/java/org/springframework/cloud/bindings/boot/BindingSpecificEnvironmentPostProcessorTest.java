@@ -43,7 +43,8 @@ final class BindingSpecificEnvironmentPostProcessorTest {
         new BindingSpecificEnvironmentPostProcessor(
                 new Bindings(
                         new Binding("test-name", Paths.get("test-path"),
-                                Collections.emptyMap(), Collections.emptyMap())
+                                Collections.emptyMap()
+                        )
                 ),
                 (environment, bindings, properties) -> properties.put("test-key", "test-value")
         ).postProcessEnvironment(new MockEnvironment(), application);
@@ -66,7 +67,8 @@ final class BindingSpecificEnvironmentPostProcessorTest {
         new BindingSpecificEnvironmentPostProcessor(
                 new Bindings(
                         new Binding("test-name", Paths.get("test-path"),
-                                Collections.emptyMap(), Collections.emptyMap())
+                                Collections.emptyMap()
+                        )
                 )
         ).postProcessEnvironment(environment, application);
 
@@ -79,7 +81,8 @@ final class BindingSpecificEnvironmentPostProcessorTest {
         new BindingSpecificEnvironmentPostProcessor(
                 new Bindings(
                         new Binding("test-name", Paths.get("test-path"),
-                                Collections.emptyMap(), Collections.emptyMap())
+                                Collections.emptyMap()
+                        )
                 ),
                 (environment, bindings, properties) -> properties.put("test-key", "test-value")
         ).postProcessEnvironment(environment, application);

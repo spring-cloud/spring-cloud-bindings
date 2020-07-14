@@ -15,52 +15,121 @@
  */
 package org.springframework.cloud.bindings;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
  * A representation of a binding as defined by the
- * <a href="https://github.com/buildpacks/spec/blob/master/extensions/bindings.md">Cloud Native Buildpacks Specification</a>.
+ * <a href="https://github.com/k8s-service-bindings/spec#application-projection">Kubernetes Service Binding Specification</a>.
  */
 public final class Binding {
+
+    /**
+     * The key for the kind of a binding.
+     */
+    public static final String KIND = "kind";
+
+    /**
+     * The key for the provider of a binding.
+     */
+    public static final String PROVIDER = "provider";
+
+    /**
+     * The key for the type of a binding.
+     */
+    public static final String TYPE = "type";
 
     private final String name;
 
     private final Path path;
 
-    private final Map<String, String> metadata;
+    private final String provider;
 
     private final Map<String, String> secret;
+
+    private final String type;
 
     /**
      * Creates a new {@code Binding} instance using the specified file system root.
      */
     public Binding(Path path) {
-        this.name = path.getFileName().toString();
-        this.path = path;
-        this.metadata = createFilePerEntryMap(path.resolve("metadata"));
-        this.secret = createFilePerEntryMap(path.resolve("secret"));
+        this(path.getFileName().toString(), path, createSecretMap(path));
     }
 
     /**
      * Creates a new {@code Binding} instance using the specified content.
      *
-     * @param name     the name of the {@code Binding}.
-     * @param path     the path to the {@code Binding}.
-     * @param metadata the metadata of the {@code Binding}.
-     * @param secret   the secret of the {@code Binding}.
+     * @param name   the name of the {@code Binding}.
+     * @param path   the path to the {@code Binding}.
+     * @param secret the secret of the {@code Binding}.
      */
-    public Binding(String name, Path path, Map<String, String> metadata, Map<String, String> secret) {
+    public Binding(String name, Path path, Map<String, String> secret) {
         this.name = name;
         this.path = path;
-        this.metadata = metadata;
-        this.secret = secret;
+        this.secret = new HashMap<>();
+
+        String provider = null;
+        String type = null;
+        for (Map.Entry<String, String> entry : secret.entrySet()) {
+            switch (entry.getKey()) {
+                case TYPE:
+                case KIND: // TODO: Remove as CNB_BINDINGS ages out
+                    type = entry.getValue();
+                    break;
+                case PROVIDER:
+                    provider = entry.getValue();
+                    break;
+                default:
+                    this.secret.put(entry.getKey(), entry.getValue());
+            }
+        }
+
+        this.provider = provider;
+        this.type = type;
+    }
+
+    private static Map<String, String> createSecretMap(Path path) {
+        Map<String, String> secret = createFilePerEntryMap(path);
+
+        // TODO: Remove as CNB_BINDINGS ages out
+        Arrays.asList("metadata", "secret")
+                .forEach(d -> secret.putAll(createFilePerEntryMap(path.resolve(d))));
+
+        return secret;
+    }
+
+    private static Map<String, String> createFilePerEntryMap(Path path) {
+        if (!Files.exists(path)) {
+            return Collections.emptyMap();
+        }
+
+        try {
+            return Files.list(path)
+                    .filter(p -> {
+                        try {
+                            return !Files.isHidden(p);
+                        } catch (IOException e) {
+                            throw new IllegalStateException(String.format("unable to determin id file '%s' is hidden", p), e);
+                        }
+                    })
+                    .filter(p -> !Files.isDirectory(p))
+                    .collect(Collectors.toMap(
+                            p -> p.getFileName().toString(),
+                            p -> {
+                                try {
+                                    return new String(Files.readAllBytes(p), StandardCharsets.UTF_8).trim();
+                                } catch (IOException e) {
+                                    throw new IllegalStateException(String.format("unable to read file '%s'", p), e);
+                                }
+                            }
+                    ));
+        } catch (IOException e) {
+            throw new IllegalStateException(String.format("unable to list children of '%s'", path), e);
+        }
     }
 
     /**
@@ -78,40 +147,24 @@ public final class Binding {
     }
 
     /**
-     * Returns the metadata of the binding.
-     */
-    public Map<String, String> getMetadata() {
-        return metadata;
-    }
-
-    /**
      * Returns the secret of the binding.
      */
     public Map<String, String> getSecret() {
-        return secret;
+        return Collections.unmodifiableMap(secret);
     }
 
     /**
-     * Returns the kind of the binding.  Equivalent to {@code getMetadata().get("kind")}.
+     * Returns the type of the binding.
      */
-    public String getKind() {
-        return metadata.get("kind");
+    public String getType() {
+        return type;
     }
 
     /**
-     * Returns the provider of the binding.  Equivalent to {@code getMetadata().get("provider")}.
+     * Returns the provider of the binding.
      */
     public String getProvider() {
-        return metadata.get("provider");
-    }
-
-    /**
-     * Returns the {@link Path} to a metadata file on disk.
-     *
-     * @param name the name of the metadata key.
-     */
-    public Path getMetadataFilePath(String name) {
-        return this.path.resolve("metadata").resolve(name);
+        return provider;
     }
 
     /**
@@ -120,7 +173,14 @@ public final class Binding {
      * @param name the name of the secret key.
      */
     public Path getSecretFilePath(String name) {
-        return this.path.resolve("secret").resolve(name);
+        for (String d : Arrays.asList("metadata", "secret")) {
+            Path file = path.resolve(d).resolve(name);
+            if (Files.exists(file)) {
+                return file;
+            }
+        }
+
+        return this.path.resolve(name);
     }
 
     @Override
@@ -130,33 +190,25 @@ public final class Binding {
         Binding binding = (Binding) o;
         return name.equals(binding.name) &&
                 path.equals(binding.path) &&
-                metadata.equals(binding.metadata) &&
-                secret.equals(binding.secret);
+                Objects.equals(provider, binding.provider) &&
+                secret.equals(binding.secret) &&
+                Objects.equals(type, binding.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, path, metadata, secret);
+        return Objects.hash(name, path, provider, secret, type);
     }
 
-    private Map<String, String> createFilePerEntryMap(Path path) {
-        try {
-            return Files.list(path)
-                    .filter(p -> !p.getFileName().toString().startsWith("."))
-                    .filter(p -> !new File(p.toString()).isDirectory())
-                    .collect(Collectors.toMap(
-                            p -> p.getFileName().toString(),
-                            p -> {
-                                try {
-                                    return new String(Files.readAllBytes(p), StandardCharsets.UTF_8).trim();
-                                } catch (IOException e) {
-                                    throw new IllegalStateException(String.format("unable to read file '%s'", p), e);
-                                }
-                            }
-                    ));
-        } catch (IOException e) {
-            throw new IllegalStateException(String.format("unable to list children of '%s'", path), e);
-        }
+    @Override
+    public String toString() {
+        return "Binding{" +
+                "name='" + name + '\'' +
+                ", path=" + path +
+                ", provider='" + provider + '\'' +
+                ", secret=" + new TreeSet<>(secret.keySet()) +
+                ", type='" + type + '\'' +
+                '}';
     }
 
 }

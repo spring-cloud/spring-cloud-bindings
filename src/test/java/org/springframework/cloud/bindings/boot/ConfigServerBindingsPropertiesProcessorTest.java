@@ -24,19 +24,18 @@ import org.springframework.cloud.bindings.FluentMap;
 import org.springframework.mock.env.MockEnvironment;
 
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.cloud.bindings.boot.ConfigServerBindingsPropertiesProcessor.KIND;
+import static org.springframework.cloud.bindings.boot.ConfigServerBindingsPropertiesProcessor.TYPE;
 
 @DisplayName("Config Server BindingsPropertiesProcessor")
 final class ConfigServerBindingsPropertiesProcessorTest {
 
     private final Bindings bindings = new Bindings(
             new Binding("test-name", Paths.get("test-path"),
-                    Collections.singletonMap("kind", KIND),
                     new FluentMap()
+                            .withEntry(Binding.TYPE, TYPE)
                             .withEntry("uri", "test-uri")
                             .withEntry("client-id", "test-client-id")
                             .withEntry("client-secret", "test-client-secret")

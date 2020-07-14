@@ -24,19 +24,18 @@ import org.springframework.cloud.bindings.FluentMap;
 import org.springframework.mock.env.MockEnvironment;
 
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.cloud.bindings.boot.KafkaBindingsPropertiesProcessor.KIND;
+import static org.springframework.cloud.bindings.boot.KafkaBindingsPropertiesProcessor.TYPE;
 
 @DisplayName("Kafka BindingsPropertiesProcessor")
 final class KafkaBindingsPropertiesProcessorTest {
 
     private final Bindings bindings = new Bindings(
             new Binding("test-name", Paths.get("test-path"),
-                    Collections.singletonMap("kind", KIND),
                     new FluentMap()
+                            .withEntry(Binding.TYPE, TYPE)
                             .withEntry("bootstrap-servers", "test-bootstrap-servers")
                             .withEntry("consumer.bootstrap-servers", "test-consumer-bootstrap-servers")
                             .withEntry("producer.bootstrap-servers", "test-producer-bootstrap-servers")

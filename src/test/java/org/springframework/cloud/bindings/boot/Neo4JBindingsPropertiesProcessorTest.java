@@ -24,19 +24,18 @@ import org.springframework.cloud.bindings.FluentMap;
 import org.springframework.mock.env.MockEnvironment;
 
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.cloud.bindings.boot.Neo4JBindingsPropertiesProcessor.KIND;
+import static org.springframework.cloud.bindings.boot.Neo4JBindingsPropertiesProcessor.TYPE;
 
 @DisplayName("Neo4J BindingsPropertiesProcessor")
 final class Neo4JBindingsPropertiesProcessorTest {
 
     private final Bindings bindings = new Bindings(
             new Binding("test-name", Paths.get("test-path"),
-                    Collections.singletonMap("kind", KIND),
                     new FluentMap()
+                            .withEntry(Binding.TYPE, TYPE)
                             .withEntry("password", "test-password")
                             .withEntry("uri", "test-uri")
                             .withEntry("username", "test-username")

@@ -25,27 +25,27 @@ import org.springframework.core.env.Environment;
 
 import java.util.*;
 
-import static org.springframework.cloud.bindings.boot.Guards.isKindEnabled;
+import static org.springframework.cloud.bindings.boot.Guards.isTypeEnabled;
 
 /**
- * An implementation of {@link BindingsPropertiesProcessor} that detects {@link Binding}s of kind: {@value KIND}.
+ * An implementation of {@link BindingsPropertiesProcessor} that detects {@link Binding}s of type: {@value TYPE}.
  */
 public final class SpringSecurityOAuth2BindingsPropertiesProcessor implements BindingsPropertiesProcessor, ApplicationListener<ApplicationPreparedEvent> {
 
     /**
-     * The {@link Binding} kind that this processor is interested in: {@value}.
+     * The {@link Binding} type that this processor is interested in: {@value}.
      **/
-    public static final String KIND = "OAuth2";
+    public static final String TYPE = "OAuth2";
 
     private static final DeferredLog LOG = new DeferredLog();
 
     @Override
     public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {
-        if (!isKindEnabled(environment, KIND)) {
+        if (!isTypeEnabled(environment, TYPE)) {
             return;
         }
 
-        bindings.filterBindings(KIND).forEach(binding -> {
+        bindings.filterBindings(TYPE).forEach(binding -> {
             MapMapper map = new MapMapper(binding.getSecret(), properties);
             String provider = binding.getProvider();
             if (provider == null) {

@@ -43,7 +43,8 @@ final class BindingFlattenedEnvironmentPostProcessorTest {
         new BindingFlattenedEnvironmentPostProcessor(
                 new Bindings(
                         new Binding("test-name", Paths.get("test-path"),
-                                Collections.emptyMap(), Collections.emptyMap())
+                                Collections.emptyMap()
+                        )
                 )
         ).postProcessEnvironment(new MockEnvironment(), application);
 
@@ -65,14 +66,13 @@ final class BindingFlattenedEnvironmentPostProcessorTest {
         new BindingFlattenedEnvironmentPostProcessor(
                 new Bindings(
                         new Binding("test-name", Paths.get("test-path"),
-                                Collections.singletonMap("test-metadata-key", "test-metadata-value"),
-                                Collections.singletonMap("test-secret-key", "test-secret-value"))
+                                Collections.singletonMap("test-secret-key", "test-secret-value")
+                        )
                 )
         ).postProcessEnvironment(environment, application);
 
         assertThat(environment.getPropertySources()).hasSize(2);
-        assertThat(environment.getProperty("cnb.bindings.test-name.metadata.test-metadata-key")).isEqualTo("test-metadata-value");
-        assertThat(environment.getProperty("cnb.bindings.test-name.secret.test-secret-key")).isEqualTo("test-secret-value");
+        assertThat(environment.getProperty("cnb.bindings.test-name.test-secret-key")).isEqualTo("test-secret-value");
     }
 
     @Test
