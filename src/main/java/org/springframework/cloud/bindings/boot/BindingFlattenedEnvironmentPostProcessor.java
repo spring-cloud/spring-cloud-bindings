@@ -71,11 +71,8 @@ public final class BindingFlattenedEnvironmentPostProcessor implements Applicati
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
         Map<String, Object> properties = new HashMap<>();
         bindings.getBindings().forEach(binding -> {
-            binding.getMetadata().forEach((key, value) -> {
-                properties.put(String.format("cnb.bindings.%s.metadata.%s", binding.getName(), key), value);
-            });
             binding.getSecret().forEach((key, value) -> {
-                properties.put(String.format("cnb.bindings.%s.secret.%s", binding.getName(), key), value);
+                properties.put(String.format("cnb.bindings.%s.%s", binding.getName(), key), value);
             });
         });
 

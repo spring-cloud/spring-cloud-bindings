@@ -27,7 +27,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.cloud.bindings.boot.SpringSecurityOAuth2BindingsPropertiesProcessor.KIND;
+import static org.springframework.cloud.bindings.boot.SpringSecurityOAuth2BindingsPropertiesProcessor.TYPE;
 
 @DisplayName("Spring Security OAuth2 BindingsPropertiesProcessor")
 final class SpringSecurityOAuth2BindingsPropertiesProcessorTest {
@@ -35,26 +35,23 @@ final class SpringSecurityOAuth2BindingsPropertiesProcessorTest {
     private final Bindings bindings = new Bindings(
             new Binding("test-name-1", Paths.get("test-path"),
                     new FluentMap()
-                            .withEntry("kind", KIND)
-                            .withEntry("provider", "github"),
-                    new FluentMap()
+                            .withEntry(Binding.TYPE, TYPE)
+                            .withEntry("provider", "github")
                             .withEntry("client-id", "github-client-id")
                             .withEntry("client-secret", "github-client-secret")
             ),
             new Binding("test-name-2", Paths.get("test-path"),
                     new FluentMap()
-                            .withEntry("kind", KIND)
-                            .withEntry("provider", "okta"),
-                    new FluentMap()
+                            .withEntry(Binding.TYPE, TYPE)
+                            .withEntry("provider", "okta")
                             .withEntry("client-id", "okta-client-id")
                             .withEntry("client-secret", "okta-client-secret")
                             .withEntry("issuer-uri", "okta-issuer-uri")
             ),
             new Binding("test-name-3", Paths.get("test-path"),
                     new FluentMap()
-                            .withEntry("kind", KIND)
-                            .withEntry("provider", "my-provider"),
-                    new FluentMap()
+                            .withEntry(Binding.TYPE, TYPE)
+                            .withEntry("provider", "my-provider")
                             .withEntry("client-id", "my-provider-client-id")
                             .withEntry("client-secret", "my-provider-client-secret")
                             .withEntry("authorization-uri", "my-provider-authorization-uri")
@@ -67,8 +64,7 @@ final class SpringSecurityOAuth2BindingsPropertiesProcessorTest {
             // Don't crash when provider is missing
             new Binding("test-missing-provider", Paths.get("test-path"),
                     new FluentMap()
-                            .withEntry("kind", KIND),
-                    new FluentMap()
+                            .withEntry(Binding.TYPE, TYPE)
                             .withEntry("client-id", "my-provider-client-id")
             )
     );

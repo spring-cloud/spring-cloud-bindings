@@ -24,19 +24,18 @@ import org.springframework.cloud.bindings.FluentMap;
 import org.springframework.mock.env.MockEnvironment;
 
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.cloud.bindings.boot.RedisBindingsPropertiesProcessor.KIND;
+import static org.springframework.cloud.bindings.boot.RedisBindingsPropertiesProcessor.TYPE;
 
 @DisplayName("Redis BindingsPropertiesProcessor")
 final class RedisBindingsPropertiesProcessorTest {
 
     private final Bindings bindings = new Bindings(
             new Binding("test-name", Paths.get("test-path"),
-                    Collections.singletonMap("kind", KIND),
                     new FluentMap()
+                            .withEntry(Binding.TYPE, TYPE)
                             .withEntry("client-name", "test-client-name")
                             .withEntry("cluster.max-redirects", "test-cluster-max-redirects")
                             .withEntry("cluster.nodes", "test-cluster-nodes")

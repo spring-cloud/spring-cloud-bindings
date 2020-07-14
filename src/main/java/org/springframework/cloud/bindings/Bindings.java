@@ -24,20 +24,27 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
 /**
  * A representation of a collection of bindings as defined by the
- * <a href="https://github.com/buildpacks/spec/blob/master/extensions/bindings.md">Cloud Native Buildpacks Specification</a>.
+ * <a href="https://github.com/k8s-service-bindings/spec#application-projection">Kubernetes Service Binding Specification</a>.
  */
 public final class Bindings {
 
     /**
-     * The name of the environment variable to read to determine the bindings file system root.  Specified by the Cloud
-     * Native Buildpacks Specification.
+     * The name of the environment variable to read to determine the bindings file system root.  Specified by the
+     * <a href="https://github.com/buildpacks/spec/blob/master/extensions/bindings.md">Cloud Native Buildpacks Specification</a>
      */
     public static final String CNB_BINDINGS = "CNB_BINDINGS";
+
+    /**
+     * The name of the environment variable to read to determine the bindings file system root.  Specified by the
+     * Kubernetes Service Binding Specification.
+     */
+    public static final String SERVICE_BINDING_ROOT = "SERVICE_BINDING_ROOT";
 
     private final List<Binding> bindings;
 
@@ -47,7 +54,7 @@ public final class Bindings {
      * returned. If the directory does not exist, an empty {@code Bindings} is returned.
      */
     public Bindings() {
-        this(System.getenv(CNB_BINDINGS));
+        this(getBindingRoot());
     }
 
     /**
@@ -91,6 +98,17 @@ public final class Bindings {
         this.bindings = Arrays.asList(bindings);
     }
 
+    private static String getBindingRoot() {
+        Map<String, String> environment = System.getenv();
+
+        // TODO: Remove as CNB_BINDINGS ages out
+        if (environment.containsKey(CNB_BINDINGS)) {
+            return environment.get(CNB_BINDINGS);
+        }
+
+        return System.getenv(SERVICE_BINDING_ROOT);
+    }
+
     /**
      * Returns all the {@link Binding}s that were found during construction.
      */
@@ -113,27 +131,27 @@ public final class Bindings {
     }
 
     /**
-     * Returns zero or more {@link Binding}s with a given kind.  Equivalent to {@link #filterBindings(String, String)}.
+     * Returns zero or more {@link Binding}s with a given type.  Equivalent to {@link #filterBindings(String, String)}.
      *
-     * @param kind the kind of the {@code Binding} to find.
-     * @return the collection of {@code Binding}s with a given kind.
+     * @param type the type of the {@code Binding} to find.
+     * @return the collection of {@code Binding}s with a given type.
      */
-    public List<Binding> filterBindings(@Nullable String kind) {
-        return filterBindings(kind, null);
+    public List<Binding> filterBindings(@Nullable String type) {
+        return filterBindings(type, null);
     }
 
     /**
-     * Return zero or more {@link Binding}s with a given kind and provider.  If {@code kind} or {@code provider} are
+     * Return zero or more {@link Binding}s with a given type and provider.  If {@code type} or {@code provider} are
      * {@code null}, the result is not filtered on that argument.
      *
-     * @param kind     the kind of {@code Binding} to find.
+     * @param type     the type of {@code Binding} to find.
      * @param provider the provider of {@code Binding} to find
-     * @return the collection of {@code Binding}s with a given kind and provider.
+     * @return the collection of {@code Binding}s with a given type and provider.
      */
-    public List<Binding> filterBindings(@Nullable String kind, @Nullable String provider) {
+    public List<Binding> filterBindings(@Nullable String type, @Nullable String provider) {
         return bindings.stream()
                 .filter(binding ->
-                        (kind == null || binding.getKind().equalsIgnoreCase(kind)) &&
+                        (type == null || binding.getType().equalsIgnoreCase(type)) &&
                                 (provider == null || binding.getProvider().equalsIgnoreCase(provider)))
                 .collect(Collectors.toList());
     }

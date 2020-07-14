@@ -1,5 +1,5 @@
 # Spring Cloud Bindings
-The Spring Cloud Bindings library exposes a rich Java language binding for the [Cloud Native Buildpacks Binding Specification][s].  In addition, if opted-in, it configures Spring Boot application configuration properties appropriate for the kind of binding encountered.
+The Spring Cloud Bindings library exposes a rich Java language binding for the [Cloud Native Buildpacks Binding Specification][s].  In addition, if opted-in, it configures Spring Boot application configuration properties appropriate for the type of binding encountered.
 
 [s]: https://github.com/buildpacks/spec/blob/master/extensions/bindings.md
 
@@ -30,10 +30,10 @@ The more common usage of the library is opt-in automatic Spring Boot configurati
 * Adds a `PropertySource` with binding-specific Spring Boot configuration properties.
 
 ## Auto-Configurations
-Each auto-configuration is triggered by the kind of binding.  Each auto-configuration can be disabled using a System Property specific to that kind and defaults to enable. Auto-configuration is disabled by default and can be enabled by setting the `org.springframework.cloud.bindings.boot.enable` System Property to `true`.
+Each auto-configuration is triggered by the type of binding.  Each auto-configuration can be disabled using a System Property specific to that type and defaults to enable. Auto-configuration is disabled by default and can be enabled by setting the `org.springframework.cloud.bindings.boot.enable` System Property to `true`.
 
 ### Cassandra
-Kind: `cassandra`
+Type: `cassandra`
 Disable Property: `org.springframework.cloud.bindings.boot.cassandra.enable`
 
 | Property | Value
@@ -48,7 +48,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.cassandra.enable`
 | `spring.data.cassandra.username` | `{secret/username}`
 
 ### Couchbase
-Kind: `couchbase`
+Type: `couchbase`
 Disable Property: `org.springframework.cloud.bindings.boot.couchbase.enable`
 
 | Property | Value
@@ -62,7 +62,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.couchbase.enable`
 | `spring.couchbase.username` | `{secret/username}`
 
 ### DB2 RDBMS
-Kind: `DB2`
+Type: `DB2`
 Disable Property: `org.springframework.cloud.bindings.boot.db2.enable`
 
 | Property | Value
@@ -77,7 +77,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.db2.enable`
 
 
 ### Elasticsearch
-Kind: `Elasticsearch`
+Type: `Elasticsearch`
 Disable Property: `org.springframework.cloud.bindings.boot.elasticsearch.enable`
 
 | Property | Value
@@ -95,7 +95,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.elasticsearch.enable`
 | `spring.elasticsearch.rest.username` | `{secret/username}`
 
 ### Kafka
-Kind: `kafka`
+Type: `kafka`
 Disable Property: `org.springframework.cloud.bindings.boot.kafka.enable`
 
 | Property | Value
@@ -106,7 +106,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.kafka.enable`
 | `spring.kafka.streams.bootstrap-servers` | `{secret/streams.bootstrap-servers}`
 
 ### LDAP
-Kind: `LDAP`
+Type: `LDAP`
 Disable Property: `org.springframework.cloud.bindings.boot.ldap.enable`
 
 | Property | Value
@@ -117,7 +117,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.ldap.enable`
 | `spring.ldap.username` | `{secret/username}`
 
 ### MongoDB
-Kind: `MongoDB`
+Type: `MongoDB`
 Disable Property: `org.springframework.cloud.bindings.boot.mongodb.enable`
 
 | Property | Value
@@ -132,7 +132,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.mongodb.enable`
 | `spring.mongodb.username` | `{secret/username}`
 
 ### MySQL RDBMS
-Kind: `MySQL`
+Type: `MySQL`
 Disable Property: `org.springframework.cloud.bindings.boot.mysql.enable`
 
 | Property | Value
@@ -146,7 +146,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.mysql.enable`
 | `spring.r2dbc.username` | `{secret/username}`
 
 ### Neo4J
-Kind: `Neo4J`
+Type: `Neo4J`
 Disable Property: `org.springframework.cloud.bindings.boot.neo4j.enable`
 
 | Property | Value
@@ -156,7 +156,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.neo4j.enable`
 | `spring.data.neo4j.username` | `{secret/username}`
 
 ### Oracle RDBMS
-Kind: `Oracle`
+Type: `Oracle`
 Disable Property: `org.springframework.cloud.bindings.boot.oracle.enable`
 
 | Property | Value
@@ -170,7 +170,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.oracle.enable`
 | `spring.r2dbc.username` | `{secret/username}`
 
 ### PostgreSQL RDBMS
-Kind: `PostgreSQL`
+Type: `PostgreSQL`
 Disable Property: `org.springframework.cloud.bindings.boot.postgresql.enable`
 
 | Property | Value
@@ -184,7 +184,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.postgresql.enable`
 | `spring.r2dbc.username` | `{secret/username}`
 
 ### RabbitMQ RDBMS
-Kind: `RabbitMQ`
+Type: `RabbitMQ`
 Disable Property: `org.springframework.cloud.bindings.boot.rabbitmq.enable`
 
 | Property | Value
@@ -197,7 +197,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.rabbitmq.enable`
 | `spring.rabbitmq.virtual-host` | `{secret/virtual-host}`
 
 ### Redis RDBMS
-Kind: `Redis`
+Type: `Redis`
 Disable Property: `org.springframework.cloud.bindings.boot.redis.enable`
 
 | Property | Value
@@ -215,7 +215,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.redis.enable`
 | `spring.redis.url` | `{secret/url}`
 
 ## SCS Config Server
-Kind: `Config`
+Type: `Config`
 Disable Property: `org.springframework.cloud.bindings.boot.config.enable`
 
 | Property | Value
@@ -226,7 +226,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.config.enable`
 | `spring.cloud.config.client.oauth2.accessTokenUri` | `{secret/access-token-uri}`
 
 ### SCS Eureka
-Kind: `Eureka`
+Type: `Eureka`
 Disable Property: `org.springframework.cloud.bindings.boot.eureka.enable`
 
 | Property | Value
@@ -237,7 +237,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.eureka.enable`
 | `eureka.client.serviceUrl.defaultZone` | `{secret/uri}/eureka/`
 
 ## Spring Security OAuth2
-Kind: `OAuth2`
+Type: `OAuth2`
 Disable Property: `org.springframework.cloud.bindings.boot.oauth2.enable`
 
 | Property | Value
@@ -254,7 +254,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.oauth2.enable`
 | `spring.security.oauth2.client.provider.{metadata/provider}.user-name-attribute` | `{secret/user-name-attribute}`
 
 ### SQLServer RDBMS
-Kind: `SQLServer`
+Type: `SQLServer`
 Disable Property: `org.springframework.cloud.bindings.boot.sqlserver.enable`
 
 | Property | Value
@@ -269,7 +269,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.sqlserver.enable`
 
 
 ### Vault
-Kind: `Vault`
+Type: `Vault`
 Disable Property: `org.springframework.cloud.bindings.boot.vault.enable`
 
 Any Provider:
@@ -354,7 +354,7 @@ If `{secret/authentication-method}` is equal to `token`:
 
 ### Wavefront
 
-Kind: `Wavefront`
+Type: `Wavefront`
 Disable Property: `org.springframework.cloud.bindings.boot.wavefront.enable`
 
 | Property | Value
@@ -367,9 +367,9 @@ Disable Property: `org.springframework.cloud.bindings.boot.wavefront.enable`
 
 Consumers can extend the `BindingSpecificEnvironmentPostProcessor` with support for additional bindings by registering additional implementations of the `BindingsPropertiesProcessor`.
 
-Within the `process` method, custom processors should make desired modifications to the application properties, using the contents of the bindings to compute property values as appropriate. Custom processors are strongly encouraged to use the `kind` of each binding to filter for bindings intended for that processor.
+Within the `process` method, custom processors should make desired modifications to the application properties, using the contents of the bindings to compute property values as appropriate. Custom processors are strongly encouraged to use the `type` of each binding to filter for bindings intended for that processor.
 
-Below is an example that processes a single binding of `kind` `myservice`. If such a binding exists this processor sets `my.service.enabled=true` and sets `my.service.uri` to the value of `uri` found in the binding secret.
+Below is an example that processes a single binding of `type` `myservice`. If such a binding exists this processor sets `my.service.enabled=true` and sets `my.service.uri` to the value of `uri` found in the binding secret.
 
 ```
 package com.example;
@@ -385,14 +385,14 @@ import java.util.Map;
 
 public final class MyServiceBindingsPropertiesProcessor implements BindingsPropertiesProcessor {
 
-    public static final String KIND = "myservice";
+    public static final String TYPE = "myservice";
 
     @Override
     public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {
         if (!environment.getProperty("com.example.bindings.myservice.enable", Boolean.class, true)) {
             return;
         }
-        List<Binding> myBindings = bindings.filterBindings(KIND);
+        List<Binding> myBindings = bindings.filterBindings(TYPE);
         if (myBindings.size() == 0) {
             return;
         }

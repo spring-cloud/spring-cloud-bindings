@@ -25,27 +25,27 @@ import org.springframework.core.env.Environment;
 
 import java.util.Map;
 
-import static org.springframework.cloud.bindings.boot.Guards.isKindEnabled;
+import static org.springframework.cloud.bindings.boot.Guards.isTypeEnabled;
 
 /**
- * An implementation of {@link BindingsPropertiesProcessor} that detects {@link Binding}s of kind: {@value KIND}.
+ * An implementation of {@link BindingsPropertiesProcessor} that detects {@link Binding}s of type: {@value TYPE}.
  */
 public final class VaultBindingsPropertiesProcessor implements BindingsPropertiesProcessor, ApplicationListener<ApplicationPreparedEvent> {
 
     /**
-     * The {@link Binding} kind that this processor is interested in: {@value}.
+     * The {@link Binding} type that this processor is interested in: {@value}.
      **/
-    public static final String KIND = "Vault";
+    public static final String TYPE = "Vault";
 
     private static final DeferredLog LOG = new DeferredLog();
 
     @Override
     public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {
-        if (!isKindEnabled(environment, KIND)) {
+        if (!isTypeEnabled(environment, TYPE)) {
             return;
         }
 
-        bindings.filterBindings(KIND).forEach(binding -> {
+        bindings.filterBindings(TYPE).forEach(binding -> {
             MapMapper map = new MapMapper(binding.getSecret(), properties);
             map.from("uri").to("spring.cloud.vault.uri");
             map.from("namespace").to("spring.cloud.vault.namespace"); // vault enterprise feature

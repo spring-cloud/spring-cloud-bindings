@@ -24,19 +24,18 @@ import org.springframework.cloud.bindings.FluentMap;
 import org.springframework.mock.env.MockEnvironment;
 
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.cloud.bindings.boot.WavefrontBindingsPropertiesProcessor.KIND;
+import static org.springframework.cloud.bindings.boot.WavefrontBindingsPropertiesProcessor.TYPE;
 
 @DisplayName("Wavefront BindingsPropertiesProcessor")
-final class WavefrontPropertiesProcessorTest {
+final class WavefrontBindingsPropertiesProcessorTest {
 
     private final Bindings bindings = new Bindings(
             new Binding("test-name", Paths.get("test-path"),
-                    Collections.singletonMap("kind", KIND),
                     new FluentMap()
+                            .withEntry(Binding.TYPE, TYPE)
                             .withEntry("api-token", "test-api-token")
                             .withEntry("uri", "test-uri")
             )

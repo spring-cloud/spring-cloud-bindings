@@ -22,25 +22,25 @@ import org.springframework.core.env.Environment;
 
 import java.util.Map;
 
-import static org.springframework.cloud.bindings.boot.Guards.isKindEnabled;
+import static org.springframework.cloud.bindings.boot.Guards.isTypeEnabled;
 
 /**
- * An implementation of {@link BindingsPropertiesProcessor} that detects {@link Binding}s of kind: {@value KIND}.
+ * An implementation of {@link BindingsPropertiesProcessor} that detects {@link Binding}s of type: {@value TYPE}.
  */
 final class RabbitMqBindingsPropertiesProcessor implements BindingsPropertiesProcessor {
 
     /**
-     * The {@link Binding} kind that this processor is interested in: {@value}.
+     * The {@link Binding} type that this processor is interested in: {@value}.
      **/
-    public static final String KIND = "RabbitMQ";
+    public static final String TYPE = "RabbitMQ";
 
     @Override
     public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {
-        if (!isKindEnabled(environment, KIND)) {
+        if (!isTypeEnabled(environment, TYPE)) {
             return;
         }
 
-        bindings.filterBindings(KIND).forEach(binding -> {
+        bindings.filterBindings(TYPE).forEach(binding -> {
             MapMapper map = new MapMapper(binding.getSecret(), properties);
 
             map.from("addresses").to("spring.rabbitmq.addresses");

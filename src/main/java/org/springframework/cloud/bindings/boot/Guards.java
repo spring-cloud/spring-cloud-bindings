@@ -24,9 +24,9 @@ final class Guards {
         return environment.getProperty("org.springframework.cloud.bindings.boot.enable", Boolean.class, false);
     }
 
-    static boolean isKindEnabled(Environment environment, String kind) {
+    static boolean isTypeEnabled(Environment environment, String type) {
         return environment.getProperty(
-                String.format("org.springframework.cloud.bindings.boot.%s.enable", kind.toLowerCase()),
+                String.format("org.springframework.cloud.bindings.boot.%s.enable", type.toLowerCase()),
                 Boolean.class, true);
     }
 
