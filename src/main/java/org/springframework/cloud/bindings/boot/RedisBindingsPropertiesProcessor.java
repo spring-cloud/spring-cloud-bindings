@@ -32,7 +32,7 @@ public final class RedisBindingsPropertiesProcessor implements BindingsPropertie
     /**
      * The {@link Binding} type that this processor is interested in: {@value}.
      **/
-    public static final String TYPE = "Redis";
+    public static final String TYPE = "redis";
 
     @Override
     public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {

@@ -88,13 +88,17 @@ final class BindingsTest {
                             new FluentMap()
                                     .withEntry("kind", "test-kind-2")
                                     .withEntry("provider", "test-provider-2")
+                    ),
+                    new Binding("test-name-3", root.resolve("test-name-3"),
+                            new FluentMap()
+                                    .withEntry("kind", "test-kind-2")
                     )
             );
 
             @Test
             @DisplayName("returns content")
             void getBindings() {
-                assertThat(bindings.getBindings()).hasSize(2);
+                assertThat(bindings.getBindings()).hasSize(3);
             }
 
             @Test
@@ -171,13 +175,17 @@ final class BindingsTest {
                             new FluentMap()
                                     .withEntry("type", "test-type-2")
                                     .withEntry("provider", "test-provider-2")
+                    ),
+                    new Binding("test-name-3", root.resolve("test-name-3"),
+                            new FluentMap()
+                                    .withEntry("type", "test-type-3")
                     )
             );
 
             @Test
             @DisplayName("returns content")
             void getBindings() {
-                assertThat(bindings.getBindings()).hasSize(2);
+                assertThat(bindings.getBindings()).hasSize(3);
             }
 
             @Test

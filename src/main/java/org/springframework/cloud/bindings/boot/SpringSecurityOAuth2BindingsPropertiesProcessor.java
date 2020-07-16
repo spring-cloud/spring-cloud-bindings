@@ -35,7 +35,7 @@ public final class SpringSecurityOAuth2BindingsPropertiesProcessor implements Bi
     /**
      * The {@link Binding} type that this processor is interested in: {@value}.
      **/
-    public static final String TYPE = "OAuth2";
+    public static final String TYPE = "oauth2";
 
     private static final DeferredLog LOG = new DeferredLog();
 

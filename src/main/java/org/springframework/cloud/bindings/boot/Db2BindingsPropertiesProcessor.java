@@ -34,7 +34,7 @@ public final class Db2BindingsPropertiesProcessor implements BindingsPropertiesP
     /**
      * The {@link Binding} type that this processor is interested in: {@value}.
      **/
-    public static final String TYPE = "DB2";
+    public static final String TYPE = "db2";
 
     @Override
     public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {

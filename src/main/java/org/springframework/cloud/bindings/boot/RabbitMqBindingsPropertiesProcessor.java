@@ -32,7 +32,7 @@ final class RabbitMqBindingsPropertiesProcessor implements BindingsPropertiesPro
     /**
      * The {@link Binding} type that this processor is interested in: {@value}.
      **/
-    public static final String TYPE = "RabbitMQ";
+    public static final String TYPE = "rabbitmq";
 
     @Override
     public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {

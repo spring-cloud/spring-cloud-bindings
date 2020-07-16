@@ -32,7 +32,7 @@ public final class WavefrontBindingsPropertiesProcessor implements BindingsPrope
     /**
      * The {@link Binding} type that this processor is interested in: {@value}.
      **/
-    public static final String TYPE = "Wavefront";
+    public static final String TYPE = "wavefront";
 
     @Override
     public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {

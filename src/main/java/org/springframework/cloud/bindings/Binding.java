@@ -15,6 +15,8 @@
  */
 package org.springframework.cloud.bindings;
 
+import org.springframework.lang.Nullable;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -72,8 +74,8 @@ public final class Binding {
         this.path = path;
         this.secret = new HashMap<>();
 
-        String provider = null;
         String type = null;
+        String provider = null;
         for (Map.Entry<String, String> entry : secret.entrySet()) {
             switch (entry.getKey()) {
                 case TYPE:
@@ -88,8 +90,12 @@ public final class Binding {
             }
         }
 
-        this.provider = provider;
+        if (type == null) {
+            throw new IllegalArgumentException(String.format("%s has no type and is not a valid binding", path));
+        }
+
         this.type = type;
+        this.provider = provider;
     }
 
     private static Map<String, String> createSecretMap(Path path) {
@@ -163,6 +169,7 @@ public final class Binding {
     /**
      * Returns the provider of the binding.
      */
+    @Nullable
     public String getProvider() {
         return provider;
     }

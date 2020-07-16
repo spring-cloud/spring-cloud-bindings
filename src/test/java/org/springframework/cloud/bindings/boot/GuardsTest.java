@@ -79,7 +79,7 @@ final class GuardsTest {
         @DisplayName("returns the set value of false")
         void setFalse() {
             environment.setProperty("org.springframework.cloud.bindings.boot.test.enable", "false");
-            assertThat(isTypeEnabled(environment, "Test")).isFalse();
+            assertThat(isTypeEnabled(environment, "test")).isFalse();
         }
 
     }

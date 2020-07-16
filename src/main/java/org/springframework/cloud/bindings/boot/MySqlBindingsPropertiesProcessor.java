@@ -34,7 +34,7 @@ public final class MySqlBindingsPropertiesProcessor implements BindingsPropertie
     /**
      * The {@link Binding} type that this processor is interested in: {@value}.
      **/
-    public static final String TYPE = "MySQL";
+    public static final String TYPE = "mysql";
 
     @Override
     public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {

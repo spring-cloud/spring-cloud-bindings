@@ -22,10 +22,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.context.config.ConfigFileApplicationListener;
 import org.springframework.cloud.bindings.Binding;
 import org.springframework.cloud.bindings.Bindings;
+import org.springframework.cloud.bindings.FluentMap;
 import org.springframework.mock.env.MockEnvironment;
 
 import java.nio.file.Paths;
-import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -43,7 +43,8 @@ final class BindingFlattenedEnvironmentPostProcessorTest {
         new BindingFlattenedEnvironmentPostProcessor(
                 new Bindings(
                         new Binding("test-name", Paths.get("test-path"),
-                                Collections.emptyMap()
+                                new FluentMap()
+                                        .withEntry(Binding.TYPE, "test-type")
                         )
                 )
         ).postProcessEnvironment(new MockEnvironment(), application);
@@ -66,13 +67,15 @@ final class BindingFlattenedEnvironmentPostProcessorTest {
         new BindingFlattenedEnvironmentPostProcessor(
                 new Bindings(
                         new Binding("test-name", Paths.get("test-path"),
-                                Collections.singletonMap("test-secret-key", "test-secret-value")
+                                new FluentMap()
+                                        .withEntry(Binding.TYPE, "test-type")
+                                        .withEntry("test-secret-key", "test-secret-value")
                         )
                 )
         ).postProcessEnvironment(environment, application);
 
         assertThat(environment.getPropertySources()).hasSize(2);
-        assertThat(environment.getProperty("cnb.bindings.test-name.test-secret-key")).isEqualTo("test-secret-value");
+        assertThat(environment.getProperty("k8s.bindings.test-name.test-secret-key")).isEqualTo("test-secret-value");
     }
 
     @Test

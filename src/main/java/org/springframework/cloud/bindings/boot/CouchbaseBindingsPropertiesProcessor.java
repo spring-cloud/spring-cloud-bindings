@@ -32,7 +32,7 @@ final class CouchbaseBindingsPropertiesProcessor implements BindingsPropertiesPr
     /**
      * The {@link Binding} type that this processor is interested in: {@value}.
      **/
-    public static final String TYPE = "Couchbase";
+    public static final String TYPE = "couchbase";
 
     @Override
     public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {

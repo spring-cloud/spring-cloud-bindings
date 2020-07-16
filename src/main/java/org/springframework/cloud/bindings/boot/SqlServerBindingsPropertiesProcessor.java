@@ -34,7 +34,7 @@ public final class SqlServerBindingsPropertiesProcessor implements BindingsPrope
     /**
      * The {@link Binding} type that this processor is interested in: {@value}.
      **/
-    public static final String TYPE = "SQLServer";
+    public static final String TYPE = "sqlserver";
 
     @Override
     public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {

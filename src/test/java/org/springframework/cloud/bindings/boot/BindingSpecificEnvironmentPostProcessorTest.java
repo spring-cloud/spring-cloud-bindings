@@ -22,10 +22,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.context.config.ConfigFileApplicationListener;
 import org.springframework.cloud.bindings.Binding;
 import org.springframework.cloud.bindings.Bindings;
+import org.springframework.cloud.bindings.FluentMap;
 import org.springframework.mock.env.MockEnvironment;
 
 import java.nio.file.Paths;
-import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -43,7 +43,8 @@ final class BindingSpecificEnvironmentPostProcessorTest {
         new BindingSpecificEnvironmentPostProcessor(
                 new Bindings(
                         new Binding("test-name", Paths.get("test-path"),
-                                Collections.emptyMap()
+                                new FluentMap()
+                                        .withEntry(Binding.TYPE, "test-type")
                         )
                 ),
                 (environment, bindings, properties) -> properties.put("test-key", "test-value")
@@ -67,7 +68,8 @@ final class BindingSpecificEnvironmentPostProcessorTest {
         new BindingSpecificEnvironmentPostProcessor(
                 new Bindings(
                         new Binding("test-name", Paths.get("test-path"),
-                                Collections.emptyMap()
+                                new FluentMap()
+                                        .withEntry(Binding.TYPE, "test-type")
                         )
                 )
         ).postProcessEnvironment(environment, application);
@@ -81,7 +83,8 @@ final class BindingSpecificEnvironmentPostProcessorTest {
         new BindingSpecificEnvironmentPostProcessor(
                 new Bindings(
                         new Binding("test-name", Paths.get("test-path"),
-                                Collections.emptyMap()
+                                new FluentMap()
+                                        .withEntry(Binding.TYPE, "test-type")
                         )
                 ),
                 (environment, bindings, properties) -> properties.put("test-key", "test-value")

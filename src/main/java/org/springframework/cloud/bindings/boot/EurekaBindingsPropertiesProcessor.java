@@ -31,7 +31,7 @@ final class EurekaBindingsPropertiesProcessor implements BindingsPropertiesProce
     /**
      * The {@link Binding} type that this processor is interested in: {@value}.
      **/
-    public static final String TYPE = "Eureka";
+    public static final String TYPE = "eureka";
 
     @Override
     public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {

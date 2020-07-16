@@ -35,7 +35,7 @@ public final class VaultBindingsPropertiesProcessor implements BindingsPropertie
     /**
      * The {@link Binding} type that this processor is interested in: {@value}.
      **/
-    public static final String TYPE = "Vault";
+    public static final String TYPE = "vault";
 
     private static final DeferredLog LOG = new DeferredLog();
 

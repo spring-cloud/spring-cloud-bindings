@@ -31,7 +31,7 @@ public final class LDAPBindingsPropertiesProcessor implements BindingsProperties
     /**
      * The {@link Binding} type that this processor is interested in: {@value}.
      **/
-    public static final String TYPE = "LDAP";
+    public static final String TYPE = "ldap";
 
     @Override
     public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {

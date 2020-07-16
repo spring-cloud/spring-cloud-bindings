@@ -49,9 +49,10 @@ public final class Bindings {
     private final List<Binding> bindings;
 
     /**
-     * Creates a new {@code Bindings} instance, using the {@code $CNB_BINDINGS} environment variable to determine the
-     * file system root.  If the {@code $CNB_BINDINGS} environment variable is not set, an empty {@code Bindings} is
-     * returned. If the directory does not exist, an empty {@code Bindings} is returned.
+     * Creates a new {@code Bindings} instance, using the {@code $SERVICE_BINDING_ROOT} environment variable or the
+     * {@code $CNB_BINDINGS} environment variable if it does not exist to determine the file system root.  If neither
+     * the {@code $SERVICE_BINDING_ROOT} nor {@code $CNB_BINDINGS} environment variables are set, an empty
+     * {@code Bindings} is returned. If the directory does not exist, an empty {@code Bindings} is returned.
      */
     public Bindings() {
         this(getBindingRoot());
@@ -150,9 +151,8 @@ public final class Bindings {
      */
     public List<Binding> filterBindings(@Nullable String type, @Nullable String provider) {
         return bindings.stream()
-                .filter(binding ->
-                        (type == null || binding.getType().equalsIgnoreCase(type)) &&
-                                (provider == null || binding.getProvider().equalsIgnoreCase(provider)))
+                .filter(b -> type == null || b.getType().equalsIgnoreCase(type))
+                .filter(b -> provider == null || b.getProvider() != null && b.getProvider().equalsIgnoreCase(provider))
                 .collect(Collectors.toList());
     }
 

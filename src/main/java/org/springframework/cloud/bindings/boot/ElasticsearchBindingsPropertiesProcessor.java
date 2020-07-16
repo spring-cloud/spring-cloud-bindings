@@ -32,7 +32,7 @@ final class ElasticsearchBindingsPropertiesProcessor implements BindingsProperti
     /**
      * The {@link Binding} type that this processor is interested in: {@value}.
      **/
-    public static final String TYPE = "Elasticsearch";
+    public static final String TYPE = "elasticsearch";
 
 
     @Override

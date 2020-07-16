@@ -51,7 +51,7 @@ public final class BindingSpecificEnvironmentPostProcessor implements Applicatio
     /**
      * The name of the {@link PropertySource} created by the {@code BindingsEnvironmentPostProcessor}: {@value}.
      */
-    public static final String BINDING_SPECIFIC_PROPERTY_SOURCE_NAME = "cnbBindingSpecific";
+    public static final String BINDING_SPECIFIC_PROPERTY_SOURCE_NAME = "kubernetesServiceBindingSpecific";
 
     private static final DeferredLog LOG = new DeferredLog();
 
@@ -92,18 +92,18 @@ public final class BindingSpecificEnvironmentPostProcessor implements Applicatio
         }
 
         if (bindings.getBindings().isEmpty()) {
-            LOG.debug("No CNB Bindings found. Skipping Environment post-processing.");
+            LOG.debug("No Kubernetes Service Bindings found. Skipping Environment post-processing.");
             return;
         }
 
         Map<String, Object> properties = new HashMap<>();
         processors.forEach(processor -> processor.process(environment, bindings, properties));
         if (properties.isEmpty()) {
-            LOG.debug("No properties set from CNB Bindings. Skipping PropertySource creation.");
+            LOG.debug("No properties set from Kubernetes Service Bindings. Skipping PropertySource creation.");
             return;
         }
 
-        LOG.info("Creating binding-specific PropertySource from CNB Bindings");
+        LOG.info("Creating binding-specific PropertySource from Kubernetes Service Bindings");
         contributePropertySource(BINDING_SPECIFIC_PROPERTY_SOURCE_NAME, properties, environment);
     }
 

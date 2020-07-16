@@ -31,7 +31,7 @@ final class Neo4JBindingsPropertiesProcessor implements BindingsPropertiesProces
     /**
      * The {@link Binding} type that this processor is interested in: {@value}.
      **/
-    public static final String TYPE = "Neo4J";
+    public static final String TYPE = "neo4j";
 
     @Override
     public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {

@@ -33,12 +33,12 @@ import static org.springframework.cloud.bindings.boot.PropertySourceContributor.
 
 /**
  * An implementation of {@link EnvironmentPostProcessor} that generates properties from {@link Bindings} with a
- * flattened format: {@code cnb.bindings.{name}.{metadata,secret}.*}.
+ * flattened format: {@code k8s.bindings.{name}.*}.
  */
 public final class BindingFlattenedEnvironmentPostProcessor implements ApplicationListener<ApplicationPreparedEvent>,
         EnvironmentPostProcessor, Ordered {
 
-    public static final String BINDING_FLATTENED_PROPERTY_SOURCE_NAME = "cnbBindingFlattened";
+    public static final String BINDING_FLATTENED_PROPERTY_SOURCE_NAME = "kubernetesServiceBindingFlattened";
 
     private final DeferredLog log = new DeferredLog();
 
@@ -72,16 +72,16 @@ public final class BindingFlattenedEnvironmentPostProcessor implements Applicati
         Map<String, Object> properties = new HashMap<>();
         bindings.getBindings().forEach(binding -> {
             binding.getSecret().forEach((key, value) -> {
-                properties.put(String.format("cnb.bindings.%s.%s", binding.getName(), key), value);
+                properties.put(String.format("k8s.bindings.%s.%s", binding.getName(), key), value);
             });
         });
 
         if (properties.isEmpty()) {
-            log.debug("No properties set from CNB Bindings. Skipping PropertySource creation.");
+            log.debug("No properties set from Kubernetes Service Bindings. Skipping PropertySource creation.");
             return;
         }
 
-        log.info("Creating flattened PropertySource from CNB Bindings");
+        log.info("Creating flattened PropertySource from Kubernetes Service Bindings");
         contributePropertySource(BINDING_FLATTENED_PROPERTY_SOURCE_NAME, properties, environment);
     }
 

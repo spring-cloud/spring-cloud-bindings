@@ -20,13 +20,24 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 @DisplayName("Binding")
 final class BindingTest {
+
+    @Test
+    @DisplayName("fails to create invalid binding")
+    void testInvalid() throws IOException {
+        Path path = Files.createTempDirectory("invalid-binding");
+
+        assertThatIllegalArgumentException().isThrownBy(() -> new Binding(path));
+    }
 
     @Nested
     @DisplayName("CNB Bindings")
@@ -60,7 +71,6 @@ final class BindingTest {
             assertThat(binding.getSecretFilePath("test-secret-key"))
                     .isEqualTo(root.resolve("test-k8s/secret/test-secret-key"));
         }
-
     }
 
     @Nested

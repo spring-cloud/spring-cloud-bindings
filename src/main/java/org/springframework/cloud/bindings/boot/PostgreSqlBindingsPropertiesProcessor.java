@@ -34,7 +34,7 @@ public final class PostgreSqlBindingsPropertiesProcessor implements BindingsProp
     /**
      * The {@link Binding} type that this processor is interested in: {@value}.
      **/
-    public static final String TYPE = "PostgreSQL";
+    public static final String TYPE = "postgresql";
 
     @Override
     public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {

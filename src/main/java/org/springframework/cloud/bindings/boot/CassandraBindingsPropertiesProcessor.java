@@ -32,7 +32,7 @@ public final class CassandraBindingsPropertiesProcessor implements BindingsPrope
     /**
      * The {@link Binding} type that this processor is interested in: {@value}.
      **/
-    public static final String TYPE = "Cassandra";
+    public static final String TYPE = "cassandra";
 
     @Override
     public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {
