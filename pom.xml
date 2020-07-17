@@ -6,7 +6,7 @@
 
     <groupId>org.springframework.cloud</groupId>
     <artifactId>spring-cloud-bindings</artifactId>
-    <version>1.4.0-SNAPSHOT</version>
+    <version>1.4.0</version>
 
     <name>Spring Cloud Cloud Native Buildpacks Bindings</name>
     <description>Java Library and Auto-configuration for Cloud Native Buildpack Bindings</description>
