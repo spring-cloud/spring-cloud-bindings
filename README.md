@@ -198,7 +198,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.rabbitmq.enable`
 | `spring.rabbitmq.username` | `{username}`
 | `spring.rabbitmq.virtual-host` | `{virtual-host}`
 
-### Redis RDBMS
+### Redis
 Type: `redis`
 Disable Property: `org.springframework.cloud.bindings.boot.redis.enable`
 
