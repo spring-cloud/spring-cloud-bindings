@@ -185,7 +185,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.postgresql.enable`
 | `spring.r2dbc.password` | `{password}`
 | `spring.r2dbc.username` | `{username}`
 
-### RabbitMQ RDBMS
+### RabbitMQ
 Type: `rabbitmq`
 Disable Property: `org.springframework.cloud.bindings.boot.rabbitmq.enable`
 
