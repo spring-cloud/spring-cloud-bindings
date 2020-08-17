@@ -44,14 +44,14 @@ public final class Bindings {
      * The name of the environment variable to read to determine the bindings file system root.  Specified by the
      * Kubernetes Service Binding Specification.
      */
-    public static final String SERVICE_BINDINGS_ROOT = "SERVICE_BINDINGS_ROOT";
+    public static final String SERVICE_BINDING_ROOT = "SERVICE_BINDING_ROOT";
 
     private final List<Binding> bindings;
 
     /**
-     * Creates a new {@code Bindings} instance, using the {@code $SERVICE_BINDINGS_ROOT} environment variable or the
+     * Creates a new {@code Bindings} instance, using the {@code $SERVICE_BINDING_ROOT} environment variable or the
      * {@code $CNB_BINDINGS} environment variable if it does not exist to determine the file system root.  If neither
-     * the {@code $SERVICE_BINDINGS_ROOT} nor {@code $CNB_BINDINGS} environment variables are set, an empty
+     * the {@code $SERVICE_BINDING_ROOT} nor {@code $CNB_BINDINGS} environment variables are set, an empty
      * {@code Bindings} is returned. If the directory does not exist, an empty {@code Bindings} is returned.
      */
     public Bindings() {
@@ -107,7 +107,7 @@ public final class Bindings {
             return environment.get(CNB_BINDINGS);
         }
 
-        return System.getenv(SERVICE_BINDINGS_ROOT);
+        return System.getenv(SERVICE_BINDING_ROOT);
     }
 
     /**
