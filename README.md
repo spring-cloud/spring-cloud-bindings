@@ -316,7 +316,7 @@ If `{authentication-method}` is equal to `cert`:
 | -------- | ------------------
 | `spring.cloud.vault.ssl.cert-auth-path` | `{cert-auth-path}`
 | `spring.cloud.vault.ssl.key-store-password` | `{key-store-password}`
-| `spring.cloud.vault.ssl.key-store` | `${SERVICE_BINDINGS_ROOT}/{name}/keystore.jks`
+| `spring.cloud.vault.ssl.key-store` | `${SERVICE_BINDING_ROOT}/{name}/keystore.jks`
 
 If `{authentication-method}` is equal to `cubbyhole`:
 | Property | Value
@@ -335,7 +335,7 @@ If `{authentication-method}` is equal to `gcp_iam`:
 | Property | Value
 | -------- | ------------------
 | `spring.cloud.vault.gcp-iam.credentials.encoded-key` | `{encoded-key}`
-| `spring.cloud.vault.gcp-iam.credentials.location` | `${SERVICE_BINDINGS_ROOT}/{name}/credentials.json`
+| `spring.cloud.vault.gcp-iam.credentials.location` | `${SERVICE_BINDING_ROOT}/{name}/credentials.json`
 | `spring.cloud.vault.gcp-iam.gcp-path` | `{gcp-path}`
 | `spring.cloud.vault.gcp-iam.jwt-validity` | `{jwt-validity}`
 | `spring.cloud.vault.gcp-iam.project-id` | `{gcp-project-id}`
