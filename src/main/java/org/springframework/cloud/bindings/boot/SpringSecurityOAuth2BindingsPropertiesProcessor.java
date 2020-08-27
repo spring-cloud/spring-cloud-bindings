@@ -68,6 +68,6 @@ public final class SpringSecurityOAuth2BindingsPropertiesProcessor implements Bi
 
     @Override
     public void onApplicationEvent(ApplicationPreparedEvent event) {
-        LOG.switchTo(getClass());
+        LOG.replayTo(getClass());
     }
 }

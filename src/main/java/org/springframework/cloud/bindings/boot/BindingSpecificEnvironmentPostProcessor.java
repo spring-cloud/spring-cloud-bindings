@@ -82,7 +82,7 @@ public final class BindingSpecificEnvironmentPostProcessor implements Applicatio
 
     @Override
     public void onApplicationEvent(ApplicationPreparedEvent event) {
-        LOG.switchTo(getClass());
+        LOG.replayTo(getClass());
     }
 
     @Override

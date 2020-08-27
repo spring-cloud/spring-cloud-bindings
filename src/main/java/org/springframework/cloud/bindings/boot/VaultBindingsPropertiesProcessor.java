@@ -116,6 +116,6 @@ public final class VaultBindingsPropertiesProcessor implements BindingsPropertie
 
     @Override
     public void onApplicationEvent(ApplicationPreparedEvent event) {
-        LOG.switchTo(getClass());
+        LOG.replayTo(getClass());
     }
 }

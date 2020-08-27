@@ -64,7 +64,7 @@ public final class BindingFlattenedEnvironmentPostProcessor implements Applicati
 
     @Override
     public void onApplicationEvent(ApplicationPreparedEvent event) {
-        this.log.switchTo(getClass());
+        this.log.replayTo(getClass());
     }
 
     @Override
