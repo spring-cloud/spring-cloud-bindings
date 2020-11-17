@@ -43,14 +43,14 @@ public final class MongoDbBindingsPropertiesProcessor implements BindingsPropert
         bindings.filterBindings(TYPE).forEach(binding -> {
             MapMapper map = new MapMapper(binding.getSecret(), properties);
 
-            map.from("authentication-database").to("spring.mongodb.authentication-database");
-            map.from("database").to("spring.mongodb.database");
-            map.from("grid-fs-database").to("spring.mongodb.grid-fs-database");
-            map.from("host").to("spring.mongodb.host");
-            map.from("password").to("spring.mongodb.password");
-            map.from("port").to("spring.mongodb.port");
-            map.from("uri").to("spring.mongodb.uri");
-            map.from("username").to("spring.mongodb.username");
+            map.from("authentication-database").to("spring.data.mongodb.authentication-database");
+            map.from("database").to("spring.data.mongodb.database");
+            map.from("grid-fs-database").to("spring.data.mongodb.gridfs.database");
+            map.from("host").to("spring.data.mongodb.host");
+            map.from("password").to("spring.data.mongodb.password");
+            map.from("port").to("spring.data.mongodb.port");
+            map.from("uri").to("spring.data.mongodb.uri");
+            map.from("username").to("spring.data.mongodb.username");
         });
     }
 
