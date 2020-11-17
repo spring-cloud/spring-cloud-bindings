@@ -56,14 +56,14 @@ final class MongoDbBindingsPropertiesProcessorTest {
     void test() {
         new MongoDbBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties)
-                .containsEntry("spring.mongodb.authentication-database", "test-authentication-database")
-                .containsEntry("spring.mongodb.database", "test-database")
-                .containsEntry("spring.mongodb.grid-fs-database", "test-grid-fs-database")
-                .containsEntry("spring.mongodb.host", "test-host")
-                .containsEntry("spring.mongodb.password", "test-password")
-                .containsEntry("spring.mongodb.port", "test-port")
-                .containsEntry("spring.mongodb.uri", "test-uri")
-                .containsEntry("spring.mongodb.username", "test-username");
+                .containsEntry("spring.data.mongodb.authentication-database", "test-authentication-database")
+                .containsEntry("spring.data.mongodb.database", "test-database")
+                .containsEntry("spring.data.mongodb.gridfs.database", "test-grid-fs-database")
+                .containsEntry("spring.data.mongodb.host", "test-host")
+                .containsEntry("spring.data.mongodb.password", "test-password")
+                .containsEntry("spring.data.mongodb.port", "test-port")
+                .containsEntry("spring.data.mongodb.uri", "test-uri")
+                .containsEntry("spring.data.mongodb.username", "test-username");
     }
 
     @Test
