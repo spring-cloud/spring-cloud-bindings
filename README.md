@@ -124,14 +124,14 @@ Disable Property: `org.springframework.cloud.bindings.boot.mongodb.enable`
 
 | Property | Value
 | -------- | ------------------
-| `spring.mongodb.authentication-database` | `{authentication-database}`
-| `spring.mongodb.database` | `{database}`
-| `spring.mongodb.grid-fs-database` | `{grid-fs-database}`
-| `spring.mongodb.host` | `{host}`
-| `spring.mongodb.password` | `{password}`
-| `spring.mongodb.port` | `{port}`
-| `spring.mongodb.uri` | `{uri}`
-| `spring.mongodb.username` | `{username}`
+| `spring.data.mongodb.authentication-database` | `{authentication-database}`
+| `spring.data.mongodb.database` | `{database}`
+| `spring.data.mongodb.gridfs.database"` | `{grid-fs-database}`
+| `spring.data.mongodb.host` | `{host}`
+| `spring.data.mongodb.password` | `{password}`
+| `spring.data.mongodb.port` | `{port}`
+| `spring.data.mongodb.uri` | `{uri}`
+| `spring.data.mongodb.username` | `{username}`
 
 ### MySQL RDBMS
 Type: `mysql`
