@@ -48,7 +48,7 @@ public final class PostgreSqlBindingsPropertiesProcessor implements BindingsProp
             //jdbc properties
             map.from("password").to("spring.datasource.password");
             map.from("host", "port", "database").to("spring.datasource.url",
-                    (host, port, database) -> String.format("jdbc:postgres://%s:%s/%s", host, port, database));
+                    (host, port, database) -> String.format("jdbc:postgresql://%s:%s/%s", host, port, database));
             map.from("username").to("spring.datasource.username");
 
             properties.put("spring.datasource.driver-class-name", "org.postgresql.Driver");
@@ -56,7 +56,7 @@ public final class PostgreSqlBindingsPropertiesProcessor implements BindingsProp
             //r2dbc properties
             map.from("password").to("spring.r2dbc.password");
             map.from("host", "port", "database").to("spring.r2dbc.url",
-                    (host, port, database) -> String.format("r2dbc:postgres://%s:%s/%s", host, port, database));
+                    (host, port, database) -> String.format("r2dbc:postgresql://%s:%s/%s", host, port, database));
             map.from("username").to("spring.r2dbc.username");
         });
     }
