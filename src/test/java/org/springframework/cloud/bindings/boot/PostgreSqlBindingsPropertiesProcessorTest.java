@@ -55,7 +55,7 @@ final class PostgreSqlBindingsPropertiesProcessorTest {
         assertThat(properties)
                 .containsEntry("spring.datasource.driver-class-name", "org.postgresql.Driver")
                 .containsEntry("spring.datasource.password", "test-password")
-                .containsEntry("spring.datasource.url", "jdbc:postgres://test-host:test-port/test-database")
+                .containsEntry("spring.datasource.url", "jdbc:postgresql://test-host:test-port/test-database")
                 .containsEntry("spring.datasource.username", "test-username");
     }
 
@@ -65,7 +65,7 @@ final class PostgreSqlBindingsPropertiesProcessorTest {
         new PostgreSqlBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties)
                 .containsEntry("spring.r2dbc.password", "test-password")
-                .containsEntry("spring.r2dbc.url", "r2dbc:postgres://test-host:test-port/test-database")
+                .containsEntry("spring.r2dbc.url", "r2dbc:postgresql://test-host:test-port/test-database")
                 .containsEntry("spring.r2dbc.username", "test-username");
     }
 
