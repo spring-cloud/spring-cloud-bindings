@@ -71,9 +71,9 @@ Disable Property: `org.springframework.cloud.bindings.boot.db2.enable`
 | -------- | ------------------
 | `spring.datasource.driver-class-name` | `com.ibm.db2.jcc.DB2Driver`
 | `spring.datasource.password` | `{password}`
-| `spring.datasource.url` | `jdbc:db2://{host}:{port}/{database}`
+| `spring.datasource.url` | `{jdbc-url}` or `jdbc:db2://{host}:{port}/{database}`
 | `spring.datasource.username` | `{username}`
-| `spring.r2dbc.url` | `r2dbc:db2://{host}:{port}/{database}`
+| `spring.r2dbc.url` | `{r2dbc-url}` or `r2dbc:db2://{host}:{port}/{database}`
 | `spring.r2dbc.password` | `{password}`
 | `spring.r2dbc.username` | `{username}`
 
@@ -141,9 +141,9 @@ Disable Property: `org.springframework.cloud.bindings.boot.mysql.enable`
 | -------- | ------------------
 | `spring.datasource.driver-class-name` | `org.mariadb.jdbc.Driver` or `com.mysql.cj.jdbc.Driver` depending on classpath
 | `spring.datasource.password` | `{password}`
-| `spring.datasource.url` | `jdbc:mysql://{host}:{port}/{database}`
+| `spring.datasource.url` | `{jdbc-url}` or `jdbc:mysql://{host}:{port}/{database}`
 | `spring.datasource.username` | `{username}`
-| `spring.r2dbc.url` | `r2dbc:mysql://{host}:{port}/{database}`
+| `spring.r2dbc.url` | `{r2dbc-url}` or `r2dbc:mysql://{host}:{port}/{database}`
 | `spring.r2dbc.password` | `{password}`
 | `spring.r2dbc.username` | `{username}`
 
@@ -165,9 +165,9 @@ Disable Property: `org.springframework.cloud.bindings.boot.oracle.enable`
 | -------- | ------------------
 | `spring.datasource.driver-class-name` | `oracle.jdbc.OracleDriver`
 | `spring.datasource.password` | `{password}`
-| `spring.datasource.url` | `jdbc:oracle://{host}:{port}/{database}`
+| `spring.datasource.url` | `{jdbc-url}` or `jdbc:oracle://{host}:{port}/{database}`
 | `spring.datasource.username` | `{username}`
-| `spring.r2dbc.url` | `r2dbc:oracle://{host}:{port}/{database}`
+| `spring.r2dbc.url` | `{r2dbc-url}` or `r2dbc:oracle://{host}:{port}/{database}`
 | `spring.r2dbc.password` | `{password}`
 | `spring.r2dbc.username` | `{username}`
 
@@ -179,9 +179,9 @@ Disable Property: `org.springframework.cloud.bindings.boot.postgresql.enable`
 | -------- | ------------------
 | `spring.datasource.driver-class-name` | `org.postgresql.Driver`
 | `spring.datasource.password` | `{password}`
-| `spring.datasource.url` | `jdbc:postgres://{host}:{port}/{database}`
+| `spring.datasource.url` | `{jdbc-url}` or `jdbc:postgres://{host}:{port}/{database}`
 | `spring.datasource.username` | `{username}`
-| `spring.r2dbc.url` | `r2dbc:postgres://{host}:{port}/{database}`
+| `spring.r2dbc.url` | `{r2dbc-url}` or `r2dbc:postgres://{host}:{port}/{database}`
 | `spring.r2dbc.password` | `{password}`
 | `spring.r2dbc.username` | `{username}`
 
@@ -265,7 +265,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.sqlserver.enable`
 | `spring.datasource.password` | `{password}`
 | `spring.datasource.url` | `jdbc:sqlserver://{host}:{port}/{database}`
 | `spring.datasource.username` | `{username}`
-| `spring.r2dbc.url` | `r2dbc:sqlserver://{host}:{port}/{database}`
+| `spring.r2dbc.url` | `{r2dbc-url}` or `r2dbc:sqlserver://{host}:{port}/{database}`
 | `spring.r2dbc.password` | `{password}`
 | `spring.r2dbc.username` | `{username}`
 

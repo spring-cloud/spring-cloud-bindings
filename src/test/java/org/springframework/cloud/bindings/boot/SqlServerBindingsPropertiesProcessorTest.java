@@ -32,25 +32,24 @@ import static org.springframework.cloud.bindings.boot.SqlServerBindingsPropertie
 @DisplayName("SQLServer BindingsPropertiesProcessor")
 final class SqlServerBindingsPropertiesProcessorTest {
 
-    private final Bindings bindings = new Bindings(
-            new Binding("test-name", Paths.get("test-path"),
-                    new FluentMap()
-                            .withEntry(Binding.TYPE, TYPE)
-                            .withEntry("database", "test-database")
-                            .withEntry("host", "test-host")
-                            .withEntry("password", "test-password")
-                            .withEntry("port", "test-port")
-                            .withEntry("username", "test-username")
-            )
-    );
+    private final FluentMap secret = new FluentMap()
+            .withEntry(Binding.TYPE, TYPE)
+            .withEntry("database", "test-database")
+            .withEntry("host", "test-host")
+            .withEntry("password", "test-password")
+            .withEntry("port", "test-port")
+            .withEntry("username", "test-username");
 
     private final MockEnvironment environment = new MockEnvironment();
 
     private final HashMap<String, Object> properties = new HashMap<>();
 
     @Test
-    @DisplayName("contributes jdbc properties")
+    @DisplayName("composes jdbc url from host port and database")
     void testJdbc() {
+        Bindings bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"), secret)
+        );
         new SqlServerBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties)
                 .containsEntry("spring.datasource.driver-class-name", "com.microsoft.sqlserver.jdbc.SQLServerDriver")
@@ -60,8 +59,25 @@ final class SqlServerBindingsPropertiesProcessorTest {
     }
 
     @Test
-    @DisplayName("contributes r2dbc properties")
+    @DisplayName("gives precedence to jdbc-url")
+    void testJdbcURL() {
+        Bindings bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"), secret.withEntry("jdbc-url", "test-jdbc-url"))
+        );
+        new SqlServerBindingsPropertiesProcessor().process(environment, bindings, properties);
+        assertThat(properties)
+                .containsEntry("spring.datasource.driver-class-name", "com.microsoft.sqlserver.jdbc.SQLServerDriver")
+                .containsEntry("spring.datasource.password", "test-password")
+                .containsEntry("spring.datasource.url", "test-jdbc-url")
+                .containsEntry("spring.datasource.username", "test-username");
+    }
+
+    @Test
+    @DisplayName("composes r2dbc url from host port and database")
     void testR2dbc() {
+        Bindings bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"), secret)
+        );
         new SqlServerBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties)
                 .containsEntry("spring.r2dbc.password", "test-password")
@@ -70,8 +86,24 @@ final class SqlServerBindingsPropertiesProcessorTest {
     }
 
     @Test
+    @DisplayName("gives precedence to r2dbc-url")
+    void testR2dbcURL() {
+        Bindings bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"), secret.withEntry("r2dbc-url", "test-r2dbc-url"))
+        );
+        new SqlServerBindingsPropertiesProcessor().process(environment, bindings, properties);
+        assertThat(properties)
+                .containsEntry("spring.r2dbc.password", "test-password")
+                .containsEntry("spring.r2dbc.url", "test-r2dbc-url")
+                .containsEntry("spring.r2dbc.username", "test-username");
+    }
+
+    @Test
     @DisplayName("can be disabled")
     void disabled() {
+        Bindings bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"), secret)
+        );
         environment.setProperty("org.springframework.cloud.bindings.boot.sqlserver.enable", "false");
 
         new SqlServerBindingsPropertiesProcessor().process(environment, bindings, properties);
