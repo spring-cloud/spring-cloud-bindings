@@ -104,7 +104,6 @@ public final class BindingSpecificEnvironmentPostProcessor implements Applicatio
         }
 
         LOG.info("Creating binding-specific PropertySource from Kubernetes Service Bindings");
-        LOG.info("DEV VERSION");
         contributePropertySource(BINDING_SPECIFIC_PROPERTY_SOURCE_NAME, properties, environment);
     }
 
