@@ -32,25 +32,24 @@ import static org.springframework.cloud.bindings.boot.Db2BindingsPropertiesProce
 @DisplayName("DB2 BindingsPropertiesProcessor")
 final class Db2BindingsPropertiesProcessorTest {
 
-    private final Bindings bindings = new Bindings(
-            new Binding("test-name", Paths.get("test-path"),
-                    new FluentMap()
-                            .withEntry(Binding.TYPE, TYPE)
-                            .withEntry("database", "test-database")
-                            .withEntry("host", "test-host")
-                            .withEntry("password", "test-password")
-                            .withEntry("port", "test-port")
-                            .withEntry("username", "test-username")
-            )
-    );
+    private final FluentMap secret = new FluentMap()
+            .withEntry(Binding.TYPE, TYPE)
+            .withEntry("database", "test-database")
+            .withEntry("host", "test-host")
+            .withEntry("password", "test-password")
+            .withEntry("port", "test-port")
+            .withEntry("username", "test-username");
 
     private final MockEnvironment environment = new MockEnvironment();
 
     private final HashMap<String, Object> properties = new HashMap<>();
 
     @Test
-    @DisplayName("contributes jdbc properties")
+    @DisplayName("composes jdbc url from host port and database")
     void testJdbc() {
+        Bindings bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"), secret)
+        );
         new Db2BindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties)
                 .containsEntry("spring.datasource.driver-class-name", "com.ibm.db2.jcc.DB2Driver")
@@ -60,17 +59,51 @@ final class Db2BindingsPropertiesProcessorTest {
     }
 
     @Test
+    @DisplayName("gives precedence to jdbc-url")
+    void testJdbcURL() {
+        Bindings bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"), secret.withEntry("jdbc-url", "test-jdbc-url"))
+        );
+        new Db2BindingsPropertiesProcessor().process(environment, bindings, properties);
+        assertThat(properties)
+                .containsEntry("spring.datasource.driver-class-name", "com.ibm.db2.jcc.DB2Driver")
+                .containsEntry("spring.datasource.password", "test-password")
+                .containsEntry("spring.datasource.url", "test-jdbc-url")
+                .containsEntry("spring.datasource.username", "test-username");
+    }
+
+    @Test
     @DisplayName("contributes r2dbc properties")
     void testR2dbc() {
+        Bindings bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"), secret)
+        );
         new Db2BindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties)
                 .containsEntry("spring.r2dbc.password", "test-password")
                 .containsEntry("spring.r2dbc.url", "r2dbc:db2://test-host:test-port/test-database")
-                .containsEntry("spring.r2dbc.username", "test-username");    }
+                .containsEntry("spring.r2dbc.username", "test-username");
+    }
+
+    @Test
+    @DisplayName("gives precedence to r2dbc-url")
+    void testR2dbcURL() {
+        Bindings bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"), secret.withEntry("r2dbc-url", "test-r2dbc-url"))
+        );
+        new Db2BindingsPropertiesProcessor().process(environment, bindings, properties);
+        assertThat(properties)
+                .containsEntry("spring.r2dbc.password", "test-password")
+                .containsEntry("spring.r2dbc.url", "test-r2dbc-url")
+                .containsEntry("spring.r2dbc.username", "test-username");
+    }
 
     @Test
     @DisplayName("can be disabled")
     void disabled() {
+        Bindings bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"), secret)
+        );
         environment.setProperty("org.springframework.cloud.bindings.boot.db2.enable", "false");
 
         new Db2BindingsPropertiesProcessor().process(environment, bindings, properties);

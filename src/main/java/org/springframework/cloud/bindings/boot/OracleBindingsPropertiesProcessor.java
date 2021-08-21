@@ -46,18 +46,24 @@ public final class OracleBindingsPropertiesProcessor implements BindingsProperti
             MapMapper map = new MapMapper(binding.getSecret(), properties);
 
             //jdbc properties
+            map.from("username").to("spring.datasource.username");
             map.from("password").to("spring.datasource.password");
             map.from("host", "port", "database").to("spring.datasource.url",
                     (host, port, database) -> String.format("jdbc:oracle://%s:%s/%s", host, port, database));
-            map.from("username").to("spring.datasource.username");
+
+            // jdbcURL takes precedence
+            map.from("jdbc-url").to("spring.datasource.url");
 
             properties.put("spring.datasource.driver-class-name", "oracle.jdbc.OracleDriver");
 
             //r2dbc properties
+            map.from("username").to("spring.r2dbc.username");
             map.from("password").to("spring.r2dbc.password");
             map.from("host", "port", "database").to("spring.r2dbc.url",
                     (host, port, database) -> String.format("r2dbc:oracle://%s:%s/%s", host, port, database));
-            map.from("username").to("spring.r2dbc.username");
+
+            // r2dbcURL takes precedence
+            map.from("r2dbc-url").to("spring.r2dbc.url");
         });
     }
 

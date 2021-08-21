@@ -51,6 +51,9 @@ public final class SqlServerBindingsPropertiesProcessor implements BindingsPrope
                     (host, port, database) -> String.format("jdbc:sqlserver://%s:%s/%s", host, port, database));
             map.from("username").to("spring.datasource.username");
 
+            // jdbcURL takes precedence
+            map.from("jdbc-url").to("spring.datasource.url");
+
             properties.put("spring.datasource.driver-class-name", "com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
             //r2dbc properties
@@ -58,6 +61,9 @@ public final class SqlServerBindingsPropertiesProcessor implements BindingsPrope
             map.from("host", "port", "database").to("spring.r2dbc.url",
                     (host, port, database) -> String.format("r2dbc:sqlserver://%s:%s/%s", host, port, database));
             map.from("username").to("spring.r2dbc.username");
+
+            // r2dbcURL takes precedence
+            map.from("r2dbc-url").to("spring.r2dbc.url");
         });
     }
 

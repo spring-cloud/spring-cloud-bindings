@@ -46,10 +46,13 @@ public final class MySqlBindingsPropertiesProcessor implements BindingsPropertie
             MapMapper map = new MapMapper(binding.getSecret(), properties);
 
             //jdbc properties
+            map.from("username").to("spring.datasource.username");
             map.from("password").to("spring.datasource.password");
             map.from("host", "port", "database").to("spring.datasource.url",
                     (host, port, database) -> String.format("jdbc:mysql://%s:%s/%s", host, port, database));
-            map.from("username").to("spring.datasource.username");
+
+            // jdbcURL takes precedence
+            map.from("jdbc-url").to("spring.datasource.url");
 
             try {
                 Class.forName("org.mariadb.jdbc.Driver", false, getClass().getClassLoader());
@@ -67,6 +70,9 @@ public final class MySqlBindingsPropertiesProcessor implements BindingsPropertie
             map.from("host", "port", "database").to("spring.r2dbc.url",
                     (host, port, database) -> String.format("r2dbc:mysql://%s:%s/%s", host, port, database));
             map.from("username").to("spring.r2dbc.username");
+
+            // r2dbcURL takes precedence
+            map.from("r2dbc-url").to("spring.r2dbc.url");
         });
     }
 
