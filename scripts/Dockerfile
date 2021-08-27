@@ -1,4 +1,5 @@
-FROM bellsoft/liberica-openjdk-debian:11
+ARG base_image=ubuntu:bionic
+FROM ${base_image}
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
     git \
