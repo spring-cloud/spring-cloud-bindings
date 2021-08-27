@@ -34,6 +34,33 @@ Each auto-configuration is triggered by the type of binding.  Each auto-configur
 
 `{<key>}` indicates that the value is the contents of the secret with the given key.
 
+### ActiveMQ Artemis
+Type: `artemis`
+Disable Property: `org.springframework.cloud.bindings.boot.artemis.enable`
+
+| Property | Value
+| -------- | ------------------
+| `spring.artemis.host` | `{host}`
+| `spring.artemis.mode` | `{mode}`
+| `spring.artemis.password` | `{password}`
+| `spring.artemis.port` | `{port}`
+| `spring.artemis.user` | `{user}`
+| `spring.artemis.embedded.cluster-password` | `{embedded.cluster-password}`
+| `spring.artemis.embedded.data-directory` | `{embedded.data-directory}`
+| `spring.artemis.embedded.enabled` | `{embedded.enabled}`
+| `spring.artemis.embedded.persistent` | `{embedded.persistent}`
+| `spring.artemis.embedded.queues` | `{embedded.queues}`
+| `spring.artemis.embedded.server-id` | `{embedded.server-id}`
+| `spring.artemis.embedded.topics` | `{embedded.topics}`
+| `spring.artemis.pool.block-if-full` | `{pool.block-if-full}`
+| `spring.artemis.pool.block-if-full-timeout` | `{pool.block-if-full-timeout}`
+| `spring.artemis.pool.enabled` | `{pool.enabled}`
+| `spring.artemis.pool.idle-timeout` | `{pool.idle-timeout}`
+| `spring.artemis.pool.max-connections` | `{pool.max-connections}`
+| `spring.artemis.pool.max-sessions-per-connection` | `{pool.max-sessions-per-connection}`
+| `spring.artemis.pool.time-between-expiration-check` | `{pool.time-between-expiration-check}`
+| `spring.artemis.pool.use-anonymous-producers` | `{pool.use-anonymous-producers}`
+
 ### Cassandra
 Type: `cassandra`
 Disable Property: `org.springframework.cloud.bindings.boot.cassandra.enable`

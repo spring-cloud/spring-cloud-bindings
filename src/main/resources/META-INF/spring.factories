@@ -8,6 +8,7 @@ org.springframework.boot.env.EnvironmentPostProcessor=\
   org.springframework.cloud.bindings.boot.BindingSpecificEnvironmentPostProcessor
 # Included implementations
 org.springframework.cloud.bindings.boot.BindingsPropertiesProcessor=\
+  org.springframework.cloud.bindings.boot.ArtemisBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.CassandraBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.ConfigServerBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.CouchbaseBindingsPropertiesProcessor, \
