@@ -56,6 +56,11 @@ public final class SpringSecurityOAuth2BindingsPropertiesProcessor implements Bi
             properties.put(String.format("spring.security.oauth2.client.registration.%s.provider", clientName), provider);
             map.from("client-id").to(String.format("spring.security.oauth2.client.registration.%s.client-id", clientName));
             map.from("client-secret").to(String.format("spring.security.oauth2.client.registration.%s.client-secret", clientName));
+            map.from("client-authentication-method").to(String.format("spring.security.oauth2.client.registration.%s.client-authentication-method", clientName));
+            map.from("authorization-grant-type").to(String.format("spring.security.oauth2.client.registration.%s.authorization-grant-type", clientName));
+            map.from("redirect-uri").to(String.format("spring.security.oauth2.client.registration.%s.redirect-uri", clientName));
+            map.from("scope").to(String.format("spring.security.oauth2.client.registration.%s.scope", clientName));
+            map.from("client-name").to(String.format("spring.security.oauth2.client.registration.%s.client-name", clientName));
             map.from("issuer-uri").to(String.format("spring.security.oauth2.client.provider.%s.issuer-uri", provider));
             map.from("authorization-uri").to(String.format("spring.security.oauth2.client.provider.%s.authorization-uri", provider));
             map.from("token-uri").to(String.format("spring.security.oauth2.client.provider.%s.token-uri", provider));
