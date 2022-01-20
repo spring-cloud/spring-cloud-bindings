@@ -119,7 +119,7 @@ public final class Binding {
                         try {
                             return !Files.isHidden(p);
                         } catch (IOException e) {
-                            throw new IllegalStateException(String.format("unable to determin id file '%s' is hidden", p), e);
+                            throw new IllegalStateException(String.format("unable to determine id file '%s' is hidden", p), e);
                         }
                     })
                     .filter(p -> !Files.isDirectory(p))
