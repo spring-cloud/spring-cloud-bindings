@@ -1,7 +1,7 @@
 # Spring Cloud Bindings
-The Spring Cloud Bindings library exposes a rich Java language binding for the [Cloud Native Buildpacks Binding Specification][s].  In addition, if opted-in, it configures Spring Boot application configuration properties appropriate for the type of binding encountered.
+The Spring Cloud Bindings library exposes a rich Java language binding for the [Kubernetes Service Binding Specification][s].  In addition, if opted-in, it configures Spring Boot application configuration properties appropriate for the type of binding encountered.
 
-[s]: https://github.com/buildpacks/spec/blob/master/extensions/bindings.md
+[s]: https://github.com/servicebinding/spec
 
 ## Library Usage
 While less used, explicit binding access can be achieved through the `Bindings` type.
