@@ -243,6 +243,20 @@ Disable Property: `org.springframework.cloud.bindings.boot.redis.enable`
 | `spring.redis.ssl` | `{ssl}`
 | `spring.redis.url` | `{url}`
 
+### SAP Hana
+Type: `hana`
+Disable Property: `org.springframework.cloud.bindings.boot.hana.enable`
+
+| Property | Value
+| -------- | ------------------
+| `spring.datasource.driver-class-name` | `com.sap.db.jdbc.Driver`
+| `spring.datasource.password` | `{password}`
+| `spring.datasource.url` | `{jdbc-url}` or if not set then `jdbc:sap://{host}:{port}/{database}`
+| `spring.datasource.username` | `{username}`
+| `spring.r2dbc.url` | `{r2dbc-url}` or if not set then `r2dbc:sap://{host}:{port}/{database}`
+| `spring.r2dbc.password` | `{password}`
+| `spring.r2dbc.username` | `{username}`
+
 ## SCS Config Server
 Type: `config`
 Disable Property: `org.springframework.cloud.bindings.boot.config.enable`
