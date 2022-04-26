@@ -288,6 +288,10 @@ Disable Property: `org.springframework.cloud.bindings.boot.oauth2.enable`
 | `spring.security.oauth2.client.registration.{name}.client-id` | `{client-id}`
 | `spring.security.oauth2.client.registration.{name}.client-secret` | `{client-secret}`
 | `spring.security.oauth2.client.registration.{name}.provider` | `{provider}`
+| `spring.security.oauth2.client.registration.{name}.client-name` | `{client-name}`
+| `spring.security.oauth2.client.registration.{name}.client-authentication-method` | `{client-authentication-method}`
+| `spring.security.oauth2.client.registration.{name}.redirect-uri` | `{redirect-uri}`
+| `spring.security.oauth2.client.registration.{name}.scope` | `{scope}`
 | `spring.security.oauth2.client.provider.{provider}.issuer-uri` | `{issuer-uri}`
 | `spring.security.oauth2.client.provider.{provider}.authorization-uri` | `{authorization-uri}`
 | `spring.security.oauth2.client.provider.{provider}.token-uri` | `{token-uri}`
