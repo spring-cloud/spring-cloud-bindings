@@ -111,4 +111,158 @@ final class PostgreSqlBindingsPropertiesProcessorTest {
         assertThat(properties).isEmpty();
     }
 
+    private final FluentMap secretSsl = new FluentMap()
+            .withEntry(Binding.TYPE, TYPE)
+            .withEntry("database", "test-database")
+            .withEntry("host", "test-host")
+            .withEntry("password", "test-password")
+            .withEntry("port", "test-port")
+            .withEntry("username", "test-username")
+            .withEntry("sslmode", "verify-full")
+            .withEntry("sslrootcert", "root.cert")
+            .withEntry("options", "--cluster=routing-id&opt=val1");
+
+    @Test
+    @DisplayName("composes jdbc url from host port and database with sslmode and crdb option")
+    void testJdbcWithSsl() {
+        Bindings bindings = new Bindings(
+                new Binding("test-name", Paths.get("bindings"), secretSsl)
+        );
+        new PostgreSqlBindingsPropertiesProcessor().process(environment, bindings, properties);
+        assertThat(properties)
+                .containsEntry("spring.datasource.driver-class-name", "org.postgresql.Driver")
+                .containsEntry("spring.datasource.password", "test-password")
+                .containsEntry("spring.datasource.url", "jdbc:postgresql://test-host:test-port/test-database?sslmode=verify-full&sslrootcert=bindings/root.cert&options=--cluster=routing-id -c opt=val1")
+                .containsEntry("spring.datasource.username", "test-username");
+    }
+
+    private final FluentMap secretInvalidCrdbOption = new FluentMap()
+            .withEntry(Binding.TYPE, TYPE)
+            .withEntry("database", "test-database")
+            .withEntry("host", "test-host")
+            .withEntry("password", "test-password")
+            .withEntry("port", "test-port")
+            .withEntry("username", "test-username")
+            .withEntry("sslmode", "verify-full")
+            .withEntry("sslrootcert", "root.cert")
+            .withEntry("options", "-cluster=routing-id&opt=val1");
+
+    @Test
+    @DisplayName("composes jdbc url from host port and database with sslmode and crdb option")
+    void testJdbcWithInvalidCrdbOption() {
+        Bindings bindings = new Bindings(
+                new Binding("test-name", Paths.get("bindings"), secretInvalidCrdbOption)
+        );
+        new PostgreSqlBindingsPropertiesProcessor().process(environment, bindings, properties);
+        assertThat(properties)
+                .containsEntry("spring.datasource.driver-class-name", "org.postgresql.Driver")
+                .containsEntry("spring.datasource.password", "test-password")
+                .containsEntry("spring.datasource.url", "jdbc:postgresql://test-host:test-port/test-database?sslmode=verify-full&sslrootcert=bindings/root.cert&options=-c -cluster=routing-id -c opt=val1")
+                .containsEntry("spring.datasource.username", "test-username");
+    }
+
+    @Test
+    @DisplayName("composes r2dbc url from host port and database with sslmode and crdb option")
+    void testR2dbcWithSsl() {
+        Bindings bindings = new Bindings(
+                new Binding("test-name", Paths.get("bindings"), secretSsl)
+        );
+        new PostgreSqlBindingsPropertiesProcessor().process(environment, bindings, properties);
+        assertThat(properties)
+                .containsEntry("spring.r2dbc.password", "test-password")
+                .containsEntry("spring.r2dbc.url", "r2dbc:postgresql://test-host:test-port/test-database?sslmode=verify-full&sslrootcert=bindings/root.cert&options=--cluster=routing-id -c opt=val1")
+                .containsEntry("spring.r2dbc.username", "test-username");
+    }
+
+    private final FluentMap secretSslDisable = new FluentMap()
+            .withEntry(Binding.TYPE, TYPE)
+            .withEntry("database", "test-database")
+            .withEntry("host", "test-host")
+            .withEntry("password", "test-password")
+            .withEntry("port", "test-port")
+            .withEntry("username", "test-username")
+            .withEntry("sslmode", "disable");
+
+    @Test
+    @DisplayName("composes jdbc url from host port and database with sslmode disable")
+    void testJdbcWithSslDisable() {
+        Bindings bindings = new Bindings(
+                new Binding("test-name", Paths.get("bindings"), secretSslDisable)
+        );
+        new PostgreSqlBindingsPropertiesProcessor().process(environment, bindings, properties);
+        assertThat(properties)
+                .containsEntry("spring.datasource.driver-class-name", "org.postgresql.Driver")
+                .containsEntry("spring.datasource.password", "test-password")
+                .containsEntry("spring.datasource.url", "jdbc:postgresql://test-host:test-port/test-database?sslmode=disable")
+                .containsEntry("spring.datasource.username", "test-username");
+    }
+
+    private final FluentMap secretWithDBoptions = new FluentMap()
+            .withEntry(Binding.TYPE, TYPE)
+            .withEntry("database", "test-database")
+            .withEntry("host", "test-host")
+            .withEntry("password", "test-password")
+            .withEntry("port", "test-port")
+            .withEntry("username", "test-username")
+            .withEntry("options", "opt1=val1&opt2=val2");
+
+    @Test
+    @DisplayName("composes jdbc url from host port and database with DB options")
+    void testJdbcWithDBoptions() {
+        Bindings bindings = new Bindings(
+                new Binding("test-name", Paths.get("bindings"), secretWithDBoptions)
+        );
+        new PostgreSqlBindingsPropertiesProcessor().process(environment, bindings, properties);
+        assertThat(properties)
+                .containsEntry("spring.datasource.driver-class-name", "org.postgresql.Driver")
+                .containsEntry("spring.datasource.password", "test-password")
+                .containsEntry("spring.datasource.url", "jdbc:postgresql://test-host:test-port/test-database?options=-c opt1=val1 -c opt2=val2")
+                .containsEntry("spring.datasource.username", "test-username");
+    }
+
+    private final FluentMap secretWithInvalidDBOptions = new FluentMap()
+            .withEntry(Binding.TYPE, TYPE)
+            .withEntry("database", "test-database")
+            .withEntry("host", "test-host")
+            .withEntry("password", "test-password")
+            .withEntry("port", "test-port")
+            .withEntry("username", "test-username")
+            .withEntry("options", "opt1=val1&opt");
+
+    @Test
+    @DisplayName("composes jdbc url from host port and database with invalid DB options")
+    void testJdbcWithInvaildDBoptions() {
+        Bindings bindings = new Bindings(
+                new Binding("test-name", Paths.get("bindings"), secretWithInvalidDBOptions)
+        );
+        new PostgreSqlBindingsPropertiesProcessor().process(environment, bindings, properties);
+        assertThat(properties)
+                .containsEntry("spring.datasource.driver-class-name", "org.postgresql.Driver")
+                .containsEntry("spring.datasource.password", "test-password")
+                .containsEntry("spring.datasource.url", "jdbc:postgresql://test-host:test-port/test-database?options=-c opt1=val1")
+                .containsEntry("spring.datasource.username", "test-username");
+    }
+
+    private final FluentMap secretWithEmptyDBOptions = new FluentMap()
+            .withEntry(Binding.TYPE, TYPE)
+            .withEntry("database", "test-database")
+            .withEntry("host", "test-host")
+            .withEntry("password", "test-password")
+            .withEntry("port", "test-port")
+            .withEntry("username", "test-username")
+            .withEntry("options", "");
+
+    @Test
+    @DisplayName("composes jdbc url from host port and database with empty DB options")
+    void testJdbcWithEmptyDBoptions() {
+        Bindings bindings = new Bindings(
+                new Binding("test-name", Paths.get("bindings"), secretWithEmptyDBOptions)
+        );
+        new PostgreSqlBindingsPropertiesProcessor().process(environment, bindings, properties);
+        assertThat(properties)
+                .containsEntry("spring.datasource.driver-class-name", "org.postgresql.Driver")
+                .containsEntry("spring.datasource.password", "test-password")
+                .containsEntry("spring.datasource.url", "jdbc:postgresql://test-host:test-port/test-database")
+                .containsEntry("spring.datasource.username", "test-username");
+    }
 }
