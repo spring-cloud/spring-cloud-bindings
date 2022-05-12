@@ -77,6 +77,12 @@ final class MapMapper {
             destination.put(key, function.apply(source.get(keys[0]), source.get(keys[1]), source.get(keys[2])));
         }
 
+        public void toIfAbsent(String key) {
+            if (destination.containsKey(key)) {
+                return;
+            }
+            to(key, v -> v);
+        }
     }
 
 }

@@ -124,6 +124,49 @@ final class SpringSecurityOAuth2BindingsPropertiesProcessorTest {
     }
 
     @Test
+    @DisplayName("contributes a authorization-grant-type is there is only one in authorization-grant-types")
+    void testAuthorizationGrantTypesOneEntry() {
+        Bindings bindings = new Bindings(new Binding("binding-name", Paths.get("test-path"),
+                new FluentMap()
+                        .withEntry(Binding.TYPE, TYPE)
+                        .withEntry("provider", "some-provider")
+                        .withEntry("authorization-grant-types", "authorization_code")
+        ));
+        new SpringSecurityOAuth2BindingsPropertiesProcessor().process(new MockEnvironment(), bindings, properties);
+        assertThat(properties)
+                .containsEntry("spring.security.oauth2.client.registration.binding-name.authorization-grant-type", "authorization_code");
+    }
+
+    @Test
+    @DisplayName("does not contributes a authorization-grant-type is there are multiple entries in authorization-grant-types")
+    void testAuthorizationGrantTypesMultipleEntries() {
+        Bindings bindings = new Bindings(new Binding("binding-name", Paths.get("test-path"),
+                new FluentMap()
+                        .withEntry(Binding.TYPE, TYPE)
+                        .withEntry("provider", "some-provider")
+                        .withEntry("authorization-grant-types", "authorization_code,client_credentials")
+        ));
+        new SpringSecurityOAuth2BindingsPropertiesProcessor().process(new MockEnvironment(), bindings, properties);
+        assertThat(properties)
+                .doesNotContainKey("spring.security.oauth2.client.registration.binding-name.authorization-grant-type");
+    }
+
+    @Test
+    @DisplayName("uses the value from authorization-grant-type if authorization-grant-types is also present")
+    void testAuthorizationGrantTypeAndAuthorizationGrantTypes() {
+        Bindings bindings = new Bindings(new Binding("binding-name", Paths.get("test-path"),
+                new FluentMap()
+                        .withEntry(Binding.TYPE, TYPE)
+                        .withEntry("provider", "some-provider")
+                        .withEntry("authorization-grant-types", "authorization_code,refresh_token")
+                        .withEntry("authorization-grant-type", "client_credentials")
+        ));
+        new SpringSecurityOAuth2BindingsPropertiesProcessor().process(new MockEnvironment(), bindings, properties);
+        assertThat(properties)
+                .containsEntry("spring.security.oauth2.client.registration.binding-name.authorization-grant-type", "client_credentials");
+    }
+
+    @Test
     @DisplayName("can be disabled")
     void disabled() {
         environment.setProperty("org.springframework.cloud.bindings.boot.oauth2.enable", "false");

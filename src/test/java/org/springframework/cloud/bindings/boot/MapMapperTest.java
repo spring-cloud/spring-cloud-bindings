@@ -17,6 +17,7 @@
 package org.springframework.cloud.bindings.boot;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -94,4 +95,29 @@ final class MapMapperTest {
         assertThat(destination).doesNotContainKey("test-destination-key");
     }
 
+    @Nested
+    class ToIfAbsentTests {
+        @Test
+        @DisplayName("puts if absent in destination")
+        void absent() {
+            source.put("test-source-key-1", "test-source-value-1");
+
+            map.from("test-source-key-1").toIfAbsent("test-destination-key");
+
+            assertThat(destination).containsEntry("test-destination-key", "test-source-value-1");
+        }
+
+        @Test
+        @DisplayName("does not put if present in destination")
+        void present() {
+            source.put("test-source-key-1", "test-source-value-1");
+            source.put("test-source-key-2", "test-source-value-2");
+
+            map.from("test-source-key-1").to("test-destination-key");
+            map.from("test-source-key-2").toIfAbsent("test-destination-key");
+
+            assertThat(destination).containsEntry("test-destination-key", "test-source-value-1");
+        }
+
+    }
 }
