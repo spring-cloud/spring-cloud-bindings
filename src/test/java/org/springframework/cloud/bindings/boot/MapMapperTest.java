@@ -17,12 +17,14 @@
 package org.springframework.cloud.bindings.boot;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("Map Mapper test")
 final class MapMapperTest {
@@ -92,6 +94,101 @@ final class MapMapperTest {
         map.from("test-source-key-1", "test-source-key-2", "test-source-key-3").to("test-destination-key", (a, b, c) -> "test-destination-value");
 
         assertThat(destination).doesNotContainKey("test-destination-key");
+    }
+
+    @Nested
+    class ToIfAbsentTests {
+        @Test
+        @DisplayName("puts if absent in destination")
+        void absent() {
+            source.put("test-source-key-1", "test-source-value-1");
+
+            map.from("test-source-key-1").toIfAbsent("test-destination-key");
+
+            assertThat(destination).containsEntry("test-destination-key", "test-source-value-1");
+        }
+
+        @Test
+        @DisplayName("does not put if present in destination")
+        void present() {
+            source.put("test-source-key-1", "test-source-value-1");
+            source.put("test-source-key-2", "test-source-value-2");
+
+            map.from("test-source-key-1").to("test-destination-key");
+            map.from("test-source-key-2").toIfAbsent("test-destination-key");
+
+            assertThat(destination).containsEntry("test-destination-key", "test-source-value-1");
+        }
+
+    }
+
+    @Nested
+    class WhenTests {
+        @Test
+        @DisplayName("puts when predicate is true")
+        void truePredicate() {
+            source.put("test-source-key-1", "test-source-value-1");
+
+            map.from("test-source-key-1").when(value -> true).to("test-destination-key");
+
+            assertThat(destination).containsEntry("test-destination-key", "test-source-value-1");
+        }
+
+        @Test
+        @DisplayName("does not put when predicate is false")
+        void falsePredicate() {
+            source.put("test-source-key-1", "test-source-value-1");
+
+            map.from("test-source-key-1").when(value -> false).to("test-destination-key");
+
+            assertThat(destination).doesNotContainKey("test-destination-key").doesNotContainValue("test-source-value-1");
+        }
+
+        @Test
+        @DisplayName("does not put when the key is missing")
+        void missingKey() {
+            source.put("test-source-key-1", "test-source-value-1");
+
+            map.from("missing-key").when(value -> true).to("test-destination-key");
+
+            assertThat(destination).doesNotContainKey("test-destination-key");
+        }
+
+        @Test
+        @DisplayName("only supports one key")
+        void onlySupportsOneKey() {
+            assertThatThrownBy(() -> map.from("one", "two", "three").when(value -> true))
+                    .isInstanceOf(IllegalStateException.class);
+        }
+
+        @Test
+        @DisplayName("is complete noop when predicate is false")
+        void falsePredicateIsNoop() {
+            source.put("test-source-key-1", "test-source-value-1");
+            source.put("test-source-key-2", "test-source-value-2");
+            source.put("test-source-key-3", "test-source-value-3");
+
+            MapMapper.Source noopSource = map.from("test-source-key-1").when(value -> false);
+            noopSource.to("one");
+            noopSource.toIfAbsent("two");
+            noopSource.to("three", str -> "content");
+            noopSource.to("four", (a, b, c) -> "content");
+
+            assertThat(destination).isEmpty();
+        }
+
+        @Test
+        @DisplayName("noopSource.when with false predicate is idempotent")
+        void isIdemPotentWhenPredicateIsFalse() {
+            source.put("test-source-key-1", "test-source-value-1");
+
+            MapMapper.Source noopSource = map.from("test-source-key-1").when(value -> false);
+
+            assertThat(noopSource)
+                    .isSameAs(noopSource.when(value -> true))
+                    .isSameAs(noopSource.when(value -> false));
+        }
+
     }
 
 }
