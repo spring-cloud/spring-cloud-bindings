@@ -291,7 +291,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.oauth2.enable`
 | `spring.security.oauth2.client.registration.{name}.client-name` | `{client-name}`
 | `spring.security.oauth2.client.registration.{name}.client-authentication-method` | `{client-authentication-method}`
 | `spring.security.oauth2.client.registration.{name}.authorization-grant-type` | `{authorization-grant-type}` or if not set then `{authorization-grant-types}` if it contains only one value (comma-separated)
-| `spring.security.oauth2.client.registration.{name}.redirect-uri` | `{redirect-uri}`
+| `spring.security.oauth2.client.registration.{name}.redirect-uri` | `{redirect-uri}` or if not set then `{redirect-uris}` if it contains only one value (comma-separated)
 | `spring.security.oauth2.client.registration.{name}.scope` | `{scope}`
 | `spring.security.oauth2.client.provider.{provider}.issuer-uri` | `{issuer-uri}`
 | `spring.security.oauth2.client.provider.{provider}.authorization-uri` | `{authorization-uri}`

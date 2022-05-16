@@ -167,6 +167,49 @@ final class SpringSecurityOAuth2BindingsPropertiesProcessorTest {
     }
 
     @Test
+    @DisplayName("contributes a redirect-uri is there is only one in redirect-uris")
+    void testRedirectUrisOneEntry() {
+        Bindings bindings = new Bindings(new Binding("binding-name", Paths.get("test-path"),
+                new FluentMap()
+                        .withEntry(Binding.TYPE, TYPE)
+                        .withEntry("provider", "some-provider")
+                        .withEntry("redirect-uris", "https://app.example.com/authorized")
+        ));
+        new SpringSecurityOAuth2BindingsPropertiesProcessor().process(new MockEnvironment(), bindings, properties);
+        assertThat(properties)
+                .containsEntry("spring.security.oauth2.client.registration.binding-name.redirect-uri", "https://app.example.com/authorized");
+    }
+
+    @Test
+    @DisplayName("does not contributes a redirect-uri is there are multiple entries in redirect-uris")
+    void testRedirectUrisMultipleEntries() {
+        Bindings bindings = new Bindings(new Binding("binding-name", Paths.get("test-path"),
+                new FluentMap()
+                        .withEntry(Binding.TYPE, TYPE)
+                        .withEntry("provider", "some-provider")
+                        .withEntry("redirect-uris", "https://app.example.com/authorized,https://other-app.example.com/login")
+        ));
+        new SpringSecurityOAuth2BindingsPropertiesProcessor().process(new MockEnvironment(), bindings, properties);
+        assertThat(properties)
+                .doesNotContainKey("spring.security.oauth2.client.registration.binding-name.redirect-uri");
+    }
+
+    @Test
+    @DisplayName("uses the value from redirect-uri if redirect-uris is also present")
+    void testRedirectUriAndRedirectUris() {
+        Bindings bindings = new Bindings(new Binding("binding-name", Paths.get("test-path"),
+                new FluentMap()
+                        .withEntry(Binding.TYPE, TYPE)
+                        .withEntry("provider", "some-provider")
+                        .withEntry("redirect-uris", "https://app.example.com/authorized")
+                        .withEntry("redirect-uri", "https://other-app.example.com/login")
+        ));
+        new SpringSecurityOAuth2BindingsPropertiesProcessor().process(new MockEnvironment(), bindings, properties);
+        assertThat(properties)
+                .containsEntry("spring.security.oauth2.client.registration.binding-name.redirect-uri", "https://other-app.example.com/login");
+    }
+
+    @Test
     @DisplayName("can be disabled")
     void disabled() {
         environment.setProperty("org.springframework.cloud.bindings.boot.oauth2.enable", "false");

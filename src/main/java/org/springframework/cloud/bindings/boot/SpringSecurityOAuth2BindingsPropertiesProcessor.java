@@ -64,6 +64,9 @@ public final class SpringSecurityOAuth2BindingsPropertiesProcessor implements Bi
                     .when(SpringSecurityOAuth2BindingsPropertiesProcessor::hasSingleValue)
                     .toIfAbsent(String.format("spring.security.oauth2.client.registration.%s.authorization-grant-type", clientName));
             map.from("redirect-uri").to(String.format("spring.security.oauth2.client.registration.%s.redirect-uri", clientName));
+            map.from("redirect-uris")
+                    .when(SpringSecurityOAuth2BindingsPropertiesProcessor::hasSingleValue)
+                    .toIfAbsent(String.format("spring.security.oauth2.client.registration.%s.redirect-uri", clientName));
             map.from("scope").to(String.format("spring.security.oauth2.client.registration.%s.scope", clientName));
             map.from("client-name").to(String.format("spring.security.oauth2.client.registration.%s.client-name", clientName));
             map.from("issuer-uri").to(String.format("spring.security.oauth2.client.provider.%s.issuer-uri", provider));
