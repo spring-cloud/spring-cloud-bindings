@@ -81,7 +81,7 @@ final class MySqlBindingsPropertiesProcessorTest {
         new MySqlBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties)
                 .containsEntry("spring.r2dbc.password", "test-password")
-                .containsEntry("spring.r2dbc.url", "r2dbc:mysql://test-host:test-port/test-database")
+                .containsEntry("spring.r2dbc.url", "r2dbc:mariadb://test-host:test-port/test-database")
                 .containsEntry("spring.r2dbc.username", "test-username");
     }
 

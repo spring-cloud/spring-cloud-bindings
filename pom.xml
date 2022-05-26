@@ -26,6 +26,7 @@
     <properties>
         <java.version>1.8</java.version>
         <jsr305.version>3.0.2</jsr305.version>
+        <mariadb-r2dbc.version>1.0.3</mariadb-r2dbc.version>
         <spring-boot.version>2.3.3.RELEASE</spring-boot.version>
 
         <!-- Plugins -->
@@ -69,6 +70,12 @@
             <artifactId>mariadb-java-client</artifactId>
             <scope>test</scope>
         </dependency>
+		<dependency>
+		    <groupId>org.mariadb</groupId>
+		    <artifactId>r2dbc-mariadb</artifactId>  
+		    <version>${mariadb-r2dbc.version}</version>
+		    <scope>test</scope> 
+		</dependency>	     
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
