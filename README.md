@@ -174,7 +174,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.mysql.enable`
 | `spring.r2dbc.password` | `{password}`
 | `spring.r2dbc.username` | `{username}`
 
-**Note** Libraries on the classpath are examined for purpose of evaluating the appropriate `jdbc` and `r2dbc` URLs.  The existence of both MySQL and MariaDB libraries on the classpath is not supported and may lead to non-deterministic results.
+**Note:** Libraries on the classpath are examined for the purpose of evaluating the appropriate `jdbc` and `r2dbc` URLs.  The existence of both MySQL and MariaDB libraries on the classpath is not supported and may lead to non-deterministic results.
 
 ### Neo4J
 Type: `neo4j`
