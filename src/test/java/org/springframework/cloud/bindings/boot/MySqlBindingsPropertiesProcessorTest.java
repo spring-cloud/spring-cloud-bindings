@@ -54,7 +54,7 @@ final class MySqlBindingsPropertiesProcessorTest {
         assertThat(properties)
                 .containsEntry("spring.datasource.driver-class-name", "org.mariadb.jdbc.Driver")
                 .containsEntry("spring.datasource.password", "test-password")
-                .containsEntry("spring.datasource.url", "jdbc:mysql://test-host:test-port/test-database")
+                .containsEntry("spring.datasource.url", "jdbc:mariadb://test-host:test-port/test-database")
                 .containsEntry("spring.datasource.username", "test-username");
     }
 

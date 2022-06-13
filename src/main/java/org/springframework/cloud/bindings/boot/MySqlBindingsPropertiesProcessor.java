@@ -59,7 +59,7 @@ public final class MySqlBindingsPropertiesProcessor implements BindingsPropertie
             map.from("username").to("spring.datasource.username");
             map.from("password").to("spring.datasource.password");
             map.from("host", "port", "database").to("spring.datasource.url",
-                    (host, port, database) -> String.format("jdbc:mysql://%s:%s/%s", host, port, database));
+                    (host, port, database) -> String.format("jdbc:%s://%s:%s/%s", evalProtocol(), host, port, database));
 
             // jdbcURL takes precedence
             map.from("jdbc-url").to("spring.datasource.url");
@@ -78,7 +78,7 @@ public final class MySqlBindingsPropertiesProcessor implements BindingsPropertie
             //r2dbc properties
             map.from("password").to("spring.r2dbc.password");
             map.from("host", "port", "database").to("spring.r2dbc.url",
-                    (host, port, database) -> String.format("r2dbc:%s://%s:%s/%s", evalR2DBCProtocol(), host, port, database));
+                    (host, port, database) -> String.format("r2dbc:%s://%s:%s/%s", evalProtocol(), host, port, database));
             map.from("username").to("spring.r2dbc.username");
 
             // r2dbcURL takes precedence
@@ -86,7 +86,7 @@ public final class MySqlBindingsPropertiesProcessor implements BindingsPropertie
         });
     }
     
-    private String evalR2DBCProtocol()
+    private String evalProtocol()
     {
     	// Default to "mysql"
     	String connectionProtocol = MYSQL_PROTOCOL;
