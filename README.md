@@ -168,11 +168,13 @@ Disable Property: `org.springframework.cloud.bindings.boot.mysql.enable`
 | -------- | ------------------
 | `spring.datasource.driver-class-name` | `org.mariadb.jdbc.Driver` or `com.mysql.cj.jdbc.Driver` depending on classpath
 | `spring.datasource.password` | `{password}`
-| `spring.datasource.url` | `{jdbc-url}` or if not set then `jdbc:mysql://{host}:{port}/{database}`
+| `spring.datasource.url` | `{jdbc-url}` or if not set then `jdbc:mysql://{host}:{port}/{database}` or `jdbc:mariadb://{host}:{port}/{database}` depending on classpath
 | `spring.datasource.username` | `{username}`
-| `spring.r2dbc.url` | `{r2dbc-url}` or if not set then `r2dbc:mysql://{host}:{port}/{database}`
+| `spring.r2dbc.url` | `{r2dbc-url}` or if not set then `r2dbc:mysql://{host}:{port}/{database}` or `r2dbc:mariadb//{host}:{port}/{database}` depending on classpath
 | `spring.r2dbc.password` | `{password}`
 | `spring.r2dbc.username` | `{username}`
+
+**Note:** Libraries on the classpath are examined for the purpose of evaluating the appropriate `jdbc` and `r2dbc` URLs.  The existence of both MySQL and MariaDB libraries on the classpath is not supported and may lead to non-deterministic results.
 
 ### Neo4J
 Type: `neo4j`

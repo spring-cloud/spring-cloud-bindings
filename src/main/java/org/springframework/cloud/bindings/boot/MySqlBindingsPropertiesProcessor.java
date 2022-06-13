@@ -36,6 +36,16 @@ public final class MySqlBindingsPropertiesProcessor implements BindingsPropertie
      **/
     public static final String TYPE = "mysql";
 
+    /**
+     * MySQL connection protocol constant.
+     */
+    private static final String MYSQL_PROTOCOL = "mysql";
+    
+    /**
+     *  MariaDB connection protocol constant. 
+     */
+    private static final String MARIADB_PROTOCOL = "mariadb";
+    
     @Override
     public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {
         if (!isTypeEnabled(environment, TYPE)) {
@@ -49,7 +59,7 @@ public final class MySqlBindingsPropertiesProcessor implements BindingsPropertie
             map.from("username").to("spring.datasource.username");
             map.from("password").to("spring.datasource.password");
             map.from("host", "port", "database").to("spring.datasource.url",
-                    (host, port, database) -> String.format("jdbc:mysql://%s:%s/%s", host, port, database));
+                    (host, port, database) -> String.format("jdbc:%s://%s:%s/%s", evalProtocol(), host, port, database));
 
             // jdbcURL takes precedence
             map.from("jdbc-url").to("spring.datasource.url");
@@ -68,12 +78,34 @@ public final class MySqlBindingsPropertiesProcessor implements BindingsPropertie
             //r2dbc properties
             map.from("password").to("spring.r2dbc.password");
             map.from("host", "port", "database").to("spring.r2dbc.url",
-                    (host, port, database) -> String.format("r2dbc:mysql://%s:%s/%s", host, port, database));
+                    (host, port, database) -> String.format("r2dbc:%s://%s:%s/%s", evalProtocol(), host, port, database));
             map.from("username").to("spring.r2dbc.username");
 
             // r2dbcURL takes precedence
             map.from("r2dbc-url").to("spring.r2dbc.url");
         });
+    }
+    
+    private String evalProtocol()
+    {
+    	// Default to "mysql"
+    	String connectionProtocol = MYSQL_PROTOCOL;
+    	
+    	/* Starting with Spring Boot 2.7.0, the previous MySQL r2dbc driver is no longer supported and 
+    	 * documentation suggests using the MariaDB R2DBC driver as an alternative.  Some versions
+    	 * of the MariaDB R2DBC driver do not support "mysql" as part of the connection
+    	 * protocol; "mariadb" should be used instead when the MariaDB R2DBC driver class is on
+    	 * the classpath.
+    	 */
+    	
+    	try {
+    		Class.forName("org.mariadb.r2dbc.MariadbConnection");
+    		connectionProtocol = MARIADB_PROTOCOL;
+    	}
+    	catch (ClassNotFoundException ignored) {
+        }
+    	
+    	return connectionProtocol; 
     }
 
 }
