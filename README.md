@@ -38,141 +38,141 @@ Each auto-configuration is triggered by the type of binding.  Each auto-configur
 Type: `artemis`
 Disable Property: `org.springframework.cloud.bindings.boot.artemis.enable`
 
-| Property | Value
-| -------- | ------------------
-| `spring.artemis.host` | `{host}`
-| `spring.artemis.mode` | `{mode}`
-| `spring.artemis.password` | `{password}`
-| `spring.artemis.port` | `{port}`
-| `spring.artemis.user` | `{user}`
-| `spring.artemis.embedded.cluster-password` | `{embedded.cluster-password}`
-| `spring.artemis.embedded.data-directory` | `{embedded.data-directory}`
-| `spring.artemis.embedded.enabled` | `{embedded.enabled}`
-| `spring.artemis.embedded.persistent` | `{embedded.persistent}`
-| `spring.artemis.embedded.queues` | `{embedded.queues}`
-| `spring.artemis.embedded.server-id` | `{embedded.server-id}`
-| `spring.artemis.embedded.topics` | `{embedded.topics}`
-| `spring.artemis.pool.block-if-full` | `{pool.block-if-full}`
-| `spring.artemis.pool.block-if-full-timeout` | `{pool.block-if-full-timeout}`
-| `spring.artemis.pool.enabled` | `{pool.enabled}`
-| `spring.artemis.pool.idle-timeout` | `{pool.idle-timeout}`
-| `spring.artemis.pool.max-connections` | `{pool.max-connections}`
-| `spring.artemis.pool.max-sessions-per-connection` | `{pool.max-sessions-per-connection}`
-| `spring.artemis.pool.time-between-expiration-check` | `{pool.time-between-expiration-check}`
-| `spring.artemis.pool.use-anonymous-producers` | `{pool.use-anonymous-producers}`
+| Property                                            | Value                                  |
+| --------------------------------------------------- | -------------------------------------- |
+| `spring.artemis.host`                               | `{host}`                               |
+| `spring.artemis.mode`                               | `{mode}`                               |
+| `spring.artemis.password`                           | `{password}`                           |
+| `spring.artemis.port`                               | `{port}`                               |
+| `spring.artemis.user`                               | `{user}`                               |
+| `spring.artemis.embedded.cluster-password`          | `{embedded.cluster-password}`          |
+| `spring.artemis.embedded.data-directory`            | `{embedded.data-directory}`            |
+| `spring.artemis.embedded.enabled`                   | `{embedded.enabled}`                   |
+| `spring.artemis.embedded.persistent`                | `{embedded.persistent}`                |
+| `spring.artemis.embedded.queues`                    | `{embedded.queues}`                    |
+| `spring.artemis.embedded.server-id`                 | `{embedded.server-id}`                 |
+| `spring.artemis.embedded.topics`                    | `{embedded.topics}`                    |
+| `spring.artemis.pool.block-if-full`                 | `{pool.block-if-full}`                 |
+| `spring.artemis.pool.block-if-full-timeout`         | `{pool.block-if-full-timeout}`         |
+| `spring.artemis.pool.enabled`                       | `{pool.enabled}`                       |
+| `spring.artemis.pool.idle-timeout`                  | `{pool.idle-timeout}`                  |
+| `spring.artemis.pool.max-connections`               | `{pool.max-connections}`               |
+| `spring.artemis.pool.max-sessions-per-connection`   | `{pool.max-sessions-per-connection}`   |
+| `spring.artemis.pool.time-between-expiration-check` | `{pool.time-between-expiration-check}` |
+| `spring.artemis.pool.use-anonymous-producers`       | `{pool.use-anonymous-producers}`       |
 
 ### Cassandra
 Type: `cassandra`
 Disable Property: `org.springframework.cloud.bindings.boot.cassandra.enable`
 
-| Property | Value
-| -------- | ------------------
-| `spring.data.cassandra.cluster-name` | `{cluster-name}`
-| `spring.data.cassandra.compression` | `{compression}`
-| `spring.data.cassandra.contact-points` | `{contact-points}`
-| `spring.data.cassandra.keyspace-name` | `{keyspace-name}`
-| `spring.data.cassandra.password` | `{password}`
-| `spring.data.cassandra.port` | `{port}`
-| `spring.data.cassandra.ssl` | `{ssl}`
-| `spring.data.cassandra.username` | `{username}`
+| Property                               | Value              |
+| -------------------------------------- | ------------------ |
+| `spring.data.cassandra.cluster-name`   | `{cluster-name}`   |
+| `spring.data.cassandra.compression`    | `{compression}`    |
+| `spring.data.cassandra.contact-points` | `{contact-points}` |
+| `spring.data.cassandra.keyspace-name`  | `{keyspace-name}`  |
+| `spring.data.cassandra.password`       | `{password}`       |
+| `spring.data.cassandra.port`           | `{port}`           |
+| `spring.data.cassandra.ssl`            | `{ssl}`            |
+| `spring.data.cassandra.username`       | `{username}`       |
 
 ### Couchbase
 Type: `couchbase`
 Disable Property: `org.springframework.cloud.bindings.boot.couchbase.enable`
 
-| Property | Value
-| -------- | ------------------
-| `spring.couchbase.bootstrap-hosts` | `{bootstrap-hosts}`
-| `spring.couchbase.bucket.name` | `{bucket.name}`
-| `spring.couchbase.bucket.password` | `{bucket.passsword}`
-| `spring.couchbase.env.bootstrap.http-direct-port` | `{env.bootstrap.http-direct-port}`
-| `spring.couchbase.env.bootstrap.http-ssl-port` | `{env.bootstrap.http-ssl-port}`
-| `spring.couchbase.password` | `{password}`
-| `spring.couchbase.username` | `{username}`
+| Property                                          | Value                              |
+| ------------------------------------------------- | ---------------------------------- |
+| `spring.couchbase.bootstrap-hosts`                | `{bootstrap-hosts}`                |
+| `spring.couchbase.bucket.name`                    | `{bucket.name}`                    |
+| `spring.couchbase.bucket.password`                | `{bucket.passsword}`               |
+| `spring.couchbase.env.bootstrap.http-direct-port` | `{env.bootstrap.http-direct-port}` |
+| `spring.couchbase.env.bootstrap.http-ssl-port`    | `{env.bootstrap.http-ssl-port}`    |
+| `spring.couchbase.password`                       | `{password}`                       |
+| `spring.couchbase.username`                       | `{username}`                       |
 
 ### DB2 RDBMS
 Type: `db2`
 Disable Property: `org.springframework.cloud.bindings.boot.db2.enable`
 
-| Property | Value
-| -------- | ------------------
-| `spring.datasource.driver-class-name` | `com.ibm.db2.jcc.DB2Driver`
-| `spring.datasource.password` | `{password}`
-| `spring.datasource.url` | `{jdbc-url}` or if not set then `jdbc:db2://{host}:{port}/{database}`
-| `spring.datasource.username` | `{username}`
-| `spring.r2dbc.url` | `{r2dbc-url}` or if not set then `r2dbc:db2://{host}:{port}/{database}`
-| `spring.r2dbc.password` | `{password}`
-| `spring.r2dbc.username` | `{username}`
+| Property                              | Value                                                                                                                                        |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `spring.datasource.driver-class-name` | `com.ibm.db2.jcc.DB2Driver`                                                                                                                  |
+| `spring.datasource.password`          | `{password}`                                                                                                                                 |
+| `spring.datasource.url`               | `{jdbc-url}` or if not set then `jdbc:db2://{host}:{port}/{database}` (you must have host, port and database set or no mapping will occur)   |
+| `spring.datasource.username`          | `{username}`                                                                                                                                 |
+| `spring.r2dbc.url`                    | `{r2dbc-url}` or if not set then `r2dbc:db2://{host}:{port}/{database}` (you must have host, port and database set or no mapping will occur) |
+| `spring.r2dbc.password`               | `{password}`                                                                                                                                 |
+| `spring.r2dbc.username`               | `{username}`                                                                                                                                 |
 
 
 ### Elasticsearch
 Type: `elasticsearch`
 Disable Property: `org.springframework.cloud.bindings.boot.elasticsearch.enable`
 
-| Property | Value
-| -------- | ------------------
-| `spring.data.elasticsearch.client.reactive.endpoints` | `{endpoints}`
-| `spring.data.elasticsearch.client.reactive.password` | `{password}`
-| `spring.data.elasticsearch.client.reactive.use-ssl` | `{use-ssl}`
-| `spring.data.elasticsearch.client.reactive.username` | `{username}`
-| `spring.elasticsearch.jest.password` | `{password}`
-| `spring.elasticsearch.jest.proxy.host` | `{proxy.host}`
-| `spring.elasticsearch.jest.proxy.port` | `{proxy.port}`
-| `spring.elasticsearch.jest.username` | `{username}`
-| `spring.elasticsearch.rest.password` | `{password}`
-| `spring.elasticsearch.rest.uris` | `{uris}`
-| `spring.elasticsearch.rest.username` | `{username}`
+| Property                                              | Value          |
+| ----------------------------------------------------- | -------------- |
+| `spring.data.elasticsearch.client.reactive.endpoints` | `{endpoints}`  |
+| `spring.data.elasticsearch.client.reactive.password`  | `{password}`   |
+| `spring.data.elasticsearch.client.reactive.use-ssl`   | `{use-ssl}`    |
+| `spring.data.elasticsearch.client.reactive.username`  | `{username}`   |
+| `spring.elasticsearch.jest.password`                  | `{password}`   |
+| `spring.elasticsearch.jest.proxy.host`                | `{proxy.host}` |
+| `spring.elasticsearch.jest.proxy.port`                | `{proxy.port}` |
+| `spring.elasticsearch.jest.username`                  | `{username}`   |
+| `spring.elasticsearch.rest.password`                  | `{password}`   |
+| `spring.elasticsearch.rest.uris`                      | `{uris}`       |
+| `spring.elasticsearch.rest.username`                  | `{username}`   |
 
 ### Kafka
 Type: `kafka`
 Disable Property: `org.springframework.cloud.bindings.boot.kafka.enable`
 
-| Property | Value
-| -------- | ------------------
-| `spring.kafka.bootstrap-servers` | `{bootstrap-servers}`
-| `spring.kafka.consumer.bootstrap-servers` | `{consumer.bootstrap-servers}`
-| `spring.kafka.producer.bootstrap-servers` | `{producer.bootstrap-servers}`
-| `spring.kafka.streams.bootstrap-servers` | `{streams.bootstrap-servers}`
+| Property                                  | Value                          |
+| ----------------------------------------- | ------------------------------ |
+| `spring.kafka.bootstrap-servers`          | `{bootstrap-servers}`          |
+| `spring.kafka.consumer.bootstrap-servers` | `{consumer.bootstrap-servers}` |
+| `spring.kafka.producer.bootstrap-servers` | `{producer.bootstrap-servers}` |
+| `spring.kafka.streams.bootstrap-servers`  | `{streams.bootstrap-servers}`  |
 
 ### LDAP
 Type: `ldap`
 Disable Property: `org.springframework.cloud.bindings.boot.ldap.enable`
 
-| Property | Value
-| -------- | ------------------
-| `spring.ldap.base` | `{base}`
-| `spring.ldap.password` | `{password}`
-| `spring.ldap.urls` | `{urls}`
-| `spring.ldap.username` | `{username}`
+| Property               | Value        |
+| ---------------------- | ------------ |
+| `spring.ldap.base`     | `{base}`     |
+| `spring.ldap.password` | `{password}` |
+| `spring.ldap.urls`     | `{urls}`     |
+| `spring.ldap.username` | `{username}` |
 
 ### MongoDB
 Type: `mongodb`
 Disable Property: `org.springframework.cloud.bindings.boot.mongodb.enable`
 
-| Property | Value
-| -------- | ------------------
-| `spring.data.mongodb.authentication-database` | `{authentication-database}`
-| `spring.data.mongodb.database` | `{database}`
-| `spring.data.mongodb.gridfs.database"` | `{grid-fs-database}`
-| `spring.data.mongodb.host` | `{host}`
-| `spring.data.mongodb.password` | `{password}`
-| `spring.data.mongodb.port` | `{port}`
-| `spring.data.mongodb.uri` | `{uri}`
-| `spring.data.mongodb.username` | `{username}`
+| Property                                      | Value                       |
+| --------------------------------------------- | --------------------------- |
+| `spring.data.mongodb.authentication-database` | `{authentication-database}` |
+| `spring.data.mongodb.database`                | `{database}`                |
+| `spring.data.mongodb.gridfs.database"`        | `{grid-fs-database}`        |
+| `spring.data.mongodb.host`                    | `{host}`                    |
+| `spring.data.mongodb.password`                | `{password}`                |
+| `spring.data.mongodb.port`                    | `{port}`                    |
+| `spring.data.mongodb.uri`                     | `{uri}`                     |
+| `spring.data.mongodb.username`                | `{username}`                |
 
 ### MySQL RDBMS
 Type: `mysql`
 Disable Property: `org.springframework.cloud.bindings.boot.mysql.enable`
 
-| Property | Value
-| -------- | ------------------
-| `spring.datasource.driver-class-name` | `org.mariadb.jdbc.Driver` or `com.mysql.cj.jdbc.Driver` depending on classpath
-| `spring.datasource.password` | `{password}`
-| `spring.datasource.url` | `{jdbc-url}` or if not set then `jdbc:mysql://{host}:{port}/{database}` or `jdbc:mariadb://{host}:{port}/{database}` depending on classpath
-| `spring.datasource.username` | `{username}`
-| `spring.r2dbc.url` | `{r2dbc-url}` or if not set then `r2dbc:mysql://{host}:{port}/{database}` or `r2dbc:mariadb//{host}:{port}/{database}` depending on classpath
-| `spring.r2dbc.password` | `{password}`
-| `spring.r2dbc.username` | `{username}`
+| Property                              | Value                                                                                                                                                                                                              |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `spring.datasource.driver-class-name` | `org.mariadb.jdbc.Driver` or `com.mysql.cj.jdbc.Driver` depending on classpath                                                                                                                                     |
+| `spring.datasource.password`          | `{password}`                                                                                                                                                                                                       |
+| `spring.datasource.url`               | `{jdbc-url}` or if not set then `jdbc:mysql://{host}:{port}/{database}` or `jdbc:mariadb://{host}:{port}/{database}` depending on classpath (you must have host, port and database set or no mapping will occur)   |
+| `spring.datasource.username`          | `{username}`                                                                                                                                                                                                       |
+| `spring.r2dbc.url`                    | `{r2dbc-url}` or if not set then `r2dbc:mysql://{host}:{port}/{database}` or `r2dbc:mariadb//{host}:{port}/{database}` depending on classpath (you must have host, port and database set or no mapping will occur) |
+| `spring.r2dbc.password`               | `{password}`                                                                                                                                                                                                       |
+| `spring.r2dbc.username`               | `{username}`                                                                                                                                                                                                       |
 
 **Note:** Libraries on the classpath are examined for the purpose of evaluating the appropriate `jdbc` and `r2dbc` URLs.  The existence of both MySQL and MariaDB libraries on the classpath is not supported and may lead to non-deterministic results.
 
@@ -180,142 +180,142 @@ Disable Property: `org.springframework.cloud.bindings.boot.mysql.enable`
 Type: `neo4j`
 Disable Property: `org.springframework.cloud.bindings.boot.neo4j.enable`
 
-| Property | Value
-| -------- | ------------------
-| `spring.data.neo4j.password` | `{password}`
-| `spring.data.neo4j.uri` | `{uri}`
-| `spring.data.neo4j.username` | `{username}`
+| Property                     | Value        |
+| ---------------------------- | ------------ |
+| `spring.data.neo4j.password` | `{password}` |
+| `spring.data.neo4j.uri`      | `{uri}`      |
+| `spring.data.neo4j.username` | `{username}` |
 
 ### Oracle RDBMS
 Type: `oracle`
 Disable Property: `org.springframework.cloud.bindings.boot.oracle.enable`
 
-| Property | Value
-| -------- | ------------------
-| `spring.datasource.driver-class-name` | `oracle.jdbc.OracleDriver`
-| `spring.datasource.password` | `{password}`
-| `spring.datasource.url` | `{jdbc-url}` or if not set then `jdbc:oracle://{host}:{port}/{database}`
-| `spring.datasource.username` | `{username}`
-| `spring.r2dbc.url` | `{r2dbc-url}` or if not set then `r2dbc:oracle://{host}:{port}/{database}`
-| `spring.r2dbc.password` | `{password}`
-| `spring.r2dbc.username` | `{username}`
+| Property                              | Value                                                                                                                                           |
+| ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `spring.datasource.driver-class-name` | `oracle.jdbc.OracleDriver`                                                                                                                      |
+| `spring.datasource.password`          | `{password}`                                                                                                                                    |
+| `spring.datasource.url`               | `{jdbc-url}` or if not set then `jdbc:oracle://{host}:{port}/{database}` (you must have host, port and database set or no mapping will occur)   |
+| `spring.datasource.username`          | `{username}`                                                                                                                                    |
+| `spring.r2dbc.url`                    | `{r2dbc-url}` or if not set then `r2dbc:oracle://{host}:{port}/{database}` (you must have host, port and database set or no mapping will occur) |
+| `spring.r2dbc.password`               | `{password}`                                                                                                                                    |
+| `spring.r2dbc.username`               | `{username}`                                                                                                                                    |
 
 ### PostgreSQL RDBMS
 Type: `postgresql`
 Disable Property: `org.springframework.cloud.bindings.boot.postgresql.enable`
 
-| Property | Value
-| -------- | ------------------
-| `spring.datasource.driver-class-name` | `org.postgresql.Driver`
-| `spring.datasource.password` | `{password}`
-| `spring.datasource.url` | `{jdbc-url}` or if not set then `jdbc:postgres://{host}:{port}/{database}`. If a binding for `{sslmode}`, `{sslrootcert}`, or `{options}` are set, the value is appended as properties to the generated URL.
-| `spring.datasource.username` | `{username}`
-| `spring.r2dbc.url` | `{r2dbc-url}` or if not set then `r2dbc:postgres://{host}:{port}/{database}`. If a binding for `{sslmode}`, `{sslrootcert}`, or `{options}` are set, the value is appended as properties to the generated URL.
-| `spring.r2dbc.password` | `{password}`
-| `spring.r2dbc.username` | `{username}`
+| Property                              | Value                                                                                                                                                                                                                                                                              |
+| ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `spring.datasource.driver-class-name` | `org.postgresql.Driver`                                                                                                                                                                                                                                                            |
+| `spring.datasource.password`          | `{password}`                                                                                                                                                                                                                                                                       |
+| `spring.datasource.url`               | `{jdbc-url}` or if not set then `jdbc:postgres://{host}:{port}/{database}`. If a binding for `{sslmode}`, `{sslrootcert}`, or `{options}` are set, the value is appended as properties to the generated URL (you must have host, port and database set or no mapping will occur)   |
+| `spring.datasource.username`          | `{username}`                                                                                                                                                                                                                                                                       |
+| `spring.r2dbc.url`                    | `{r2dbc-url}` or if not set then `r2dbc:postgres://{host}:{port}/{database}`. If a binding for `{sslmode}`, `{sslrootcert}`, or `{options}` are set, the value is appended as properties to the generated URL (you must have host, port and database set or no mapping will occur) |
+| `spring.r2dbc.password`               | `{password}`                                                                                                                                                                                                                                                                       |
+| `spring.r2dbc.username`               | `{username}`                                                                                                                                                                                                                                                                       |
 
 ### RabbitMQ
 Type: `rabbitmq`
 Disable Property: `org.springframework.cloud.bindings.boot.rabbitmq.enable`
 
-| Property | Value
-| -------- | ------------------
-| `spring.rabbitmq.addresses` | `{addresses}`
-| `spring.rabbitmq.host` | `{host}`
-| `spring.rabbitmq.password` | `{password}`
-| `spring.rabbitmq.port` | `{port}`
-| `spring.rabbitmq.username` | `{username}`
-| `spring.rabbitmq.virtual-host` | `{virtual-host}`
+| Property                       | Value            |
+| ------------------------------ | ---------------- |
+| `spring.rabbitmq.addresses`    | `{addresses}`    |
+| `spring.rabbitmq.host`         | `{host}`         |
+| `spring.rabbitmq.password`     | `{password}`     |
+| `spring.rabbitmq.port`         | `{port}`         |
+| `spring.rabbitmq.username`     | `{username}`     |
+| `spring.rabbitmq.virtual-host` | `{virtual-host}` |
 
 ### Redis
 Type: `redis`
 Disable Property: `org.springframework.cloud.bindings.boot.redis.enable`
 
-| Property | Value
-| -------- | ------------------
-| `spring.redis.client-name` | `{client-name}`
-| `spring.redis.cluster.max-redirects` | `{cluster.max-redirects}`
-| `spring.redis.cluster.nodes` | `{cluster-nodes}`
-| `spring.redis.database` | `{database}`
-| `spring.redis.host` | `{host}`
-| `spring.redis.password` | `{password}`
-| `spring.redis.port` | `{port}`
-| `spring.redis.sentinel.master` | `{sentinel.master}`
-| `spring.redis.sentinel.nodes` | `{sentinel.nodes}`
-| `spring.redis.ssl` | `{ssl}`
-| `spring.redis.url` | `{url}`
+| Property                             | Value                     |
+| ------------------------------------ | ------------------------- |
+| `spring.redis.client-name`           | `{client-name}`           |
+| `spring.redis.cluster.max-redirects` | `{cluster.max-redirects}` |
+| `spring.redis.cluster.nodes`         | `{cluster-nodes}`         |
+| `spring.redis.database`              | `{database}`              |
+| `spring.redis.host`                  | `{host}`                  |
+| `spring.redis.password`              | `{password}`              |
+| `spring.redis.port`                  | `{port}`                  |
+| `spring.redis.sentinel.master`       | `{sentinel.master}`       |
+| `spring.redis.sentinel.nodes`        | `{sentinel.nodes}`        |
+| `spring.redis.ssl`                   | `{ssl}`                   |
+| `spring.redis.url`                   | `{url}`                   |
 
 ### SAP Hana
 Type: `hana`
 Disable Property: `org.springframework.cloud.bindings.boot.hana.enable`
 
-| Property | Value
-| -------- | ------------------
-| `spring.datasource.driver-class-name` | `com.sap.db.jdbc.Driver`
-| `spring.datasource.password` | `{password}`
-| `spring.datasource.url` | `{jdbc-url}` or if not set then `jdbc:sap://{host}:{port}/{database}`
-| `spring.datasource.username` | `{username}`
-| `spring.r2dbc.url` | `{r2dbc-url}` or if not set then `r2dbc:sap://{host}:{port}/{database}`
-| `spring.r2dbc.password` | `{password}`
-| `spring.r2dbc.username` | `{username}`
+| Property                              | Value                                                                                                                                        |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `spring.datasource.driver-class-name` | `com.sap.db.jdbc.Driver`                                                                                                                     |
+| `spring.datasource.password`          | `{password}`                                                                                                                                 |
+| `spring.datasource.url`               | `{jdbc-url}` or if not set then `jdbc:sap://{host}:{port}/{database}` (you must have host, port and database set or no mapping will occur)   |
+| `spring.datasource.username`          | `{username}`                                                                                                                                 |
+| `spring.r2dbc.url`                    | `{r2dbc-url}` or if not set then `r2dbc:sap://{host}:{port}/{database}` (you must have host, port and database set or no mapping will occur) |
+| `spring.r2dbc.password`               | `{password}`                                                                                                                                 |
+| `spring.r2dbc.username`               | `{username}`                                                                                                                                 |
 
 ## SCS Config Server
 Type: `config`
 Disable Property: `org.springframework.cloud.bindings.boot.config.enable`
 
-| Property | Value
-| -------- | ------------------
-| `spring.cloud.config.uri` | `{uri}`
-| `spring.cloud.config.client.oauth2.clientId` | `{client-id}`
-| `spring.cloud.config.client.oauth2.clientSecret` |  `{client-secret}`
-| `spring.cloud.config.client.oauth2.accessTokenUri` | `{access-token-uri}`
+| Property                                           | Value                |
+| -------------------------------------------------- | -------------------- |
+| `spring.cloud.config.uri`                          | `{uri}`              |
+| `spring.cloud.config.client.oauth2.clientId`       | `{client-id}`        |
+| `spring.cloud.config.client.oauth2.clientSecret`   | `{client-secret}`    |
+| `spring.cloud.config.client.oauth2.accessTokenUri` | `{access-token-uri}` |
 
 ### SCS Eureka
 Type: `eureka`
 Disable Property: `org.springframework.cloud.bindings.boot.eureka.enable`
 
-| Property | Value
-| -------- | ------------------
-| `eureka.client.oauth2.client-id` | `{client-id}`
-| `eureka.client.oauth2.access-token-uri` | `{access-token-uri}`
-| `eureka.client.region` | `default`
-| `eureka.client.serviceUrl.defaultZone` | `{uri}/eureka/`
+| Property                                | Value                |
+| --------------------------------------- | -------------------- |
+| `eureka.client.oauth2.client-id`        | `{client-id}`        |
+| `eureka.client.oauth2.access-token-uri` | `{access-token-uri}` |
+| `eureka.client.region`                  | `default`            |
+| `eureka.client.serviceUrl.defaultZone`  | `{uri}/eureka/`      |
 
 ## Spring Security OAuth2
 Type: `oauth2`
 Disable Property: `org.springframework.cloud.bindings.boot.oauth2.enable`
 
-| Property | Value
-| -------- | ------------------
-| `spring.security.oauth2.client.registration.{name}.client-id` | `{client-id}`
-| `spring.security.oauth2.client.registration.{name}.client-secret` | `{client-secret}`
-| `spring.security.oauth2.client.registration.{name}.provider` | `{provider}`
-| `spring.security.oauth2.client.registration.{name}.client-name` | `{client-name}`
-| `spring.security.oauth2.client.registration.{name}.client-authentication-method` | `{client-authentication-method}`
-| `spring.security.oauth2.client.registration.{name}.authorization-grant-type` | `{authorization-grant-type}` or if not set then `{authorization-grant-types}` if it contains only one value (comma-separated)
-| `spring.security.oauth2.client.registration.{name}.redirect-uri` | `{redirect-uri}` or if not set then `{redirect-uris}` if it contains only one value (comma-separated)
-| `spring.security.oauth2.client.registration.{name}.scope` | `{scope}`
-| `spring.security.oauth2.client.provider.{provider}.issuer-uri` | `{issuer-uri}`
-| `spring.security.oauth2.client.provider.{provider}.authorization-uri` | `{authorization-uri}`
-| `spring.security.oauth2.client.provider.{provider}.token-uri` | `{token-uri}`
-| `spring.security.oauth2.client.provider.{provider}.user-info-uri` | `{user-info-uri}`
-| `spring.security.oauth2.client.provider.{provider}.user-info-authentication-method` | `{user-info-authentication-method}`
-| `spring.security.oauth2.client.provider.{provider}.jwk-set-uri` | `{jwk-set-uri}`
-| `spring.security.oauth2.client.provider.{provider}.user-name-attribute` | `{user-name-attribute}`
+| Property                                                                            | Value                                                                                                                         |
+| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `spring.security.oauth2.client.registration.{name}.client-id`                       | `{client-id}`                                                                                                                 |
+| `spring.security.oauth2.client.registration.{name}.client-secret`                   | `{client-secret}`                                                                                                             |
+| `spring.security.oauth2.client.registration.{name}.provider`                        | `{provider}`                                                                                                                  |
+| `spring.security.oauth2.client.registration.{name}.client-name`                     | `{client-name}`                                                                                                               |
+| `spring.security.oauth2.client.registration.{name}.client-authentication-method`    | `{client-authentication-method}`                                                                                              |
+| `spring.security.oauth2.client.registration.{name}.authorization-grant-type`        | `{authorization-grant-type}` or if not set then `{authorization-grant-types}` if it contains only one value (comma-separated) |
+| `spring.security.oauth2.client.registration.{name}.redirect-uri`                    | `{redirect-uri}` or if not set then `{redirect-uris}` if it contains only one value (comma-separated)                         |
+| `spring.security.oauth2.client.registration.{name}.scope`                           | `{scope}`                                                                                                                     |
+| `spring.security.oauth2.client.provider.{provider}.issuer-uri`                      | `{issuer-uri}`                                                                                                                |
+| `spring.security.oauth2.client.provider.{provider}.authorization-uri`               | `{authorization-uri}`                                                                                                         |
+| `spring.security.oauth2.client.provider.{provider}.token-uri`                       | `{token-uri}`                                                                                                                 |
+| `spring.security.oauth2.client.provider.{provider}.user-info-uri`                   | `{user-info-uri}`                                                                                                             |
+| `spring.security.oauth2.client.provider.{provider}.user-info-authentication-method` | `{user-info-authentication-method}`                                                                                           |
+| `spring.security.oauth2.client.provider.{provider}.jwk-set-uri`                     | `{jwk-set-uri}`                                                                                                               |
+| `spring.security.oauth2.client.provider.{provider}.user-name-attribute`             | `{user-name-attribute}`                                                                                                       |
 
 ### SQLServer RDBMS
 Type: `sqlserver`
 Disable Property: `org.springframework.cloud.bindings.boot.sqlserver.enable`
 
-| Property | Value
-| -------- | ------------------
-| `spring.datasource.driver-class-name` | `com.microsoft.sqlserver.jdbc.SQLServerDriver`
-| `spring.datasource.password` | `{password}`
-| `spring.datasource.url` | `jdbc:sqlserver://{host}:{port}/{database}`
-| `spring.datasource.username` | `{username}`
-| `spring.r2dbc.url` | `{r2dbc-url}` or if not set then `r2dbc:sqlserver://{host}:{port}/{database}`
-| `spring.r2dbc.password` | `{password}`
-| `spring.r2dbc.username` | `{username}`
+| Property                              | Value                                                                                                                                              |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `spring.datasource.driver-class-name` | `com.microsoft.sqlserver.jdbc.SQLServerDriver`                                                                                                     |
+| `spring.datasource.password`          | `{password}`                                                                                                                                       |
+| `spring.datasource.url`               | `jdbc:sqlserver://{host}:{port}/{database}` (you must have host, port and database set or no mapping will occur)                                   |
+| `spring.datasource.username`          | `{username}`                                                                                                                                       |
+| `spring.r2dbc.url`                    | `{r2dbc-url}` or if not set then `r2dbc:sqlserver://{host}:{port}/{database}` (you must have host, port and database set or no mapping will occur) |
+| `spring.r2dbc.password`               | `{password}`                                                                                                                                       |
+| `spring.r2dbc.username`               | `{username}`                                                                                                                                       |
 
 
 ### Vault
@@ -323,83 +323,83 @@ Type: `vault`
 Disable Property: `org.springframework.cloud.bindings.boot.vault.enable`
 
 Any Provider:
-| Property | Value
-| -------- | ------------------
-| `spring.cloud.vault.authentication` | `{authentication-method}`
-| `spring.cloud.vault.namespace` | `{namespace}`
-| `spring.cloud.vault.uri` | `{uri}`
+| Property                            | Value                     |
+| ----------------------------------- | ------------------------- |
+| `spring.cloud.vault.authentication` | `{authentication-method}` |
+| `spring.cloud.vault.namespace`      | `{namespace}`             |
+| `spring.cloud.vault.uri`            | `{uri}`                   |
 
 If `{authentication-method}` is equal to `approle`:
-| Property | Value
-| -------- | ------------------
-| `spring.cloud.vault.app-role.app-role-path` | `{app-role-path}`
-| `spring.cloud.vault.app-role.role-id` | `{role-id}`
-| `spring.cloud.vault.app-role.role` | `{role}`
-| `spring.cloud.vault.app-role.secret-id` | `{secret-id}`
+| Property                                    | Value             |
+| ------------------------------------------- | ----------------- |
+| `spring.cloud.vault.app-role.app-role-path` | `{app-role-path}` |
+| `spring.cloud.vault.app-role.role-id`       | `{role-id}`       |
+| `spring.cloud.vault.app-role.role`          | `{role}`          |
+| `spring.cloud.vault.app-role.secret-id`     | `{secret-id}`     |
 
 If `{authentication-method}` is equal to `aws_ec2`:
-| Property | Value
-| -------- | ------------------
-| `spring.cloud.vault.aws-ec2.aws-ec2-path` | `{aws-ec2-path}`
-| `spring.cloud.vault.aws-ec2.identity-document` | `{aws-ec2-instance-identity-document}`
-| `spring.cloud.vault.aws-ec2.nonce` | `{nonce}`
-| `spring.cloud.vault.aws-ec2.role` | `{role}`
+| Property                                       | Value                                  |
+| ---------------------------------------------- | -------------------------------------- |
+| `spring.cloud.vault.aws-ec2.aws-ec2-path`      | `{aws-ec2-path}`                       |
+| `spring.cloud.vault.aws-ec2.identity-document` | `{aws-ec2-instance-identity-document}` |
+| `spring.cloud.vault.aws-ec2.nonce`             | `{nonce}`                              |
+| `spring.cloud.vault.aws-ec2.role`              | `{role}`                               |
 
 If `{authentication-method}` is equal to `aws_iam`:
-| Property | Value
-| -------- | ------------------
-| `spring.cloud.vault.aws-iam.aws-path` | `{aws-path}`
-| `spring.cloud.vault.aws-iam.endpoint-uri` | `{aws-sts-endpoint-uri}`
-| `spring.cloud.vault.aws-iam.role` | `{role}`
-| `spring.cloud.vault.aws-iam.server-id` | `{aws-iam-server-id}`
+| Property                                  | Value                    |
+| ----------------------------------------- | ------------------------ |
+| `spring.cloud.vault.aws-iam.aws-path`     | `{aws-path}`             |
+| `spring.cloud.vault.aws-iam.endpoint-uri` | `{aws-sts-endpoint-uri}` |
+| `spring.cloud.vault.aws-iam.role`         | `{role}`                 |
+| `spring.cloud.vault.aws-iam.server-id`    | `{aws-iam-server-id}`    |
 
 If `{authentication-method}` is equal to `azure_msi`:
-| Property | Value
-| -------- | ------------------
-| `spring.cloud.vault.azure-msi.azure-path` | `{azure-path}`
-| `spring.cloud.vault.azure-msi.role` | `{role}`
+| Property                                  | Value          |
+| ----------------------------------------- | -------------- |
+| `spring.cloud.vault.azure-msi.azure-path` | `{azure-path}` |
+| `spring.cloud.vault.azure-msi.role`       | `{role}`       |
 
 If `{authentication-method}` is equal to `cert`:
-| Property | Value
-| -------- | ------------------
-| `spring.cloud.vault.ssl.cert-auth-path` | `{cert-auth-path}`
-| `spring.cloud.vault.ssl.key-store-password` | `{key-store-password}`
-| `spring.cloud.vault.ssl.key-store` | `${SERVICE_BINDING_ROOT}/{name}/keystore.jks`
+| Property                                    | Value                                         |
+| ------------------------------------------- | --------------------------------------------- |
+| `spring.cloud.vault.ssl.cert-auth-path`     | `{cert-auth-path}`                            |
+| `spring.cloud.vault.ssl.key-store-password` | `{key-store-password}`                        |
+| `spring.cloud.vault.ssl.key-store`          | `${SERVICE_BINDING_ROOT}/{name}/keystore.jks` |
 
 If `{authentication-method}` is equal to `cubbyhole`:
-| Property | Value
-| -------- | ------------------
-| `spring.cloud.vault.token` | `{token}`
+| Property                   | Value     |
+| -------------------------- | --------- |
+| `spring.cloud.vault.token` | `{token}` |
 
 If `{authentication-method}` is equal to `gcp_gce`:
-| Property | Value
-| -------- | ------------------
-| `spring.cloud.vault.gcp-gce.gcp-path` | `{gcp-path}`
-| `spring.cloud.vault.gcp-gce.role` | `{role}`
-| `spring.cloud.vault.gcp-gce.service-account` | `{gcp-service-account}`
+| Property                                     | Value                   |
+| -------------------------------------------- | ----------------------- |
+| `spring.cloud.vault.gcp-gce.gcp-path`        | `{gcp-path}`            |
+| `spring.cloud.vault.gcp-gce.role`            | `{role}`                |
+| `spring.cloud.vault.gcp-gce.service-account` | `{gcp-service-account}` |
 
 
 If `{authentication-method}` is equal to `gcp_iam`:
-| Property | Value
-| -------- | ------------------
-| `spring.cloud.vault.gcp-iam.credentials.encoded-key` | `{encoded-key}`
-| `spring.cloud.vault.gcp-iam.credentials.location` | `${SERVICE_BINDING_ROOT}/{name}/credentials.json`
-| `spring.cloud.vault.gcp-iam.gcp-path` | `{gcp-path}`
-| `spring.cloud.vault.gcp-iam.jwt-validity` | `{jwt-validity}`
-| `spring.cloud.vault.gcp-iam.project-id` | `{gcp-project-id}`
-| `spring.cloud.vault.gcp-iam.role` | `{role}`
-| `spring.cloud.vault.gcp-iam.service-account` | `{gcp-service-account}`
+| Property                                             | Value                                             |
+| ---------------------------------------------------- | ------------------------------------------------- |
+| `spring.cloud.vault.gcp-iam.credentials.encoded-key` | `{encoded-key}`                                   |
+| `spring.cloud.vault.gcp-iam.credentials.location`    | `${SERVICE_BINDING_ROOT}/{name}/credentials.json` |
+| `spring.cloud.vault.gcp-iam.gcp-path`                | `{gcp-path}`                                      |
+| `spring.cloud.vault.gcp-iam.jwt-validity`            | `{jwt-validity}`                                  |
+| `spring.cloud.vault.gcp-iam.project-id`              | `{gcp-project-id}`                                |
+| `spring.cloud.vault.gcp-iam.role`                    | `{role}`                                          |
+| `spring.cloud.vault.gcp-iam.service-account`         | `{gcp-service-account}`                           |
 
 If `{authentication-method}` is equal to `kubernetes`:
-| Property | Value
-| -------- | ------------------
-| `spring.cloud.vault.kubernetes.kubernetes-path` | `{kubernetes-path}`
-| `spring.cloud.vault.kubernetes.role` | `{role}`
+| Property                                        | Value               |
+| ----------------------------------------------- | ------------------- |
+| `spring.cloud.vault.kubernetes.kubernetes-path` | `{kubernetes-path}` |
+| `spring.cloud.vault.kubernetes.role`            | `{role}`            |
 
 If `{authentication-method}` is equal to `token`:
-| Property | Value
-| -------- | ------------------
-| `spring.cloud.vault.token` | `{token}`
+| Property                   | Value     |
+| -------------------------- | --------- |
+| `spring.cloud.vault.token` | `{token}` |
 
 
 ### Wavefront
@@ -407,10 +407,10 @@ If `{authentication-method}` is equal to `token`:
 Type: `wavefront`
 Disable Property: `org.springframework.cloud.bindings.boot.wavefront.enable`
 
-| Property | Value
-| -------- | ------------------
-| `management.metrics.export.wavefront.api-token` | `{api-token}`
-| `management.metrics.export.wavefront.uri` | `{uri}`
+| Property                                        | Value         |
+| ----------------------------------------------- | ------------- |
+| `management.metrics.export.wavefront.api-token` | `{api-token}` |
+| `management.metrics.export.wavefront.uri`       | `{uri}`       |
 
 
 ## Extending Spring Boot Configuration
