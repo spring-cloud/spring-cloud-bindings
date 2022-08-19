@@ -235,7 +235,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.redis.enable`
 | ------------------------------------ | ------------------------- |
 | `spring.redis.client-name`           | `{client-name}`           |
 | `spring.redis.cluster.max-redirects` | `{cluster.max-redirects}` |
-| `spring.redis.cluster.nodes`         | `{cluster-nodes}`         |
+| `spring.redis.cluster.nodes`         | `{cluster.nodes}`         |
 | `spring.redis.database`              | `{database}`              |
 | `spring.redis.host`                  | `{host}`                  |
 | `spring.redis.password`              | `{password}`              |
