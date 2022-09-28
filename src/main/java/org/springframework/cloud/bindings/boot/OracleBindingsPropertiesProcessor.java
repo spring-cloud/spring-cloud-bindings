@@ -49,7 +49,7 @@ public final class OracleBindingsPropertiesProcessor implements BindingsProperti
             map.from("username").to("spring.datasource.username");
             map.from("password").to("spring.datasource.password");
             map.from("host", "port", "database").to("spring.datasource.url",
-                    (host, port, database) -> String.format("jdbc:oracle://%s:%s/%s", host, port, database));
+                    (host, port, database) -> String.format("jdbc:oracle:thin:@%s:%s/%s", host, port, database));
 
             // jdbcURL takes precedence
             map.from("jdbc-url").to("spring.datasource.url");

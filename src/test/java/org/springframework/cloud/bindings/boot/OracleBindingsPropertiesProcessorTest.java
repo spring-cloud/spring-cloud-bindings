@@ -54,7 +54,7 @@ final class OracleBindingsPropertiesProcessorTest {
         assertThat(properties)
                 .containsEntry("spring.datasource.driver-class-name", "oracle.jdbc.OracleDriver")
                 .containsEntry("spring.datasource.password", "test-password")
-                .containsEntry("spring.datasource.url", "jdbc:oracle://test-host:test-port/test-database")
+                .containsEntry("spring.datasource.url", "jdbc:oracle:thin:@test-host:test-port/test-database")
                 .containsEntry("spring.datasource.username", "test-username");
     }
 

@@ -54,7 +54,7 @@ final class SqlServerBindingsPropertiesProcessorTest {
         assertThat(properties)
                 .containsEntry("spring.datasource.driver-class-name", "com.microsoft.sqlserver.jdbc.SQLServerDriver")
                 .containsEntry("spring.datasource.password", "test-password")
-                .containsEntry("spring.datasource.url", "jdbc:sqlserver://test-host:test-port/test-database")
+                .containsEntry("spring.datasource.url", "jdbc:sqlserver://test-host:test-port;databaseName=test-database")
                 .containsEntry("spring.datasource.username", "test-username");
     }
 
