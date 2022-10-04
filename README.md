@@ -190,15 +190,30 @@ Disable Property: `org.springframework.cloud.bindings.boot.neo4j.enable`
 Type: `oracle`
 Disable Property: `org.springframework.cloud.bindings.boot.oracle.enable`
 
-| Property                              | Value                                                                                                                                           |
-| ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| `spring.datasource.driver-class-name` | `oracle.jdbc.OracleDriver`                                                                                                                      |
-| `spring.datasource.password`          | `{password}`                                                                                                                                    |
-| `spring.datasource.url`               | `{jdbc-url}` or if not set then `jdbc:oracle://{host}:{port}/{database}` (you must have host, port and database set or no mapping will occur)   |
-| `spring.datasource.username`          | `{username}`                                                                                                                                    |
-| `spring.r2dbc.url`                    | `{r2dbc-url}` or if not set then `r2dbc:oracle://{host}:{port}/{database}` (you must have host, port and database set or no mapping will occur) |
-| `spring.r2dbc.password`               | `{password}`                                                                                                                                    |
-| `spring.r2dbc.username`               | `{username}`                                                                                                                                    |
+| Property                              | Value                                                                                                                                                                                    |
+| ------------------------------------- |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `spring.datasource.driver-class-name` | `oracle.jdbc.OracleDriver`                                                                                                                                                               |
+| `spring.datasource.password`          | `{password}`                                                                                                                                                                             |
+| `spring.datasource.url`               | `{jdbc-url}` or if not set and `{connection-type}` is also not set then `jdbc:oracle:thin:@{host}:{port}:{database}` (you must have host, port and database set or no mapping will occur) |
+| `spring.datasource.username`          | `{username}`                                                                                                                                                                             |
+| `spring.r2dbc.url`                    | `{r2dbc-url}` or if not set then `r2dbc:oracle://{host}:{port}/{database}` (you must have host, port and database set or no mapping will occur)                                          |
+| `spring.r2dbc.password`               | `{password}`                                                                                                                                                                             |
+| `spring.r2dbc.username`               | `{username}`                                                                                                                                                                             |
+
+If `{connection-type}` is equal to `sid`:
+| Property                              | Value                                                                                                               |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `spring.datasource.url`               | `jdbc:oracle:{driver}:@{host}:{port}:{sid}` (you must have driver, host, port and sid set or no mapping will occur) |
+
+If `{connection-type}` is equal to `service_name`:
+| Property                              | Value                                                                                                                                   |
+| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `spring.datasource.url`               | `jdbc:oracle:{driver}:@//{host}:{port}/{service-name}` (you must have driver, host, port and service-name set or no mapping will occur) |
+
+If `{connection-type}` is equal to `tns`:
+| Property                              | Value                                                                                               |
+| ------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `spring.datasource.url`               | `jdbc:oracle:{driver}:@{tns-name}` (you must have driver and tns-name set or no mapping will occur) |
 
 ### PostgreSQL RDBMS
 Type: `postgresql`
@@ -311,7 +326,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.sqlserver.enable`
 | ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `spring.datasource.driver-class-name` | `com.microsoft.sqlserver.jdbc.SQLServerDriver`                                                                                                     |
 | `spring.datasource.password`          | `{password}`                                                                                                                                       |
-| `spring.datasource.url`               | `jdbc:sqlserver://{host}:{port}/{database}` (you must have host, port and database set or no mapping will occur)                                   |
+| `spring.datasource.url`               | `jdbc:sqlserver://{host}:{port};databaseName={database}` (you must have host, port and database set or no mapping will occur)                                   |
 | `spring.datasource.username`          | `{username}`                                                                                                                                       |
 | `spring.r2dbc.url`                    | `{r2dbc-url}` or if not set then `r2dbc:sqlserver://{host}:{port}/{database}` (you must have host, port and database set or no mapping will occur) |
 | `spring.r2dbc.password`               | `{password}`                                                                                                                                       |

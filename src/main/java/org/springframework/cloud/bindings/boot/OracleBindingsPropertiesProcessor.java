@@ -48,8 +48,20 @@ public final class OracleBindingsPropertiesProcessor implements BindingsProperti
             //jdbc properties
             map.from("username").to("spring.datasource.username");
             map.from("password").to("spring.datasource.password");
+            // default to connection type sid and thin driver
             map.from("host", "port", "database").to("spring.datasource.url",
-                    (host, port, database) -> String.format("jdbc:oracle:thin:@%s:%s/%s", host, port, database));
+                    (host, port, database) -> String.format("jdbc:oracle:thin:@%s:%s:%s", host, port, database));
+
+            // connection type takes precedence
+            map.from("connection-type").when("sid"::equals)
+                    .from("driver", "host", "port", "sid").to("spring.datasource.url",
+                            (driver, host, port, sid) -> String.format("jdbc:oracle:%s:@%s:%s:%s", driver, host, port, sid));
+            map.from("connection-type").when("service_name"::equals)
+                    .from("driver", "host", "port", "service-name").to("spring.datasource.url",
+                            (driver, host, port, serviceName) -> String.format("jdbc:oracle:%s:@//%s:%s/%s", driver, host, port, serviceName));
+            map.from("connection-type").when("tns"::equals)
+                    .from("driver", "tns-name").to("spring.datasource.url",
+                            (driver, tnsName) -> String.format("jdbc:oracle:%s:@%s", driver, tnsName));
 
             // jdbcURL takes precedence
             map.from("jdbc-url").to("spring.datasource.url");
