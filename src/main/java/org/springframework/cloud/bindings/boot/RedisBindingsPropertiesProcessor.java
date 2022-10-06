@@ -52,8 +52,11 @@ public final class RedisBindingsPropertiesProcessor implements BindingsPropertie
             map.from("port").to("spring.redis.port");
             map.from("sentinel.master").to("spring.redis.sentinel.master");
             map.from("sentinel.nodes").to("spring.redis.sentinel.nodes");
+            map.from("sentinel.password").to("spring.redis.sentinel.password");
+            map.from("sentinel.username").to("spring.redis.sentinel.username");
             map.from("ssl").to("spring.redis.ssl");
             map.from("url").to("spring.redis.url");
+            map.from("username").to("spring.redis.username");
         });
     }
 
