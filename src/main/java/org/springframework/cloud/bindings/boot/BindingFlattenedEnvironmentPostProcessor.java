@@ -40,7 +40,7 @@ public final class BindingFlattenedEnvironmentPostProcessor implements Applicati
 
     public static final String BINDING_FLATTENED_PROPERTY_SOURCE_NAME = "kubernetesServiceBindingFlattened";
 
-    private final DeferredLog log = new DeferredLog();
+    private static final DeferredLog LOG = new DeferredLog();
 
     private final Bindings bindings;
 
@@ -64,7 +64,7 @@ public final class BindingFlattenedEnvironmentPostProcessor implements Applicati
 
     @Override
     public void onApplicationEvent(ApplicationPreparedEvent event) {
-        this.log.replayTo(getClass());
+        LOG.replayTo(getClass());
     }
 
     @Override
@@ -77,11 +77,11 @@ public final class BindingFlattenedEnvironmentPostProcessor implements Applicati
         });
 
         if (properties.isEmpty()) {
-            log.debug("No properties set from Kubernetes Service Bindings. Skipping PropertySource creation.");
+            LOG.debug("No properties set from Kubernetes Service Bindings. Skipping PropertySource creation.");
             return;
         }
 
-        log.info("Creating flattened PropertySource from Kubernetes Service Bindings");
+        LOG.info("Creating flattened PropertySource from Kubernetes Service Bindings");
         contributePropertySource(BINDING_FLATTENED_PROPERTY_SOURCE_NAME, properties, environment);
     }
 
