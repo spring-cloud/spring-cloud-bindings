@@ -107,8 +107,10 @@ final class VaultBindingsPropertiesProcessorTest {
                         baseSecret()
                                 .withEntry("authentication-method", "cert")
                                 .withEntry("cert-auth-path", "test-cert-auth-path")
-                                .withEntry("key-store-password", "test-key-store-password")
                                 .withEntry("keystore.jks", "key store contents!")
+                                .withEntry("key-store-password", "test-key-store-password")
+                                .withEntry("truststore.jks", "trust store contents!")
+                                .withEntry("trust-store-password", "test-trust-store-password")
                 )
         );
 
@@ -117,9 +119,11 @@ final class VaultBindingsPropertiesProcessorTest {
                 .containsEntry("spring.cloud.vault.uri", "test-uri")
                 .containsEntry("spring.cloud.vault.namespace", "test-namespace")
                 .containsEntry("spring.cloud.vault.authentication", "cert")
+                .containsEntry("spring.cloud.vault.ssl.cert-auth-path", "test-cert-auth-path")
                 .containsEntry("spring.cloud.vault.ssl.key-store", "test-path/keystore.jks")
                 .containsEntry("spring.cloud.vault.ssl.key-store-password", "test-key-store-password")
-                .containsEntry("spring.cloud.vault.ssl.cert-auth-path", "test-cert-auth-path");
+                .containsEntry("spring.cloud.vault.ssl.trust-store", "test-path/truststore.jks")
+                .containsEntry("spring.cloud.vault.ssl.trust-store-password", "test-trust-store-password");
     }
 
     @Test
@@ -154,7 +158,7 @@ final class VaultBindingsPropertiesProcessorTest {
                 new Binding("test-name", Paths.get("test-path"),
                         baseSecret()
                                 .withEntry("authentication-method", "aws_iam")
-                                .withEntry("aws-iam-server-id", "test-server-id")
+                                .withEntry("aws-iam-server-name", "test-server-name")
                                 .withEntry("aws-path", "test-aws-path")
                                 .withEntry("aws-sts-endpoint-uri", "test-endpoint-uri")
                                 .withEntry("role", "test-role")
@@ -168,7 +172,7 @@ final class VaultBindingsPropertiesProcessorTest {
                 .containsEntry("spring.cloud.vault.authentication", "aws_iam")
                 .containsEntry("spring.cloud.vault.aws-iam.role", "test-role")
                 .containsEntry("spring.cloud.vault.aws-iam.aws-path", "test-aws-path")
-                .containsEntry("spring.cloud.vault.aws-iam.server-id", "test-server-id")
+                .containsEntry("spring.cloud.vault.aws-iam.server-name", "test-server-name")
                 .containsEntry("spring.cloud.vault.aws-iam.endpoint-uri", "test-endpoint-uri");
     }
 
@@ -181,6 +185,8 @@ final class VaultBindingsPropertiesProcessorTest {
                                 .withEntry("authentication-method", "azure_msi")
                                 .withEntry("azure-path", "test-azure-path")
                                 .withEntry("role", "test-role")
+                                .withEntry("metadata-service", "test-metadata-service")
+                                .withEntry("identity-token-service", "test-identity-token-service")
                 )
         );
 
@@ -190,7 +196,9 @@ final class VaultBindingsPropertiesProcessorTest {
                 .containsEntry("spring.cloud.vault.namespace", "test-namespace")
                 .containsEntry("spring.cloud.vault.authentication", "azure_msi")
                 .containsEntry("spring.cloud.vault.azure-msi.role", "test-role")
-                .containsEntry("spring.cloud.vault.azure-msi.azure-path", "test-azure-path");
+                .containsEntry("spring.cloud.vault.azure-msi.azure-path", "test-azure-path")
+                .containsEntry("spring.cloud.vault.azure-msi.metadata-service", "test-metadata-service")
+                .containsEntry("spring.cloud.vault.azure-msi.identity-token-service", "test-identity-token-service");
     }
 
     @Test
@@ -244,7 +252,7 @@ final class VaultBindingsPropertiesProcessorTest {
                 .containsEntry("spring.cloud.vault.gcp-iam.gcp-path", "test-gcp-path")
                 .containsEntry("spring.cloud.vault.gcp-iam.jwt-validity", "test-jwt-validity")
                 .containsEntry("spring.cloud.vault.gcp-iam.project-id", "test-project-id")
-                .containsEntry("spring.cloud.vault.gcp-iam.service-account", "test-service-account");
+                .containsEntry("spring.cloud.vault.gcp-iam.service-account-id", "test-service-account");
     }
 
     @Test
@@ -256,6 +264,7 @@ final class VaultBindingsPropertiesProcessorTest {
                                 .withEntry("authentication-method", "kubernetes")
                                 .withEntry("role", "test-role")
                                 .withEntry("kubernetes-path", "test-kubernetes-path")
+                                .withEntry("kubernetes-service-account-token-file", "test-kubernetes-service-account-token-file")
                 )
         );
 
@@ -265,7 +274,8 @@ final class VaultBindingsPropertiesProcessorTest {
                 .containsEntry("spring.cloud.vault.namespace", "test-namespace")
                 .containsEntry("spring.cloud.vault.authentication", "kubernetes")
                 .containsEntry("spring.cloud.vault.kubernetes.role", "test-role")
-                .containsEntry("spring.cloud.vault.kubernetes.kubernetes-path", "test-kubernetes-path");
+                .containsEntry("spring.cloud.vault.kubernetes.kubernetes-path", "test-kubernetes-path")
+                .containsEntry("spring.cloud.vault.kubernetes.kubernetes-service-account-token-file", "test-kubernetes-service-account-token-file");
     }
 
     @Test
@@ -312,6 +322,8 @@ final class VaultBindingsPropertiesProcessorTest {
                                 .withEntry("cert-auth-path", "test-cert-auth-path")
                                 .withEntry("key-store-password", "test-key-store-password")
                                 .withEntry("keystore.jks", "key store contents!")
+                                .withEntry("trust-store-password", "test-key-store-password")
+                                .withEntry("truststore.jks", "trust store contents!")
                 )
         );
 

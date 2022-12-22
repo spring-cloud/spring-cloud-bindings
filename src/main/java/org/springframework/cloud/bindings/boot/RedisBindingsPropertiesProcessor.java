@@ -43,17 +43,17 @@ public final class RedisBindingsPropertiesProcessor implements BindingsPropertie
         bindings.filterBindings(TYPE).forEach(binding -> {
             MapMapper map = new MapMapper(binding.getSecret(), properties);
 
-            map.from("client-name").to("spring.redis.client-name");
-            map.from("cluster.max-redirects").to("spring.redis.cluster.max-redirects");
-            map.from("cluster.nodes").to("spring.redis.cluster.nodes");
-            map.from("database").to("spring.redis.database");
-            map.from("host").to("spring.redis.host");
-            map.from("password").to("spring.redis.password");
-            map.from("port").to("spring.redis.port");
-            map.from("sentinel.master").to("spring.redis.sentinel.master");
-            map.from("sentinel.nodes").to("spring.redis.sentinel.nodes");
-            map.from("ssl").to("spring.redis.ssl");
-            map.from("url").to("spring.redis.url");
+            map.from("client-name").to("spring.data.redis.client-name");
+            map.from("cluster.max-redirects").to("spring.data.redis.cluster.max-redirects");
+            map.from("cluster.nodes").to("spring.data.redis.cluster.nodes");
+            map.from("database").to("spring.data.redis.database");
+            map.from("host").to("spring.data.redis.host");
+            map.from("password").to("spring.data.redis.password");
+            map.from("port").to("spring.data.redis.port");
+            map.from("sentinel.master").to("spring.data.redis.sentinel.master");
+            map.from("sentinel.nodes").to("spring.data.redis.sentinel.nodes");
+            map.from("ssl").to("spring.data.redis.ssl");
+            map.from("url").to("spring.data.redis.url");
         });
     }
 

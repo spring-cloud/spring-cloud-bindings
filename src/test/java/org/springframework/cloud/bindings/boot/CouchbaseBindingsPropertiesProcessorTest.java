@@ -36,13 +36,10 @@ final class CouchbaseBindingsPropertiesProcessorTest {
             new Binding("test-name", Paths.get("test-path"),
                     new FluentMap()
                             .withEntry(Binding.TYPE, TYPE)
-                            .withEntry("bootstrap-hosts", "test-bootstrap-hosts")
-                            .withEntry("bucket.name", "test-bucket-name")
-                            .withEntry("bucket.password", "test-bucket-password")
-                            .withEntry("env.bootstrap.http-direct-port", "test-env-bootstrap-http-direct-port")
-                            .withEntry("env.bootstrap.http-ssl-port", "test-env-bootstrap-http-ssl-port")
-                            .withEntry("password", "test-password")
+                            .withEntry("connection-string", "test-connection-string")
+                            .withEntry("bucket-name", "test-bucket-name")
                             .withEntry("username", "test-username")
+                            .withEntry("password", "test-password")
             )
     );
 
@@ -55,13 +52,10 @@ final class CouchbaseBindingsPropertiesProcessorTest {
     void test() {
         new CouchbaseBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties)
-                .containsEntry("spring.couchbase.bootstrap-hosts", "test-bootstrap-hosts")
-                .containsEntry("spring.couchbase.bucket.name", "test-bucket-name")
-                .containsEntry("spring.couchbase.bucket.password", "test-bucket-password")
-                .containsEntry("spring.couchbase.env.bootstrap.http-direct-port", "test-env-bootstrap-http-direct-port")
-                .containsEntry("spring.couchbase.env.bootstrap.http-ssl-port", "test-env-bootstrap-http-ssl-port")
-                .containsEntry("spring.couchbase.password", "test-password")
-                .containsEntry("spring.couchbase.username", "test-username");
+                .containsEntry("spring.couchbase.connection-string", "test-connection-string")
+                .containsEntry("spring.data.couchbase.bucket-name", "test-bucket-name")
+                .containsEntry("spring.couchbase.username", "test-username")
+                .containsEntry("spring.couchbase.password", "test-password");
     }
 
     @Test

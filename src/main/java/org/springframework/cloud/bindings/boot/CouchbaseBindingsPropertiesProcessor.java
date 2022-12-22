@@ -43,11 +43,8 @@ final class CouchbaseBindingsPropertiesProcessor implements BindingsPropertiesPr
         bindings.filterBindings(TYPE).forEach(binding -> {
             MapMapper map = new MapMapper(binding.getSecret(), properties);
 
-            map.from("bootstrap-hosts").to("spring.couchbase.bootstrap-hosts");
-            map.from("bucket.name").to("spring.couchbase.bucket.name");
-            map.from("bucket.password").to("spring.couchbase.bucket.password");
-            map.from("env.bootstrap.http-direct-port").to("spring.couchbase.env.bootstrap.http-direct-port");
-            map.from("env.bootstrap.http-ssl-port").to("spring.couchbase.env.bootstrap.http-ssl-port");
+            map.from("bucket-name").to("spring.data.couchbase.bucket-name");
+            map.from("connection-string").to("spring.couchbase.connection-string");
             map.from("password").to("spring.couchbase.password");
             map.from("username").to("spring.couchbase.username");
         });

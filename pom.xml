@@ -32,10 +32,10 @@
     </developers>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>17</java.version>
         <jsr305.version>3.0.2</jsr305.version>
         <mariadb-r2dbc.version>1.1.2</mariadb-r2dbc.version>
-        <spring-boot.version>2.4.13</spring-boot.version>
+        <spring-boot.version>3.0.0</spring-boot.version>
 
         <!-- Plugins -->
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>

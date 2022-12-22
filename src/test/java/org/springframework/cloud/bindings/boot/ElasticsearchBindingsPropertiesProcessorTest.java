@@ -36,13 +36,9 @@ final class ElasticsearchBindingsPropertiesProcessorTest {
             new Binding("test-name", Paths.get("test-path"),
                     new FluentMap()
                             .withEntry(Binding.TYPE, TYPE)
-                            .withEntry("endpoints", "test-endpoints")
                             .withEntry("password", "test-password")
-                            .withEntry("use-ssl", "test-use-ssl")
-                            .withEntry("username", "test-username")
-                            .withEntry("proxy.host", "test-proxy-host")
-                            .withEntry("proxy.port", "test-proxy-port")
                             .withEntry("uris", "test-uris")
+                            .withEntry("username", "test-username")
             )
     );
 
@@ -55,17 +51,9 @@ final class ElasticsearchBindingsPropertiesProcessorTest {
     void test() {
         new ElasticsearchBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties)
-                .containsEntry("spring.data.elasticsearch.client.reactive.endpoints", "test-endpoints")
-                .containsEntry("spring.data.elasticsearch.client.reactive.password", "test-password")
-                .containsEntry("spring.data.elasticsearch.client.reactive.use-ssl", "test-use-ssl")
-                .containsEntry("spring.data.elasticsearch.client.reactive.username", "test-username")
-                .containsEntry("spring.elasticsearch.jest.password", "test-password")
-                .containsEntry("spring.elasticsearch.jest.proxy.host", "test-proxy-host")
-                .containsEntry("spring.elasticsearch.jest.proxy.port", "test-proxy-port")
-                .containsEntry("spring.elasticsearch.jest.username", "test-username")
-                .containsEntry("spring.elasticsearch.rest.password", "test-password")
-                .containsEntry("spring.elasticsearch.rest.uris", "test-uris")
-                .containsEntry("spring.elasticsearch.rest.username", "test-username");
+                .containsEntry("spring.elasticsearch.password", "test-password")
+                .containsEntry("spring.elasticsearch.uris", "test-uris")
+                .containsEntry("spring.elasticsearch.username", "test-username");
     }
 
     @Test

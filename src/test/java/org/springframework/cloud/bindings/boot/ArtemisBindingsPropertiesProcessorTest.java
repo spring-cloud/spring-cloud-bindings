@@ -37,8 +37,7 @@ final class ArtemisBindingsPropertiesProcessorTest {
                     new FluentMap()
                             .withEntry(Binding.TYPE, TYPE)
                             .withEntry("mode", "EMBEDDED")
-                            .withEntry("host", "test-host")
-                            .withEntry("port", "test-port")
+                            .withEntry("broker-url", "tcp://test-host:test-port")
                             .withEntry("user", "test-user")
                             .withEntry("password", "test-password")
             )
@@ -54,9 +53,8 @@ final class ArtemisBindingsPropertiesProcessorTest {
         new ArtemisBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties)
                 .containsEntry("spring.artemis.mode", "EMBEDDED")
-                .containsEntry("spring.artemis.host", "test-host")
+                .containsEntry("spring.artemis.broker-url", "tcp://test-host:test-port")
                 .containsEntry("spring.artemis.password", "test-password")
-                .containsEntry("spring.artemis.port", "test-port")
                 .containsEntry("spring.artemis.user", "test-user");
     }
 

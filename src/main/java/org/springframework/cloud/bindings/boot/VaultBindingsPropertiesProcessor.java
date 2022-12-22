@@ -76,16 +76,21 @@ public final class VaultBindingsPropertiesProcessor implements BindingsPropertie
                 case "AWS_IAM":
                     map.from("role").to("spring.cloud.vault.aws-iam.role");
                     map.from("aws-path").to("spring.cloud.vault.aws-iam.aws-path");
-                    map.from("aws-iam-server-id").to("spring.cloud.vault.aws-iam.server-id");
+                    map.from("aws-iam-server-name").to("spring.cloud.vault.aws-iam.server-name");
                     map.from("aws-sts-endpoint-uri").to("spring.cloud.vault.aws-iam.endpoint-uri");
                     break;
                 case "AZURE_MSI":
                     map.from("role").to("spring.cloud.vault.azure-msi.role");
                     map.from("azure-path").to("spring.cloud.vault.azure-msi.azure-path");
+                    map.from("metadata-service").to("spring.cloud.vault.azure-msi.metadata-service");
+                    map.from("identity-token-service").to("spring.cloud.vault.azure-msi.identity-token-service");
                     break;
                 case "CERT":
                     properties.put("spring.cloud.vault.ssl.key-store", binding.getSecretFilePath("keystore.jks").toString());
                     map.from("key-store-password").to("spring.cloud.vault.ssl.key-store-password");
+                    properties.put("spring.cloud.vault.ssl.trust-store", binding.getSecretFilePath("truststore.jks").toString());
+                    map.from("trust-store").to("spring.cloud.vault.ssl.trust-store");
+                    map.from("trust-store-password").to("spring.cloud.vault.ssl.trust-store-password");
                     map.from("cert-auth-path").to("spring.cloud.vault.ssl.cert-auth-path");
                     break;
                 case "GCP_GCE":
@@ -102,11 +107,12 @@ public final class VaultBindingsPropertiesProcessor implements BindingsPropertie
                     map.from("gcp-path").to("spring.cloud.vault.gcp-iam.gcp-path");
                     map.from("jwt-validity").to("spring.cloud.vault.gcp-iam.jwt-validity");
                     map.from("gcp-project-id").to("spring.cloud.vault.gcp-iam.project-id");
-                    map.from("gcp-service-account").to("spring.cloud.vault.gcp-iam.service-account");
+                    map.from("gcp-service-account").to("spring.cloud.vault.gcp-iam.service-account-id");
                     break;
                 case "KUBERNETES":
                     map.from("role").to("spring.cloud.vault.kubernetes.role");
                     map.from("kubernetes-path").to("spring.cloud.vault.kubernetes.kubernetes-path");
+                    map.from("kubernetes-service-account-token-file").to("spring.cloud.vault.kubernetes.kubernetes-service-account-token-file");
                     break;
                 default:
                     LOG.warn(String.format("Binding '%s' contains unrecognized 'method'", binding.getName()));

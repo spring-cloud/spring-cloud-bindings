@@ -36,9 +36,9 @@ final class Neo4JBindingsPropertiesProcessorTest {
             new Binding("test-name", Paths.get("test-path"),
                     new FluentMap()
                             .withEntry(Binding.TYPE, TYPE)
-                            .withEntry("password", "test-password")
                             .withEntry("uri", "test-uri")
                             .withEntry("username", "test-username")
+                            .withEntry("password", "test-password")
             )
     );
 
@@ -51,9 +51,9 @@ final class Neo4JBindingsPropertiesProcessorTest {
     void test() {
         new Neo4JBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties)
-                .containsEntry("spring.data.neo4j.password", "test-password")
-                .containsEntry("spring.data.neo4j.uri", "test-uri")
-                .containsEntry("spring.data.neo4j.username", "test-username");
+                .containsEntry("spring.neo4j.uri", "test-uri")
+                .containsEntry("spring.neo4j.authentication.username", "test-username")
+                .containsEntry("spring.neo4j.authentication.password", "test-password");
     }
 
     @Test

@@ -42,9 +42,9 @@ final class Neo4JBindingsPropertiesProcessor implements BindingsPropertiesProces
         bindings.filterBindings(TYPE).forEach(binding -> {
             MapMapper map = new MapMapper(binding.getSecret(), properties);
 
-            map.from("password").to("spring.data.neo4j.password");
-            map.from("uri").to("spring.data.neo4j.uri");
-            map.from("username").to("spring.data.neo4j.username");
+            map.from("uri").to("spring.neo4j.uri");
+            map.from("username").to("spring.neo4j.authentication.username");
+            map.from("password").to("spring.neo4j.authentication.password");
         });
     }
 

@@ -16,11 +16,11 @@
 
 package org.springframework.cloud.bindings.boot;
 
+import java.util.Map;
+
 import org.springframework.cloud.bindings.Binding;
 import org.springframework.cloud.bindings.Bindings;
 import org.springframework.core.env.Environment;
-
-import java.util.Map;
 
 import static org.springframework.cloud.bindings.boot.Guards.isTypeEnabled;
 
@@ -43,14 +43,19 @@ public final class CassandraBindingsPropertiesProcessor implements BindingsPrope
         bindings.filterBindings(TYPE).forEach(binding -> {
             MapMapper map = new MapMapper(binding.getSecret(), properties);
 
-            map.from("cluster-name").to("spring.data.cassandra.cluster-name");
-            map.from("compression").to("spring.data.cassandra.compression");
-            map.from("contact-points").to("spring.data.cassandra.contact-points");
-            map.from("keyspace-name").to("spring.data.cassandra.keyspace-name");
-            map.from("password").to("spring.data.cassandra.password");
-            map.from("port").to("spring.data.cassandra.port");
-            map.from("ssl").to("spring.data.cassandra.ssl");
-            map.from("username").to("spring.data.cassandra.username");
+            map.from("cluster-name").to("spring.cassandra.cluster-name");
+            map.from("compression").to("spring.cassandra.compression");
+            map.from("contact-points").to("spring.cassandra.contact-points");
+            map.from("keyspace-name").to("spring.cassandra.keyspace-name");
+            map.from("password").to("spring.cassandra.password");
+            map.from("port").to("spring.cassandra.port");
+            map.from("ssl").to("spring.cassandra.ssl");
+            map.from("username").to("spring.cassandra.username");
+
+            map.from("request.throttler.drain-interval").to("spring.cassandra.request.throttler.drain-interval");
+            map.from("request.throttler.max-concurrent-requests").to("spring.cassandra.request.throttler.max-concurrent-requests");
+            map.from("request.throttler.max-queue-size").to("spring.cassandra.request.throttler.max-queue-size");
+            map.from("request.throttler.max-requests-per-second").to("spring.cassandra.request.throttler.max-requests-per-second");
         });
     }
 

@@ -59,17 +59,17 @@ final class RedisBindingsPropertiesProcessorTest {
     void test() {
         new RedisBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties)
-                .containsEntry("spring.redis.client-name", "test-client-name")
-                .containsEntry("spring.redis.cluster.max-redirects", "test-cluster-max-redirects")
-                .containsEntry("spring.redis.cluster.nodes", "test-cluster-nodes")
-                .containsEntry("spring.redis.database", "test-database")
-                .containsEntry("spring.redis.host", "test-host")
-                .containsEntry("spring.redis.password", "test-password")
-                .containsEntry("spring.redis.port", "test-port")
-                .containsEntry("spring.redis.sentinel.master", "test-sentinel-master")
-                .containsEntry("spring.redis.sentinel.nodes", "test-sentinel-nodes")
-                .containsEntry("spring.redis.ssl", "test-ssl")
-                .containsEntry("spring.redis.url", "test-url");
+                .containsEntry("spring.data.redis.client-name", "test-client-name")
+                .containsEntry("spring.data.redis.cluster.max-redirects", "test-cluster-max-redirects")
+                .containsEntry("spring.data.redis.cluster.nodes", "test-cluster-nodes")
+                .containsEntry("spring.data.redis.database", "test-database")
+                .containsEntry("spring.data.redis.host", "test-host")
+                .containsEntry("spring.data.redis.password", "test-password")
+                .containsEntry("spring.data.redis.port", "test-port")
+                .containsEntry("spring.data.redis.sentinel.master", "test-sentinel-master")
+                .containsEntry("spring.data.redis.sentinel.nodes", "test-sentinel-nodes")
+                .containsEntry("spring.data.redis.ssl", "test-ssl")
+                .containsEntry("spring.data.redis.url", "test-url");
     }
 
     @Test

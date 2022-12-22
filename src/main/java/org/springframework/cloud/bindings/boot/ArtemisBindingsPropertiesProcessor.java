@@ -43,10 +43,9 @@ public final class ArtemisBindingsPropertiesProcessor implements BindingsPropert
         bindings.filterBindings(TYPE).forEach(binding -> {
             MapMapper map = new MapMapper(binding.getSecret(), properties);
 
-            map.from("host").to("spring.artemis.host");
+            map.from("broker-url").to("spring.artemis.broker-url");
             map.from("mode").to("spring.artemis.mode");
             map.from("password").to("spring.artemis.password");
-            map.from("port").to("spring.artemis.port");
             map.from("user").to("spring.artemis.user");
 
             map.from("embedded.cluster-password").to("spring.artemis.embedded.cluster-password");
@@ -57,14 +56,14 @@ public final class ArtemisBindingsPropertiesProcessor implements BindingsPropert
             map.from("embedded.server-id").to("spring.artemis.embedded.server-id");
             map.from("embedded.topics").to("spring.artemis.embedded.topics");
 
-            map.from("pool.block-if-full").to("spring.rabbitmq.pool.block-if-full");
-            map.from("pool.block-if-full-timeout").to("spring.rabbitmq.pool.block-if-full-timeout");
-            map.from("pool.enabled").to("spring.rabbitmq.pool.enabled");
-            map.from("pool.idle-timeout").to("spring.rabbitmq.pool.idle-timeout");
-            map.from("pool.max-connections").to("spring.rabbitmq.pool.max-connections");
-            map.from("pool.max-sessions-per-connection").to("spring.rabbitmq.pool.max-sessions-per-connection");
-            map.from("pool.time-between-expiration-check").to("spring.rabbitmq.pool.time-between-expiration-check");
-            map.from("pool.use-anonymous-producers").to("spring.rabbitmq.pool.use-anonymous-producers");
+            map.from("pool.block-if-full").to("spring.artemis.pool.block-if-full");
+            map.from("pool.block-if-full-timeout").to("spring.artemis.pool.block-if-full-timeout");
+            map.from("pool.enabled").to("spring.artemis.pool.enabled");
+            map.from("pool.idle-timeout").to("spring.artemis.pool.idle-timeout");
+            map.from("pool.max-connections").to("spring.artemis.pool.max-connections");
+            map.from("pool.max-sessions-per-connection").to("spring.artemis.pool.max-sessions-per-connection");
+            map.from("pool.time-between-expiration-check").to("spring.artemis.pool.time-between-expiration-check");
+            map.from("pool.use-anonymous-producers").to("spring.artemis.pool.use-anonymous-producers");
         });
     }
 
