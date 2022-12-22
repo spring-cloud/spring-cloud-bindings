@@ -17,7 +17,7 @@
 package org.springframework.cloud.bindings.boot;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.context.config.ConfigFileApplicationListener;
+import org.springframework.boot.context.config.ConfigDataEnvironmentPostProcessor;
 import org.springframework.boot.context.event.ApplicationPreparedEvent;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.boot.logging.DeferredLog;
@@ -76,8 +76,8 @@ public final class BindingSpecificEnvironmentPostProcessor implements Applicatio
 
     @Override
     public int getOrder() {
-        // Before ConfigFileApplicationListener so values there can use values from {@link Bindings}.
-        return ConfigFileApplicationListener.DEFAULT_ORDER - 1;
+        // Before ConfigDataEnvironmentPostProcessor so values there can use values from {@link Bindings}.
+        return ConfigDataEnvironmentPostProcessor.ORDER - 1;
     }
 
     @Override
