@@ -57,6 +57,7 @@ public final class Binding {
 
     /**
      * Creates a new {@code Binding} instance using the specified file system root.
+     * @param path   the path to the {@code Binding}.
      */
     public Binding(Path path) {
         this(path.getFileName().toString(), path, createSecretMap(path));
@@ -140,6 +141,7 @@ public final class Binding {
 
     /**
      * Returns the name of the binding.
+     * @return the name of the binding
      */
     public String getName() {
         return name;
@@ -147,6 +149,7 @@ public final class Binding {
 
     /**
      * Returns the path of the binding.
+     * @return the path of the binding	
      */
     public Path getPath() {
         return path;
@@ -154,6 +157,7 @@ public final class Binding {
 
     /**
      * Returns the secret of the binding.
+     * @return a Map of the secret of the binding
      */
     public Map<String, String> getSecret() {
         return Collections.unmodifiableMap(secret);
@@ -161,6 +165,7 @@ public final class Binding {
 
     /**
      * Returns the type of the binding.
+     * @return the type of the binding
      */
     public String getType() {
         return type;
@@ -168,6 +173,7 @@ public final class Binding {
 
     /**
      * Returns the provider of the binding.
+     * @return the provider of the binding
      */
     @Nullable
     public String getProvider() {
@@ -178,6 +184,7 @@ public final class Binding {
      * Returns the {@link Path} to a secret file on disk.
      *
      * @param name the name of the secret key.
+     * @return the {@link Path} to a secret file on disk.
      */
     public Path getSecretFilePath(String name) {
         for (String d : Arrays.asList("metadata", "secret")) {

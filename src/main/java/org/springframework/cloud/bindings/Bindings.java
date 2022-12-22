@@ -112,6 +112,7 @@ public final class Bindings {
 
     /**
      * Returns all the {@link Binding}s that were found during construction.
+     * @return all the {@link Binding}s that were found during construction.
      */
     public List<Binding> getBindings() {
         return bindings;
