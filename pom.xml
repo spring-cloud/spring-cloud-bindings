@@ -141,6 +141,12 @@
                 <configuration>
                         <quiet>true</quiet>
 			<source>1.8</source>
+			<tags>
+                          <tag>
+                            <name>NonNullApi</name>                            
+                            <placement>X</placement>                            
+                          </tag>
+                    </tags>
                 </configuration>
 		<executions>
                     <execution>
