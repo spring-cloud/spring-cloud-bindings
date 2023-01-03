@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@NonNullApi
+/** */ @NonNullApi
 package org.springframework.cloud.bindings;
 
 import org.springframework.lang.NonNullApi;
