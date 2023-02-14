@@ -27,30 +27,82 @@ import static org.springframework.cloud.bindings.boot.Guards.isTypeEnabled;
 /**
  * An implementation of {@link BindingsPropertiesProcessor} that detects {@link Binding}s of type: {@value TYPE}.
  */
-final class CouchbaseBindingsPropertiesProcessor implements BindingsPropertiesProcessor {
+final class CouchbaseBindingsPropertiesProcessor {
 
     /**
      * The {@link Binding} type that this processor is interested in: {@value}.
      **/
     public static final String TYPE = "couchbase";
 
-    @Override
-    public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {
-        if (!isTypeEnabled(environment, TYPE)) {
-            return;
+    public final static class Boot2 extends SpringBootVersionResolver implements BindingsPropertiesProcessor {
+
+        private static final int BOOT_VERSION = 2;
+
+        Boot2(int forcedVersion) {
+            super(forcedVersion);
         }
 
-        bindings.filterBindings(TYPE).forEach(binding -> {
-            MapMapper map = new MapMapper(binding.getSecret(), properties);
+        public Boot2() {
+        }
 
-            map.from("bootstrap-hosts").to("spring.couchbase.bootstrap-hosts");
-            map.from("bucket.name").to("spring.couchbase.bucket.name");
-            map.from("bucket.password").to("spring.couchbase.bucket.password");
-            map.from("env.bootstrap.http-direct-port").to("spring.couchbase.env.bootstrap.http-direct-port");
-            map.from("env.bootstrap.http-ssl-port").to("spring.couchbase.env.bootstrap.http-ssl-port");
-            map.from("password").to("spring.couchbase.password");
-            map.from("username").to("spring.couchbase.username");
-        });
+        @Override
+        public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {
+            if (!isTypeEnabled(environment, TYPE)) {
+                return;
+            }
+            if (!isBootMajorVersionEnabled(BOOT_VERSION)) {
+                return;
+            }
+
+            bindings.filterBindings(TYPE).forEach(binding -> {
+                MapMapper map = new MapMapper(binding.getSecret(), properties);
+                map.from("bootstrap-hosts").to("spring.couchbase.bootstrap-hosts");
+                map.from("bucket.name").to("spring.couchbase.bucket.name");
+                map.from("bucket.password").to("spring.couchbase.bucket.password");
+                map.from("env.bootstrap.http-direct-port").to("spring.couchbase.env.bootstrap.http-direct-port");
+                map.from("env.bootstrap.http-ssl-port").to("spring.couchbase.env.bootstrap.http-ssl-port");
+                commonProperties(map);
+
+            });
+        }
+    }
+
+    /**
+     * This is a special case for Boot 3.
+     */
+    public final static class Boot3 extends SpringBootVersionResolver implements BindingsPropertiesProcessor {
+
+        private static final int BOOT_VERSION = 3;
+
+        Boot3(int forcedVersion) {
+            super(forcedVersion);
+        }
+
+        public Boot3() {
+        }
+
+        @Override
+        public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {
+            if (!isTypeEnabled(environment, TYPE)) {
+                return;
+            }
+            if (!isBootMajorVersionEnabled(BOOT_VERSION)) {
+                return;
+            }
+
+            bindings.filterBindings(TYPE).forEach(binding -> {
+                MapMapper map = new MapMapper(binding.getSecret(), properties);
+                map.from("bucket-name").to("spring.data.couchbase.bucket-name");
+                map.from("connection-string").to("spring.couchbase.connection-string");
+                commonProperties(map);
+
+            });
+        }
+    }
+
+    private static void commonProperties(MapMapper map) {
+        map.from("password").to("spring.couchbase.password");
+        map.from("username").to("spring.couchbase.username");
     }
 
 }

@@ -69,8 +69,7 @@ public final class PostgreSqlBindingsPropertiesProcessor implements BindingsProp
                     (host, port, database) -> String.format("jdbc:postgresql://%s:%s/%s", host, port, database));
 
             String sslParam = buildSslModeParam(binding);
-            String dbOptions = buildDbOptions(binding);
-            String sslModeOptions = dbOptions;
+            String sslModeOptions = buildDbOptions(binding);
             if (!"".equals(sslParam) && !"".equals(sslModeOptions)) {
                 sslModeOptions = sslParam + "&" + sslModeOptions;
             } else if (!"".equals(sslParam) ) {
