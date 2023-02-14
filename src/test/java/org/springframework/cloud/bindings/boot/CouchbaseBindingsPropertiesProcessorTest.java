@@ -32,7 +32,7 @@ import static org.springframework.cloud.bindings.boot.CouchbaseBindingsPropertie
 @DisplayName("Couchbase BindingsPropertiesProcessor")
 final class CouchbaseBindingsPropertiesProcessorTest {
 
-    private final Bindings bindings = new Bindings(
+    private final Bindings bindingsSpringBoot2 = new Bindings(
             new Binding("test-name", Paths.get("test-path"),
                     new FluentMap()
                             .withEntry(Binding.TYPE, TYPE)
@@ -46,14 +46,25 @@ final class CouchbaseBindingsPropertiesProcessorTest {
             )
     );
 
+    private final Bindings bindingsSpringBoot3 = new Bindings(
+            new Binding("test-name", Paths.get("test-path"),
+                    new FluentMap()
+                            .withEntry(Binding.TYPE, TYPE)
+                            .withEntry("connection-string", "test-connection-string")
+                            .withEntry("bucket-name", "test-bucket-name")
+                            .withEntry("username", "test-username")
+                            .withEntry("password", "test-password")
+            )
+    );
+
     private final MockEnvironment environment = new MockEnvironment();
 
     private final HashMap<String, Object> properties = new HashMap<>();
 
     @Test
-    @DisplayName("contributes properties")
-    void test() {
-        new CouchbaseBindingsPropertiesProcessor().process(environment, bindings, properties);
+    @DisplayName("contributes properties - Spring Boot 2 flavor")
+    void testSb2() {
+        new CouchbaseBindingsPropertiesProcessor.Boot2(2).process(environment, bindingsSpringBoot2, properties);
         assertThat(properties)
                 .containsEntry("spring.couchbase.bootstrap-hosts", "test-bootstrap-hosts")
                 .containsEntry("spring.couchbase.bucket.name", "test-bucket-name")
@@ -65,12 +76,25 @@ final class CouchbaseBindingsPropertiesProcessorTest {
     }
 
     @Test
+    @DisplayName("contributes properties - Spring Boot 3 flavor")
+    void testSb3() {
+        new CouchbaseBindingsPropertiesProcessor.Boot3(3).process(environment, bindingsSpringBoot3, properties);
+        assertThat(properties)
+                .containsEntry("spring.couchbase.connection-string", "test-connection-string")
+                .containsEntry("spring.data.couchbase.bucket-name", "test-bucket-name")
+                .containsEntry("spring.couchbase.username", "test-username")
+                .containsEntry("spring.couchbase.password", "test-password");
+    }
+
+    @Test
     @DisplayName("can be disabled")
     void disabled() {
         environment.setProperty("org.springframework.cloud.bindings.boot.couchbase.enable", "false");
 
-        new CouchbaseBindingsPropertiesProcessor().process(environment, bindings, properties);
+        new CouchbaseBindingsPropertiesProcessor.Boot2(2).process(environment, bindingsSpringBoot2, properties);
+        assertThat(properties).isEmpty();
 
+        new CouchbaseBindingsPropertiesProcessor.Boot3(3).process(environment, bindingsSpringBoot3, properties);
         assertThat(properties).isEmpty();
     }
 

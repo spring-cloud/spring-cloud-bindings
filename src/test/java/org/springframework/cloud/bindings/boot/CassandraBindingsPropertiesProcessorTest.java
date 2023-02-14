@@ -44,6 +44,10 @@ final class CassandraBindingsPropertiesProcessorTest {
                             .withEntry("port", "test-port")
                             .withEntry("ssl", "test-ssl")
                             .withEntry("username", "test-username")
+                            .withEntry("request.throttler.drain-interval", "test-drain-interval")
+                            .withEntry("request.throttler.max-concurrent-requests", "test-max-concurrent-requests")
+                            .withEntry("request.throttler.max-queue-size", "test-max-queue-size")
+                            .withEntry("request.throttler.max-requests-per-second", "test-max-requests-per-second")
             )
     );
 
@@ -52,9 +56,9 @@ final class CassandraBindingsPropertiesProcessorTest {
     private final HashMap<String, Object> properties = new HashMap<>();
 
     @Test
-    @DisplayName("contributes properties")
-    void test() {
-        new CassandraBindingsPropertiesProcessor().process(environment, bindings, properties);
+    @DisplayName("contributes properties - Spring Boot 2 flavor")
+    void testSb2() {
+        new CassandraBindingsPropertiesProcessor.Boot2(2).process(environment, bindings, properties);
         assertThat(properties)
                 .containsEntry("spring.data.cassandra.cluster-name", "test-cluster-name")
                 .containsEntry("spring.data.cassandra.compression", "test-compression")
@@ -63,7 +67,30 @@ final class CassandraBindingsPropertiesProcessorTest {
                 .containsEntry("spring.data.cassandra.password", "test-password")
                 .containsEntry("spring.data.cassandra.port", "test-port")
                 .containsEntry("spring.data.cassandra.ssl", "test-ssl")
-                .containsEntry("spring.data.cassandra.username", "test-username");
+                .containsEntry("spring.data.cassandra.username", "test-username")
+                .containsEntry("spring.data.cassandra.request.throttler.drain-interval", "test-drain-interval")
+                .containsEntry("spring.data.cassandra.request.throttler.max-concurrent-requests", "test-max-concurrent-requests")
+                .containsEntry("spring.data.cassandra.request.throttler.max-queue-size", "test-max-queue-size")
+                .containsEntry("spring.data.cassandra.request.throttler.max-requests-per-second", "test-max-requests-per-second");
+    }
+
+    @Test
+    @DisplayName("contributes properties - Spring Boot 3 flavor")
+    void testSb3() {
+        new CassandraBindingsPropertiesProcessor.Boot3(3).process(environment, bindings, properties);
+        assertThat(properties)
+                .containsEntry("spring.cassandra.cluster-name", "test-cluster-name")
+                .containsEntry("spring.cassandra.compression", "test-compression")
+                .containsEntry("spring.cassandra.contact-points", "test-contact-points")
+                .containsEntry("spring.cassandra.keyspace-name", "test-keyspace-name")
+                .containsEntry("spring.cassandra.password", "test-password")
+                .containsEntry("spring.cassandra.port", "test-port")
+                .containsEntry("spring.cassandra.ssl", "test-ssl")
+                .containsEntry("spring.cassandra.username", "test-username")
+                .containsEntry("spring.cassandra.request.throttler.drain-interval", "test-drain-interval")
+                .containsEntry("spring.cassandra.request.throttler.max-concurrent-requests", "test-max-concurrent-requests")
+                .containsEntry("spring.cassandra.request.throttler.max-queue-size", "test-max-queue-size")
+                .containsEntry("spring.cassandra.request.throttler.max-requests-per-second", "test-max-requests-per-second");
     }
 
     @Test
@@ -71,8 +98,10 @@ final class CassandraBindingsPropertiesProcessorTest {
     void disabled() {
         environment.setProperty("org.springframework.cloud.bindings.boot.cassandra.enable", "false");
 
-        new CassandraBindingsPropertiesProcessor().process(environment, bindings, properties);
+        new CassandraBindingsPropertiesProcessor.Boot2(2).process(environment, bindings, properties);
+        assertThat(properties).isEmpty();
 
+        new CassandraBindingsPropertiesProcessor.Boot3(3).process(environment, bindings, properties);
         assertThat(properties).isEmpty();
     }
 

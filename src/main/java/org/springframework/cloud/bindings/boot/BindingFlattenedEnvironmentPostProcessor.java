@@ -16,8 +16,11 @@
 
 package org.springframework.cloud.bindings.boot;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.context.config.ConfigFileApplicationListener;
+import org.springframework.boot.context.config.ConfigDataEnvironmentPostProcessor;
 import org.springframework.boot.context.event.ApplicationPreparedEvent;
 import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.boot.logging.DeferredLog;
@@ -25,9 +28,6 @@ import org.springframework.cloud.bindings.Bindings;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.ConfigurableEnvironment;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.springframework.cloud.bindings.boot.PropertySourceContributor.contributePropertySource;
 
@@ -59,7 +59,7 @@ public final class BindingFlattenedEnvironmentPostProcessor implements Applicati
     @Override
     public int getOrder() {
         // Before ConfigFileApplicationListener so values there can use values from {@link Bindings}.
-        return ConfigFileApplicationListener.DEFAULT_ORDER - 1;
+        return ConfigDataEnvironmentPostProcessor.ORDER - 1;
     }
 
     @Override

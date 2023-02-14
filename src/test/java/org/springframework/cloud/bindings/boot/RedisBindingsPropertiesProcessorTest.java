@@ -55,9 +55,9 @@ final class RedisBindingsPropertiesProcessorTest {
     private final HashMap<String, Object> properties = new HashMap<>();
 
     @Test
-    @DisplayName("contributes properties")
-    void test() {
-        new RedisBindingsPropertiesProcessor().process(environment, bindings, properties);
+    @DisplayName("contributes properties - Spring Boot 2 flavor")
+    void testSb2() {
+        new RedisBindingsPropertiesProcessor.Boot2(2).process(environment, bindings, properties);
         assertThat(properties)
                 .containsEntry("spring.redis.client-name", "test-client-name")
                 .containsEntry("spring.redis.cluster.max-redirects", "test-cluster-max-redirects")
@@ -73,13 +73,35 @@ final class RedisBindingsPropertiesProcessorTest {
     }
 
     @Test
+    @DisplayName("contributes properties - Spring Boot 3 flavor")
+    void testSb3() {
+        new RedisBindingsPropertiesProcessor.Boot3(3).process(environment, bindings, properties);
+
+        assertThat(properties)
+                .containsEntry("spring.data.redis.client-name", "test-client-name")
+                .containsEntry("spring.data.redis.cluster.max-redirects", "test-cluster-max-redirects")
+                .containsEntry("spring.data.redis.cluster.nodes", "test-cluster-nodes")
+                .containsEntry("spring.data.redis.database", "test-database")
+                .containsEntry("spring.data.redis.host", "test-host")
+                .containsEntry("spring.data.redis.password", "test-password")
+                .containsEntry("spring.data.redis.port", "test-port")
+                .containsEntry("spring.data.redis.sentinel.master", "test-sentinel-master")
+                .containsEntry("spring.data.redis.sentinel.nodes", "test-sentinel-nodes")
+                .containsEntry("spring.data.redis.ssl", "test-ssl")
+                .containsEntry("spring.data.redis.url", "test-url");
+    }
+
+    @Test
     @DisplayName("can be disabled")
     void disabled() {
         environment.setProperty("org.springframework.cloud.bindings.boot.redis.enable", "false");
 
-        new RedisBindingsPropertiesProcessor().process(environment, bindings, properties);
-
+        new RedisBindingsPropertiesProcessor.Boot2(2).process(environment, bindings, properties);
         assertThat(properties).isEmpty();
+
+        new RedisBindingsPropertiesProcessor.Boot2(3).process(environment, bindings, properties);
+        assertThat(properties).isEmpty();
+
     }
 
 }

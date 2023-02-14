@@ -32,7 +32,7 @@ import static org.springframework.cloud.bindings.boot.ElasticsearchBindingsPrope
 @DisplayName("Elasticsearch BindingsPropertiesProcessor")
 final class ElasticsearchBindingsPropertiesProcessorTest {
 
-    private final Bindings bindings = new Bindings(
+    private final Bindings bindingsSpringBoot2 = new Bindings(
             new Binding("test-name", Paths.get("test-path"),
                     new FluentMap()
                             .withEntry(Binding.TYPE, TYPE)
@@ -46,14 +46,25 @@ final class ElasticsearchBindingsPropertiesProcessorTest {
             )
     );
 
+    private final Bindings bindingsSpringBoot3 = new Bindings(
+            new Binding("test-name", Paths.get("test-path"),
+                    new FluentMap()
+                            .withEntry(Binding.TYPE, TYPE)
+                            .withEntry("password", "test-password")
+                            .withEntry("uris", "test-uris")
+                            .withEntry("username", "test-username")
+            )
+    );
+
+
     private final MockEnvironment environment = new MockEnvironment();
 
     private final HashMap<String, Object> properties = new HashMap<>();
 
     @Test
-    @DisplayName("contributes properties")
-    void test() {
-        new ElasticsearchBindingsPropertiesProcessor().process(environment, bindings, properties);
+    @DisplayName("contributes properties - Spring Boot 2 flavor")
+    void testSb2() {
+        new ElasticsearchBindingsPropertiesProcessor.Boot2(2).process(environment, bindingsSpringBoot2, properties);
         assertThat(properties)
                 .containsEntry("spring.data.elasticsearch.client.reactive.endpoints", "test-endpoints")
                 .containsEntry("spring.data.elasticsearch.client.reactive.password", "test-password")
@@ -69,12 +80,24 @@ final class ElasticsearchBindingsPropertiesProcessorTest {
     }
 
     @Test
+    @DisplayName("contributes properties - Spring Boot 2 flavor")
+    void testSb3() {
+        new ElasticsearchBindingsPropertiesProcessor.Boot3(3).process(environment, bindingsSpringBoot3, properties);
+        assertThat(properties)
+                .containsEntry("spring.elasticsearch.password", "test-password")
+                .containsEntry("spring.elasticsearch.uris", "test-uris")
+                .containsEntry("spring.elasticsearch.username", "test-username");
+    }
+
+    @Test
     @DisplayName("can be disabled")
     void disabled() {
         environment.setProperty("org.springframework.cloud.bindings.boot.elasticsearch.enable", "false");
 
-        new ElasticsearchBindingsPropertiesProcessor().process(environment, bindings, properties);
+        new ElasticsearchBindingsPropertiesProcessor.Boot2(2).process(environment, bindingsSpringBoot2, properties);
+        assertThat(properties).isEmpty();
 
+        new ElasticsearchBindingsPropertiesProcessor.Boot3(3).process(environment, bindingsSpringBoot3, properties);
         assertThat(properties).isEmpty();
     }
 
