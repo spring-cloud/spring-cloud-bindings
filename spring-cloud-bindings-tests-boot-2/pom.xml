@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.cloud</groupId>
 		<artifactId>spring-cloud-bindings-parent</artifactId>
-		<version>1.12.0-SNAPSHOT</version>
+		<version>2.0.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>spring-cloud-bindings-tests-boot-2</artifactId>
@@ -21,16 +21,19 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 			<version>${spring-boot.version}</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 			<version>${spring-boot.version}</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-bindings</artifactId>
 			<version>${version}</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -62,7 +65,7 @@
 					<reuseForks>false</reuseForks>
 					<environmentVariables>
 						<JAVA_TOOL_OPTIONS>-Dorg.springframework.cloud.bindings.boot.enable=true</JAVA_TOOL_OPTIONS>
-						<SERVICE_BINDING_ROOT>${basedir}/bindings</SERVICE_BINDING_ROOT>
+						<SERVICE_BINDING_ROOT>${basedir}/src/test/resources/bindings</SERVICE_BINDING_ROOT>
 					</environmentVariables>
 					<argLine>-Xmx1024m</argLine>
 				</configuration>

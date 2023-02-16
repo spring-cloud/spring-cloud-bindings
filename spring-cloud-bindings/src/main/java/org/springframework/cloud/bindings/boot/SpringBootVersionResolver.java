@@ -2,6 +2,10 @@ package org.springframework.cloud.bindings.boot;
 
 import org.springframework.boot.SpringBootVersion;
 
+/**
+ * This class is used to allow, in unit tests for example,
+ * to fake the resolution of which major version of spring boot is used
+ */
 class SpringBootVersionResolver {
 
     private int forcedVersion = -1;
