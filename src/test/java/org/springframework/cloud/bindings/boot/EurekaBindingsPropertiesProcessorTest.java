@@ -16,46 +16,249 @@
 
 package org.springframework.cloud.bindings.boot;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.cloud.bindings.Binding;
 import org.springframework.cloud.bindings.Bindings;
 import org.springframework.cloud.bindings.FluentMap;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mock.env.MockEnvironment;
 
+import java.io.File;
 import java.nio.file.Paths;
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.cloud.bindings.boot.EurekaBindingsPropertiesProcessor.TYPE;
 
 @DisplayName("Eureka BindingsPropertiesProcessor")
 final class EurekaBindingsPropertiesProcessorTest {
-
-    private final Bindings bindings = new Bindings(
+    private Bindings bindings = new Bindings(
             new Binding("test-name", Paths.get("test-path"),
                     new FluentMap()
                             .withEntry(Binding.TYPE, TYPE)
                             .withEntry("uri", "test-uri")
-                            .withEntry("client-id", "test-client-id")
-                            .withEntry("client-secret", "test-client-secret")
-                            .withEntry("access-token-uri", "test-access-token-uri")
             )
     );
-
     private final MockEnvironment environment = new MockEnvironment();
-
     private final HashMap<String, Object> properties = new HashMap<>();
+    private String cert;
+    private String key;
+
+    @BeforeEach
+    void fetchCerts() {
+        assertDoesNotThrow(() -> {
+            this.cert = TestHelper.resourceAsString(new ClassPathResource("pem/test-cert.pem"));
+            this.key = TestHelper.resourceAsString(new ClassPathResource("pem/test-key.pem"));
+        });
+    }
 
     @Test
-    @DisplayName("contributes properties")
-    void test() {
+    @DisplayName("contributes only base properties when no auth is set")
+    void testNoAuth() {
         new EurekaBindingsPropertiesProcessor().process(environment, bindings, properties);
+
+        assertThat(properties)
+                .containsEntry("eureka.client.region", "default")
+                .containsEntry("eureka.client.serviceUrl.defaultZone", "test-uri/eureka/")
+                .doesNotContainKey("eureka.client.oauth2.client-id")
+                .doesNotContainKey("eureka.client.oauth2.access-token-uri")
+                .doesNotContainKey("eureka.client.tls.trust-store")
+                .doesNotContainKey("eureka.client.tls.trust-store-type")
+                .doesNotContainKey("eureka.client.tls.trust-store-password")
+                .doesNotContainKey("eureka.client.tls.key-alias")
+                .doesNotContainKey("eureka.client.tls.key-store")
+                .doesNotContainKey("eureka.client.tls.key-store-type")
+                .doesNotContainKey("eureka.client.tls.key-store-password")
+                .doesNotContainKey("eureka.client.tls.key-password")
+                .doesNotContainKey("eureka.instance.preferIpAddress");
+    }
+
+    @Test
+    @DisplayName("contributes oauth properties when set")
+    void testOAuth2() {
+        bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"),
+                        new FluentMap()
+                                .withEntry(Binding.TYPE, TYPE)
+                                .withEntry("uri", "test-uri")
+                                .withEntry("client-id", "test-client-id")
+                                .withEntry("client-secret", "test-client-secret")
+                                .withEntry("access-token-uri", "test-access-token-uri")
+                )
+        );
+
+        new EurekaBindingsPropertiesProcessor().process(environment, bindings, properties);
+
         assertThat(properties)
                 .containsEntry("eureka.client.region", "default")
                 .containsEntry("eureka.client.oauth2.client-id", "test-client-id")
                 .containsEntry("eureka.client.oauth2.access-token-uri", "test-access-token-uri")
                 .containsEntry("eureka.client.serviceUrl.defaultZone", "test-uri/eureka/");
+    }
+
+    @Test
+    @DisplayName("contributes tls properties when set")
+    void testTls() {
+        bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"),
+                        new FluentMap()
+                                .withEntry(Binding.TYPE, TYPE)
+                                .withEntry("uri", "test-uri")
+                                .withEntry("ca.crt", cert)
+                )
+        );
+
+        new EurekaBindingsPropertiesProcessor().process(environment, bindings, properties);
+
+        assertThat(properties)
+                .containsEntry("eureka.client.region", "default")
+                .containsKey("eureka.client.tls.trust-store")
+                .containsEntry("eureka.client.tls.trust-store-type", "PKCS12")
+                .containsKey("eureka.client.tls.trust-store-password")
+                .containsEntry("eureka.instance.preferIpAddress", true);
+        assertDoesNotThrow(() -> {
+            String path = properties.get("eureka.client.tls.trust-store").toString().substring(5);
+            File f = new File(path);
+            assertThat(f.isFile()).isTrue();
+            f.delete();
+        });
+    }
+
+    @Test
+    @DisplayName("throws when bad tls values are set")
+    void testBadTls() {
+        bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"),
+                        new FluentMap()
+                                .withEntry(Binding.TYPE, TYPE)
+                                .withEntry("uri", "test-uri")
+                                .withEntry("ca.crt", "this isn't a valid certificate")
+                )
+        );
+
+        assertThrows(IllegalStateException.class, () -> {
+            new EurekaBindingsPropertiesProcessor().process(environment, bindings, properties);
+        });
+    }
+
+    @Test
+    @DisplayName("does not change PreferIpAddress if already set elsewhere")
+    void testTlsNoIp() {
+        bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"),
+                        new FluentMap()
+                                .withEntry(Binding.TYPE, TYPE)
+                                .withEntry("uri", "test-uri")
+                                .withEntry("ca.crt", cert)
+                )
+        );
+        environment.setProperty("eureka.instance.preferIpAddress", "false");
+
+        new EurekaBindingsPropertiesProcessor().process(environment, bindings, properties);
+
+        assertThat(properties).doesNotContainKey("eureka.instance.preferIpAddress");
+        assertDoesNotThrow(() -> {
+            String path = properties.get("eureka.client.tls.trust-store").toString().substring(5);
+            File f = new File(path);
+            assertThat(f.isFile()).isTrue();
+            f.delete();
+        });
+    }
+
+    @Test
+    @DisplayName("contributes mTLS properties when set")
+    void testMtls() {
+        bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"),
+                        new FluentMap()
+                                .withEntry(Binding.TYPE, TYPE)
+                                .withEntry("uri", "test-uri")
+                                .withEntry("ca.crt", cert)
+                                .withEntry("tls.crt", cert)
+                                .withEntry("tls.key", key)
+                )
+        );
+
+        new EurekaBindingsPropertiesProcessor().process(environment, bindings, properties);
+
+        assertThat(properties)
+                .containsEntry("eureka.client.region", "default")
+                .containsKey("eureka.client.tls.trust-store")
+                .containsEntry("eureka.client.tls.trust-store-type", "PKCS12")
+                .containsKey("eureka.client.tls.trust-store-password")
+                .containsEntry("eureka.client.tls.key-alias", "eureka")
+                .containsKey("eureka.client.tls.key-store")
+                .containsEntry("eureka.client.tls.key-store-type", "PKCS12")
+                .containsKey("eureka.client.tls.key-store-password")
+                .containsEntry("eureka.client.tls.key-password", "");
+
+        assertDoesNotThrow(() -> {
+            String path = properties.get("eureka.client.tls.key-store").toString().substring(5);
+            File f = new File(path);
+            assertThat(f.isFile()).isTrue();
+            f.delete();
+            path = properties.get("eureka.client.tls.trust-store").toString().substring(5);
+            f = new File(path);
+            assertThat(f.isFile()).isTrue();
+            f.delete();
+        });
+    }
+
+    @Test
+    @DisplayName("throws when bad mTls values are set")
+    void testBadMtls() {
+        bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"),
+                        new FluentMap()
+                                .withEntry(Binding.TYPE, TYPE)
+                                .withEntry("uri", "test-uri")
+                                .withEntry("ca.crt", cert)
+                                .withEntry("tls.crt", "this is not a valid certificate")
+                                .withEntry("tls.key", "this is not a valid key")
+                )
+        );
+
+        assertThrows(IllegalStateException.class, () -> {
+            new EurekaBindingsPropertiesProcessor().process(environment, bindings, properties);
+        });
+    }
+    @Test
+    @DisplayName("throws when tls.crt is set but tls.key isn't")
+    void testNoTlsKey() {
+        bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"),
+                        new FluentMap()
+                                .withEntry(Binding.TYPE, TYPE)
+                                .withEntry("uri", "test-uri")
+                                .withEntry("ca.crt", cert)
+                                .withEntry("tls.crt", cert)
+                )
+        );
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new EurekaBindingsPropertiesProcessor().process(environment, bindings, properties);
+        });
+    }
+    @Test
+    @DisplayName("throws when tls.key is set but tls.crt isn't")
+    void testNoTlsCrt() {
+        bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"),
+                        new FluentMap()
+                                .withEntry(Binding.TYPE, TYPE)
+                                .withEntry("uri", "test-uri")
+                                .withEntry("ca.crt", cert)
+                                .withEntry("tls.key", key)
+                )
+        );
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new EurekaBindingsPropertiesProcessor().process(environment, bindings, properties);
+        });
     }
 
     @Test
@@ -67,5 +270,4 @@ final class EurekaBindingsPropertiesProcessorTest {
 
         assertThat(properties).isEmpty();
     }
-
 }
