@@ -270,16 +270,31 @@ Disable Property: `org.springframework.cloud.bindings.boot.config.enable`
 | `spring.cloud.config.client.oauth2.clientSecret`   | `{client-secret}`    |
 | `spring.cloud.config.client.oauth2.accessTokenUri` | `{access-token-uri}` |
 
-### SCS Eureka
+## SCS Eureka
+
 Type: `eureka`
 Disable Property: `org.springframework.cloud.bindings.boot.eureka.enable`
 
-| Property                                | Value                |
-| --------------------------------------- | -------------------- |
-| `eureka.client.oauth2.client-id`        | `{client-id}`        |
-| `eureka.client.oauth2.access-token-uri` | `{access-token-uri}` |
-| `eureka.client.region`                  | `default`            |
-| `eureka.client.serviceUrl.defaultZone`  | `{uri}/eureka/`      |
+| Property                                 | Value                                                              |
+|------------------------------------------|--------------------------------------------------------------------|
+| `eureka.client.oauth2.client-id`         | `{client-id}`                                                      |
+| `eureka.client.oauth2.access-token-uri`  | `{access-token-uri}`                                               |
+| `eureka.client.region`                   | `default`                                                          |
+| `eureka.client.serviceUrl.defaultZone`   | `{uri}/eureka/`                                                    |
+| `eureka.client.tls.enabled`              | `true` when `{ca.crt}` is set                                      |
+| `eureka.client.tls.trust-store`          | derived from `{ca.crt}`                                            |
+| `eureka.client.tls.trust-store-type`     | `"PKCS12"` when `{ca.crt}` is set                                  |
+| `eureka.client.tls.trust-store-password` | random string when `{ca.crt}` is set                               |
+| `eureka.instance.preferIpAddress`        | `true` when `{ca.crt}` is set[^1]                                  |
+| `eureka.client.tls.key-alias`            | `"eureka"` when `{ca.crt}`, `{tls.crt}` and `{tls.key}` are set    |
+| `eureka.client.tls.key-store`            | derived from `{tls.crt}` and `{tls.key}`                           |
+| `eureka.client.tls.key-store-type`       | `"PKCS12"` when `{ca.crt}`, `{tls.crt}` and `{tls.key}` are set    |
+| `eureka.client.tls.key-store-password`   | random string when `{ca.crt}`, `{tls.crt}` and `{tls.key}` are set |
+| `eureka.client.tls.key-password`         | `""` when `{ca.crt}`, `{tls.crt}` and `{tls.key}` are set          |
+
+> [^1]: Note that `eureka.instance.perferIpAddress` will not be overwritten by the Eureka auto-configuration if it is
+> already set in the environment. Applications wishing to set an explicit endpoint with `eureka.instance.host` can
+> set `eureka.instance.perferIpAddress` to `false` and it will not be overwritten.
 
 ## Spring Security OAuth2
 Type: `oauth2`
