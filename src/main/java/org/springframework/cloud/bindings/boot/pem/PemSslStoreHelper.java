@@ -29,6 +29,16 @@ import org.springframework.util.StringUtils;
  */
 public class PemSslStoreHelper {
 	private static final String DEFAULT_KEY_ALIAS = "ssl";
+
+	/**
+	 * Utility method to create a KeyStore
+	 * @param name the name of the keystore
+	 * @param storeType the type of the keystore (JKS, PKCS12, etc.)
+	 * @param certificate a certificate as string that will be added to the keystore
+	 * @param privateKey the keystore private key as string
+	 * @param keyAlias the alias
+	 * @return the keystore
+	 */
 	public static KeyStore createKeyStore(String name, String storeType, String certificate, String privateKey, String keyAlias) {
 		try {
 			Assert.notNull(certificate, "CertificateContent must not be null");
