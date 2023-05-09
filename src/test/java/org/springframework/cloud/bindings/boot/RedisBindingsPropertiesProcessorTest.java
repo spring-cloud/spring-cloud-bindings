@@ -45,8 +45,11 @@ final class RedisBindingsPropertiesProcessorTest {
                             .withEntry("port", "test-port")
                             .withEntry("sentinel.master", "test-sentinel-master")
                             .withEntry("sentinel.nodes", "test-sentinel-nodes")
+                            .withEntry("sentinel.password", "test-sentinel-password")
+                            .withEntry("sentinel.username", "test-sentinel-username")
                             .withEntry("ssl", "test-ssl")
                             .withEntry("url", "test-url")
+                            .withEntry("username", "test-username")
             )
     );
 
@@ -68,8 +71,11 @@ final class RedisBindingsPropertiesProcessorTest {
                 .containsEntry("spring.redis.port", "test-port")
                 .containsEntry("spring.redis.sentinel.master", "test-sentinel-master")
                 .containsEntry("spring.redis.sentinel.nodes", "test-sentinel-nodes")
+                .containsEntry("spring.redis.sentinel.password", "test-sentinel-password")
+                .containsEntry("spring.redis.sentinel.username", "test-sentinel-username")
                 .containsEntry("spring.redis.ssl", "test-ssl")
-                .containsEntry("spring.redis.url", "test-url");
+                .containsEntry("spring.redis.url", "test-url")
+                .containsEntry("spring.redis.username", "test-username");
     }
 
     @Test

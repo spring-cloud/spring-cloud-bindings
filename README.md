@@ -232,7 +232,7 @@ Type: `redis`
 Disable Property: `org.springframework.cloud.bindings.boot.redis.enable`
 
 | Property                             | Value                     |
-| ------------------------------------ | ------------------------- |
+|--------------------------------------|---------------------------|
 | `spring.redis.client-name`           | `{client-name}`           |
 | `spring.redis.cluster.max-redirects` | `{cluster.max-redirects}` |
 | `spring.redis.cluster.nodes`         | `{cluster.nodes}`         |
@@ -242,8 +242,11 @@ Disable Property: `org.springframework.cloud.bindings.boot.redis.enable`
 | `spring.redis.port`                  | `{port}`                  |
 | `spring.redis.sentinel.master`       | `{sentinel.master}`       |
 | `spring.redis.sentinel.nodes`        | `{sentinel.nodes}`        |
+| `spring.redis.sentinel.password`     | `{sentinel.password}`     |
+| `spring.redis.sentinel.username`     | `{sentinel.username}`     |
 | `spring.redis.ssl`                   | `{ssl}`                   |
 | `spring.redis.url`                   | `{url}`                   |
+| `spring.redis.username`              | `{username}`              |
 
 ### SAP Hana
 Type: `hana`
