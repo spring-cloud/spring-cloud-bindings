@@ -18,6 +18,7 @@ package org.springframework.cloud.bindings.boot;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -40,6 +41,10 @@ final class MapMapper {
         R apply(T t, U u, V v);
     }
 
+    interface QuadFunction<T, U, V, W, R> {
+        R apply(T t, U u, V v, W w);
+    }
+
     interface Source {
         void to(String key);
 
@@ -47,10 +52,15 @@ final class MapMapper {
 
         void to(String key, Function<String, Object> function);
 
+        void to(String key, BiFunction<String, String, Object> function);
+
         void to(String key, TriFunction<String, String, String, Object> function);
+
+        void to(String key, QuadFunction<String, String, String, String, Object> function);
 
         Source when(Predicate<Object> predicate);
 
+        Source from(String... keys);
     }
 
     final class SourceImpl implements Source {
@@ -89,6 +99,20 @@ final class MapMapper {
         }
 
         @Override
+        public void to(String key, BiFunction<String, String, Object> function) {
+            if (keys.length != 2) {
+                throw new IllegalStateException(
+                        String.format("source size %d cannot be consumed as two arguments", keys.length));
+            }
+
+            if (!Arrays.stream(keys).allMatch(source::containsKey)) {
+                return;
+            }
+
+            destination.put(key, function.apply(source.get(keys[0]), source.get(keys[1])));
+        }
+
+        @Override
         public void to(String key, TriFunction<String, String, String, Object> function) {
             if (keys.length != 3) {
                 throw new IllegalStateException(
@@ -103,6 +127,20 @@ final class MapMapper {
         }
 
         @Override
+        public void to(String key, QuadFunction<String, String, String, String, Object> function) {
+            if (keys.length != 4) {
+                throw new IllegalStateException(
+                        String.format("source size %d cannot be consumed as four arguments", keys.length));
+            }
+
+            if (!Arrays.stream(keys).allMatch(source::containsKey)) {
+                return;
+            }
+
+            destination.put(key, function.apply(source.get(keys[0]), source.get(keys[1]), source.get(keys[2]), source.get(keys[3])));
+        }
+
+        @Override
         public Source when(Predicate<Object> predicate) {
             if (keys.length != 1) {
                 throw new IllegalStateException(
@@ -114,6 +152,11 @@ final class MapMapper {
             } else {
                 return new NoopSource();
             }
+        }
+
+        @Override
+        public Source from(String... keys) {
+            return new SourceImpl(keys);
         }
     }
 
@@ -135,12 +178,27 @@ final class MapMapper {
         }
 
         @Override
+        public void to(String key, BiFunction<String, String, Object> function) {
+
+        }
+
+        @Override
         public void to(String key, TriFunction<String, String, String, Object> function) {
 
         }
 
         @Override
+        public void to(String key, QuadFunction<String, String, String, String, Object> function) {
+
+        }
+
+        @Override
         public Source when(Predicate<Object> predicate) {
+            return this;
+        }
+
+        @Override
+        public Source from(String... keys) {
             return this;
         }
     }

@@ -68,8 +68,48 @@ final class MapMapperTest {
     }
 
     @Test
-    @DisplayName("puts if all present")
-    void allPresent() {
+    @DisplayName("does not have key")
+    void notUseOneKey() {
+        assertThatThrownBy(() -> map.from().to("test-destination-key"))
+                .isInstanceOf(IllegalStateException.class);
+    }
+
+    @Test
+    @DisplayName("puts if both present")
+    void bothPresent() {
+        source.put("test-source-key-1", "test-source-value-1");
+        source.put("test-source-key-2", "test-source-value-2");
+
+        map.from("test-source-key-1", "test-source-key-2").to("test-destination-key", (a, b) -> {
+            assertThat(a).isEqualTo("test-source-value-1");
+            assertThat(b).isEqualTo("test-source-value-2");
+
+            return "test-destination-value";
+        });
+
+        assertThat(destination).containsEntry("test-destination-key", "test-destination-value");
+    }
+
+    @Test
+    @DisplayName("does not put if not both present")
+    void notBothPresent() {
+        source.put("test-source-key-1", "test-source-value-1");
+
+        map.from("test-source-key-1", "test-source-key-2").to("test-destination-key", (a, b) -> "test-destination-value");
+
+        assertThat(destination).doesNotContainKey("test-destination-key");
+    }
+
+    @Test
+    @DisplayName("does not have two keys")
+    void notUseTwoKeys() {
+        assertThatThrownBy(() -> map.from("test-source-key-1").to("test-destination-key", (a, b) -> "test-destination-value"))
+                .isInstanceOf(IllegalStateException.class);
+    }
+
+    @Test
+    @DisplayName("puts if all three present")
+    void allThreePresent() {
         source.put("test-source-key-1", "test-source-value-1");
         source.put("test-source-key-2", "test-source-value-2");
         source.put("test-source-key-3", "test-source-value-3");
@@ -86,14 +126,63 @@ final class MapMapperTest {
     }
 
     @Test
-    @DisplayName("does not put if not all present")
-    void notAllPresent() {
+    @DisplayName("does not put if not all three present")
+    void notAllThreePresent() {
         source.put("test-source-key-1", "test-source-value-1");
         source.put("test-source-key-2", "test-source-value-2");
 
         map.from("test-source-key-1", "test-source-key-2", "test-source-key-3").to("test-destination-key", (a, b, c) -> "test-destination-value");
 
         assertThat(destination).doesNotContainKey("test-destination-key");
+    }
+
+    @Test
+    @DisplayName("does not have three keys")
+    void notUseThreeKeys() {
+        assertThatThrownBy(() -> map.from("test-source-key-1", "test-source-key-2").to("test-destination-key", (a, b, c) -> "test-destination-value"))
+                .isInstanceOf(IllegalStateException.class);
+    }
+
+    @Test
+    @DisplayName("puts if all four present")
+    void allFourPresent() {
+        source.put("test-source-key-1", "test-source-value-1");
+        source.put("test-source-key-2", "test-source-value-2");
+        source.put("test-source-key-3", "test-source-value-3");
+        source.put("test-source-key-4", "test-source-value-4");
+
+        map.from("test-source-key-1", "test-source-key-2", "test-source-key-3", "test-source-key-4")
+                .to("test-destination-key", (a, b, c, d) -> {
+                    assertThat(a).isEqualTo("test-source-value-1");
+                    assertThat(b).isEqualTo("test-source-value-2");
+                    assertThat(c).isEqualTo("test-source-value-3");
+                    assertThat(d).isEqualTo("test-source-value-4");
+
+                    return "test-destination-value";
+                });
+
+        assertThat(destination).containsEntry("test-destination-key", "test-destination-value");
+    }
+
+    @Test
+    @DisplayName("does not put if not all four present")
+    void notAllFourPresent() {
+        source.put("test-source-key-1", "test-source-value-1");
+        source.put("test-source-key-2", "test-source-value-2");
+        source.put("test-source-key-3", "test-source-value-3");
+
+        map.from("test-source-key-1", "test-source-key-2", "test-source-key-3", "test-source-key-4")
+                .to("test-destination-key", (a, b, c, d) -> "test-destination-value");
+
+        assertThat(destination).doesNotContainKey("test-destination-key");
+    }
+
+    @Test
+    @DisplayName("does not have four keys")
+    void notUseFourKeys() {
+        assertThatThrownBy(() -> map.from("test-source-key-1", "test-source-key-2", "test-source-key-3")
+                .to("test-destination-key", (a, b, c, d) -> "test-destination-value"))
+                .isInstanceOf(IllegalStateException.class);
     }
 
     @Nested
@@ -162,6 +251,33 @@ final class MapMapperTest {
         }
 
         @Test
+        @DisplayName("create new source when predicate is true")
+        void newSourceWhenPredicateIsTrue() {
+            source.put("test-source-key-1", "test-source-value-1");
+            source.put("test-source-key-2", "test-source-value-2");
+
+
+            map.from("test-source-key-1").when(value -> true)
+                    .from("test-source-key-2").to("test-destination-key");
+
+            assertThat(destination).containsEntry("test-destination-key", "test-source-value-2");
+        }
+
+        @Test
+        @DisplayName("create noop source when predicate is false")
+        void noopSourceWhenPredicateIsFalse() {
+            source.put("test-source-key-1", "test-source-value-1");
+            source.put("test-source-key-2", "test-source-value-2");
+
+
+            map.from("test-source-key-1").when(value -> false)
+                    .from("test-source-key-2").to("test-destination-key");
+
+            assertThat(destination).doesNotContainKey("test-destination-key").doesNotContainValue("test-source-value-1")
+                    .doesNotContainValue("test-source-value-2");
+        }
+
+        @Test
         @DisplayName("is complete noop when predicate is false")
         void falsePredicateIsNoop() {
             source.put("test-source-key-1", "test-source-value-1");
@@ -173,6 +289,10 @@ final class MapMapperTest {
             noopSource.toIfAbsent("two");
             noopSource.to("three", str -> "content");
             noopSource.to("four", (a, b, c) -> "content");
+
+            MapMapper.Source noopSourceNew = noopSource.from("five");
+            noopSourceNew.to("six", (a, b) -> "content");
+            noopSourceNew.to("seven", (a, b, c, d) -> "content");
 
             assertThat(destination).isEmpty();
         }

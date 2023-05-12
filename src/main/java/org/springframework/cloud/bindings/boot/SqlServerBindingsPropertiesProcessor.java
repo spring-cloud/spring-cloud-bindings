@@ -48,7 +48,7 @@ public final class SqlServerBindingsPropertiesProcessor implements BindingsPrope
             //jdbc properties
             map.from("password").to("spring.datasource.password");
             map.from("host", "port", "database").to("spring.datasource.url",
-                    (host, port, database) -> String.format("jdbc:sqlserver://%s:%s/%s", host, port, database));
+                    (host, port, database) -> String.format("jdbc:sqlserver://%s:%s;databaseName=%s", host, port, database));
             map.from("username").to("spring.datasource.username");
 
             // jdbcURL takes precedence

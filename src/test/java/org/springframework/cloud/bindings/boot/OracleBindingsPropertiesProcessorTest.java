@@ -54,7 +54,58 @@ final class OracleBindingsPropertiesProcessorTest {
         assertThat(properties)
                 .containsEntry("spring.datasource.driver-class-name", "oracle.jdbc.OracleDriver")
                 .containsEntry("spring.datasource.password", "test-password")
-                .containsEntry("spring.datasource.url", "jdbc:oracle://test-host:test-port/test-database")
+                .containsEntry("spring.datasource.url", "jdbc:oracle:thin:@test-host:test-port:test-database")
+                .containsEntry("spring.datasource.username", "test-username");
+    }
+
+    @Test
+    @DisplayName("composes jdbc url with SID")
+    void testJdbcSID() {
+        Bindings bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"),
+                        secret.withEntry("connection-type", "sid")
+                                .withEntry("driver", "thin")
+                                .withEntry("sid", "test-sid"))
+        );
+        new OracleBindingsPropertiesProcessor().process(environment, bindings, properties);
+        assertThat(properties)
+                .containsEntry("spring.datasource.driver-class-name", "oracle.jdbc.OracleDriver")
+                .containsEntry("spring.datasource.password", "test-password")
+                .containsEntry("spring.datasource.url", "jdbc:oracle:thin:@test-host:test-port:test-sid")
+                .containsEntry("spring.datasource.username", "test-username");
+    }
+
+    @Test
+    @DisplayName("composes jdbc url with service name")
+    void testJdbcServiceName() {
+        Bindings bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"),
+                        secret.withEntry("connection-type", "service_name")
+                                .withEntry("driver", "thin")
+                                .withEntry("service-name", "test-service"))
+        );
+        new OracleBindingsPropertiesProcessor().process(environment, bindings, properties);
+        assertThat(properties)
+                .containsEntry("spring.datasource.driver-class-name", "oracle.jdbc.OracleDriver")
+                .containsEntry("spring.datasource.password", "test-password")
+                .containsEntry("spring.datasource.url", "jdbc:oracle:thin:@//test-host:test-port/test-service")
+                .containsEntry("spring.datasource.username", "test-username");
+    }
+
+    @Test
+    @DisplayName("composes jdbc url with TNS")
+    void testJdbcTNS() {
+        Bindings bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"),
+                        secret.withEntry("connection-type", "tns")
+                                .withEntry("driver", "thin")
+                                .withEntry("tns-name", "test-tns-service"))
+        );
+        new OracleBindingsPropertiesProcessor().process(environment, bindings, properties);
+        assertThat(properties)
+                .containsEntry("spring.datasource.driver-class-name", "oracle.jdbc.OracleDriver")
+                .containsEntry("spring.datasource.password", "test-password")
+                .containsEntry("spring.datasource.url", "jdbc:oracle:thin:@test-tns-service")
                 .containsEntry("spring.datasource.username", "test-username");
     }
 
