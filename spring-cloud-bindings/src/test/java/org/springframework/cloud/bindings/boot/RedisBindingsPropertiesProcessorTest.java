@@ -55,27 +55,9 @@ final class RedisBindingsPropertiesProcessorTest {
     private final HashMap<String, Object> properties = new HashMap<>();
 
     @Test
-    @DisplayName("contributes properties - Spring Boot 2 flavor")
-    void testSb2() {
-        new RedisBindingsPropertiesProcessor.Boot2(2).process(environment, bindings, properties);
-        assertThat(properties)
-                .containsEntry("spring.redis.client-name", "test-client-name")
-                .containsEntry("spring.redis.cluster.max-redirects", "test-cluster-max-redirects")
-                .containsEntry("spring.redis.cluster.nodes", "test-cluster-nodes")
-                .containsEntry("spring.redis.database", "test-database")
-                .containsEntry("spring.redis.host", "test-host")
-                .containsEntry("spring.redis.password", "test-password")
-                .containsEntry("spring.redis.port", "test-port")
-                .containsEntry("spring.redis.sentinel.master", "test-sentinel-master")
-                .containsEntry("spring.redis.sentinel.nodes", "test-sentinel-nodes")
-                .containsEntry("spring.redis.ssl", "test-ssl")
-                .containsEntry("spring.redis.url", "test-url");
-    }
-
-    @Test
-    @DisplayName("contributes properties - Spring Boot 3 flavor")
+    @DisplayName("contributes properties")
     void testSb3() {
-        new RedisBindingsPropertiesProcessor.Boot3(3).process(environment, bindings, properties);
+        new RedisBindingsPropertiesProcessor().process(environment, bindings, properties);
 
         assertThat(properties)
                 .containsEntry("spring.data.redis.client-name", "test-client-name")
@@ -96,12 +78,8 @@ final class RedisBindingsPropertiesProcessorTest {
     void disabled() {
         environment.setProperty("org.springframework.cloud.bindings.boot.redis.enable", "false");
 
-        new RedisBindingsPropertiesProcessor.Boot2(2).process(environment, bindings, properties);
+        new RedisBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties).isEmpty();
-
-        new RedisBindingsPropertiesProcessor.Boot2(3).process(environment, bindings, properties);
-        assertThat(properties).isEmpty();
-
     }
 
 }

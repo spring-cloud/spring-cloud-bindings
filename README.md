@@ -3,6 +3,12 @@ The Spring Cloud Bindings library exposes a rich Java language binding for the [
 
 [s]: https://github.com/servicebinding/spec
 
+## Features
+* Java 17
+* Spring Boot 3
+
+For Spring Boot 2 compatibility, please have a look at the [1.x releases](https://github.com/spring-cloud/spring-cloud-bindings/tree/1.x).
+
 ## Library Usage
 While less used, explicit binding access can be achieved through the `Bindings` type.
 
@@ -38,23 +44,11 @@ Each auto-configuration is triggered by the type of binding.  Each auto-configur
 Type: `artemis`
 Disable Property: `org.springframework.cloud.bindings.boot.artemis.enable`
 
-#### Spring Boot 2 properties
-
-| Property                                            | Value                                  |
-| --------------------------------------------------- | -------------------------------------- |
-| `spring.artemis.host`                               | `{host}`                               |
-| `spring.artemis.port`                               | `{port}`                               |
-
-#### Spring Boot 3 properties
+#### Properties
 
 | Property                                            | Value                                  |
 | --------------------------------------------------- | -------------------------------------- |
 | `spring.artemis.broker-url`                         | `{broker-url}`                         |
-
-#### Common properties
-
-| Property                                            | Value                                  |
-| --------------------------------------------------- | -------------------------------------- |
 | `spring.artemis.mode`                               | `{mode}`                               |
 | `spring.artemis.password`                           | `{password}`                           |
 | `spring.artemis.user`                               | `{user}`                               |
@@ -78,24 +72,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.artemis.enable`
 Type: `cassandra`
 Disable Property: `org.springframework.cloud.bindings.boot.cassandra.enable`
 
-#### Spring Boot 2 properties
-
-| Property                                                          | Value                                         |
-|-------------------------------------------------------------------|-----------------------------------------------|
-| `spring.data.cassandra.cluster-name`                              | `{cluster-name}`                              |
-| `spring.data.cassandra.compression`                               | `{compression}`                               |
-| `spring.data.cassandra.contact-points`                            | `{contact-points}`                            |
-| `spring.data.cassandra.keyspace-name`                             | `{keyspace-name}`                             |
-| `spring.data.cassandra.password`                                  | `{password}`                                  |
-| `spring.data.cassandra.port`                                      | `{port}`                                      |
-| `spring.data.cassandra.ssl`                                       | `{ssl}`                                       |
-| `spring.data.cassandra.username`                                  | `{username}`                                  |
-| `spring.data.cassandra.request.throttler.drain-interval`          | `{request.throttler.drain-interval}`          |
-| `spring.data.cassandra.request.throttler.max-concurrent-requests` | `{request.throttler.max-concurrent-requests}` |
-| `spring.data.cassandra.request.throttler.max-queue-size`          | `{request.throttler.max-queue-size}`          |
-| `spring.data.cassandra.request.throttler.max-requests-per-second` | `{request.throttler.max-requests-per-second}` |
-
-#### Spring Boot 3 properties
+#### Properties
 
 | Property                                                     | Value                                         |
 |--------------------------------------------------------------|-----------------------------------------------|
@@ -116,29 +93,14 @@ Disable Property: `org.springframework.cloud.bindings.boot.cassandra.enable`
 Type: `couchbase`
 Disable Property: `org.springframework.cloud.bindings.boot.couchbase.enable`
 
-#### Spring Boot 2 properties
-
-| Property                                          | Value                              |
-|---------------------------------------------------|------------------------------------|
-| `spring.couchbase.bootstrap-hosts`                | `{bootstrap-hosts}`                |
-| `spring.couchbase.bucket.name`                    | `{bucket.name}`                    |
-| `spring.couchbase.bucket.password`                | `{bucket.passsword}`               |
-| `spring.couchbase.env.bootstrap.http-direct-port` | `{env.bootstrap.http-direct-port}` |
-| `spring.couchbase.env.bootstrap.http-ssl-port`    | `{env.bootstrap.http-ssl-port}`    |
-
-#### Spring Boot 3 properties
+#### Properties
 
 | Property                                         | Value                     |
 |--------------------------------------------------|---------------------------|
 | `spring.couchbase.connection-string`             | `{connection-string}`     |
 | `spring.data.couchbase.bucket-name`              | `{bucket-name}`           |
-
-#### Common properties
-
-| Property                                          | Value                     |
-|---------------------------------------------------|---------------------------|
-| `spring.couchbase.password`                       | `{password}`              |
-| `spring.couchbase.username`                       | `{username}`              |
+| `spring.couchbase.password`                      | `{password}`              |
+| `spring.couchbase.username`                      | `{username}`              |
 
 ### DB2 RDBMS
 Type: `db2`
@@ -159,23 +121,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.db2.enable`
 Type: `elasticsearch`
 Disable Property: `org.springframework.cloud.bindings.boot.elasticsearch.enable`
 
-#### Spring Boot 2 properties
-
-| Property                                              | Value          |
-| ----------------------------------------------------- | -------------- |
-| `spring.data.elasticsearch.client.reactive.endpoints` | `{endpoints}`  |
-| `spring.data.elasticsearch.client.reactive.password`  | `{password}`   |
-| `spring.data.elasticsearch.client.reactive.use-ssl`   | `{use-ssl}`    |
-| `spring.data.elasticsearch.client.reactive.username`  | `{username}`   |
-| `spring.elasticsearch.jest.password`                  | `{password}`   |
-| `spring.elasticsearch.jest.proxy.host`                | `{proxy.host}` |
-| `spring.elasticsearch.jest.proxy.port`                | `{proxy.port}` |
-| `spring.elasticsearch.jest.username`                  | `{username}`   |
-| `spring.elasticsearch.rest.password`                  | `{password}`   |
-| `spring.elasticsearch.rest.uris`                      | `{uris}`       |
-| `spring.elasticsearch.rest.username`                  | `{username}`   |
-
-#### Spring Boot 3 properties
+#### Properties
 
 | Property                        | Value         |
 |---------------------------------|---------------|
@@ -240,15 +186,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.mysql.enable`
 Type: `neo4j`
 Disable Property: `org.springframework.cloud.bindings.boot.neo4j.enable`
 
-#### Spring Boot 2 properties
-
-| Property                     | Value        |
-| ---------------------------- | ------------ |
-| `spring.data.neo4j.uri`      | `{uri}`      |
-| `spring.data.neo4j.username` | `{username}` |
-| `spring.data.neo4j.password` | `{password}` |
-
-#### Spring Boot 3 properties
+#### Properties
 
 | Property                                | Value          |
 |-----------------------------------------|----------------|
@@ -301,23 +239,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.rabbitmq.enable`
 Type: `redis`
 Disable Property: `org.springframework.cloud.bindings.boot.redis.enable`
 
-#### Spring Boot 2 properties
-
-| Property                             | Value                     |
-| ------------------------------------ | ------------------------- |
-| `spring.redis.client-name`           | `{client-name}`           |
-| `spring.redis.cluster.max-redirects` | `{cluster.max-redirects}` |
-| `spring.redis.cluster.nodes`         | `{cluster.nodes}`         |
-| `spring.redis.database`              | `{database}`              |
-| `spring.redis.host`                  | `{host}`                  |
-| `spring.redis.password`              | `{password}`              |
-| `spring.redis.port`                  | `{port}`                  |
-| `spring.redis.sentinel.master`       | `{sentinel.master}`       |
-| `spring.redis.sentinel.nodes`        | `{sentinel.nodes}`        |
-| `spring.redis.ssl`                   | `{ssl}`                   |
-| `spring.redis.url`                   | `{url}`                   |
-
-#### Spring Boot 3 properties
+#### Properties
 
 | Property                                  | Value                     |
 |-------------------------------------------|---------------------------|
@@ -426,6 +348,7 @@ Type: `vault`
 Disable Property: `org.springframework.cloud.bindings.boot.vault.enable`
 
 Any Provider:
+
 | Property                            | Value                     |
 | ----------------------------------- | ------------------------- |
 | `spring.cloud.vault.authentication` | `{authentication-method}` |
@@ -433,6 +356,7 @@ Any Provider:
 | `spring.cloud.vault.uri`            | `{uri}`                   |
 
 If `{authentication-method}` is equal to `approle`:
+
 | Property                                    | Value             |
 | ------------------------------------------- | ----------------- |
 | `spring.cloud.vault.app-role.app-role-path` | `{app-role-path}` |
@@ -441,6 +365,7 @@ If `{authentication-method}` is equal to `approle`:
 | `spring.cloud.vault.app-role.secret-id`     | `{secret-id}`     |
 
 If `{authentication-method}` is equal to `aws_ec2`:
+
 | Property                                       | Value                                  |
 | ---------------------------------------------- | -------------------------------------- |
 | `spring.cloud.vault.aws-ec2.aws-ec2-path`      | `{aws-ec2-path}`                       |
@@ -449,37 +374,41 @@ If `{authentication-method}` is equal to `aws_ec2`:
 | `spring.cloud.vault.aws-ec2.role`              | `{role}`                               |
 
 If `{authentication-method}` is equal to `aws_iam`:
+
 | Property                                  | Value                                  |
 |-------------------------------------------|----------------------------------------|
 | `spring.cloud.vault.aws-iam.aws-path`     | `{aws-path}`                           |
 | `spring.cloud.vault.aws-iam.endpoint-uri` | `{aws-sts-endpoint-uri}`               |
 | `spring.cloud.vault.aws-iam.role`         | `{role}`                               |
-| `spring.cloud.vault.aws-iam.server-id`    | `{aws-iam-server-id}`   Spring Boot 2  |
-| `spring.cloud.vault.aws-iam.server-name`  | `{aws-iam-server-name}` Spring Boot 3  |
+| `spring.cloud.vault.aws-iam.server-name`  | `{aws-iam-server-name}`                |
 
 If `{authentication-method}` is equal to `azure_msi`:
+
 | Property                                              | Value                                    |
 |-------------------------------------------------------|------------------------------------------|
 | `spring.cloud.vault.azure-msi.azure-path`             | `{azure-path}`                           |
 | `spring.cloud.vault.azure-msi.role`                   | `{role}`                                 |
-| `spring.cloud.vault.azure-msi.metadata-service`       | `{metadata-service}`       Spring Boot 3 |
-| `spring.cloud.vault.azure-msi.identity-token-service` | `{identity-token-service}` Spring Boot 3 |
+| `spring.cloud.vault.azure-msi.metadata-service`       | `{metadata-service}`                     |
+| `spring.cloud.vault.azure-msi.identity-token-service` | `{identity-token-service}`               |
 
 If `{authentication-method}` is equal to `cert`:
+
 | Property                                      | Value                                                         |
 |-----------------------------------------------|---------------------------------------------------------------|
 | `spring.cloud.vault.ssl.cert-auth-path`       | `{cert-auth-path}`                                            |
 | `spring.cloud.vault.ssl.key-store-password`   | `{key-store-password}`                                        |
 | `spring.cloud.vault.ssl.key-store`            | `${SERVICE_BINDING_ROOT}/{name}/keystore.jks`                 |
-| `spring.cloud.vault.ssl.trust-store`          | `${SERVICE_BINDING_ROOT}/{name}/truststore.jks` Spring Boot 3 |
-| `spring.cloud.vault.ssl.trust-store-password` | `{trust-store-password}`                        Spring Boot 3 |
+| `spring.cloud.vault.ssl.trust-store`          | `${SERVICE_BINDING_ROOT}/{name}/truststore.jks`               |
+| `spring.cloud.vault.ssl.trust-store-password` | `{trust-store-password}`                                      |
 
 If `{authentication-method}` is equal to `cubbyhole`:
+
 | Property                   | Value     |
 | -------------------------- | --------- |
 | `spring.cloud.vault.token` | `{token}` |
 
 If `{authentication-method}` is equal to `gcp_gce`:
+
 | Property                                     | Value                   |
 | -------------------------------------------- | ----------------------- |
 | `spring.cloud.vault.gcp-gce.gcp-path`        | `{gcp-path}`            |
@@ -487,6 +416,7 @@ If `{authentication-method}` is equal to `gcp_gce`:
 | `spring.cloud.vault.gcp-gce.service-account` | `{gcp-service-account}` |
 
 If `{authentication-method}` is equal to `gcp_iam`:
+
 | Property                                             | Value                                              |
 |------------------------------------------------------|----------------------------------------------------|
 | `spring.cloud.vault.gcp-iam.credentials.encoded-key` | `{encoded-key}`                                    |
@@ -499,6 +429,7 @@ If `{authentication-method}` is equal to `gcp_iam`:
 | `spring.cloud.vault.gcp-iam.service-account-id`      | `{gcp-service-account}` Spring Boot 3              |
 
 If `{authentication-method}` is equal to `kubernetes`:
+
 | Property                                                              | Value                                                   |
 |-----------------------------------------------------------------------|---------------------------------------------------------|
 | `spring.cloud.vault.kubernetes.role`                                  | `{role}`                                                |
@@ -506,6 +437,7 @@ If `{authentication-method}` is equal to `kubernetes`:
 | `spring.cloud.vault.kubernetes.kubernetes-service-account-token-file` | `{kubernetes-service-account-token-file}` Spring Boot 3 |
 
 If `{authentication-method}` is equal to `token`:
+
 | Property                   | Value     |
 | -------------------------- | --------- |
 | `spring.cloud.vault.token` | `{token}` |

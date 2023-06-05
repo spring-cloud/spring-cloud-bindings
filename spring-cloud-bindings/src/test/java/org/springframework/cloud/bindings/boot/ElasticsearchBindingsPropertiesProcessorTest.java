@@ -32,20 +32,6 @@ import static org.springframework.cloud.bindings.boot.ElasticsearchBindingsPrope
 @DisplayName("Elasticsearch BindingsPropertiesProcessor")
 final class ElasticsearchBindingsPropertiesProcessorTest {
 
-    private final Bindings bindingsSpringBoot2 = new Bindings(
-            new Binding("test-name", Paths.get("test-path"),
-                    new FluentMap()
-                            .withEntry(Binding.TYPE, TYPE)
-                            .withEntry("endpoints", "test-endpoints")
-                            .withEntry("password", "test-password")
-                            .withEntry("use-ssl", "test-use-ssl")
-                            .withEntry("username", "test-username")
-                            .withEntry("proxy.host", "test-proxy-host")
-                            .withEntry("proxy.port", "test-proxy-port")
-                            .withEntry("uris", "test-uris")
-            )
-    );
-
     private final Bindings bindingsSpringBoot3 = new Bindings(
             new Binding("test-name", Paths.get("test-path"),
                     new FluentMap()
@@ -63,26 +49,8 @@ final class ElasticsearchBindingsPropertiesProcessorTest {
 
     @Test
     @DisplayName("contributes properties - Spring Boot 2 flavor")
-    void testSb2() {
-        new ElasticsearchBindingsPropertiesProcessor.Boot2(2).process(environment, bindingsSpringBoot2, properties);
-        assertThat(properties)
-                .containsEntry("spring.data.elasticsearch.client.reactive.endpoints", "test-endpoints")
-                .containsEntry("spring.data.elasticsearch.client.reactive.password", "test-password")
-                .containsEntry("spring.data.elasticsearch.client.reactive.use-ssl", "test-use-ssl")
-                .containsEntry("spring.data.elasticsearch.client.reactive.username", "test-username")
-                .containsEntry("spring.elasticsearch.jest.password", "test-password")
-                .containsEntry("spring.elasticsearch.jest.proxy.host", "test-proxy-host")
-                .containsEntry("spring.elasticsearch.jest.proxy.port", "test-proxy-port")
-                .containsEntry("spring.elasticsearch.jest.username", "test-username")
-                .containsEntry("spring.elasticsearch.rest.password", "test-password")
-                .containsEntry("spring.elasticsearch.rest.uris", "test-uris")
-                .containsEntry("spring.elasticsearch.rest.username", "test-username");
-    }
-
-    @Test
-    @DisplayName("contributes properties - Spring Boot 2 flavor")
     void testSb3() {
-        new ElasticsearchBindingsPropertiesProcessor.Boot3(3).process(environment, bindingsSpringBoot3, properties);
+        new ElasticsearchBindingsPropertiesProcessor().process(environment, bindingsSpringBoot3, properties);
         assertThat(properties)
                 .containsEntry("spring.elasticsearch.password", "test-password")
                 .containsEntry("spring.elasticsearch.uris", "test-uris")
@@ -94,10 +62,7 @@ final class ElasticsearchBindingsPropertiesProcessorTest {
     void disabled() {
         environment.setProperty("org.springframework.cloud.bindings.boot.elasticsearch.enable", "false");
 
-        new ElasticsearchBindingsPropertiesProcessor.Boot2(2).process(environment, bindingsSpringBoot2, properties);
-        assertThat(properties).isEmpty();
-
-        new ElasticsearchBindingsPropertiesProcessor.Boot3(3).process(environment, bindingsSpringBoot3, properties);
+        new ElasticsearchBindingsPropertiesProcessor().process(environment, bindingsSpringBoot3, properties);
         assertThat(properties).isEmpty();
     }
 

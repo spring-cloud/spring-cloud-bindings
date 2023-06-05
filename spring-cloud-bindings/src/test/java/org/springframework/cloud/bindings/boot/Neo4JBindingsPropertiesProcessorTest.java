@@ -47,19 +47,9 @@ final class Neo4JBindingsPropertiesProcessorTest {
     private final HashMap<String, Object> properties = new HashMap<>();
 
     @Test
-    @DisplayName("contributes properties - Spring Boot 2 flavor")
-    void testSb2() {
-        new Neo4JBindingsPropertiesProcessor.Boot2(2).process(environment, bindings, properties);
-        assertThat(properties)
-                .containsEntry("spring.data.neo4j.password", "test-password")
-                .containsEntry("spring.data.neo4j.uri", "test-uri")
-                .containsEntry("spring.data.neo4j.username", "test-username");
-    }
-
-    @Test
-    @DisplayName("contributes properties - Spring Boot 3 flavor")
+    @DisplayName("contributes properties")
     void testSb3() {
-        new Neo4JBindingsPropertiesProcessor.Boot3(3).process(environment, bindings, properties);
+        new Neo4JBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties)
                 .containsEntry("spring.neo4j.authentication.password", "test-password")
                 .containsEntry("spring.neo4j.uri", "test-uri")
@@ -71,10 +61,7 @@ final class Neo4JBindingsPropertiesProcessorTest {
     void disabled() {
         environment.setProperty("org.springframework.cloud.bindings.boot.neo4j.enable", "false");
 
-        new Neo4JBindingsPropertiesProcessor.Boot2(2).process(environment, bindings, properties);
-        assertThat(properties).isEmpty();
-
-        new Neo4JBindingsPropertiesProcessor.Boot3(3).process(environment, bindings, properties);
+        new Neo4JBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties).isEmpty();
 
     }

@@ -32,20 +32,6 @@ import static org.springframework.cloud.bindings.boot.CouchbaseBindingsPropertie
 @DisplayName("Couchbase BindingsPropertiesProcessor")
 final class CouchbaseBindingsPropertiesProcessorTest {
 
-    private final Bindings bindingsSpringBoot2 = new Bindings(
-            new Binding("test-name", Paths.get("test-path"),
-                    new FluentMap()
-                            .withEntry(Binding.TYPE, TYPE)
-                            .withEntry("bootstrap-hosts", "test-bootstrap-hosts")
-                            .withEntry("bucket.name", "test-bucket-name")
-                            .withEntry("bucket.password", "test-bucket-password")
-                            .withEntry("env.bootstrap.http-direct-port", "test-env-bootstrap-http-direct-port")
-                            .withEntry("env.bootstrap.http-ssl-port", "test-env-bootstrap-http-ssl-port")
-                            .withEntry("password", "test-password")
-                            .withEntry("username", "test-username")
-            )
-    );
-
     private final Bindings bindingsSpringBoot3 = new Bindings(
             new Binding("test-name", Paths.get("test-path"),
                     new FluentMap()
@@ -62,23 +48,9 @@ final class CouchbaseBindingsPropertiesProcessorTest {
     private final HashMap<String, Object> properties = new HashMap<>();
 
     @Test
-    @DisplayName("contributes properties - Spring Boot 2 flavor")
-    void testSb2() {
-        new CouchbaseBindingsPropertiesProcessor.Boot2(2).process(environment, bindingsSpringBoot2, properties);
-        assertThat(properties)
-                .containsEntry("spring.couchbase.bootstrap-hosts", "test-bootstrap-hosts")
-                .containsEntry("spring.couchbase.bucket.name", "test-bucket-name")
-                .containsEntry("spring.couchbase.bucket.password", "test-bucket-password")
-                .containsEntry("spring.couchbase.env.bootstrap.http-direct-port", "test-env-bootstrap-http-direct-port")
-                .containsEntry("spring.couchbase.env.bootstrap.http-ssl-port", "test-env-bootstrap-http-ssl-port")
-                .containsEntry("spring.couchbase.password", "test-password")
-                .containsEntry("spring.couchbase.username", "test-username");
-    }
-
-    @Test
-    @DisplayName("contributes properties - Spring Boot 3 flavor")
+    @DisplayName("contributes properties")
     void testSb3() {
-        new CouchbaseBindingsPropertiesProcessor.Boot3(3).process(environment, bindingsSpringBoot3, properties);
+        new CouchbaseBindingsPropertiesProcessor().process(environment, bindingsSpringBoot3, properties);
         assertThat(properties)
                 .containsEntry("spring.couchbase.connection-string", "test-connection-string")
                 .containsEntry("spring.data.couchbase.bucket-name", "test-bucket-name")
@@ -91,10 +63,7 @@ final class CouchbaseBindingsPropertiesProcessorTest {
     void disabled() {
         environment.setProperty("org.springframework.cloud.bindings.boot.couchbase.enable", "false");
 
-        new CouchbaseBindingsPropertiesProcessor.Boot2(2).process(environment, bindingsSpringBoot2, properties);
-        assertThat(properties).isEmpty();
-
-        new CouchbaseBindingsPropertiesProcessor.Boot3(3).process(environment, bindingsSpringBoot3, properties);
+        new CouchbaseBindingsPropertiesProcessor().process(environment, bindingsSpringBoot3, properties);
         assertThat(properties).isEmpty();
     }
 

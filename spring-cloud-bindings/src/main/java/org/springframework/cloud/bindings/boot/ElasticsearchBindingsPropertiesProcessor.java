@@ -27,80 +27,24 @@ import static org.springframework.cloud.bindings.boot.Guards.isTypeEnabled;
 /**
  * An implementation of {@link BindingsPropertiesProcessor} that detects {@link Binding}s of type: {@value TYPE}.
  */
-final class ElasticsearchBindingsPropertiesProcessor {
+final class ElasticsearchBindingsPropertiesProcessor implements BindingsPropertiesProcessor {
 
     /**
      * The {@link Binding} type that this processor is interested in: {@value}.
      **/
     public static final String TYPE = "elasticsearch";
 
-    public final static class Boot2 extends SpringBootVersionResolver implements BindingsPropertiesProcessor {
-
-        private static final int BOOT_VERSION = 2;
-
-        Boot2(int forcedVersion) {
-            super(forcedVersion);
+    @Override
+    public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {
+        if (!isTypeEnabled(environment, TYPE)) {
+            return;
         }
 
-        public Boot2() {
-        }
-
-        @Override
-        public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {
-            if (!isTypeEnabled(environment, TYPE)) {
-                return;
-            }
-            if (!isBootMajorVersionEnabled(BOOT_VERSION)) {
-                return;
-            }
-
-            bindings.filterBindings(TYPE).forEach(binding -> {
-                MapMapper map = new MapMapper(binding.getSecret(), properties);
-                map.from("endpoints").to("spring.data.elasticsearch.client.reactive.endpoints");
-                map.from("password").to("spring.data.elasticsearch.client.reactive.password");
-                map.from("use-ssl").to("spring.data.elasticsearch.client.reactive.use-ssl");
-                map.from("username").to("spring.data.elasticsearch.client.reactive.username");
-                map.from("password").to("spring.elasticsearch.jest.password");
-                map.from("proxy.host").to("spring.elasticsearch.jest.proxy.host");
-                map.from("proxy.port").to("spring.elasticsearch.jest.proxy.port");
-                map.from("username").to("spring.elasticsearch.jest.username");
-                map.from("password").to("spring.elasticsearch.rest.password");
-                map.from("uris").to("spring.elasticsearch.rest.uris");
-                map.from("username").to("spring.elasticsearch.rest.username");
-            });
-        }
+        bindings.filterBindings(TYPE).forEach(binding -> {
+            MapMapper map = new MapMapper(binding.getSecret(), properties);
+            map.from("password").to("spring.elasticsearch.password");
+            map.from("uris").to("spring.elasticsearch.uris");
+            map.from("username").to("spring.elasticsearch.username");
+        });
     }
-
-    /**
-     * This is a special case for Boot 3.
-     */
-    public final static class Boot3 extends SpringBootVersionResolver implements BindingsPropertiesProcessor {
-
-        private static final int BOOT_VERSION = 3;
-
-        Boot3(int forcedVersion) {
-            super(forcedVersion);
-        }
-
-        public Boot3() {
-        }
-
-        @Override
-        public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {
-            if (!isTypeEnabled(environment, TYPE)) {
-                return;
-            }
-            if (!isBootMajorVersionEnabled(BOOT_VERSION)) {
-                return;
-            }
-
-            bindings.filterBindings(TYPE).forEach(binding -> {
-                MapMapper map = new MapMapper(binding.getSecret(), properties);
-                map.from("password").to("spring.elasticsearch.password");
-                map.from("uris").to("spring.elasticsearch.uris");
-                map.from("username").to("spring.elasticsearch.username");
-            });
-        }
-    }
-
 }

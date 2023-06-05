@@ -16,6 +16,10 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>17</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <spring-boot.version>3.1.0</spring-boot.version>
     </properties>
 
     <licenses>
@@ -27,10 +31,8 @@
 
     <modules>
         <module>spring-cloud-bindings</module>
-        <module>spring-cloud-bindings-tests-boot-2</module>
-        <module>spring-cloud-bindings-tests-boot-3</module>
+        <module>spring-cloud-bindings-tests</module>
     </modules>
-
     <scm>
         <url>https://github.com/spring-cloud/spring-cloud-bindings</url>
     </scm>

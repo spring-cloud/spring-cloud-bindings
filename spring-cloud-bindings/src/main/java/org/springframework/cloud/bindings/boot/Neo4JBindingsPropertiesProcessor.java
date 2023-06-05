@@ -27,73 +27,25 @@ import static org.springframework.cloud.bindings.boot.Guards.isTypeEnabled;
 /**
  * An implementation of {@link BindingsPropertiesProcessor} that detects {@link Binding}s of type: {@value TYPE}.
  */
-final class Neo4JBindingsPropertiesProcessor {
+final class Neo4JBindingsPropertiesProcessor implements BindingsPropertiesProcessor {
     /**
      * The {@link Binding} type that this processor is interested in: {@value}.
      **/
     public static final String TYPE = "neo4j";
 
-    public final static class Boot2 extends SpringBootVersionResolver implements BindingsPropertiesProcessor {
-
-        private static final int BOOT_VERSION = 2;
-
-        Boot2(int forcedVersion) {
-            super(forcedVersion);
+    @Override
+    public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {
+        if (!isTypeEnabled(environment, TYPE)) {
+            return;
         }
 
-        public Boot2() {
-        }
+        bindings.filterBindings(TYPE).forEach(binding -> {
+            MapMapper map = new MapMapper(binding.getSecret(), properties);
+            map.from("password").to("spring.neo4j.authentication.password");
+            map.from("uri").to("spring.neo4j.uri");
+            map.from("username").to("spring.neo4j.authentication.username");
 
-        @Override
-        public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {
-            if (!isTypeEnabled(environment, TYPE)) {
-                return;
-            }
-            if (!isBootMajorVersionEnabled(BOOT_VERSION)) {
-                return;
-            }
-
-            bindings.filterBindings(TYPE).forEach(binding -> {
-                MapMapper map = new MapMapper(binding.getSecret(), properties);
-                map.from("password").to("spring.data.neo4j.password");
-                map.from("uri").to("spring.data.neo4j.uri");
-                map.from("username").to("spring.data.neo4j.username");
-
-            });
-        }
+        });
     }
-
-    /**
-     * This is a special case for Boot 3.
-     */
-    public final static class Boot3 extends SpringBootVersionResolver implements BindingsPropertiesProcessor {
-
-        private static final int BOOT_VERSION = 3;
-
-        Boot3(int forcedVersion) {
-            super(forcedVersion);
-        }
-
-        public Boot3() {
-        }
-
-        @Override
-        public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {
-            if (!isTypeEnabled(environment, TYPE)) {
-                return;
-            }
-            if (!isBootMajorVersionEnabled(BOOT_VERSION)) {
-                return;
-            }
-
-            bindings.filterBindings(TYPE).forEach(binding -> {
-                MapMapper map = new MapMapper(binding.getSecret(), properties);
-                map.from("password").to("spring.neo4j.authentication.password");
-                map.from("uri").to("spring.neo4j.uri");
-                map.from("username").to("spring.neo4j.authentication.username");
-
-            });
-        }
-    }
-
 }
+

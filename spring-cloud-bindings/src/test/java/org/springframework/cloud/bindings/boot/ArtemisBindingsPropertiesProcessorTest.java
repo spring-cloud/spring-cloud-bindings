@@ -32,18 +32,6 @@ import static org.springframework.cloud.bindings.boot.ArtemisBindingsPropertiesP
 @DisplayName("ActiveMQ Artemis BindingsPropertiesProcessor")
 final class ArtemisBindingsPropertiesProcessorTest {
 
-    private final Bindings bindingsSpringBoot2 = new Bindings(
-            new Binding("test-name", Paths.get("test-path"),
-                    new FluentMap()
-                            .withEntry(Binding.TYPE, TYPE)
-                            .withEntry("mode", "EMBEDDED")
-                            .withEntry("host", "test-host")
-                            .withEntry("port", "test-port")
-                            .withEntry("user", "test-user")
-                            .withEntry("password", "test-password")
-            )
-    );
-
     private final Bindings bindingsSpringBoot3 = new Bindings(
             new Binding("test-name", Paths.get("test-path"),
                     new FluentMap()
@@ -60,21 +48,9 @@ final class ArtemisBindingsPropertiesProcessorTest {
     private final HashMap<String, Object> properties = new HashMap<>();
 
     @Test
-    @DisplayName("contributes properties - Spring Boot 2 flavor")
-    void testSb2() {
-        new ArtemisBindingsPropertiesProcessor.Boot2(2).process(environment, bindingsSpringBoot2, properties);
-        assertThat(properties)
-                .containsEntry("spring.artemis.mode", "EMBEDDED")
-                .containsEntry("spring.artemis.host", "test-host")
-                .containsEntry("spring.artemis.password", "test-password")
-                .containsEntry("spring.artemis.port", "test-port")
-                .containsEntry("spring.artemis.user", "test-user");
-    }
-
-    @Test
-    @DisplayName("contributes properties - Spring Boot 3 flavor")
+    @DisplayName("contributes properties")
     void testSb3() {
-        new ArtemisBindingsPropertiesProcessor.Boot3(3).process(environment, bindingsSpringBoot3, properties);
+        new ArtemisBindingsPropertiesProcessor().process(environment, bindingsSpringBoot3, properties);
         assertThat(properties)
                 .containsEntry("spring.artemis.mode", "EMBEDDED")
                 .containsEntry("spring.artemis.broker-url", "tcp://test-host:test-port")
@@ -87,10 +63,7 @@ final class ArtemisBindingsPropertiesProcessorTest {
     void disabled() {
         environment.setProperty("org.springframework.cloud.bindings.boot.artemis.enable", "false");
 
-        new ArtemisBindingsPropertiesProcessor.Boot2(2).process(environment, bindingsSpringBoot2, properties);
-        assertThat(properties).isEmpty();
-
-        new ArtemisBindingsPropertiesProcessor.Boot3(3).process(environment, bindingsSpringBoot2, properties);
+        new ArtemisBindingsPropertiesProcessor().process(environment, bindingsSpringBoot3, properties);
         assertThat(properties).isEmpty();
     }
 
