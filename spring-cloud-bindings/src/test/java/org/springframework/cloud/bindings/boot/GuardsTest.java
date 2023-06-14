@@ -35,9 +35,9 @@ final class GuardsTest {
         private final MockEnvironment environment = new MockEnvironment();
 
         @Test
-        @DisplayName("returns false if unset")
+        @DisplayName("returns true if unset")
         void unset() {
-            assertThat(isGlobalEnabled(environment)).isFalse();
+            assertThat(isGlobalEnabled(environment)).isTrue();
         }
 
         @Test

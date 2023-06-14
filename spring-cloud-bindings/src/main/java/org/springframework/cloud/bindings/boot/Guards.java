@@ -21,7 +21,7 @@ import org.springframework.core.env.Environment;
 final class Guards {
 
     static boolean isGlobalEnabled(Environment environment) {
-        return environment.getProperty("org.springframework.cloud.bindings.boot.enable", Boolean.class, false);
+        return environment.getProperty("org.springframework.cloud.bindings.boot.enable", Boolean.class, true);
     }
 
     static boolean isTypeEnabled(Environment environment, String type) {
