@@ -29,6 +29,5 @@ EOF
 
 REPOSITORY="${PWD}"/repository
 
-cd source/spring-cloud-bindings
-
-../mvnw deploy -Dmaven.test.skip=true -DaltDeploymentRepository="local::default::file://${REPOSITORY}"
+cd source
+./mvnw deploy -Dmaven.test.skip=true -DaltDeploymentRepository="local::default::file://${REPOSITORY}"

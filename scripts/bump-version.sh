@@ -34,6 +34,9 @@ cd source
 VERSION=$(./mvnw --quiet help:evaluate -DforceStdout -Dexpression=project.version)
 
 git add pom.xml
+git add spring-cloud-bindings/pom.xml
+git add spring-cloud-bindings-tests/pom.xml
+
 git checkout -- .
 
 git \
