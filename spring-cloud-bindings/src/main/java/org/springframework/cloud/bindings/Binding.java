@@ -23,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * A representation of a binding as defined by the
@@ -114,13 +115,12 @@ public final class Binding {
             return Collections.emptyMap();
         }
 
-        try {
-            return Files.list(path)
-                    .filter(p -> {
+        try (Stream<Path> paths = Files.list(path)) {
+            return paths.filter(p -> {
                         try {
                             return !Files.isHidden(p);
                         } catch (IOException e) {
-                            throw new IllegalStateException(String.format("unable to determine id file '%s' is hidden", p), e);
+                            throw new IllegalStateException(String.format("unable to determine if file '%s' is hidden", p), e);
                         }
                     })
                     .filter(p -> !Files.isDirectory(p))
