@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 /**
@@ -81,8 +82,8 @@ public final class Bindings {
             throw new IllegalArgumentException(String.format("%s is not a directory", p));
         }
 
-        try {
-            this.bindings = Files.list(p)
+        try (Stream<Path> paths = Files.list(p)) {
+            this.bindings = paths
                     .map(Binding::new)
                     .collect(Collectors.toList());
         } catch (IOException e) {
