@@ -18,11 +18,11 @@ package org.springframework.cloud.bindings;
 import org.springframework.lang.Nullable;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * A representation of a binding as defined by the
@@ -79,15 +79,10 @@ public final class Binding {
         String provider = null;
         for (Map.Entry<String, String> entry : secret.entrySet()) {
             switch (entry.getKey()) {
-                case TYPE:
-                case KIND: // TODO: Remove as CNB_BINDINGS ages out
-                    type = entry.getValue();
-                    break;
-                case PROVIDER:
-                    provider = entry.getValue();
-                    break;
-                default:
-                    this.secret.put(entry.getKey(), entry.getValue());
+                case TYPE, KIND -> // TODO: Remove as CNB_BINDINGS ages out
+                        type = entry.getValue();
+                case PROVIDER -> provider = entry.getValue();
+                default -> this.secret.put(entry.getKey(), entry.getValue());
             }
         }
 
@@ -114,13 +109,12 @@ public final class Binding {
             return Collections.emptyMap();
         }
 
-        try {
-            return Files.list(path)
-                    .filter(p -> {
+        try (Stream<Path> paths = Files.list(path)) {
+            return paths.filter(p -> {
                         try {
                             return !Files.isHidden(p);
                         } catch (IOException e) {
-                            throw new IllegalStateException(String.format("unable to determine id file '%s' is hidden", p), e);
+                            throw new IllegalStateException(String.format("unable to determine if file '%s' is hidden", p), e);
                         }
                     })
                     .filter(p -> !Files.isDirectory(p))
@@ -128,7 +122,7 @@ public final class Binding {
                             p -> p.getFileName().toString(),
                             p -> {
                                 try {
-                                    return new String(Files.readAllBytes(p), StandardCharsets.UTF_8).trim();
+                                    return Files.readString(p).trim();
                                 } catch (IOException e) {
                                     throw new IllegalStateException(String.format("unable to read file '%s'", p), e);
                                 }

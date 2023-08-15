@@ -136,7 +136,7 @@
                 <version>${maven-javadoc-plugin.version}</version>
                 <configuration>
                     <quiet>true</quiet>
-                    <source>1.8</source>
+                    <source>17</source>
                     <tags>
                         <tag>
                             <name>NonNullApi</name>
