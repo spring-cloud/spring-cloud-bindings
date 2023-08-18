@@ -30,5 +30,4 @@ EOF
 REPOSITORY="${PWD}"/repository
 
 cd source
-
 ./mvnw deploy -Dmaven.test.skip=true -DaltDeploymentRepository="local::default::file://${REPOSITORY}"

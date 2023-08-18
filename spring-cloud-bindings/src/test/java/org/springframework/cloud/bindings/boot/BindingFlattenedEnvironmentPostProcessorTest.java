@@ -19,7 +19,7 @@ package org.springframework.cloud.bindings.boot;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.context.config.ConfigFileApplicationListener;
+import org.springframework.boot.context.config.ConfigDataEnvironmentPostProcessor;
 import org.springframework.cloud.bindings.Binding;
 import org.springframework.cloud.bindings.Bindings;
 import org.springframework.cloud.bindings.FluentMap;
@@ -82,7 +82,7 @@ final class BindingFlattenedEnvironmentPostProcessorTest {
     @DisplayName("has order before ConfigFileApplicationListener")
     void order() {
         assertThat(new BindingFlattenedEnvironmentPostProcessor(new Bindings()).getOrder())
-                .isLessThan(ConfigFileApplicationListener.DEFAULT_ORDER);
+                .isLessThan(ConfigDataEnvironmentPostProcessor.ORDER);
     }
 
 }
