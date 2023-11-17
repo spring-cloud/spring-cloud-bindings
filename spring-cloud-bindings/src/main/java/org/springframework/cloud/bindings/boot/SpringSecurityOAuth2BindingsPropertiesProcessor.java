@@ -58,7 +58,9 @@ public final class SpringSecurityOAuth2BindingsPropertiesProcessor implements Bi
             properties.put(String.format("spring.security.oauth2.client.registration.%s.provider", clientName), provider);
             map.from("client-id").to(String.format("spring.security.oauth2.client.registration.%s.client-id", clientName));
             map.from("client-secret").to(String.format("spring.security.oauth2.client.registration.%s.client-secret", clientName));
-            map.from("client-authentication-method").to(String.format("spring.security.oauth2.client.registration.%s.client-authentication-method", clientName));
+            map.from("client-authentication-method")
+                    .to(String.format("spring.security.oauth2.client.registration.%s.client-authentication-method", clientName),
+                            SpringSecurityOAuth2BindingsPropertiesProcessor::toBackwardsCompatibleClientAuthenticationMethod);
             map.from("authorization-grant-type").to(String.format("spring.security.oauth2.client.registration.%s.authorization-grant-type", clientName));
             map.from("authorization-grant-types")
                     .when(SpringSecurityOAuth2BindingsPropertiesProcessor::hasSingleValue)
@@ -86,6 +88,31 @@ public final class SpringSecurityOAuth2BindingsPropertiesProcessor implements Bi
                 .map(s -> s.split(","))
                 .filter(r -> r.length == 1)
                 .isPresent();
+    }
+
+    /**
+     * Spring Security 5.5 has introduced ClientAuthenticationMethod.CLIENT_SECRET_BASIC and
+     * ClientAuthenticationMethod.CLIENT_SECRET_POST to match with the OpenID specification, and marked BASIC and POST
+     * as deprecated. In older version, where the CLIENT_SECRET_* versions do not exist, Boot creates a mapping to a
+     * new ClientAuthenticationMethod("client_secret_basic") which is not recognized by Spring Security.
+     * <p>
+     * From Security 6 upwards (Boot 3+), "basic" and "post" have been removed.
+     * <p>
+     * This transforms "client_secret_basic" to "basic" and "client_secret_post" to "post", so that it works with every
+     * Boot 2 version, even Boot < 2.5.
+     *
+     * @param clientAuthenticationMethod the base client authentication method
+     * @return "basic" instead of "client_secret_basic", "post" instead of "client_secret_post", the input otherwise
+     */
+    @Nullable
+    private static String toBackwardsCompatibleClientAuthenticationMethod(@Nullable String clientAuthenticationMethod) {
+        if ("client_secret_basic".equalsIgnoreCase(clientAuthenticationMethod)) {
+            return "basic";
+        }
+        if ("client_secret_post".equalsIgnoreCase(clientAuthenticationMethod)) {
+            return "post";
+        }
+        return clientAuthenticationMethod;
     }
 
     @Override

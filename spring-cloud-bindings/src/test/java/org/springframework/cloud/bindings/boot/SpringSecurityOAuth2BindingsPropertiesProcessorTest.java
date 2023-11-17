@@ -210,6 +210,30 @@ final class SpringSecurityOAuth2BindingsPropertiesProcessorTest {
     }
 
     @Test
+    @DisplayName("uses Spring-Security 5.4-compatible ClientAuthenticationMethod")
+    void backwardsCompatibleClientAuthenticationMethod() {
+        Bindings clientSecretBasic = new Bindings(new Binding("binding-name", Paths.get("test-path"),
+                new FluentMap()
+                        .withEntry(Binding.TYPE, TYPE)
+                        .withEntry("provider", "some-provider")
+                        .withEntry("client-authentication-method", "client_secret_basic")
+        ));
+        new SpringSecurityOAuth2BindingsPropertiesProcessor().process(new MockEnvironment(), clientSecretBasic, properties);
+        assertThat(properties)
+                .containsEntry("spring.security.oauth2.client.registration.binding-name.client-authentication-method", "basic");
+
+        Bindings clientSecretPost = new Bindings(new Binding("binding-name", Paths.get("test-path"),
+                new FluentMap()
+                        .withEntry(Binding.TYPE, TYPE)
+                        .withEntry("provider", "some-provider")
+                        .withEntry("client-authentication-method", "client_secret_post")
+        ));
+        new SpringSecurityOAuth2BindingsPropertiesProcessor().process(new MockEnvironment(), clientSecretPost, properties);
+        assertThat(properties)
+                .containsEntry("spring.security.oauth2.client.registration.binding-name.client-authentication-method", "post");
+    }
+
+    @Test
     @DisplayName("can be disabled")
     void disabled() {
         environment.setProperty("org.springframework.cloud.bindings.boot.oauth2.enable", "false");
