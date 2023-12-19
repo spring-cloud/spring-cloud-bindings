@@ -450,8 +450,8 @@ Disable Property: `org.springframework.cloud.bindings.boot.wavefront.enable`
 
 | Property                                        | Value         |
 | ----------------------------------------------- | ------------- |
-| `management.metrics.export.wavefront.api-token` | `{api-token}` |
-| `management.metrics.export.wavefront.uri`       | `{uri}`       |
+| `management.wavefront.api-token` | `{api-token}` |
+| `management.wavefront.uri`       | `{uri}`       |
 
 
 ## Extending Spring Boot Configuration
