@@ -50,8 +50,8 @@ final class WavefrontBindingsPropertiesProcessorTest {
     void test() {
         new WavefrontBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties)
-                .containsEntry("management.metrics.export.wavefront.api-token", "test-api-token")
-                .containsEntry("management.metrics.export.wavefront.uri", "test-uri");
+                .containsEntry("management.wavefront.api-token", "test-api-token")
+                .containsEntry("management.wavefront.uri", "test-uri");
     }
 
     @Test
