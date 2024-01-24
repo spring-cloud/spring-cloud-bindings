@@ -42,8 +42,8 @@ public final class WavefrontBindingsPropertiesProcessor implements BindingsPrope
 
         bindings.filterBindings(TYPE).forEach(binding -> {
             MapMapper map = new MapMapper(binding.getSecret(), properties);
-            map.from("api-token").to("management.metrics.export.wavefront.api-token");
-            map.from("uri").to("management.metrics.export.wavefront.uri");
+            map.from("api-token").to("management.wavefront.api-token");
+            map.from("uri").to("management.wavefront.uri");
         });
     }
 
