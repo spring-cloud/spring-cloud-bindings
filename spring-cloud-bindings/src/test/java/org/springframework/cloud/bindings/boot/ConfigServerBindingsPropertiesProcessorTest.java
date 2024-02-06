@@ -16,23 +16,28 @@
 
 package org.springframework.cloud.bindings.boot;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.cloud.bindings.Binding;
 import org.springframework.cloud.bindings.Bindings;
 import org.springframework.cloud.bindings.FluentMap;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mock.env.MockEnvironment;
 
+import java.io.File;
 import java.nio.file.Paths;
 import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.cloud.bindings.boot.ConfigServerBindingsPropertiesProcessor.TYPE;
 
 @DisplayName("Config Server BindingsPropertiesProcessor")
 final class ConfigServerBindingsPropertiesProcessorTest {
 
-    private final Bindings bindings = new Bindings(
+    private Bindings bindings = new Bindings(
             new Binding("test-name", Paths.get("test-path"),
                     new FluentMap()
                             .withEntry(Binding.TYPE, TYPE)
@@ -47,9 +52,20 @@ final class ConfigServerBindingsPropertiesProcessorTest {
 
     private final HashMap<String, Object> properties = new HashMap<>();
 
+    private String cert;
+    private String key;
+
+    @BeforeEach
+    void fetchCerts() {
+        assertDoesNotThrow(() -> {
+            this.cert = TestHelper.resourceAsString(new ClassPathResource("pem/test-cert.pem"));
+            this.key = TestHelper.resourceAsString(new ClassPathResource("pem/test-key.pem"));
+        });
+    }
+
     @Test
     @DisplayName("contributes properties")
-    void test() {
+    void whenEnabled() {
         new ConfigServerBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties)
                 .containsEntry("spring.cloud.config.uri", "test-uri")
@@ -60,7 +76,7 @@ final class ConfigServerBindingsPropertiesProcessorTest {
 
     @Test
     @DisplayName("can be disabled")
-    void disabled() {
+    void whenDisabled() {
         environment.setProperty("org.springframework.cloud.bindings.boot.config.enable", "false");
 
         new ConfigServerBindingsPropertiesProcessor().process(environment, bindings, properties);
@@ -68,4 +84,128 @@ final class ConfigServerBindingsPropertiesProcessorTest {
         assertThat(properties).isEmpty();
     }
 
+    @Test
+    @DisplayName("contributes tls key-store properties when set")
+    void whenKeystoreValuesSet() {
+        bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"),
+                        new FluentMap()
+                                .withEntry(Binding.TYPE, ConfigServerBindingsPropertiesProcessor.TYPE)
+                                .withEntry("tls.key", key)
+                                .withEntry("tls.crt", cert)
+                )
+        );
+
+        new ConfigServerBindingsPropertiesProcessor().process(environment, bindings, properties);
+
+        assertThat(properties)
+                .containsEntry("spring.cloud.config.tls.enabled", true)
+                .containsEntry("spring.cloud.config.tls.key-store-type", "PKCS12")
+                .containsEntry("spring.cloud.config.tls.key-alias", "config")
+                .containsKey("spring.cloud.config.tls.key-store")
+                .containsKey("spring.cloud.config.tls.key-store-password")
+                .containsKey("spring.cloud.config.tls.key-password")
+                .doesNotContainKey("spring.cloud.config.tls.trust-store")
+                .doesNotContainKey("spring.cloud.config.tls.trust-store-type")
+                .doesNotContainKey("spring.cloud.config.tls.trust-store-password");
+
+        String path = properties.get("spring.cloud.config.tls.key-store").toString().substring(5);
+        File f = new File(path);
+        assertThat(f.exists()).isTrue();
+        assertThat(f.isFile()).isTrue();
+    }
+
+    @Test
+    @DisplayName("contributes tls trust-store properties when set")
+    void whenTruststoreValuesSet() {
+        bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"),
+                        new FluentMap()
+                                .withEntry(Binding.TYPE, ConfigServerBindingsPropertiesProcessor.TYPE)
+                                .withEntry("tls.key", key)
+                                .withEntry("tls.crt", cert)
+                                .withEntry("ca.crt", cert)
+                )
+        );
+
+        new ConfigServerBindingsPropertiesProcessor().process(environment, bindings, properties);
+
+        assertThat(properties)
+                .containsEntry("spring.cloud.config.tls.enabled", true)
+                .containsEntry("spring.cloud.config.tls.trust-store-type", "PKCS12")
+                .containsKey("spring.cloud.config.tls.trust-store")
+                .containsKey("spring.cloud.config.tls.trust-store-password");
+
+        String path = properties.get("spring.cloud.config.tls.trust-store").toString().substring(5);
+        File f = new File(path);
+        assertThat(f.exists()).isTrue();
+        assertThat(f.isFile()).isTrue();
+    }
+
+    @Test
+    @DisplayName("throws when bad tls key-store values are set")
+    void whenKeystoreValueIsNotValid() {
+        bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"),
+                        new FluentMap()
+                                .withEntry(Binding.TYPE, ConfigServerBindingsPropertiesProcessor.TYPE)
+                                .withEntry("tls.key", key)
+                                .withEntry("tls.crt", "this isn't a valid certificate")
+                )
+        );
+
+        assertThrows(IllegalStateException.class, () -> {
+            new ConfigServerBindingsPropertiesProcessor().process(environment, bindings, properties);
+        });
+    }
+
+    @Test
+    @DisplayName("throws when bad tls trust-store values are set")
+    void whenTruststoreValueIsNotValid() {
+        bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"),
+                        new FluentMap()
+                                .withEntry(Binding.TYPE, ConfigServerBindingsPropertiesProcessor.TYPE)
+                                .withEntry("tls.key", key)
+                                .withEntry("tls.crt", cert)
+                                .withEntry("ca.crt", "this isn't a valid certificate")
+                )
+        );
+
+        assertThrows(IllegalStateException.class, () -> {
+            new ConfigServerBindingsPropertiesProcessor().process(environment, bindings, properties);
+        });
+    }
+
+    @Test
+    @DisplayName("throws when tls.crt is set but tls.key isn't")
+    void whenCertificateSetWithoutPrivateKey() {
+        bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"),
+                        new FluentMap()
+                                .withEntry(Binding.TYPE, ConfigServerBindingsPropertiesProcessor.TYPE)
+                                .withEntry("tls.crt", cert)
+                )
+        );
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new ConfigServerBindingsPropertiesProcessor().process(environment, bindings, properties);
+        });
+    }
+
+    @Test
+    @DisplayName("throws when tls.key is set but tls.crt isn't")
+    void whenPrivateKeySetWithoutCertificate() {
+        bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"),
+                        new FluentMap()
+                                .withEntry(Binding.TYPE, ConfigServerBindingsPropertiesProcessor.TYPE)
+                                .withEntry("tls.key", key)
+                )
+        );
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            new ConfigServerBindingsPropertiesProcessor().process(environment, bindings, properties);
+        });
+    }
 }
