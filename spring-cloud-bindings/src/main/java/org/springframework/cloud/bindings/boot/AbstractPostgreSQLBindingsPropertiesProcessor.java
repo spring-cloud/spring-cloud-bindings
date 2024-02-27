@@ -31,7 +31,7 @@ public abstract class AbstractPostgreSQLBindingsPropertiesProcessor implements B
      * Refer to <a href="https://www.cockroachlabs.com/docs/v21.2/connection-parameters#additional-connection-parameters">Client Connection Parameters</a>.
      */
     protected String buildDbOptions(Binding binding) {
-        String options = binding.getSecret().getOrDefault(OPTIONS, "");
+        String options = binding.getSecret().getOrDefault(getDBOptionSecretField(), "");
         String crdbOption = "";
         List<String> dbOptions = new ArrayList<>();
         if (!options.equals("")) {
@@ -70,8 +70,8 @@ public abstract class AbstractPostgreSQLBindingsPropertiesProcessor implements B
     protected String buildSslModeParam(Binding binding) {
         //process ssl params
         //https://www.postgresql.org/docs/14/libpq-connect.html
-        String sslmode = binding.getSecret().getOrDefault(SSL_MODE, "");
-        String sslRootCert = binding.getSecret().getOrDefault(SSL_ROOT_CERT, "");
+        String sslmode = binding.getSecret().getOrDefault(getSSLModeSecretField(), "");
+        String sslRootCert = binding.getSecret().getOrDefault(getSSLRootCertSecretField(), "");
         StringBuilder sslparam = new StringBuilder();
         if (!"".equals(sslmode)) {
             sslparam.append(SSL_MODE).append("=").append(sslmode);
@@ -85,5 +85,20 @@ public abstract class AbstractPostgreSQLBindingsPropertiesProcessor implements B
                     .append(sslRootCert);
         }
         return sslparam.toString();
+    }
+    
+    protected String getDBOptionSecretField()
+    {
+    	return OPTIONS;
+    }
+    
+    protected String getSSLModeSecretField()
+    {
+    	return SSL_MODE;
+    }
+    
+    protected String getSSLRootCertSecretField()
+    {
+    	return SSL_ROOT_CERT;
     }
 }
