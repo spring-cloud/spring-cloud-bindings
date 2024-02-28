@@ -26,7 +26,7 @@ import org.springframework.context.ApplicationListener;
 /**
  * An implementation of {@link BindingsPropertiesProcessor} that detects {@link Binding}s of type: {@value TYPE}.
  */
-public class Db2ReplicatedBindingsPropertiesProcessor extends AbstractReplicatedDataSource
+public final class Db2ReplicatedBindingsPropertiesProcessor extends AbstractReplicatedDataSource
    implements ApplicationListener<ApplicationPreparedEvent>  {
 
 	/**

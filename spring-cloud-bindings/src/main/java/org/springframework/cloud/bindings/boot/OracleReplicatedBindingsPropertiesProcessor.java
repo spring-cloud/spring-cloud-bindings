@@ -10,7 +10,7 @@ import org.springframework.context.ApplicationListener;
 /**
  * An implementation of {@link BindingsPropertiesProcessor} that detects {@link Binding}s of type: {@value TYPE}.
  */
-public class OracleReplicatedBindingsPropertiesProcessor extends AbstractReplicatedDataSource
+public final class OracleReplicatedBindingsPropertiesProcessor extends AbstractReplicatedDataSource
   implements ApplicationListener<ApplicationPreparedEvent>  {
 
     /**

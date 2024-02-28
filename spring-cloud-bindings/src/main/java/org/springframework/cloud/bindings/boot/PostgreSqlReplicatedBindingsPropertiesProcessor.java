@@ -30,7 +30,8 @@ import static org.springframework.cloud.bindings.boot.Guards.isTypeEnabled;
 /**
  * An implementation of {@link BindingsPropertiesProcessor} that detects {@link Binding}s of type: {@value TYPE}.
  */
-public class PostgreSqlReplicatedBindingsPropertiesProcessor extends AbstractPostgreSQLBindingsPropertiesProcessor implements ApplicationListener<ApplicationPreparedEvent> {
+public final class PostgreSqlReplicatedBindingsPropertiesProcessor extends AbstractPostgreSQLBindingsPropertiesProcessor 
+   implements BindingsPropertiesProcessor, ApplicationListener<ApplicationPreparedEvent> {
 
 	/**
      * The {@link Binding} type that this processor is interested in: {@value}.
@@ -39,16 +40,34 @@ public class PostgreSqlReplicatedBindingsPropertiesProcessor extends AbstractPos
 	
     private static final DeferredLog LOG = new DeferredLog();
     
+    /**
+     * Read/write function field
+     */
     private static final String RW_FUNCTION = "rw";
     
+    /**
+     * Read only function field
+     */
     private static final String RO_FUNCTION = "ro";
     
+    /**
+     * Template for a base JDBC properties
+     */
     private static final String JDBC_BASE_TEMPLATE = "spring.datasource.replicated.%s";
     
+    /**
+     * Template for a base R2DBC properties
+     */
     private static final String R2DBC_BASE_TEMPLATE = "spring.r2dbc.replicated.%s";
     
+    /**
+     * Template for function based JDBC properties
+     */    
     private static final String JDBC_PROPERTY_TEMPLATE = "spring.datasource.replicated.%s.%s";
 
+    /**
+     * Template for function based R2DBC properties
+     */     
     private static final String R2DBC_PROPERTY_TEMPLATE = "spring.r2dbc.replicated.%s.%s";		
     
     private String mode = RW_FUNCTION;

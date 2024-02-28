@@ -87,16 +87,25 @@ public abstract class AbstractPostgreSQLBindingsPropertiesProcessor implements B
         return sslparam.toString();
     }
     
+    /**
+     * name of the options field; override in concrete classes is field name is different
+     */
     protected String getDBOptionSecretField()
     {
     	return OPTIONS;
     }
     
+    /**
+     * name of the ssl mode field; override in concrete classes is field name is different
+     */    
     protected String getSSLModeSecretField()
     {
     	return SSL_MODE;
     }
     
+    /**
+     * name of the ssl root cert  field; override in concrete classes is field name is different
+     */  
     protected String getSSLRootCertSecretField()
     {
     	return SSL_ROOT_CERT;

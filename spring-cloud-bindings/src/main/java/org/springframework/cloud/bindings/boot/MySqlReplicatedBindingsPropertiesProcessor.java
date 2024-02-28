@@ -10,7 +10,7 @@ import org.springframework.context.ApplicationListener;
 /**
  * An implementation of {@link BindingsPropertiesProcessor} that detects {@link Binding}s of type: {@value TYPE}.
  */
-public class MySqlReplicatedBindingsPropertiesProcessor extends AbstractReplicatedDataSource
+public final class MySqlReplicatedBindingsPropertiesProcessor extends AbstractReplicatedDataSource
    implements ApplicationListener<ApplicationPreparedEvent>  {
 
 	/**

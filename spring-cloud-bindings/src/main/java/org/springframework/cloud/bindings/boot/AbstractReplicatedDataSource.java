@@ -8,18 +8,39 @@ import org.springframework.cloud.bindings.Binding;
 import org.springframework.cloud.bindings.Bindings;
 import org.springframework.core.env.Environment;
 
+/**
+ *  Abstract class for replicated datasources processors that implement a common properties pattern.
+ */
 public abstract class AbstractReplicatedDataSource implements BindingsPropertiesProcessor {
 
+    /**
+     * Read/write function field
+     */
     public static final String RW_FUNCTION = "rw";
     
+    /**
+     * Read only function field
+     */
     public static final String RO_FUNCTION = "ro";
     
+    /**
+     * Template for a base JDBC properties
+     */
     public static final String JDBC_BASE_TEMPLATE = "spring.datasource.replicated.%s";
     
+    /**
+     * Template for a base R2DBC properties
+     */
     public static final String R2DBC_BASE_TEMPLATE = "spring.r2dbc.replicated.%s";
     
+    /**
+     * Template for function based JDBC properties
+     */    
     public static final String JDBC_PROPERTY_TEMPLATE = "spring.datasource.replicated.%s.%s";
 
+    /**
+     * Template for function based R2DBC properties
+     */     
     public static final String R2DBC_PROPERTY_TEMPLATE = "spring.r2dbc.replicated.%s.%s";	
     
     @Override
@@ -43,18 +64,35 @@ public abstract class AbstractReplicatedDataSource implements BindingsProperties
         });
     }
     
+    /**
+     * Format a JDBC property
+     */
 	protected String formatJDBCTemplate(String fnc, String field)
 	{
 		return String.format(JDBC_PROPERTY_TEMPLATE, fnc, field);
 	}
 	
+    /**
+     * Format an R2DBC property
+     */
 	protected String formatR2DBCTemplate(String fnc, String field)
 	{
 		return String.format(R2DBC_PROPERTY_TEMPLATE, fnc, field);
 	}
 	
+	/**
+	 * Builds the properties for a given operations function
+	 * @param map The properties mapper
+	 * @param properties Properties resource where new spring properties will be written to
+	 * @param binding The current binding object
+	 * @param fnc The operations function of the current binding
+	 */
 	protected abstract void buildProperties(MapMapper map, Map<String, Object> properties,  Binding binding, String fnc);
 	
+	/**
+	 * Gets the binding type of this processor.
+	 * @return The binding type.
+	 */
 	protected abstract String getType();
 	    
 }
