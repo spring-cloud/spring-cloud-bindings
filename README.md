@@ -116,6 +116,26 @@ Disable Property: `org.springframework.cloud.bindings.boot.db2.enable`
 | `spring.r2dbc.password`               | `{password}`                                                                                                                                 |
 | `spring.r2dbc.username`               | `{username}`                                                                                                                                 |
 
+### Replicated DB2 RDBMS
+Type: `db2-replicated`
+Disable Property: `org.springframework.cloud.bindings.boot.db2-replicated.enable`
+
+| Property                                            | Value                                                                                                                                        |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `spring.datasource.replicated.rw.driver-class-name` | `com.ibm.db2.jcc.DB2Driver`                                                                                                                  |
+| `spring.datasource.replicated.rw.password`          | `{rw-password}`                                                                                                                                 |
+| `spring.datasource.replicated.rw.url`               | `{rw-jdbc-url}` or if not set then `jdbc:db2://{rw-host}:{rw-port}/{rw-database}` (you must have rw-host, rw-port and rw-database set or no mapping will occur)   |
+| `spring.datasource.replicated.rw.username`          | `{rw-username}`                                                                                                                                 |
+| `spring.r2dbc.replicated.rw.url`                    | `{rw-r2dbc-url}` or if not set then `r2dbc:db2://{rw-host}:{rw-port}/{rw-database}` (you must have rw-host, rw-port and rw-database set or no mapping will occur) |
+| `spring.r2dbc.replicated.rw.password`               | `{rw-password}`                                                                                                                                 |
+| `spring.r2dbc.replicated.rw.username`               | `{rw-username}`                                                                                                                                 |
+| `spring.datasource.replicated.ro.driver-class-name` | `com.ibm.db2.jcc.DB2Driver`                                                                                                                  |
+| `spring.datasource.replicated.ro.password`          | `{ro-password}`                                                                                                                                 |
+| `spring.datasource.replicated.ro.url`               | `{ro-jdbc-url}` or if not set then `jdbc:db2://{ro-host}:{ro-port}/{ro-database}` (you must have ro-host, ro-port and ro-database set or no mapping will occur)   |
+| `spring.datasource.replicated.ro.username`          | `{ro-username}`                                                                                                                                 |
+| `spring.r2dbc.replicated.ro.url`                    | `{ro-r2dbc-url}` or if not set then `r2dbc:db2://{ro-host}:{ro-port}/{ro-database}` (you must have ro-host, ro-port and ro- database set or no mapping will occur) |
+| `spring.r2dbc.replicated.ro.password`               | `{ro-password}`                                                                                                                                 |
+| `spring.r2dbc.replicated.ro.username`               | `{ro-username}`                                                                                                                                 |
 
 ### Elasticsearch
 Type: `elasticsearch`
@@ -180,6 +200,27 @@ Disable Property: `org.springframework.cloud.bindings.boot.mysql.enable`
 | `spring.r2dbc.password`               | `{password}`                                                                                                                                                                                                       |
 | `spring.r2dbc.username`               | `{username}`                                                                                                                                                                                                       |
 
+### Replicated MySQL RDBMS
+Type: `mysql-replicated`
+Disable Property: `org.springframework.cloud.bindings.boot.mysql-replicated.enable`
+
+| Property                                            | Value                                                                                                                                        |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `spring.datasource.replicated.rw.driver-class-name` | `org.mariadb.jdbc.Driver` or `com.mysql.cj.jdbc.Driver` depending on classpath                                                                                                                      |
+| `spring.datasource.replicated.rw.password`          | `{rw-password}`                                                                                                                                 |
+| `spring.datasource.replicated.rw.url`               | `{rw-jdbc-url}` or if not set then `jdbc:mysql://{rw-host}:{rw-port}/{rw-database}` or `jdbc:mariadb://{rw-host}:{rw-port}/{rw-database}` (you must have rw-host, rw-port and rw-database set or no mapping will occur)   |
+| `spring.datasource.replicated.rw.username`          | `{rw-username}`                                                                                                                                 |
+| `spring.r2dbc.replicated.rw.url`                    | `{rw-r2dbc-url}` or if not set then `r2dbc:mysql://{rw-host}:{rw-port}/{rw-database}` or `r2dbc:mariadb//{rw-host}:{rw-port}/{rw-database}` (you must have rw-host, rw-port and rw-database set or no mapping will occur) |
+| `spring.r2dbc.replicated.rw.password`               | `{rw-password}`                                                                                                                                 |
+| `spring.r2dbc.replicated.rw.username`               | `{rw-username}`                                                                                                                                 |
+| `spring.datasource.replicated.ro.driver-class-name` | `org.mariadb.jdbc.Driver` or `com.mysql.cj.jdbc.Driver` depending on classpath                                                                                                                   |
+| `spring.datasource.replicated.ro.password`          | `{ro-password}`                                                                                                                                 |
+| `spring.datasource.replicated.ro.url`               | `{ro-jdbc-url}` or if not set then `jdbc:mysql://{ro-host}:{ro-port}/{ro-database}` or `jdbc:mariadb://{ro-host}:{ro-port}/{ro-database}` (you must have ro-host, ro-port and ro-database set or no mapping will occur)   |
+| `spring.datasource.replicated.ro.username`          | `{ro-username}`                                                                                                                                 |
+| `spring.r2dbc.replicated.ro.url`                    | `{ro-r2dbc-url}` or if not set then `r2dbc:mysql://{ro-host}:{ro-port}/{ro-database}` or `r2dbc:mariadb//{ro-host}:{ro-port}/{ro-database}` (you must have ro-host, ro-port and ro- database set or no mapping will occur) |
+| `spring.r2dbc.replicated.ro.password`               | `{ro-password}`                                                                                                                                 |
+| `spring.r2dbc.replicated.ro.username`               | `{ro-username}`                                                                                                                                 |
+
 **Note:** Libraries on the classpath are examined for the purpose of evaluating the appropriate `jdbc` and `r2dbc` URLs.  The existence of both MySQL and MariaDB libraries on the classpath is not supported and may lead to non-deterministic results.
 
 ### Neo4J
@@ -208,6 +249,28 @@ Disable Property: `org.springframework.cloud.bindings.boot.oracle.enable`
 | `spring.r2dbc.password`               | `{password}`                                                                                                                                    |
 | `spring.r2dbc.username`               | `{username}`                                                                                                                                    |
 
+### Replicated Oracle RDBMS
+Type: `oracle-replicated`
+Disable Property: `org.springframework.cloud.bindings.boot.oracle-replicated.enable`
+
+| Property                                            | Value                                                                                                                                        |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `spring.datasource.replicated.rw.driver-class-name` |  `oracle.jdbc.OracleDriver`                                                                                                                  |
+| `spring.datasource.replicated.rw.password`          | `{rw-password}`                                                                                                                                 |
+| `spring.datasource.replicated.rw.url`               | `{rw-jdbc-url}` or if not set then `jdbc:oracle://{rw-host}:{rw-port}/{rw-database}` (you must have rw-host, rw-port and rw-database set or no mapping will occur)   |
+| `spring.datasource.replicated.rw.username`          | `{rw-username}`                                                                                                                                 |
+| `spring.r2dbc.replicated.rw.url`                    | `{rw-r2dbc-url}` or if not set then `r2dbc:oracle://{rw-host}:{rw-port}/{rw-database}` (you must have rw-host, rw-port and rw-database set or no mapping will occur) |
+| `spring.r2dbc.replicated.rw.password`               | `{rw-password}`                                                                                                                                 |
+| `spring.r2dbc.replicated.rw.username`               | `{rw-username}`                                                                                                                                 |
+| `spring.datasource.replicated.ro.driver-class-name` |  `oracle.jdbc.OracleDriver`                                                                                                                 |
+| `spring.datasource.replicated.ro.password`          | `{ro-password}`                                                                                                                                 |
+| `spring.datasource.replicated.ro.url`               | `{ro-jdbc-url}` or if not set then `jdbc:oracle://{ro-host}:{ro-port}/{ro-database}` (you must have ro-host, ro-port and ro-database set or no mapping will occur)   |
+| `spring.datasource.replicated.ro.username`          | `{ro-username}`                                                                                                                                 |
+| `spring.r2dbc.replicated.ro.url`                    | `{ro-r2dbc-url}` or if not set then `r2dbc:oracle://{ro-host}:{ro-port}/{ro-database}` (you must have ro-host, ro-port and ro- database set or no mapping will occur) |
+| `spring.r2dbc.replicated.ro.password`               | `{ro-password}`                                                                                                                                 |
+| `spring.r2dbc.replicated.ro.username`               | `{ro-username}`                                                                                                                                 |
+
+
 ### PostgreSQL RDBMS
 Type: `postgresql`
 Disable Property: `org.springframework.cloud.bindings.boot.postgresql.enable`
@@ -221,6 +284,27 @@ Disable Property: `org.springframework.cloud.bindings.boot.postgresql.enable`
 | `spring.r2dbc.url`                    | `{r2dbc-url}` or if not set then `r2dbc:postgresql://{host}:{port}/{database}`. If a binding for `{sslmode}`, `{sslrootcert}`, or `{options}` are set, the value is appended as properties to the generated URL (you must have host, port and database set or no mapping will occur) |
 | `spring.r2dbc.password`               | `{password}`                                                                                                                                                                                                                                                                       |
 | `spring.r2dbc.username`               | `{username}`                                                                                                                                                                                                                                                                       |
+
+### Replicated PostgreSQL RDBMS
+Type: `postgresql-replicated`
+Disable Property: `org.springframework.cloud.bindings.boot.postgresql-replicated.enable`
+
+| Property                                            | Value                                                                                                                                        |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `spring.datasource.replicated.rw.driver-class-name` |  `org.postgresql.Driver`                                                                                                                 |
+| `spring.datasource.replicated.rw.password`          | `{rw-password}`                                                                                                                                 |
+| `spring.datasource.replicated.rw.url`               | `{rw-jdbc-url}` or if not set then `jdbc:postgresql://{rw-host}:{rw-port}/{rw-database}` (you must have rw-host, rw-port and rw-database set or no mapping will occur)   |
+| `spring.datasource.replicated.rw.username`          | `{rw-username}`                                                                                                                                 |
+| `spring.r2dbc.replicated.rw.url`                    | `{rw-r2dbc-url}` or if not set then `r2dbc:postgresql://{rw-host}:{rw-port}/{rw-database}` (you must have rw-host, rw-port and rw-database set or no mapping will occur) |
+| `spring.r2dbc.replicated.rw.password`               | `{rw-password}`                                                                                                                                 |
+| `spring.r2dbc.replicated.rw.username`               | `{rw-username}`                                                                                                                                 |
+| `spring.datasource.replicated.ro.driver-class-name` |  `org.postgresql.Driver`                                                                                                                 |
+| `spring.datasource.replicated.ro.password`          | `{ro-password}`                                                                                                                                 |
+| `spring.datasource.replicated.ro.url`               | `{ro-jdbc-url}` or if not set then `jdbc:postgresql://{ro-host}:{ro-port}/{ro-database}` (you must have ro-host, ro-port and ro-database set or no mapping will occur)   |
+| `spring.datasource.replicated.ro.username`          | `{ro-username}`                                                                                                                                 |
+| `spring.r2dbc.replicated.ro.url`                    | `{ro-r2dbc-url}` or if not set then `r2dbc:postgresql://{ro-host}:{ro-port}/{ro-database}` (you must have ro-host, ro-port and ro- database set or no mapping will occur) |
+| `spring.r2dbc.replicated.ro.password`               | `{ro-password}`                                                                                                                                 |
+| `spring.r2dbc.replicated.ro.username`               | `{ro-username}`                                                                                                                                 |
 
 ### RabbitMQ
 Type: `rabbitmq`
@@ -268,6 +352,27 @@ Disable Property: `org.springframework.cloud.bindings.boot.hana.enable`
 | `spring.r2dbc.url`                    | `{r2dbc-url}` or if not set then `r2dbc:sap://{host}:{port}/{database}` (you must have host, port and database set or no mapping will occur) |
 | `spring.r2dbc.password`               | `{password}`                                                                                                                                 |
 | `spring.r2dbc.username`               | `{username}`                                                                                                                                 |
+
+### Replicated SAP Hana RDBMS
+Type: `hana-replicated`
+Disable Property: `org.springframework.cloud.bindings.boot.hana-replicated.enable`
+
+| Property                                            | Value                                                                                                                                        |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `spring.datasource.replicated.rw.driver-class-name` |  `com.sap.db.jdbc.Driver`                                                                                                                 |
+| `spring.datasource.replicated.rw.password`          | `{rw-password}`                                                                                                                                 |
+| `spring.datasource.replicated.rw.url`               | `{rw-jdbc-url}` or if not set then `jdbc:sap://{rw-host}:{rw-port}/{rw-database}` (you must have rw-host, rw-port and rw-database set or no mapping will occur)   |
+| `spring.datasource.replicated.rw.username`          | `{rw-username}`                                                                                                                                 |
+| `spring.r2dbc.replicated.rw.url`                    | `{rw-r2dbc-url}` or if not set then `r2dbc:sap://{rw-host}:{rw-port}/{rw-database}` (you must have rw-host, rw-port and rw-database set or no mapping will occur) |
+| `spring.r2dbc.replicated.rw.password`               | `{rw-password}`                                                                                                                                 |
+| `spring.r2dbc.replicated.rw.username`               | `{rw-username}`                                                                                                                                 |
+| `spring.datasource.replicated.ro.driver-class-name` |  `com.sap.db.jdbc.Driver`                                                                                                                 |
+| `spring.datasource.replicated.ro.password`          | `{ro-password}`                                                                                                                                 |
+| `spring.datasource.replicated.ro.url`               | `{ro-jdbc-url}` or if not set then `jdbc:sap://{ro-host}:{ro-port}/{ro-database}` (you must have ro-host, ro-port and ro-database set or no mapping will occur)   |
+| `spring.datasource.replicated.ro.username`          | `{ro-username}`                                                                                                                                 |
+| `spring.r2dbc.replicated.ro.url`                    | `{ro-r2dbc-url}` or if not set then `r2dbc:sap://{ro-host}:{ro-port}/{ro-database}` (you must have ro-host, ro-port and ro- database set or no mapping will occur) |
+| `spring.r2dbc.replicated.ro.password`               | `{ro-password}`                                                                                                                                 |
+| `spring.r2dbc.replicated.ro.username`               | `{ro-username}`                                                                                                                                 |
 
 ## SCS Config Server
 Type: `config`
@@ -341,6 +446,27 @@ Disable Property: `org.springframework.cloud.bindings.boot.sqlserver.enable`
 | `spring.r2dbc.url`                    | `{r2dbc-url}` or if not set then `r2dbc:sqlserver://{host}:{port}/{database}` (you must have host, port and database set or no mapping will occur) |
 | `spring.r2dbc.password`               | `{password}`                                                                                                                                       |
 | `spring.r2dbc.username`               | `{username}`                                                                                                                                       |
+
+### Replicated SQLServer RDBMS
+Type: `sqlserver-replicated`
+Disable Property: `org.springframework.cloud.bindings.boot.sqlserver-replicated.enable`
+
+| Property                                            | Value                                                                                                                                        |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `spring.datasource.replicated.rw.driver-class-name` |  `com.microsoft.sqlserver.jdbc.SQLServerDriver`                                                                                                                 |
+| `spring.datasource.replicated.rw.password`          | `{rw-password}`                                                                                                                                 |
+| `spring.datasource.replicated.rw.url`               | `{rw-jdbc-url}` or if not set then `jdbc:sqlserver://{rw-host}:{rw-port}/{rw-database}` (you must have rw-host, rw-port and rw-database set or no mapping will occur)   |
+| `spring.datasource.replicated.rw.username`          | `{rw-username}`                                                                                                                                 |
+| `spring.r2dbc.replicated.rw.url`                    | `{rw-r2dbc-url}` or if not set then `r2dbc:sqlserver://{rw-host}:{rw-port}/{rw-database}` (you must have rw-host, rw-port and rw-database set or no mapping will occur) |
+| `spring.r2dbc.replicated.rw.password`               | `{rw-password}`                                                                                                                                 |
+| `spring.r2dbc.replicated.rw.username`               | `{rw-username}`                                                                                                                                 |
+| `spring.datasource.replicated.ro.driver-class-name` | `com.microsoft.sqlserver.jdbc.SQLServerDriver`                                                                                                                 |
+| `spring.datasource.replicated.ro.password`          | `{ro-password}`                                                                                                                                 |
+| `spring.datasource.replicated.ro.url`               | `{ro-jdbc-url}` or if not set then `jdbc:sqlserver://{ro-host}:{ro-port}/{ro-database}` (you must have ro-host, ro-port and ro-database set or no mapping will occur)   |
+| `spring.datasource.replicated.ro.username`          | `{ro-username}`                                                                                                                                 |
+| `spring.r2dbc.replicated.ro.url`                    | `{ro-r2dbc-url}` or if not set then `r2dbc:sqlserver://{ro-host}:{ro-port}/{ro-database}` (you must have ro-host, ro-port and ro- database set or no mapping will occur) |
+| `spring.r2dbc.replicated.ro.password`               | `{ro-password}`                                                                                                                                 |
+| `spring.r2dbc.replicated.ro.username`               | `{ro-username}`                                                                                                                                 |
 
 
 ### Vault
