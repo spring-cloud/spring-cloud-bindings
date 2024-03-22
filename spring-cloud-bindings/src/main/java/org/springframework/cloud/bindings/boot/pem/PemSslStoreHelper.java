@@ -16,34 +16,76 @@
 
 package org.springframework.cloud.bindings.boot.pem;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
+import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Random;
 
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 /**
  * helper for creating stores from PEM-encoded certificates and private keys.
  */
 public class PemSslStoreHelper {
+	public static final String PKCS12_STORY_TYPE = "PKCS12";
 	private static final String DEFAULT_KEY_ALIAS = "ssl";
 
 	/**
-	 * Utility method to create a KeyStore
-	 * @param name the name of the keystore
-	 * @param storeType the type of the keystore (JKS, PKCS12, etc.)
-	 * @param certificate a certificate as string that will be added to the keystore
-	 * @param privateKey the keystore private key as string
+	 * Utility method to create a KeyStore and save it in the tmp directory with give name.
+	 * @param name the store file name
+	 * @param password the store password
+	 * @param certificate the certificate to add to the store
+	 * @param privateKey the private key to add to the store
 	 * @param keyAlias the alias
-	 * @return the keystore
+	 * @return the path which store file is saved
 	 */
-	public static KeyStore createKeyStore(String name, String storeType, String certificate, String privateKey, String keyAlias) {
+	public static Path createKeyStoreFile(String name, String password, String certificate, String privateKey, String keyAlias) {
+		KeyStore store = createKeyStore(certificate, privateKey, keyAlias);
+
+		Path path;
+        try {
+			path = Files.createTempFile(Paths.get(System.getProperty("java.io.tmpdir")), name, ".p12");
+        } catch (IOException e) {
+			throw new IllegalStateException("Unable to create " + name, e);
+        }
+
+        try (FileOutputStream fos = new FileOutputStream(path.toString())) {
+			store.store(fos, password.toCharArray());
+		} catch (KeyStoreException e) {
+			throw new IllegalStateException("Unable to write " + name, e);
+		} catch (NoSuchAlgorithmException e) {
+			throw new IllegalStateException("Cryptographic algorithm not available", e);
+		} catch (CertificateException e) {
+			throw new IllegalStateException("Unable to process certificate", e);
+		} catch (IOException e) {
+			throw new IllegalStateException("Unable to create " + name, e);
+		}
+		return path;
+	}
+
+	/**
+	 *  Generates a password to use for KeyStore and/or TrustStore
+	 * @return the password
+	 */
+	public static String generatePassword() {
+		return new Random().ints(97 /* letter a */, 122 /* letter z */ + 1)
+				.limit(10)
+				.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+				.toString();
+	}
+
+	private static KeyStore createKeyStore(String certificate, String privateKey, String keyAlias) {
 		try {
 			Assert.notNull(certificate, "CertificateContent must not be null");
-			String type = StringUtils.hasText(storeType) ? storeType : KeyStore.getDefaultType();
-			KeyStore store = KeyStore.getInstance(type);
+			KeyStore store = KeyStore.getInstance(PKCS12_STORY_TYPE);
 			store.load(null);
 			String certificateContent = PemContent.load(certificate);
 			String privateKeyContent = PemContent.load(privateKey);
@@ -53,7 +95,7 @@ public class PemSslStoreHelper {
 			return store;
 		}
 		catch (Exception ex) {
-			throw new IllegalStateException(String.format("Unable to create %s store: %s", name, ex.getMessage()), ex);
+			throw new IllegalStateException(String.format("Unable to create key/trust store: %s", ex.getMessage()), ex);
 		}
 	}
 

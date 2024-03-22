@@ -22,12 +22,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.cloud.bindings.boot.pem.PemSslStoreHelper;
 import org.springframework.util.StringUtils;
 
-import java.io.*;
-import java.nio.file.Paths;
-import java.security.*;
-import java.security.cert.CertificateException;
+import java.nio.file.Path;
 import java.util.Map;
-import java.util.Random;
 
 import static org.springframework.cloud.bindings.boot.Guards.isTypeEnabled;
 
@@ -66,19 +62,14 @@ final class EurekaBindingsPropertiesProcessor implements BindingsPropertiesProce
                     properties.put("eureka.instance.preferIpAddress", true);
                 }
 
-                Random random = new Random();
-                String generatedPassword = random.ints(97 /* letter a */, 122 /* letter z */ + 1)
-                        .limit(10)
-                        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                        .toString();
+                String generatedPassword = PemSslStoreHelper.generatePassword();
 
                 // Create a trust store from the CA cert
-                String trustFilePath = Paths.get(System.getProperty("java.io.tmpdir"), "client-truststore.p12").toString();
-                KeyStore trustStore = PemSslStoreHelper.createKeyStore("trust", "PKCS12", caCert, null, "rootca");
-                createStoreFile("truststore", generatedPassword, trustFilePath, trustStore);
+                Path trustFilePath = PemSslStoreHelper.createKeyStoreFile("eureka-truststore", generatedPassword, caCert, null, "rootca");
+
                 properties.put("eureka.client.tls.enabled", true);
                 properties.put("eureka.client.tls.trust-store", "file:"+trustFilePath);
-                properties.put("eureka.client.tls.trust-store-type", "PKCS12");
+                properties.put("eureka.client.tls.trust-store-type", PemSslStoreHelper.PKCS12_STORY_TYPE);
                 properties.put("eureka.client.tls.trust-store-password", generatedPassword);
 
                 // When tls.crt and tls.key are set, enable mTLS for Eureka
@@ -90,41 +81,14 @@ final class EurekaBindingsPropertiesProcessor implements BindingsPropertiesProce
                 if (clientKey != null && !clientKey.isEmpty()) {
 
                     // Create a keystore
-                    String keyFilePath = Paths.get(System.getProperty("java.io.tmpdir"), "client-keystore.p12").toString();
-                    KeyStore keyStore = PemSslStoreHelper.createKeyStore("key", "PKCS12", clientCert, clientKey, "eureka");
-                    createStoreFile("keystore", generatedPassword, keyFilePath, keyStore);
+                    Path keyFilePath = PemSslStoreHelper.createKeyStoreFile("eureka-keystore", generatedPassword, clientCert, clientKey, "eureka");
                     properties.put("eureka.client.tls.key-alias", "eureka");
                     properties.put("eureka.client.tls.key-store", "file:" + keyFilePath);
-                    properties.put("eureka.client.tls.key-store-type", "PKCS12");
+                    properties.put("eureka.client.tls.key-store-type", PemSslStoreHelper.PKCS12_STORY_TYPE);
                     properties.put("eureka.client.tls.key-store-password", generatedPassword);
                     properties.put("eureka.client.tls.key-password", "");
                 }
             }
         });
-    }
-
-    private static void createStoreFile(String storeType, String generatedPassword, String filePath, KeyStore ks) {
-        try {
-            FileOutputStream fos = new FileOutputStream(filePath);
-            try {
-                ks.store(fos, generatedPassword.toCharArray());
-            } catch (KeyStoreException e) {
-                throw new IllegalStateException("Unable to write " + storeType, e);
-            } catch (NoSuchAlgorithmException e) {
-                throw new IllegalStateException("Cryptographic algorithm not available", e);
-            } catch (CertificateException e) {
-                throw new IllegalStateException("Unable to process certificate", e);
-            } catch (IOException e) {
-                throw new IllegalStateException("Unable to create " + storeType, e);
-            } finally {
-                try {
-                    fos.close();
-                } catch (IOException e) {
-                    throw new IllegalStateException("Unable to close " + storeType + " output file", e);
-                }
-            }
-        } catch (FileNotFoundException e) {
-            throw new IllegalStateException("Unable to open " + storeType + " output file", e);
-        }
     }
 }

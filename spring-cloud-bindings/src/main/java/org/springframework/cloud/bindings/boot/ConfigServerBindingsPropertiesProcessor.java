@@ -22,15 +22,9 @@ import org.springframework.cloud.bindings.boot.pem.PemSslStoreHelper;
 import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
+import java.nio.file.Path;
 import java.util.Map;
-import java.util.Random;
+
 
 import static org.springframework.cloud.bindings.boot.Guards.isTypeEnabled;
 
@@ -65,48 +59,27 @@ final class ConfigServerBindingsPropertiesProcessor implements BindingsPropertie
             }
 
             if (clientKey != null && !clientKey.isEmpty()) {
-                String generatedPassword = new Random().ints(97 /* letter a */, 122 /* letter z */ + 1)
-                        .limit(10)
-                        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                        .toString();
+                String generatedPassword = PemSslStoreHelper.generatePassword();
 
                 // Create a keystore
-                String keyFilePath = createStore("client-keystore", generatedPassword, clientCert, clientKey, "config");
+                Path keyFilePath = PemSslStoreHelper.createKeyStoreFile("config-keystore", generatedPassword, clientCert, clientKey, "config");
 
                 properties.put("spring.cloud.config.tls.enabled", true);
                 properties.put("spring.cloud.config.tls.key-alias", "config");
                 properties.put("spring.cloud.config.tls.key-store", "file:" + keyFilePath);
-                properties.put("spring.cloud.config.tls.key-store-type", "PKCS12");
+                properties.put("spring.cloud.config.tls.key-store-type", PemSslStoreHelper.PKCS12_STORY_TYPE);
                 properties.put("spring.cloud.config.tls.key-store-password", generatedPassword);
                 properties.put("spring.cloud.config.tls.key-password", "");
 
                 String caCert = secret.get("ca.crt");
                 if (caCert != null && !caCert.isEmpty()) {
                     // Create a truststore from the CA cert
-                    String trustFilePath = createStore("client-truststore", generatedPassword, caCert, null, "ca");
+                    Path trustFilePath = PemSslStoreHelper.createKeyStoreFile("config-truststore", generatedPassword, caCert, null, "ca");
                     properties.put("spring.cloud.config.tls.trust-store", "file:" + trustFilePath);
-                    properties.put("spring.cloud.config.tls.trust-store-type", "PKCS12");
+                    properties.put("spring.cloud.config.tls.trust-store-type", PemSslStoreHelper.PKCS12_STORY_TYPE);
                     properties.put("spring.cloud.config.tls.trust-store-password", generatedPassword);
                 }
             }
         });
-    }
-
-    private static String createStore(String name, String password, String certificate, String privateKey, String keyAlias) {
-        String path = Paths.get(System.getProperty("java.io.tmpdir"), name + ".p12").toString();
-        KeyStore store = PemSslStoreHelper.createKeyStore("key", "PKCS12", certificate, privateKey, keyAlias);
-
-        try (FileOutputStream fos = new FileOutputStream(path)) {
-            store.store(fos, password.toCharArray());
-        } catch (KeyStoreException e) {
-            throw new IllegalStateException("Unable to write " + name, e);
-        } catch (NoSuchAlgorithmException e) {
-            throw new IllegalStateException("Cryptographic algorithm not available", e);
-        } catch (CertificateException e) {
-            throw new IllegalStateException("Unable to process certificate", e);
-        } catch (IOException e) {
-            throw new IllegalStateException("Unable to create " + name, e);
-        }
-        return path;
     }
 }
