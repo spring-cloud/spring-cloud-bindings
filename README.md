@@ -273,12 +273,21 @@ Disable Property: `org.springframework.cloud.bindings.boot.hana.enable`
 Type: `config`
 Disable Property: `org.springframework.cloud.bindings.boot.config.enable`
 
-| Property                                           | Value                |
-| -------------------------------------------------- | -------------------- |
-| `spring.cloud.config.uri`                          | `{uri}`              |
-| `spring.cloud.config.client.oauth2.clientId`       | `{client-id}`        |
-| `spring.cloud.config.client.oauth2.clientSecret`   | `{client-secret}`    |
-| `spring.cloud.config.client.oauth2.accessTokenUri` | `{access-token-uri}` |
+| Property                                             | Value                                                  |
+|------------------------------------------------------|--------------------------------------------------------|
+| `spring.cloud.config.uri`                            | `{uri}`                                                |
+| `spring.cloud.config.client.oauth2.clientId`         | `{client-id}`                                          |
+| `spring.cloud.config.client.oauth2.clientSecret`     | `{client-secret}`                                      |
+| `spring.cloud.config.client.oauth2.accessTokenUri`   | `{access-token-uri}`                                   |
+| `spring.cloud.config.tls.enabled`                    | `true` when `{tls.crt}` and `{tls.key}` are set        |
+| `spring.cloud.config.tls.key-store`                  | derived from `{tls.crt}` and `{tls.key}`               |
+| `spring.cloud.config.tls.key-store-type`             | `"PKCS12"` when `{tls.crt}` and `{tls.key}` are set    |
+| `spring.cloud.config.tls.key-store-password`         | random string when `{tls.crt}` and `{tls.key}` are set |
+| `spring.cloud.config.tls.key-alias`                  | `"config"` when `{tls.crt}` and `{tls.key}` are set    |
+| `spring.cloud.config.tls.key-password`               | `""` when `{tls.crt}` and `{tls.key}` are set          |
+| `spring.cloud.config.tls.trust-store`                | derived from `{ca.crt}` when it is set                 |
+| `spring.cloud.config.tls.trust-store-type`           | `"PKCS12"` when `{ca.crt}` is set                      |
+| `spring.cloud.config.tls.trust-store-password`       | random string when `{ca.crt}` is set                   |
 
 ## SCS Eureka
 

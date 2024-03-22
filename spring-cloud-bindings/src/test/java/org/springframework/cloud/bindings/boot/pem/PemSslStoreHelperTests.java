@@ -16,10 +16,8 @@
 
 package org.springframework.cloud.bindings.boot.pem;
 
+import java.nio.file.Path;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
 
 import org.junit.jupiter.api.Test;
 
@@ -33,15 +31,16 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  */
 class PemSslStoreHelperTests {
 	@Test
-	void whenNullValues() {
+	void createKeyStoreFileWhenNullValues() {
 		assertThrows(java.lang.IllegalStateException.class, () -> {
-			PemSslStoreHelper.createKeyStore("key", "PKCS12", null, null, "some-alias");
+			PemSslStoreHelper.createKeyStoreFile("key", "secret",null, null, "some-alias");
 		});
 	}
 
 	@Test
-	void whenHasKeyStoreDetailsCertAndKey() {
-		KeyStore keyStore = PemSslStoreHelper.createKeyStore("key", "PKCS12", "classpath:pem/test-cert.pem", "classpath:pem/test-key.pem", "some-alias");
+	void createKeyStoreFileWhenHasKeyStoreDetailsCertAndKey() throws Exception {
+        Path path = PemSslStoreHelper.createKeyStoreFile("key", "secret", "classpath:pem/test-cert.pem", "classpath:pem/test-key.pem", "some-alias");
+        KeyStore keyStore = KeyStore.getInstance(path.toFile(), "secret".toCharArray());
 		assertDoesNotThrow(() -> {
 			assertThat(keyStore).isNotNull();
 			assertThat(keyStore.getType()).isEqualTo("PKCS12");
@@ -52,14 +51,23 @@ class PemSslStoreHelperTests {
 	}
 
 	@Test
-	void whenHasTrustStoreDetailsWithoutKey() throws KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException {
-		KeyStore keyStore = PemSslStoreHelper.createKeyStore("trust", "PKCS12", "classpath:pem/test-cert.pem", null, null);
-		assertDoesNotThrow(() -> {
+	void createKeyStoreFileWhenHasTrustStoreDetailsWithoutKey() throws Exception {
+		Path path = PemSslStoreHelper.createKeyStoreFile("trust", "secret", "classpath:pem/test-cert.pem", null, null);
+        KeyStore keyStore = KeyStore.getInstance(path.toFile(), "secret".toCharArray());
+        assertDoesNotThrow(() -> {
 			assertThat(keyStore).isNotNull();
 			assertThat(keyStore.getType()).isEqualTo("PKCS12");
 			assertThat(keyStore.containsAlias("ssl-0")).isTrue();
 			assertThat(keyStore.getCertificate("ssl-0")).isNotNull();
 			assertThat(keyStore.getKey("ssl-0", new char[]{})).isNull();
 		});
+	}
+
+	@Test
+	void generatePassword()  {
+		String s = PemSslStoreHelper.generatePassword();
+		assertThat(s).isNotNull();
+		assertThat(s.length()).isEqualTo(10);
+		System.out.println(s);
 	}
 }
