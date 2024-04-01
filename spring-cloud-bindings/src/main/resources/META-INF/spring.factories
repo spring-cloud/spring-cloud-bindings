@@ -1,7 +1,13 @@
 org.springframework.context.ApplicationListener=\
   org.springframework.cloud.bindings.boot.BindingFlattenedEnvironmentPostProcessor, \
   org.springframework.cloud.bindings.boot.BindingSpecificEnvironmentPostProcessor, \
+  org.springframework.cloud.bindings.boot.Db2ReplicatedBindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.boot.MySqlReplicatedBindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.boot.OracleReplicatedBindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.boot.PostgreSqlReplicatedBindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.boot.SapHanaReplicatedBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.SpringSecurityOAuth2BindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.boot.SqlServerReplicatedBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.VaultBindingsPropertiesProcessor
 org.springframework.boot.env.EnvironmentPostProcessor=\
   org.springframework.cloud.bindings.boot.BindingFlattenedEnvironmentPostProcessor, \
@@ -13,19 +19,25 @@ org.springframework.cloud.bindings.boot.BindingsPropertiesProcessor=\
   org.springframework.cloud.bindings.boot.ConfigServerBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.CouchbaseBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.Db2BindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.boot.Db2ReplicatedBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.ElasticsearchBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.EurekaBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.KafkaBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.LDAPBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.MongoDbBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.MySqlBindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.boot.MySqlReplicatedBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.Neo4JBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.OracleBindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.boot.OracleReplicatedBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.PostgreSqlBindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.boot.PostgreSqlReplicatedBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.RabbitMqBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.RedisBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.SapHanaBindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.boot.SapHanaReplicatedBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.SpringSecurityOAuth2BindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.SqlServerBindingsPropertiesProcessor, \
+  org.springframework.cloud.bindings.boot.SqlServerReplicatedBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.VaultBindingsPropertiesProcessor, \
   org.springframework.cloud.bindings.boot.WavefrontBindingsPropertiesProcessor
