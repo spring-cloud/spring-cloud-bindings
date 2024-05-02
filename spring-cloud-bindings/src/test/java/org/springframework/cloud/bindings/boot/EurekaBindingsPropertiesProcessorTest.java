@@ -64,6 +64,7 @@ final class EurekaBindingsPropertiesProcessorTest {
         assertThat(properties)
                 .containsEntry("eureka.client.region", "default")
                 .containsEntry("eureka.client.serviceUrl.defaultZone", "test-uri/eureka/")
+                .containsEntry("eureka.instance.preferIpAddress", true)
                 .doesNotContainKey("eureka.client.oauth2.client-id")
                 .doesNotContainKey("eureka.client.oauth2.access-token-uri")
                 .doesNotContainKey("eureka.client.tls.trust-store")
@@ -73,8 +74,7 @@ final class EurekaBindingsPropertiesProcessorTest {
                 .doesNotContainKey("eureka.client.tls.key-store")
                 .doesNotContainKey("eureka.client.tls.key-store-type")
                 .doesNotContainKey("eureka.client.tls.key-store-password")
-                .doesNotContainKey("eureka.client.tls.key-password")
-                .doesNotContainKey("eureka.instance.preferIpAddress");
+                .doesNotContainKey("eureka.client.tls.key-password");
     }
 
     @Test
