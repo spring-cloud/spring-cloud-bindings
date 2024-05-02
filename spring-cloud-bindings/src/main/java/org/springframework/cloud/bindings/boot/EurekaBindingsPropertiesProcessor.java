@@ -52,23 +52,22 @@ final class EurekaBindingsPropertiesProcessor implements BindingsPropertiesProce
                     (uri) -> String.format("%s/eureka/", uri)
             );
             properties.put("eureka.client.region", "default");
+            // Generally host name is not meaningful for apps running in k8s cluster,
+            // but we don't want to override the endpoint behavior the app has already set, in case they want to
+            // explicitly set eureka.instance.hostname to route traffic through normal ingress.
+            if (!environment.containsProperty("eureka.instance.preferIpAddress")) {
+                properties.put("eureka.instance.preferIpAddress", true);
+            }
 
             String caCert = secret.get("ca.crt");
             if (caCert != null && !caCert.isEmpty()) {
-                // generally apps using TLS bindings will be running in k8s where the host name is not meaningful,
-                // but we don't want to override the endpoint behavior the app has already set, in case they want to
-                // explicitly set eureka.instance.hostname to route traffic through normal ingress.
-                if (! environment.containsProperty("eureka.instance.preferIpAddress")) {
-                    properties.put("eureka.instance.preferIpAddress", true);
-                }
-
                 String generatedPassword = PemSslStoreHelper.generatePassword();
 
                 // Create a trust store from the CA cert
                 Path trustFilePath = PemSslStoreHelper.createKeyStoreFile("eureka-truststore", generatedPassword, caCert, null, "rootca");
 
                 properties.put("eureka.client.tls.enabled", true);
-                properties.put("eureka.client.tls.trust-store", "file:"+trustFilePath);
+                properties.put("eureka.client.tls.trust-store", "file:" + trustFilePath);
                 properties.put("eureka.client.tls.trust-store-type", PemSslStoreHelper.PKCS12_STORY_TYPE);
                 properties.put("eureka.client.tls.trust-store-password", generatedPassword);
 
