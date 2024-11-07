@@ -40,7 +40,7 @@ final class EurekaBindingsPropertiesProcessorTest {
             new Binding("test-name", Paths.get("test-path"),
                     new FluentMap()
                             .withEntry(Binding.TYPE, TYPE)
-                            .withEntry("uri", "test-uri")
+                            .withEntry("uri", "https://test-uri")
             )
     );
     private final MockEnvironment environment = new MockEnvironment();
@@ -63,7 +63,9 @@ final class EurekaBindingsPropertiesProcessorTest {
 
         assertThat(properties)
                 .containsEntry("eureka.client.region", "default")
-                .containsEntry("eureka.client.serviceUrl.defaultZone", "test-uri/eureka/")
+                .containsEntry("eureka.client.serviceUrl.defaultZone", "https://test-uri/eureka/")
+                .containsEntry("spring.cloud.loadbalancer.configurations", "zone-preference")
+                .containsEntry("eureka.instance.metadata-map.zone", "test-uri")
                 .doesNotContainKey("eureka.client.oauth2.client-id")
                 .doesNotContainKey("eureka.client.oauth2.access-token-uri")
                 .doesNotContainKey("eureka.client.tls.trust-store")
@@ -226,6 +228,7 @@ final class EurekaBindingsPropertiesProcessorTest {
             new EurekaBindingsPropertiesProcessor().process(environment, bindings, properties);
         });
     }
+
     @Test
     @DisplayName("throws when tls.crt is set but tls.key isn't")
     void testNoTlsKey() {
@@ -243,6 +246,7 @@ final class EurekaBindingsPropertiesProcessorTest {
             new EurekaBindingsPropertiesProcessor().process(environment, bindings, properties);
         });
     }
+
     @Test
     @DisplayName("throws when tls.key is set but tls.crt isn't")
     void testNoTlsCrt() {
@@ -259,6 +263,48 @@ final class EurekaBindingsPropertiesProcessorTest {
         assertThrows(IllegalArgumentException.class, () -> {
             new EurekaBindingsPropertiesProcessor().process(environment, bindings, properties);
         });
+    }
+
+    @Test
+    @DisplayName("handles eureka zone for uri without scheme")
+    void zoneFromUriWithoutScheme() {
+        bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"),
+                        new FluentMap()
+                                .withEntry(Binding.TYPE, TYPE)
+                                .withEntry("uri", "test-uri")
+                )
+        );
+        new EurekaBindingsPropertiesProcessor().process(environment, bindings, properties);
+
+        assertThat(properties)
+                .containsExactlyInAnyOrderEntriesOf(new FluentMap()
+                        .withEntry("eureka.client.region", "default")
+                        .withEntry("eureka.client.serviceUrl.defaultZone", "test-uri/eureka/")
+                        .withEntry("spring.cloud.loadbalancer.configurations", "zone-preference")
+                        .withEntry("eureka.instance.metadata-map.zone", "test-uri")
+                );
+    }
+
+    @Test
+    @DisplayName("handles eureka zone for malformed uri")
+    void zoneFromMalformedUri() {
+        bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"),
+                        new FluentMap()
+                                .withEntry(Binding.TYPE, TYPE)
+                                .withEntry("uri", "http:")
+                )
+        );
+        new EurekaBindingsPropertiesProcessor().process(environment, bindings, properties);
+
+        assertThat(properties)
+                .containsExactlyInAnyOrderEntriesOf(new FluentMap()
+                        .withEntry("eureka.client.region", "default")
+                        .withEntry("eureka.client.serviceUrl.defaultZone", "http:/eureka/")
+                        .withEntry("spring.cloud.loadbalancer.configurations", "zone-preference")
+                        .withEntry("eureka.instance.metadata-map.zone", "")
+                );
     }
 
     @Test
