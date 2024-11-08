@@ -16,6 +16,7 @@
 
 package org.springframework.cloud.bindings.boot;
 
+import org.springframework.boot.cloud.CloudPlatform;
 import org.springframework.cloud.bindings.Binding;
 import org.springframework.cloud.bindings.Bindings;
 import org.springframework.core.env.Environment;
@@ -59,15 +60,17 @@ final class EurekaBindingsPropertiesProcessor implements BindingsPropertiesProce
             properties.put("spring.cloud.loadbalancer.configurations", "zone-preference");
 
 
-            String caCert = secret.get("ca.crt");
-            if (caCert != null && !caCert.isEmpty()) {
-                // generally apps using TLS bindings will be running in k8s where the host name is not meaningful,
+            if (isKubernetesPlatform(environment)) {
+                // generally for apps running in k8s hostname is not meaningful,
                 // but we don't want to override the endpoint behavior the app has already set, in case they want to
                 // explicitly set eureka.instance.hostname to route traffic through normal ingress.
                 if (!environment.containsProperty("eureka.instance.preferIpAddress")) {
                     properties.put("eureka.instance.preferIpAddress", true);
                 }
+            }
 
+            String caCert = secret.get("ca.crt");
+            if (caCert != null && !caCert.isEmpty()) {
                 String generatedPassword = PemSslStoreHelper.generatePassword();
 
                 // Create a trust store from the CA cert
@@ -96,6 +99,10 @@ final class EurekaBindingsPropertiesProcessor implements BindingsPropertiesProce
                 }
             }
         });
+    }
+
+    private boolean isKubernetesPlatform(Environment environment) {
+        return CloudPlatform.KUBERNETES == CloudPlatform.getActive(environment);
     }
 
     private String hostnameFromUri(String uri) {
