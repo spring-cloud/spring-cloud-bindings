@@ -40,7 +40,7 @@ final class EurekaBindingsPropertiesProcessorTest {
             new Binding("test-name", Paths.get("test-path"),
                     new FluentMap()
                             .withEntry(Binding.TYPE, TYPE)
-                            .withEntry("uri", "test-uri")
+                            .withEntry("uri", "https://test-uri")
             )
     );
     private final MockEnvironment environment = new MockEnvironment();
@@ -62,19 +62,11 @@ final class EurekaBindingsPropertiesProcessorTest {
         new EurekaBindingsPropertiesProcessor().process(environment, bindings, properties);
 
         assertThat(properties)
-                .containsEntry("eureka.client.region", "default")
-                .containsEntry("eureka.client.serviceUrl.defaultZone", "test-uri/eureka/")
-                .doesNotContainKey("eureka.client.oauth2.client-id")
-                .doesNotContainKey("eureka.client.oauth2.access-token-uri")
-                .doesNotContainKey("eureka.client.tls.trust-store")
-                .doesNotContainKey("eureka.client.tls.trust-store-type")
-                .doesNotContainKey("eureka.client.tls.trust-store-password")
-                .doesNotContainKey("eureka.client.tls.key-alias")
-                .doesNotContainKey("eureka.client.tls.key-store")
-                .doesNotContainKey("eureka.client.tls.key-store-type")
-                .doesNotContainKey("eureka.client.tls.key-store-password")
-                .doesNotContainKey("eureka.client.tls.key-password")
-                .doesNotContainKey("eureka.instance.preferIpAddress");
+                .containsExactlyInAnyOrderEntriesOf(new FluentMap()
+                        .withEntry("eureka.client.region", "default")
+                        .withEntry("eureka.client.serviceUrl.defaultZone", "https://test-uri/eureka/")
+                        .withEntry("spring.cloud.loadbalancer.configurations", "zone-preference")
+                        .withEntry("eureka.instance.metadata-map.zone", "test-uri"));
     }
 
     @Test
@@ -118,8 +110,7 @@ final class EurekaBindingsPropertiesProcessorTest {
                 .containsEntry("eureka.client.region", "default")
                 .containsKey("eureka.client.tls.trust-store")
                 .containsEntry("eureka.client.tls.trust-store-type", "PKCS12")
-                .containsKey("eureka.client.tls.trust-store-password")
-                .containsEntry("eureka.instance.preferIpAddress", true);
+                .containsKey("eureka.client.tls.trust-store-password");
         assertDoesNotThrow(() -> {
             String path = properties.get("eureka.client.tls.trust-store").toString().substring(5);
             File f = new File(path);
@@ -226,6 +217,7 @@ final class EurekaBindingsPropertiesProcessorTest {
             new EurekaBindingsPropertiesProcessor().process(environment, bindings, properties);
         });
     }
+
     @Test
     @DisplayName("throws when tls.crt is set but tls.key isn't")
     void testNoTlsKey() {
@@ -243,6 +235,7 @@ final class EurekaBindingsPropertiesProcessorTest {
             new EurekaBindingsPropertiesProcessor().process(environment, bindings, properties);
         });
     }
+
     @Test
     @DisplayName("throws when tls.key is set but tls.crt isn't")
     void testNoTlsCrt() {
@@ -259,6 +252,69 @@ final class EurekaBindingsPropertiesProcessorTest {
         assertThrows(IllegalArgumentException.class, () -> {
             new EurekaBindingsPropertiesProcessor().process(environment, bindings, properties);
         });
+    }
+
+    @Test
+    @DisplayName("handles eureka zone for uri without scheme")
+    void zoneFromUriWithoutScheme() {
+        bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"),
+                        new FluentMap()
+                                .withEntry(Binding.TYPE, TYPE)
+                                .withEntry("uri", "test-uri")
+                )
+        );
+        new EurekaBindingsPropertiesProcessor().process(environment, bindings, properties);
+
+        assertThat(properties)
+                .containsExactlyInAnyOrderEntriesOf(new FluentMap()
+                        .withEntry("eureka.client.region", "default")
+                        .withEntry("eureka.client.serviceUrl.defaultZone", "test-uri/eureka/")
+                        .withEntry("spring.cloud.loadbalancer.configurations", "zone-preference")
+                        .withEntry("eureka.instance.metadata-map.zone", "test-uri")
+                );
+    }
+
+    @Test
+    @DisplayName("handles eureka zone for malformed uri")
+    void zoneFromMalformedUri() {
+        bindings = new Bindings(
+                new Binding("test-name", Paths.get("test-path"),
+                        new FluentMap()
+                                .withEntry(Binding.TYPE, TYPE)
+                                .withEntry("uri", "http:")
+                )
+        );
+        new EurekaBindingsPropertiesProcessor().process(environment, bindings, properties);
+
+        assertThat(properties)
+                .containsExactlyInAnyOrderEntriesOf(new FluentMap()
+                        .withEntry("eureka.client.region", "default")
+                        .withEntry("eureka.client.serviceUrl.defaultZone", "http:/eureka/")
+                        .withEntry("spring.cloud.loadbalancer.configurations", "zone-preference")
+                        .withEntry("eureka.instance.metadata-map.zone", "")
+                );
+    }
+
+    @Test
+    @DisplayName("prefers ip address in kubernetes")
+    void preferIpAddressInKubernetes() {
+        environment.setProperty("spring.main.cloud-platform", "kubernetes");
+
+        new EurekaBindingsPropertiesProcessor().process(environment, bindings, properties);
+
+        assertThat(properties).containsEntry("eureka.instance.preferIpAddress", true);
+    }
+
+    @Test
+    @DisplayName("prefers ip address in kubernetes")
+    void doesNotOverridePreferIpAddressInKubernetes() {
+        environment.setProperty("eureka.instance.preferIpAddress", "false");
+        environment.setProperty("spring.main.cloud-platform", "kubernetes");
+
+        new EurekaBindingsPropertiesProcessor().process(environment, bindings, properties);
+
+        assertThat(properties).doesNotContainKey("eureka.instance.preferIpAddress");
     }
 
     @Test

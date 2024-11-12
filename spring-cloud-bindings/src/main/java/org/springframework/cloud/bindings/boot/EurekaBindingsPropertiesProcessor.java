@@ -16,12 +16,14 @@
 
 package org.springframework.cloud.bindings.boot;
 
+import org.springframework.boot.cloud.CloudPlatform;
 import org.springframework.cloud.bindings.Binding;
 import org.springframework.cloud.bindings.Bindings;
 import org.springframework.core.env.Environment;
 import org.springframework.cloud.bindings.boot.pem.PemSslStoreHelper;
 import org.springframework.util.StringUtils;
 
+import java.net.URI;
 import java.nio.file.Path;
 import java.util.Map;
 
@@ -51,24 +53,31 @@ final class EurekaBindingsPropertiesProcessor implements BindingsPropertiesProce
             map.from("uri").to("eureka.client.serviceUrl.defaultZone",
                     (uri) -> String.format("%s/eureka/", uri)
             );
+            map.from("uri").to("eureka.instance.metadata-map.zone",
+                    this::hostnameFromUri
+            );
             properties.put("eureka.client.region", "default");
+            properties.put("spring.cloud.loadbalancer.configurations", "zone-preference");
+
+
+            if (isKubernetesPlatform(environment)) {
+                // generally for apps running in k8s hostname is not meaningful,
+                // but we don't want to override the endpoint behavior the app has already set, in case they want to
+                // explicitly set eureka.instance.hostname to route traffic through normal ingress.
+                if (!environment.containsProperty("eureka.instance.preferIpAddress")) {
+                    properties.put("eureka.instance.preferIpAddress", true);
+                }
+            }
 
             String caCert = secret.get("ca.crt");
             if (caCert != null && !caCert.isEmpty()) {
-                // generally apps using TLS bindings will be running in k8s where the host name is not meaningful,
-                // but we don't want to override the endpoint behavior the app has already set, in case they want to
-                // explicitly set eureka.instance.hostname to route traffic through normal ingress.
-                if (! environment.containsProperty("eureka.instance.preferIpAddress")) {
-                    properties.put("eureka.instance.preferIpAddress", true);
-                }
-
                 String generatedPassword = PemSslStoreHelper.generatePassword();
 
                 // Create a trust store from the CA cert
                 Path trustFilePath = PemSslStoreHelper.createKeyStoreFile("eureka-truststore", generatedPassword, caCert, null, "rootca");
 
                 properties.put("eureka.client.tls.enabled", true);
-                properties.put("eureka.client.tls.trust-store", "file:"+trustFilePath);
+                properties.put("eureka.client.tls.trust-store", "file:" + trustFilePath);
                 properties.put("eureka.client.tls.trust-store-type", PemSslStoreHelper.PKCS12_STORY_TYPE);
                 properties.put("eureka.client.tls.trust-store-password", generatedPassword);
 
@@ -90,5 +99,28 @@ final class EurekaBindingsPropertiesProcessor implements BindingsPropertiesProce
                 }
             }
         });
+    }
+
+    private boolean isKubernetesPlatform(Environment environment) {
+        return CloudPlatform.KUBERNETES == CloudPlatform.getActive(environment);
+    }
+
+    private String hostnameFromUri(String uri) {
+        if (!StringUtils.hasText(uri)) {
+            return "";
+        }
+
+        try {
+            URI u = URI.create(uri);
+            if (u.getHost() != null) {
+                return u.getHost();
+            }
+            if (u.getScheme() == null) {
+                return URI.create("ignore://" + uri).getHost();
+            }
+        } catch (IllegalArgumentException e) {
+            //ignore malformed uri
+        }
+        return "";
     }
 }
