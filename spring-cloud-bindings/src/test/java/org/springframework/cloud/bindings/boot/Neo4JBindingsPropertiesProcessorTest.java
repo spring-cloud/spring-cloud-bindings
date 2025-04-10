@@ -59,7 +59,7 @@ final class Neo4JBindingsPropertiesProcessorTest {
     @Test
     @DisplayName("can be disabled")
     void disabled() {
-        environment.setProperty("org.springframework.cloud.bindings.boot.neo4j.enable", "false");
+        environment.setProperty("org.springframework.cloud.bindings.boot.neo4j.enabled", "false");
 
         new Neo4JBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties).isEmpty();

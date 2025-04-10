@@ -69,7 +69,7 @@ final class MongoDbBindingsPropertiesProcessorTest {
     @Test
     @DisplayName("can be disabled")
     void disabled() {
-        environment.setProperty("org.springframework.cloud.bindings.boot.mongodb.enable", "false");
+        environment.setProperty("org.springframework.cloud.bindings.boot.mongodb.enabled", "false");
 
         new MongoDbBindingsPropertiesProcessor().process(environment, bindings, properties);
 

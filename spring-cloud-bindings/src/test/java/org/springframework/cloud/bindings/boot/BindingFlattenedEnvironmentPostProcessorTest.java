@@ -35,7 +35,7 @@ final class BindingFlattenedEnvironmentPostProcessorTest {
     private final SpringApplication application = new SpringApplication();
 
     private final MockEnvironment environment = new MockEnvironment()
-            .withProperty("org.springframework.cloud.bindings.boot.enable", "true");
+            .withProperty("org.springframework.cloud.bindings.boot.enabled", "true");
 
     @Test
     @DisplayName("is disabled by default")

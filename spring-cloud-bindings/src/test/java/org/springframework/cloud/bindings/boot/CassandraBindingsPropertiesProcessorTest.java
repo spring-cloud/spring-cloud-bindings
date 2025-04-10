@@ -77,7 +77,7 @@ final class CassandraBindingsPropertiesProcessorTest {
     @Test
     @DisplayName("can be disabled")
     void disabled() {
-        environment.setProperty("org.springframework.cloud.bindings.boot.cassandra.enable", "false");
+        environment.setProperty("org.springframework.cloud.bindings.boot.cassandra.enabled", "false");
 
         new CassandraBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties).isEmpty();

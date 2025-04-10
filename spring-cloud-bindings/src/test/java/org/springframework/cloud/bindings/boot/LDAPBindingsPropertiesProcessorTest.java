@@ -61,7 +61,7 @@ final class LDAPBindingsPropertiesProcessorTest {
     @Test
     @DisplayName("can be disabled")
     void disabled() {
-        environment.setProperty("org.springframework.cloud.bindings.boot.ldap.enable", "false");
+        environment.setProperty("org.springframework.cloud.bindings.boot.ldap.enabled", "false");
 
         new OracleBindingsPropertiesProcessor().process(environment, bindings, properties);
 

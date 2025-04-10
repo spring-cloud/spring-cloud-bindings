@@ -61,7 +61,7 @@ final class KafkaBindingsPropertiesProcessorTest {
     @Test
     @DisplayName("can be disabled")
     void disabled() {
-        environment.setProperty("org.springframework.cloud.bindings.boot.kafka.enable", "false");
+        environment.setProperty("org.springframework.cloud.bindings.boot.kafka.enabled", "false");
 
         new KafkaBindingsPropertiesProcessor().process(environment, bindings, properties);
 

@@ -104,7 +104,7 @@ final class PostgreSqlBindingsPropertiesProcessorTest {
         Bindings bindings = new Bindings(
                 new Binding("test-name", Paths.get("test-path"), secret)
         );
-        environment.setProperty("org.springframework.cloud.bindings.boot.postgresql.enable", "false");
+        environment.setProperty("org.springframework.cloud.bindings.boot.postgresql.enabled", "false");
 
         new PostgreSqlBindingsPropertiesProcessor().process(environment, bindings, properties);
 

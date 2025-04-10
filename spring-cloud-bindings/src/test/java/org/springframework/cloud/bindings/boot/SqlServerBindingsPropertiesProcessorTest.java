@@ -104,7 +104,7 @@ final class SqlServerBindingsPropertiesProcessorTest {
         Bindings bindings = new Bindings(
                 new Binding("test-name", Paths.get("test-path"), secret)
         );
-        environment.setProperty("org.springframework.cloud.bindings.boot.sqlserver.enable", "false");
+        environment.setProperty("org.springframework.cloud.bindings.boot.sqlserver.enabled", "false");
 
         new SqlServerBindingsPropertiesProcessor().process(environment, bindings, properties);
 

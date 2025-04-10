@@ -320,7 +320,7 @@ final class EurekaBindingsPropertiesProcessorTest {
     @Test
     @DisplayName("can be disabled")
     void disabled() {
-        environment.setProperty("org.springframework.cloud.bindings.boot.eureka.enable", "false");
+        environment.setProperty("org.springframework.cloud.bindings.boot.eureka.enabled", "false");
 
         new KafkaBindingsPropertiesProcessor().process(environment, bindings, properties);
 

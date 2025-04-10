@@ -57,7 +57,7 @@ final class WavefrontBindingsPropertiesProcessorTest {
     @Test
     @DisplayName("can be disabled")
     void disabled() {
-        environment.setProperty("org.springframework.cloud.bindings.boot.wavefront.enable", "false");
+        environment.setProperty("org.springframework.cloud.bindings.boot.wavefront.enabled", "false");
 
         new WavefrontBindingsPropertiesProcessor().process(environment, bindings, properties);
 

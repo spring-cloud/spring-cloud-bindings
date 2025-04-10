@@ -77,7 +77,7 @@ final class ConfigServerBindingsPropertiesProcessorTest {
     @Test
     @DisplayName("can be disabled")
     void whenDisabled() {
-        environment.setProperty("org.springframework.cloud.bindings.boot.config.enable", "false");
+        environment.setProperty("org.springframework.cloud.bindings.boot.config.enabled", "false");
 
         new ConfigServerBindingsPropertiesProcessor().process(environment, bindings, properties);
 

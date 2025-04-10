@@ -60,7 +60,7 @@ final class ElasticsearchBindingsPropertiesProcessorTest {
     @Test
     @DisplayName("can be disabled")
     void disabled() {
-        environment.setProperty("org.springframework.cloud.bindings.boot.elasticsearch.enable", "false");
+        environment.setProperty("org.springframework.cloud.bindings.boot.elasticsearch.enabled", "false");
 
         new ElasticsearchBindingsPropertiesProcessor().process(environment, bindingsSpringBoot3, properties);
         assertThat(properties).isEmpty();

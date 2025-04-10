@@ -61,7 +61,7 @@ final class ArtemisBindingsPropertiesProcessorTest {
     @Test
     @DisplayName("can be disabled")
     void disabled() {
-        environment.setProperty("org.springframework.cloud.bindings.boot.artemis.enable", "false");
+        environment.setProperty("org.springframework.cloud.bindings.boot.artemis.enabled", "false");
 
         new ArtemisBindingsPropertiesProcessor().process(environment, bindingsSpringBoot3, properties);
         assertThat(properties).isEmpty();
