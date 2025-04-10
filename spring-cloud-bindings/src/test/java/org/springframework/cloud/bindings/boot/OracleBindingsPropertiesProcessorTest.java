@@ -104,7 +104,7 @@ final class OracleBindingsPropertiesProcessorTest {
         Bindings bindings = new Bindings(
                 new Binding("test-name", Paths.get("test-path"), secret)
         );
-        environment.setProperty("org.springframework.cloud.bindings.boot.oracle.enable", "false");
+        environment.setProperty("org.springframework.cloud.bindings.boot.oracle.enabled", "false");
 
         new OracleBindingsPropertiesProcessor().process(environment, bindings, properties);
 

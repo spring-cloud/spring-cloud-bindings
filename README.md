@@ -36,13 +36,15 @@ The more common usage of the library is opt-in automatic Spring Boot configurati
 * Adds a `PropertySource` with binding-specific Spring Boot configuration properties.
 
 ## Auto-Configurations
-Each auto-configuration is triggered by the type of binding.  Each auto-configuration can be disabled using a System Property specific to that type and defaults to enable. Auto-configuration is disabled by default and can be enabled by setting the `org.springframework.cloud.bindings.boot.enable` System Property to `true`.
+Each auto-configuration is triggered by the type of binding.  Each auto-configuration can be disabled using a System Property specific to that type and defaults to enable. Auto-configuration is disabled by default and can be enabled by setting the `org.springframework.cloud.bindings.boot.enabled` System Property to `true`.
 
 `{<key>}` indicates that the value is the contents of the secret with the given key.
 
+> **_NOTE:_** Legacy property key suffix `*.enable` is supported but deprecated in favor of `*.enabled`.
+
 ### ActiveMQ Artemis
 Type: `artemis`
-Disable Property: `org.springframework.cloud.bindings.boot.artemis.enable`
+Disable Property: `org.springframework.cloud.bindings.boot.artemis.enabled`
 
 #### Properties
 
@@ -70,7 +72,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.artemis.enable`
 
 ### Cassandra
 Type: `cassandra`
-Disable Property: `org.springframework.cloud.bindings.boot.cassandra.enable`
+Disable Property: `org.springframework.cloud.bindings.boot.cassandra.enabled`
 
 #### Properties
 
@@ -91,7 +93,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.cassandra.enable`
 
 ### Couchbase
 Type: `couchbase`
-Disable Property: `org.springframework.cloud.bindings.boot.couchbase.enable`
+Disable Property: `org.springframework.cloud.bindings.boot.couchbase.enabled`
 
 #### Properties
 
@@ -104,7 +106,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.couchbase.enable`
 
 ### DB2 RDBMS
 Type: `db2`
-Disable Property: `org.springframework.cloud.bindings.boot.db2.enable`
+Disable Property: `org.springframework.cloud.bindings.boot.db2.enabled`
 
 | Property                              | Value                                                                                                                                        |
 | ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -119,7 +121,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.db2.enable`
 
 ### Elasticsearch
 Type: `elasticsearch`
-Disable Property: `org.springframework.cloud.bindings.boot.elasticsearch.enable`
+Disable Property: `org.springframework.cloud.bindings.boot.elasticsearch.enabled`
 
 #### Properties
 
@@ -131,7 +133,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.elasticsearch.enable`
 
 ### Kafka
 Type: `kafka`
-Disable Property: `org.springframework.cloud.bindings.boot.kafka.enable`
+Disable Property: `org.springframework.cloud.bindings.boot.kafka.enabled`
 
 | Property                                  | Value                          |
 | ----------------------------------------- | ------------------------------ |
@@ -142,7 +144,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.kafka.enable`
 
 ### LDAP
 Type: `ldap`
-Disable Property: `org.springframework.cloud.bindings.boot.ldap.enable`
+Disable Property: `org.springframework.cloud.bindings.boot.ldap.enabled`
 
 | Property               | Value        |
 | ---------------------- | ------------ |
@@ -153,7 +155,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.ldap.enable`
 
 ### MongoDB
 Type: `mongodb`
-Disable Property: `org.springframework.cloud.bindings.boot.mongodb.enable`
+Disable Property: `org.springframework.cloud.bindings.boot.mongodb.enabled`
 
 | Property                                      | Value                       |
 | --------------------------------------------- | --------------------------- |
@@ -168,7 +170,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.mongodb.enable`
 
 ### MySQL RDBMS
 Type: `mysql`
-Disable Property: `org.springframework.cloud.bindings.boot.mysql.enable`
+Disable Property: `org.springframework.cloud.bindings.boot.mysql.enabled`
 
 | Property                              | Value                                                                                                                                                                                                              |
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -184,7 +186,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.mysql.enable`
 
 ### Neo4J
 Type: `neo4j`
-Disable Property: `org.springframework.cloud.bindings.boot.neo4j.enable`
+Disable Property: `org.springframework.cloud.bindings.boot.neo4j.enabled`
 
 #### Properties
 
@@ -196,7 +198,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.neo4j.enable`
 
 ### Oracle RDBMS
 Type: `oracle`
-Disable Property: `org.springframework.cloud.bindings.boot.oracle.enable`
+Disable Property: `org.springframework.cloud.bindings.boot.oracle.enabled`
 
 | Property                              | Value                                                                                                                                           |
 | ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -210,7 +212,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.oracle.enable`
 
 ### PostgreSQL RDBMS
 Type: `postgresql`
-Disable Property: `org.springframework.cloud.bindings.boot.postgresql.enable`
+Disable Property: `org.springframework.cloud.bindings.boot.postgresql.enabled`
 
 | Property                              | Value                                                                                                                                                                                                                                                                              |
 | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -224,7 +226,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.postgresql.enable`
 
 ### RabbitMQ
 Type: `rabbitmq`
-Disable Property: `org.springframework.cloud.bindings.boot.rabbitmq.enable`
+Disable Property: `org.springframework.cloud.bindings.boot.rabbitmq.enabled`
 
 | Property                       | Value            |
 | ------------------------------ | ---------------- |
@@ -237,7 +239,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.rabbitmq.enable`
 
 ### Redis
 Type: `redis`
-Disable Property: `org.springframework.cloud.bindings.boot.redis.enable`
+Disable Property: `org.springframework.cloud.bindings.boot.redis.enabled`
 
 #### Properties
 
@@ -257,7 +259,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.redis.enable`
 
 ### SAP Hana
 Type: `hana`
-Disable Property: `org.springframework.cloud.bindings.boot.hana.enable`
+Disable Property: `org.springframework.cloud.bindings.boot.hana.enabled`
 
 | Property                              | Value                                                                                                                                        |
 | ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -271,7 +273,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.hana.enable`
 
 ## SCS Config Server
 Type: `config`
-Disable Property: `org.springframework.cloud.bindings.boot.config.enable`
+Disable Property: `org.springframework.cloud.bindings.boot.config.enabled`
 
 | Property                                             | Value                                                  |
 |------------------------------------------------------|--------------------------------------------------------|
@@ -292,7 +294,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.config.enable`
 ## SCS Eureka
 
 Type: `eureka`
-Disable Property: `org.springframework.cloud.bindings.boot.eureka.enable`
+Disable Property: `org.springframework.cloud.bindings.boot.eureka.enabled`
 
 | Property                                 | Value                                                              |
 |------------------------------------------|--------------------------------------------------------------------|
@@ -317,7 +319,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.eureka.enable`
 
 ## Spring Security OAuth2
 Type: `oauth2`
-Disable Property: `org.springframework.cloud.bindings.boot.oauth2.enable`
+Disable Property: `org.springframework.cloud.bindings.boot.oauth2.enabled`
 
 | Property                                                                            | Value                                                                                                                         |
 | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
@@ -339,7 +341,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.oauth2.enable`
 
 ### SQLServer RDBMS
 Type: `sqlserver`
-Disable Property: `org.springframework.cloud.bindings.boot.sqlserver.enable`
+Disable Property: `org.springframework.cloud.bindings.boot.sqlserver.enabled`
 
 | Property                              | Value                                                                                                                                              |
 | ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -354,7 +356,7 @@ Disable Property: `org.springframework.cloud.bindings.boot.sqlserver.enable`
 
 ### Vault
 Type: `vault`
-Disable Property: `org.springframework.cloud.bindings.boot.vault.enable`
+Disable Property: `org.springframework.cloud.bindings.boot.vault.enabled`
 
 Any Provider:
 
@@ -455,7 +457,7 @@ If `{authentication-method}` is equal to `token`:
 ### Wavefront
 
 Type: `wavefront`
-Disable Property: `org.springframework.cloud.bindings.boot.wavefront.enable`
+Disable Property: `org.springframework.cloud.bindings.boot.wavefront.enabled`
 
 | Property                                        | Value         |
 | ----------------------------------------------- | ------------- |
@@ -489,7 +491,7 @@ public final class MyServiceBindingsPropertiesProcessor implements BindingsPrope
 
     @Override
     public void process(Environment environment, Bindings bindings, Map<String, Object> properties) {
-        if (!environment.getProperty("com.example.bindings.myservice.enable", Boolean.class, true)) {
+        if (!environment.getProperty("com.example.bindings.myservice.enabled", Boolean.class, true)) {
             return;
         }
         List<Binding> myBindings = bindings.filterBindings(TYPE);
@@ -505,7 +507,7 @@ public final class MyServiceBindingsPropertiesProcessor implements BindingsPrope
 
 These lines from the above example allow users to set `com.example.bindings.myservice.enable=false` to disable the processor entirely:
 ```
-        if (!environment.getProperty("com.example.bindings.myservice.enable", Boolean.class, true)) {
+        if (!environment.getProperty("com.example.bindings.myservice.enabled", Boolean.class, true)) {
             return;
         }
 ```

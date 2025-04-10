@@ -212,7 +212,7 @@ final class SpringSecurityOAuth2BindingsPropertiesProcessorTest {
     @Test
     @DisplayName("can be disabled")
     void disabled() {
-        environment.setProperty("org.springframework.cloud.bindings.boot.oauth2.enable", "false");
+        environment.setProperty("org.springframework.cloud.bindings.boot.oauth2.enabled", "false");
 
         new SpringSecurityOAuth2BindingsPropertiesProcessor().process(environment, bindings, properties);
 

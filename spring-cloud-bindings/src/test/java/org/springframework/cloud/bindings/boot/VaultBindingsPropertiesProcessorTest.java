@@ -303,7 +303,7 @@ final class VaultBindingsPropertiesProcessorTest {
                 )
         );
 
-        environment.setProperty("org.springframework.cloud.bindings.boot.vault.enable", "false");
+        environment.setProperty("org.springframework.cloud.bindings.boot.vault.enabled", "false");
 
         new VaultBindingsPropertiesProcessor().process(environment, bindings, properties);
 

@@ -104,7 +104,7 @@ final class Db2BindingsPropertiesProcessorTest {
         Bindings bindings = new Bindings(
                 new Binding("test-name", Paths.get("test-path"), secret)
         );
-        environment.setProperty("org.springframework.cloud.bindings.boot.db2.enable", "false");
+        environment.setProperty("org.springframework.cloud.bindings.boot.db2.enabled", "false");
 
         new Db2BindingsPropertiesProcessor().process(environment, bindings, properties);
 

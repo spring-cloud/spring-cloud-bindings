@@ -61,7 +61,7 @@ final class CouchbaseBindingsPropertiesProcessorTest {
     @Test
     @DisplayName("can be disabled")
     void disabled() {
-        environment.setProperty("org.springframework.cloud.bindings.boot.couchbase.enable", "false");
+        environment.setProperty("org.springframework.cloud.bindings.boot.couchbase.enabled", "false");
 
         new CouchbaseBindingsPropertiesProcessor().process(environment, bindingsSpringBoot3, properties);
         assertThat(properties).isEmpty();

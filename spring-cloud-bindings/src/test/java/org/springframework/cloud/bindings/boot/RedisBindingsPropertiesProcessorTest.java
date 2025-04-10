@@ -76,7 +76,7 @@ final class RedisBindingsPropertiesProcessorTest {
     @Test
     @DisplayName("can be disabled")
     void disabled() {
-        environment.setProperty("org.springframework.cloud.bindings.boot.redis.enable", "false");
+        environment.setProperty("org.springframework.cloud.bindings.boot.redis.enabled", "false");
 
         new RedisBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties).isEmpty();

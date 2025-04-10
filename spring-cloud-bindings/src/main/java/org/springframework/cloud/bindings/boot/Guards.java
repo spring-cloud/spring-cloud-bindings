@@ -20,14 +20,16 @@ import org.springframework.core.env.Environment;
 
 final class Guards {
 
+    static final String CONFIGURATION_KEY_PREFIX = "org.springframework.cloud.bindings.boot.";
+
     static boolean isGlobalEnabled(Environment environment) {
-        return environment.getProperty("org.springframework.cloud.bindings.boot.enable", Boolean.class, true);
+        return environment.getProperty(CONFIGURATION_KEY_PREFIX + "enable", Boolean.class,
+                environment.getProperty(CONFIGURATION_KEY_PREFIX + "enabled", Boolean.class, true));
     }
 
     static boolean isTypeEnabled(Environment environment, String type) {
-        return environment.getProperty(
-                String.format("org.springframework.cloud.bindings.boot.%s.enable", type),
-                Boolean.class, true);
+        return environment.getProperty(String.format(CONFIGURATION_KEY_PREFIX + "%s.enable", type), Boolean.class,
+                environment.getProperty(String.format(CONFIGURATION_KEY_PREFIX + "%s.enabled", type), Boolean.class, true));
     }
 
 }

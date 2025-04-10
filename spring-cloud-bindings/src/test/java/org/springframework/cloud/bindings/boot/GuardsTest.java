@@ -41,16 +41,30 @@ final class GuardsTest {
         }
 
         @Test
-        @DisplayName("returns the set value of true")
+        @DisplayName("returns the set enable value of true")
         void setTrue() {
             environment.setProperty("org.springframework.cloud.bindings.boot.enable", "true");
             assertThat(isGlobalEnabled(environment)).isTrue();
         }
 
         @Test
-        @DisplayName("returns the set value of false")
+        @DisplayName("returns the set enable value of false")
         void setFalse() {
             environment.setProperty("org.springframework.cloud.bindings.boot.enable", "false");
+            assertThat(isGlobalEnabled(environment)).isFalse();
+        }
+
+        @Test
+        @DisplayName("returns the set enabled value of true")
+        void setEnabledTrue() {
+            environment.setProperty("org.springframework.cloud.bindings.boot.enabled", "true");
+            assertThat(isGlobalEnabled(environment)).isTrue();
+        }
+
+        @Test
+        @DisplayName("returns the set enabled value of false")
+        void setEnabledFalse() {
+            environment.setProperty("org.springframework.cloud.bindings.boot.enabled", "false");
             assertThat(isGlobalEnabled(environment)).isFalse();
         }
 
@@ -69,16 +83,31 @@ final class GuardsTest {
         }
 
         @Test
-        @DisplayName("returns the set value of true")
+        @DisplayName("returns the set enable value of true")
         void setTrue() {
             environment.setProperty("org.springframework.cloud.bindings.boot.test.enable", "true");
             assertThat(isTypeEnabled(environment, "Test")).isTrue();
         }
 
         @Test
-        @DisplayName("returns the set value of false")
+        @DisplayName("returns the set enable value of false")
         void setFalse() {
             environment.setProperty("org.springframework.cloud.bindings.boot.test.enable", "false");
+            assertThat(isTypeEnabled(environment, "test")).isFalse();
+        }
+
+
+        @Test
+        @DisplayName("returns the set enabled value of true")
+        void setEnabledTrue() {
+            environment.setProperty("org.springframework.cloud.bindings.boot.test.enabled", "true");
+            assertThat(isTypeEnabled(environment, "Test")).isTrue();
+        }
+
+        @Test
+        @DisplayName("returns the set enabled value of false")
+        void setEnabledFalse() {
+            environment.setProperty("org.springframework.cloud.bindings.boot.test.enabled", "false");
             assertThat(isTypeEnabled(environment, "test")).isFalse();
         }
 

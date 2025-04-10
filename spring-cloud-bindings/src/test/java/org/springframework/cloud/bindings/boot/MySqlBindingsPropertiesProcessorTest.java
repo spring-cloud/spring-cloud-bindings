@@ -104,7 +104,7 @@ final class MySqlBindingsPropertiesProcessorTest {
         Bindings bindings = new Bindings(
                 new Binding("test-name", Paths.get("test-path"), secret)
         );
-        environment.setProperty("org.springframework.cloud.bindings.boot.mysql.enable", "false");
+        environment.setProperty("org.springframework.cloud.bindings.boot.mysql.enabled", "false");
 
         new MySqlBindingsPropertiesProcessor().process(environment, bindings, properties);
 

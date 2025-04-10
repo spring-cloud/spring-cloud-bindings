@@ -65,7 +65,7 @@ final class RabbitMqBindingsPropertiesProcessorTest {
     @Test
     @DisplayName("can be disabled")
     void disabled() {
-        environment.setProperty("org.springframework.cloud.bindings.boot.rabbitmq.enable", "false");
+        environment.setProperty("org.springframework.cloud.bindings.boot.rabbitmq.enabled", "false");
 
         new RabbitMqBindingsPropertiesProcessor().process(environment, bindings, properties);
 

@@ -104,7 +104,7 @@ final class SapHanaBindingsPropertiesProcessorTest {
         Bindings bindings = new Bindings(
                 new Binding("test-name", Paths.get("test-path"), secret)
         );
-        environment.setProperty("org.springframework.cloud.bindings.boot.hana.enable", "false");
+        environment.setProperty("org.springframework.cloud.bindings.boot.hana.enabled", "false");
 
         new SapHanaBindingsPropertiesProcessor().process(environment, bindings, properties);
 
