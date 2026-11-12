@@ -20,23 +20,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.context.config.ConfigDataEnvironmentPostProcessor;
+import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent;
 import org.springframework.boot.context.event.ApplicationPreparedEvent;
-import org.springframework.boot.env.EnvironmentPostProcessor;
 import org.springframework.boot.logging.DeferredLog;
 import org.springframework.cloud.bindings.Bindings;
-import org.springframework.context.ApplicationListener;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.event.SmartApplicationListener;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import static org.springframework.cloud.bindings.boot.PropertySourceContributor.contributePropertySource;
 
 /**
- * An implementation of {@link EnvironmentPostProcessor} that generates properties from {@link Bindings} with a
+ * An implementation of environment post-processor that generates properties from {@link Bindings} with a
  * flattened format: {@code k8s.bindings.{name}.*}.
  */
-public final class BindingFlattenedEnvironmentPostProcessor implements ApplicationListener<ApplicationPreparedEvent>,
-        EnvironmentPostProcessor, Ordered {
+public final class BindingFlattenedEnvironmentPostProcessor implements SmartApplicationListener {
 
     public static final String BINDING_FLATTENED_PROPERTY_SOURCE_NAME = "kubernetesServiceBindingFlattened";
 
@@ -58,16 +57,27 @@ public final class BindingFlattenedEnvironmentPostProcessor implements Applicati
 
     @Override
     public int getOrder() {
-        // Before ConfigFileApplicationListener so values there can use values from {@link Bindings}.
-        return ConfigDataEnvironmentPostProcessor.ORDER - 1;
+        // Runs before the listener that applies the EnvironmentPostProcessors (HIGHEST_PRECEDENCE + 10), so values in
+        // config files can use values from {@link Bindings}. A listener, not an EnvironmentPostProcessor, because
+        // that interface moved packages between Spring Boot 3 and 4.
+        return Ordered.HIGHEST_PRECEDENCE + 9;
     }
 
     @Override
-    public void onApplicationEvent(ApplicationPreparedEvent event) {
-        this.log.replayTo(getClass());
+    public boolean supportsEventType(Class<? extends ApplicationEvent> eventType) {
+        return ApplicationEnvironmentPreparedEvent.class.isAssignableFrom(eventType)
+                || ApplicationPreparedEvent.class.isAssignableFrom(eventType);
     }
 
     @Override
+    public void onApplicationEvent(ApplicationEvent event) {
+        if (event instanceof ApplicationEnvironmentPreparedEvent prepared) {
+            postProcessEnvironment(prepared.getEnvironment(), prepared.getSpringApplication());
+        } else if (event instanceof ApplicationPreparedEvent) {
+            log.replayTo(getClass());
+        }
+    }
+
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
         Map<String, Object> properties = new HashMap<>();
         bindings.getBindings().forEach(binding -> {
