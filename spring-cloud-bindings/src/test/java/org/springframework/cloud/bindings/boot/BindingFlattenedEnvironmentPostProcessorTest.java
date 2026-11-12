@@ -20,8 +20,10 @@ import java.nio.file.Paths;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.DefaultBootstrapContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.context.config.ConfigDataEnvironmentPostProcessor;
+import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent;
 import org.springframework.cloud.bindings.Binding;
 import org.springframework.cloud.bindings.Bindings;
 import org.springframework.cloud.bindings.FluentMap;
@@ -83,6 +85,28 @@ final class BindingFlattenedEnvironmentPostProcessorTest {
     void order() {
         assertThat(new BindingFlattenedEnvironmentPostProcessor(new Bindings()).getOrder())
                 .isLessThan(ConfigDataEnvironmentPostProcessor.ORDER);
+    }
+
+    @Test
+    @DisplayName("creates PropertySource when the environment is prepared")
+    void environmentPreparedEvent() {
+        BindingFlattenedEnvironmentPostProcessor listener = new BindingFlattenedEnvironmentPostProcessor(
+                new Bindings(
+                        new Binding("test-name", Paths.get("test-path"),
+                                new FluentMap()
+                                        .withEntry(Binding.TYPE, "test-type")
+                                        .withEntry("test-secret-key", "test-secret-value")
+                        )
+                )
+        );
+
+        ApplicationEnvironmentPreparedEvent event = new ApplicationEnvironmentPreparedEvent(
+                new DefaultBootstrapContext(), application, new String[0], environment);
+
+        assertThat(listener.supportsEventType(ApplicationEnvironmentPreparedEvent.class)).isTrue();
+        listener.onApplicationEvent(event);
+
+        assertThat(environment.getProperty("k8s.bindings.test-name.test-secret-key")).isEqualTo("test-secret-value");
     }
 
 }
