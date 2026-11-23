@@ -76,9 +76,10 @@ public final class BindingSpecificEnvironmentPostProcessor implements SmartAppli
 
     @Override
     public int getOrder() {
-        // Runs before the listener that applies the EnvironmentPostProcessors (HIGHEST_PRECEDENCE + 10), so values in
-        // config files can use values from {@link Bindings}. A listener, not an EnvironmentPostProcessor, because
-        // that interface moved packages between Spring Boot 3 and 4.
+        // Runs just before the listener that applies the EnvironmentPostProcessors (HIGHEST_PRECEDENCE + 10), so
+        // values in config files can use values from Bindings. A listener, not an EnvironmentPostProcessor, because
+        // Spring Boot 4.2 removes org.springframework.boot.env.EnvironmentPostProcessor and the replacement
+        // org.springframework.boot.EnvironmentPostProcessor does not exist in Spring Boot 3. One jar must run on both.
         return Ordered.HIGHEST_PRECEDENCE + 9;
     }
 
