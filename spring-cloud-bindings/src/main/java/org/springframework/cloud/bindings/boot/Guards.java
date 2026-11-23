@@ -20,7 +20,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.boot.json.JsonParserFactory;
+import org.springframework.core.convert.support.DefaultConversionService;
+import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
+import org.springframework.core.env.PropertySource;
+import org.springframework.core.env.StandardEnvironment;
 
 final class Guards {
 
@@ -38,14 +42,35 @@ final class Guards {
 
     /**
      * The listeners run before Spring Boot unpacks {@code spring.application.json}, so a switch set there is not yet
-     * in the {@link Environment}. Read it from the JSON when the switch is not set directly.
+     * in the {@link Environment}. Spring Boot ranks that JSON just above the system properties, so look at it at that
+     * position among the property sources.
      */
     private static boolean isEnabled(Environment environment, String key) {
-        Boolean value = environment.getProperty(key, Boolean.class);
-        if (value == null) {
-            value = fromApplicationJson(environment, key);
-        }
+        Boolean value = resolve(environment, key);
         return value == null || value;
+    }
+
+    private static Boolean resolve(Environment environment, String key) {
+        if (!(environment instanceof ConfigurableEnvironment configurable)) {
+            Boolean value = environment.getProperty(key, Boolean.class);
+            return value != null ? value : fromApplicationJson(environment, key);
+        }
+
+        boolean jsonChecked = false;
+        for (PropertySource<?> source : configurable.getPropertySources()) {
+            if (!jsonChecked && StandardEnvironment.SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME.equals(source.getName())) {
+                jsonChecked = true;
+                Boolean value = fromApplicationJson(environment, key);
+                if (value != null) {
+                    return value;
+                }
+            }
+            Object raw = source.getProperty(key);
+            if (raw != null) {
+                return toBoolean(environment, raw);
+            }
+        }
+        return jsonChecked ? null : fromApplicationJson(environment, key);
     }
 
     private static Boolean fromApplicationJson(Environment environment, String key) {
@@ -58,10 +83,17 @@ final class Guards {
         }
         try {
             Object value = flatten(JsonParserFactory.getJsonParser().parseMap(json)).get(key);
-            return value == null ? null : Boolean.valueOf(value.toString().trim());
+            return value == null ? null : toBoolean(environment, value);
         } catch (RuntimeException e) {
             return null;
         }
+    }
+
+    private static Boolean toBoolean(Environment environment, Object value) {
+        if (value instanceof String string) {
+            value = environment.resolvePlaceholders(string);
+        }
+        return DefaultConversionService.getSharedInstance().convert(value, Boolean.class);
     }
 
     private static Map<String, Object> flatten(Map<String, Object> map) {
