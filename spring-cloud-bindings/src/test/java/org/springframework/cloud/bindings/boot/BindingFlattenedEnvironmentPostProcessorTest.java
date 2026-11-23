@@ -21,7 +21,6 @@ import java.nio.file.Paths;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.DefaultBootstrapContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent;
 import org.springframework.boot.context.event.ApplicationPreparedEvent;
@@ -36,6 +35,7 @@ import org.springframework.mock.env.MockEnvironment;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @DisplayName("Binding-flattened EnvironmentPostProcessor")
 @ExtendWith(OutputCaptureExtension.class)
@@ -107,8 +107,7 @@ final class BindingFlattenedEnvironmentPostProcessorTest {
                 )
         );
 
-        ApplicationEnvironmentPreparedEvent event = new ApplicationEnvironmentPreparedEvent(
-                new DefaultBootstrapContext(), application, new String[0], environment);
+        ApplicationEnvironmentPreparedEvent event = preparedEvent();
 
         assertThat(listener.supportsEventType(ApplicationEnvironmentPreparedEvent.class)).isTrue();
         listener.onApplicationEvent(event);
@@ -144,6 +143,13 @@ final class BindingFlattenedEnvironmentPostProcessorTest {
                 application, new String[0], mock(ConfigurableApplicationContext.class)));
 
         assertThat(output).contains("Creating flattened PropertySource from Kubernetes Service Bindings");
+    }
+
+    private ApplicationEnvironmentPreparedEvent preparedEvent() {
+        ApplicationEnvironmentPreparedEvent event = mock(ApplicationEnvironmentPreparedEvent.class);
+        when(event.getEnvironment()).thenReturn(environment);
+        when(event.getSpringApplication()).thenReturn(application);
+        return event;
     }
 
 }
