@@ -19,6 +19,8 @@ package org.springframework.cloud.bindings.boot;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.context.properties.source.ConfigurationPropertySources;
+import org.springframework.core.convert.ConversionException;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.StandardEnvironment;
 import org.springframework.core.env.SystemEnvironmentPropertySource;
@@ -27,6 +29,7 @@ import org.springframework.mock.env.MockEnvironment;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.springframework.cloud.bindings.boot.Guards.isGlobalEnabled;
 import static org.springframework.cloud.bindings.boot.Guards.isTypeEnabled;
 
@@ -152,6 +155,7 @@ final class GuardsTest {
             standard.getPropertySources().replace("systemProperties", new MapPropertySource("systemProperties",
                     Map.of("org.springframework.cloud.bindings.boot.enable", "true",
                             "spring.application.json", "{\"org.springframework.cloud.bindings.boot.enable\":false}")));
+            ConfigurationPropertySources.attach(standard);
 
             assertThat(isGlobalEnabled(standard)).isFalse();
         }
@@ -164,6 +168,7 @@ final class GuardsTest {
                     Map.of("spring.application.json", "{\"org.springframework.cloud.bindings.boot.enable\":false}")));
             standard.getPropertySources().addFirst(new MapPropertySource("commandLineArgs",
                     Map.of("org.springframework.cloud.bindings.boot.enable", "true")));
+            ConfigurationPropertySources.attach(standard);
 
             assertThat(isGlobalEnabled(standard)).isTrue();
         }
@@ -190,6 +195,24 @@ final class GuardsTest {
                     Map.of("spring.application.json", "{\"org.springframework.cloud.bindings.boot.enable\":false}")));
 
             assertThat(isGlobalEnabled(standard)).isFalse();
+        }
+
+        @Test
+        @DisplayName("fails on a value that cannot be converted")
+        void unconvertible() {
+            for (String json : new String[]{"\"abc\"", "0", "1"}) {
+                environment.setProperty("spring.application.json",
+                        "{\"org.springframework.cloud.bindings.boot.enable\":" + json + "}");
+                assertThatThrownBy(() -> isGlobalEnabled(environment)).as(json)
+                        .isInstanceOf(ConversionException.class);
+            }
+        }
+
+        @Test
+        @DisplayName("fails on a null value")
+        void nullValue() {
+            environment.setProperty("spring.application.json", "{\"org.springframework.cloud.bindings.boot.enable\":null}");
+            assertThatThrownBy(() -> isGlobalEnabled(environment)).isInstanceOf(RuntimeException.class);
         }
 
         @Test

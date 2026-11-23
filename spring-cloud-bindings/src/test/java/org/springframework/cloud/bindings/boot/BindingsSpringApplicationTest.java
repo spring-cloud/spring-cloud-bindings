@@ -85,6 +85,32 @@ final class BindingsSpringApplicationTest {
     }
 
     @Test
+    @DisplayName("ranks spring.application.json above system properties")
+    void jsonAboveSystemProperty() {
+        System.setProperty("org.springframework.cloud.bindings.boot.enable", "true");
+        System.setProperty(APPLICATION_JSON, "{\"org.springframework.cloud.bindings.boot.enable\":false}");
+
+        try (ConfigurableApplicationContext context = run()) {
+            assertThat(context.getEnvironment().getProperty("spring.data.redis.password")).isNull();
+        } finally {
+            System.clearProperty("org.springframework.cloud.bindings.boot.enable");
+        }
+    }
+
+    @Test
+    @DisplayName("ranks spring.application.json given as an argument above system properties")
+    void argumentJsonAboveSystemProperty() {
+        System.setProperty("org.springframework.cloud.bindings.boot.enable", "true");
+
+        try (ConfigurableApplicationContext context = run(
+                "--spring.application.json={\"org.springframework.cloud.bindings.boot.enable\":false}")) {
+            assertThat(context.getEnvironment().getProperty("spring.data.redis.password")).isNull();
+        } finally {
+            System.clearProperty("org.springframework.cloud.bindings.boot.enable");
+        }
+    }
+
+    @Test
     @DisplayName("honours a type switch set in spring.application.json")
     void typeSwitchInJson() {
         System.setProperty(APPLICATION_JSON, "{\"org.springframework.cloud.bindings.boot.redis.enable\":false}");

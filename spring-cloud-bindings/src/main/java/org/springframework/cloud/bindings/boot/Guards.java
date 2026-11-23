@@ -28,6 +28,9 @@ import org.springframework.core.env.StandardEnvironment;
 
 final class Guards {
 
+    /** Name of the source Spring Boot attaches on top of all others. It wraps them, so ranking skips it. */
+    private static final String ATTACHED_PROPERTY_SOURCE_NAME = "configurationProperties";
+
     private static final String GLOBAL_KEY = "org.springframework.cloud.bindings.boot.enable";
 
     private static final String TYPE_KEY_FORMAT = "org.springframework.cloud.bindings.boot.%s.enable";
@@ -58,6 +61,9 @@ final class Guards {
 
         boolean jsonChecked = false;
         for (PropertySource<?> source : configurable.getPropertySources()) {
+            if (ATTACHED_PROPERTY_SOURCE_NAME.equals(source.getName())) {
+                continue;
+            }
             if (!jsonChecked && StandardEnvironment.SYSTEM_PROPERTIES_PROPERTY_SOURCE_NAME.equals(source.getName())) {
                 jsonChecked = true;
                 Boolean value = fromApplicationJson(environment, key);
@@ -81,12 +87,20 @@ final class Guards {
         if (json == null || json.isBlank()) {
             return null;
         }
+        Map<String, Object> flattened;
         try {
-            Object value = flatten(JsonParserFactory.getJsonParser().parseMap(json)).get(key);
-            return value == null ? null : toBoolean(environment, value);
+            flattened = flatten(JsonParserFactory.getJsonParser().parseMap(json));
         } catch (RuntimeException e) {
             return null;
         }
+        if (!flattened.containsKey(key)) {
+            return null;
+        }
+        Object value = flattened.get(key);
+        if (value == null) {
+            throw new IllegalArgumentException("Switch '" + key + "' in spring.application.json must not be null");
+        }
+        return toBoolean(environment, value);
     }
 
     private static Boolean toBoolean(Environment environment, Object value) {
