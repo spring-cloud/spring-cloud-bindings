@@ -84,4 +84,61 @@ final class GuardsTest {
 
     }
 
+    @Nested
+    @DisplayName("Application JSON")
+    final class ApplicationJson {
+
+        private final MockEnvironment environment = new MockEnvironment();
+
+        @Test
+        @DisplayName("honours a flat global switch in spring.application.json")
+        void globalFlat() {
+            environment.setProperty("spring.application.json",
+                    "{\"org.springframework.cloud.bindings.boot.enable\":false}");
+            assertThat(isGlobalEnabled(environment)).isFalse();
+        }
+
+        @Test
+        @DisplayName("honours a nested type switch in spring.application.json")
+        void typeNested() {
+            environment.setProperty("spring.application.json",
+                    "{\"org\":{\"springframework\":{\"cloud\":{\"bindings\":{\"boot\":{\"redis\":"
+                            + "{\"enable\":\"false\"}}}}}}}");
+            assertThat(isTypeEnabled(environment, "redis")).isFalse();
+            assertThat(isTypeEnabled(environment, "kafka")).isTrue();
+        }
+
+        @Test
+        @DisplayName("honours SPRING_APPLICATION_JSON")
+        void envVar() {
+            environment.setProperty("SPRING_APPLICATION_JSON",
+                    "{\"org.springframework.cloud.bindings.boot.enable\":false}");
+            assertThat(isGlobalEnabled(environment)).isFalse();
+        }
+
+        @Test
+        @DisplayName("prefers a directly set property over the JSON")
+        void directWins() {
+            environment.setProperty("org.springframework.cloud.bindings.boot.enable", "true");
+            environment.setProperty("spring.application.json",
+                    "{\"org.springframework.cloud.bindings.boot.enable\":false}");
+            assertThat(isGlobalEnabled(environment)).isTrue();
+        }
+
+        @Test
+        @DisplayName("ignores invalid JSON")
+        void invalidJson() {
+            environment.setProperty("spring.application.json", "{not json");
+            assertThat(isGlobalEnabled(environment)).isTrue();
+        }
+
+        @Test
+        @DisplayName("ignores JSON without the switch")
+        void unrelatedJson() {
+            environment.setProperty("spring.application.json", "{\"foo\":\"bar\"}");
+            assertThat(isGlobalEnabled(environment)).isTrue();
+        }
+
+    }
+
 }
