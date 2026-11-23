@@ -19,10 +19,15 @@ package org.springframework.cloud.bindings.boot;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.springframework.boot.context.properties.source.ConfigurationProperty;
+import org.springframework.boot.context.properties.source.ConfigurationPropertyName;
+import org.springframework.boot.context.properties.source.ConfigurationPropertySource;
+import org.springframework.boot.context.properties.source.ConfigurationPropertySources;
 import org.springframework.boot.json.JsonParserFactory;
 import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
+import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.PropertySource;
 import org.springframework.core.env.StandardEnvironment;
 
@@ -71,7 +76,7 @@ final class Guards {
                     return value;
                 }
             }
-            Object raw = source.getProperty(key);
+            Object raw = lookup(source, key);
             if (raw != null) {
                 return toBoolean(environment, raw);
             }
@@ -93,14 +98,23 @@ final class Guards {
         } catch (RuntimeException e) {
             return null;
         }
-        if (!flattened.containsKey(key)) {
-            return null;
+        Object value = lookup(new MapPropertySource("applicationJson", flattened), key);
+        return value == null ? null : toBoolean(environment, value);
+    }
+
+    /**
+     * Looks the key up with the relaxed matching of Spring Boot's configuration properties, as the attached
+     * {@code configurationProperties} source does for the whole environment.
+     */
+    private static Object lookup(PropertySource<?> source, String key) {
+        ConfigurationPropertyName name = ConfigurationPropertyName.adapt(key, '.');
+        for (ConfigurationPropertySource candidate : ConfigurationPropertySources.from(source)) {
+            ConfigurationProperty property = candidate.getConfigurationProperty(name);
+            if (property != null) {
+                return property.getValue();
+            }
         }
-        Object value = flattened.get(key);
-        if (value == null) {
-            throw new IllegalArgumentException("Switch '" + key + "' in spring.application.json must not be null");
-        }
-        return toBoolean(environment, value);
+        return null;
     }
 
     private static Boolean toBoolean(Environment environment, Object value) {

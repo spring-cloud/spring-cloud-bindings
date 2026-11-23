@@ -209,10 +209,27 @@ final class GuardsTest {
         }
 
         @Test
-        @DisplayName("fails on a null value")
-        void nullValue() {
-            environment.setProperty("spring.application.json", "{\"org.springframework.cloud.bindings.boot.enable\":null}");
-            assertThatThrownBy(() -> isGlobalEnabled(environment)).isInstanceOf(RuntimeException.class);
+        @DisplayName("matches switch keys in the JSON that differ in case or dashes")
+        void relaxedKeysInJson() {
+            for (String key : new String[]{"org.springframework.cloud.bindings.boot.ENABLE",
+                    "org.springframework.cloud.bindings.boot.en-able", "org.springframework.cloud.bindings.boot.Enable"}) {
+                environment.setProperty("spring.application.json", "{\"" + key + "\":false}");
+                assertThat(isGlobalEnabled(environment)).as(key).isFalse();
+            }
+            environment.setProperty("spring.application.json",
+                    "{\"org.springframework.cloud.bindings.boot.re-dis.Enable\":false}");
+            assertThat(isTypeEnabled(environment, "redis")).isFalse();
+        }
+
+        @Test
+        @DisplayName("matches switch keys in a property source that differ in case or dashes")
+        void relaxedKeysInSource() {
+            StandardEnvironment standard = new StandardEnvironment();
+            standard.getPropertySources().addFirst(new MapPropertySource("commandLineArgs",
+                    Map.of("org.springframework.cloud.bindings.boot.ENABLE", "false")));
+            ConfigurationPropertySources.attach(standard);
+
+            assertThat(isGlobalEnabled(standard)).isFalse();
         }
 
         @Test

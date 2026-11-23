@@ -111,6 +111,24 @@ final class BindingsSpringApplicationTest {
     }
 
     @Test
+    @DisplayName("honours a switch whose key differs in case")
+    void relaxedSwitchKey() {
+        try (ConfigurableApplicationContext context = run("--org.springframework.cloud.bindings.boot.ENABLE=false")) {
+            assertThat(context.getEnvironment().getProperty("spring.data.redis.password")).isNull();
+        }
+    }
+
+    @Test
+    @DisplayName("honours a type switch with a dash in the JSON key")
+    void relaxedTypeSwitchKeyInJson() {
+        System.setProperty(APPLICATION_JSON, "{\"org.springframework.cloud.bindings.boot.re-dis.Enable\":false}");
+
+        try (ConfigurableApplicationContext context = run()) {
+            assertThat(context.getEnvironment().getProperty("spring.data.redis.password")).isNull();
+        }
+    }
+
+    @Test
     @DisplayName("honours a type switch set in spring.application.json")
     void typeSwitchInJson() {
         System.setProperty(APPLICATION_JSON, "{\"org.springframework.cloud.bindings.boot.redis.enable\":false}");
