@@ -57,13 +57,40 @@ final class MongoDbBindingsPropertiesProcessorTest {
         new MongoDbBindingsPropertiesProcessor().process(environment, bindings, properties);
         assertThat(properties)
                 .containsEntry("spring.data.mongodb.authentication-database", "test-authentication-database")
+                .containsEntry("spring.mongodb.authentication-database", "test-authentication-database")
                 .containsEntry("spring.data.mongodb.database", "test-database")
+                .containsEntry("spring.mongodb.database", "test-database")
                 .containsEntry("spring.data.mongodb.gridfs.database", "test-grid-fs-database")
                 .containsEntry("spring.data.mongodb.host", "test-host")
+                .containsEntry("spring.mongodb.host", "test-host")
                 .containsEntry("spring.data.mongodb.password", "test-password")
+                .containsEntry("spring.mongodb.password", "test-password")
                 .containsEntry("spring.data.mongodb.port", "test-port")
+                .containsEntry("spring.mongodb.port", "test-port")
                 .containsEntry("spring.data.mongodb.uri", "test-uri")
-                .containsEntry("spring.data.mongodb.username", "test-username");
+                .containsEntry("spring.mongodb.uri", "test-uri")
+                .containsEntry("spring.data.mongodb.username", "test-username")
+                .containsEntry("spring.mongodb.username", "test-username")
+                .hasSize(15);
+    }
+
+    @Test
+    @DisplayName("contributes only properties present in the secret")
+    void hostOnly() {
+        Bindings hostOnly = new Bindings(
+                new Binding("test-name", Paths.get("test-path"),
+                        new FluentMap()
+                                .withEntry(Binding.TYPE, TYPE)
+                                .withEntry("host", "test-host")
+                )
+        );
+
+        new MongoDbBindingsPropertiesProcessor().process(environment, hostOnly, properties);
+
+        assertThat(properties)
+                .hasSize(2)
+                .containsEntry("spring.data.mongodb.host", "test-host")
+                .containsEntry("spring.mongodb.host", "test-host");
     }
 
     @Test

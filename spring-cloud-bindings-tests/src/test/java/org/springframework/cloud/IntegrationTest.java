@@ -1,21 +1,122 @@
 package org.springframework.cloud;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(classes = RedisServerTestConfiguration.class)
-public class IntegrationTest {
+class IntegrationTest {
 
-	@Autowired
-	private RedisTemplate redisTemplate;
+	private static final String FLATTENED = "kubernetesServiceBindingFlattened";
+	private static final String SPECIFIC = "kubernetesServiceBindingSpecific";
+	private static final String[] SYSTEM_PROPERTIES = {
+			"spring.data.redis.host",
+			"org.springframework.cloud.bindings.boot.enable",
+			"org.springframework.cloud.bindings.boot.mongodb.enable"
+	};
+
+	@AfterEach
+	void clearSystemProperties() {
+		for (String property : SYSTEM_PROPERTIES) {
+			System.clearProperty(property);
+		}
+	}
 
 	@Test
-	public void shouldSaveUser_toRedis() {
-		redisTemplate.opsForValue().set("hello", "world");
-		assertTrue(redisTemplate.hasKey("hello"));
+	void t1PropertySourcesPresent() {
+		try (ConfigurableApplicationContext context = run()) {
+			ConfigurableEnvironment env = context.getEnvironment();
+			assertThat(env.getPropertySources().contains(FLATTENED)).isTrue();
+			assertThat(env.getPropertySources().contains(SPECIFIC)).isTrue();
+		}
+	}
+
+	@Test
+	void t2RedisProperties() {
+		try (ConfigurableApplicationContext context = run()) {
+			ConfigurableEnvironment env = context.getEnvironment();
+			assertThat(env.getProperty("spring.data.redis.host")).isEqualTo("localhost");
+			assertThat(env.getProperty("spring.data.redis.port")).isEqualTo("4343");
+		}
+	}
+
+	@Test
+	void t3MongoProperties() {
+		try (ConfigurableApplicationContext context = run()) {
+			ConfigurableEnvironment env = context.getEnvironment();
+			for (String prefix : new String[] { "spring.data.mongodb.", "spring.mongodb." }) {
+				assertThat(env.getProperty(prefix + "host")).isEqualTo("mongo.example");
+				assertThat(env.getProperty(prefix + "port")).isEqualTo("27017");
+				assertThat(env.getProperty(prefix + "database")).isEqualTo("mydb");
+				assertThat(env.getProperty(prefix + "username")).isEqualTo("u");
+				assertThat(env.getProperty(prefix + "password")).isEqualTo("p");
+			}
+		}
+	}
+
+	@Test
+	void t4FlattenedKeysAndPlaceholder() {
+		try (ConfigurableApplicationContext context = run()) {
+			ConfigurableEnvironment env = context.getEnvironment();
+			assertThat(env.getProperty("k8s.bindings.redis.host")).isEqualTo("localhost");
+			assertThat(env.getProperty("k8s.bindings.mongodb.host")).isEqualTo("mongo.example");
+			assertThat(env.getProperty("test.redis.host")).isEqualTo("localhost");
+		}
+	}
+
+	@Test
+	void t5aBindingBeatsApplicationProperties() {
+		try (ConfigurableApplicationContext context = run()) {
+			assertThat(context.getEnvironment().getProperty("spring.data.redis.host")).isEqualTo("localhost");
+		}
+	}
+
+	@Test
+	void t5bBindingBeatsSystemProperty() {
+		System.setProperty("spring.data.redis.host", "sys");
+		try (ConfigurableApplicationContext context = run()) {
+			assertThat(context.getEnvironment().getProperty("spring.data.redis.host")).isEqualTo("localhost");
+		}
+	}
+
+	@Test
+	void t5cCommandLineBeatsBinding() {
+		try (ConfigurableApplicationContext context = run("--spring.data.redis.host=cli")) {
+			assertThat(context.getEnvironment().getProperty("spring.data.redis.host")).isEqualTo("cli");
+		}
+	}
+
+	@Test
+	void t6aGlobalDisable() {
+		System.setProperty("org.springframework.cloud.bindings.boot.enable", "false");
+		try (ConfigurableApplicationContext context = run()) {
+			ConfigurableEnvironment env = context.getEnvironment();
+			// the flattened processor is not gated by the global switch
+			assertThat(env.getPropertySources().contains(FLATTENED)).isTrue();
+			assertThat(env.getPropertySources().contains(SPECIFIC)).isFalse();
+			assertThat(env.getProperty("spring.data.redis.host")).isEqualTo("fromfile");
+			assertThat(env.getProperty("k8s.bindings.redis.host")).isEqualTo("localhost");
+		}
+	}
+
+	@Test
+	void t6bMongoDisable() {
+		System.setProperty("org.springframework.cloud.bindings.boot.mongodb.enable", "false");
+		try (ConfigurableApplicationContext context = run()) {
+			ConfigurableEnvironment env = context.getEnvironment();
+			assertThat(env.containsProperty("spring.data.mongodb.host")).isFalse();
+			assertThat(env.containsProperty("spring.mongodb.host")).isFalse();
+			assertThat(env.getProperty("spring.data.redis.host")).isEqualTo("localhost");
+		}
+	}
+
+	private ConfigurableApplicationContext run(String... args) {
+		return new SpringApplicationBuilder(SpringBoot3Application.class)
+				.web(WebApplicationType.NONE)
+				.run(args);
 	}
 }
