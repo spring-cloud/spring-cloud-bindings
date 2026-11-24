@@ -15,6 +15,7 @@ class IntegrationTest {
 	private static final String SPECIFIC = "kubernetesServiceBindingSpecific";
 	private static final String[] SYSTEM_PROPERTIES = {
 			"spring.data.redis.host",
+			"spring.application.json",
 			"org.springframework.cloud.bindings.boot.enable",
 			"org.springframework.cloud.bindings.boot.mongodb.enable"
 	};
@@ -27,7 +28,7 @@ class IntegrationTest {
 	}
 
 	@Test
-	void t1PropertySourcesPresent() {
+	void addsFlattenedAndSpecificPropertySources() {
 		try (ConfigurableApplicationContext context = run()) {
 			ConfigurableEnvironment env = context.getEnvironment();
 			assertThat(env.getPropertySources().contains(FLATTENED)).isTrue();
@@ -36,7 +37,7 @@ class IntegrationTest {
 	}
 
 	@Test
-	void t2RedisProperties() {
+	void mapsRedisBindingToSpringDataRedis() {
 		try (ConfigurableApplicationContext context = run()) {
 			ConfigurableEnvironment env = context.getEnvironment();
 			assertThat(env.getProperty("spring.data.redis.host")).isEqualTo("localhost");
@@ -45,7 +46,7 @@ class IntegrationTest {
 	}
 
 	@Test
-	void t3MongoProperties() {
+	void mapsMongoBindingToBoot3AndBoot4Prefixes() {
 		try (ConfigurableApplicationContext context = run()) {
 			ConfigurableEnvironment env = context.getEnvironment();
 			for (String prefix : new String[] { "spring.data.mongodb.", "spring.mongodb." }) {
@@ -59,7 +60,7 @@ class IntegrationTest {
 	}
 
 	@Test
-	void t4FlattenedKeysAndPlaceholder() {
+	void exposesFlattenedKeysForPlaceholders() {
 		try (ConfigurableApplicationContext context = run()) {
 			ConfigurableEnvironment env = context.getEnvironment();
 			assertThat(env.getProperty("k8s.bindings.redis.host")).isEqualTo("localhost");
@@ -69,14 +70,14 @@ class IntegrationTest {
 	}
 
 	@Test
-	void t5aBindingBeatsApplicationProperties() {
+	void bindingOverridesApplicationProperties() {
 		try (ConfigurableApplicationContext context = run()) {
 			assertThat(context.getEnvironment().getProperty("spring.data.redis.host")).isEqualTo("localhost");
 		}
 	}
 
 	@Test
-	void t5bBindingBeatsSystemProperty() {
+	void bindingOverridesSystemProperty() {
 		System.setProperty("spring.data.redis.host", "sys");
 		try (ConfigurableApplicationContext context = run()) {
 			assertThat(context.getEnvironment().getProperty("spring.data.redis.host")).isEqualTo("localhost");
@@ -84,14 +85,22 @@ class IntegrationTest {
 	}
 
 	@Test
-	void t5cCommandLineBeatsBinding() {
+	void bindingOverridesSpringApplicationJson() {
+		System.setProperty("spring.application.json", "{\"spring.data.redis.host\":\"json\"}");
+		try (ConfigurableApplicationContext context = run()) {
+			assertThat(context.getEnvironment().getProperty("spring.data.redis.host")).isEqualTo("localhost");
+		}
+	}
+
+	@Test
+	void commandLineOverridesBinding() {
 		try (ConfigurableApplicationContext context = run("--spring.data.redis.host=cli")) {
 			assertThat(context.getEnvironment().getProperty("spring.data.redis.host")).isEqualTo("cli");
 		}
 	}
 
 	@Test
-	void t6aGlobalDisable() {
+	void globalSwitchDisablesSpecificBindingsOnly() {
 		System.setProperty("org.springframework.cloud.bindings.boot.enable", "false");
 		try (ConfigurableApplicationContext context = run()) {
 			ConfigurableEnvironment env = context.getEnvironment();
@@ -104,7 +113,7 @@ class IntegrationTest {
 	}
 
 	@Test
-	void t6bMongoDisable() {
+	void mongoSwitchDisablesOnlyMongo() {
 		System.setProperty("org.springframework.cloud.bindings.boot.mongodb.enable", "false");
 		try (ConfigurableApplicationContext context = run()) {
 			ConfigurableEnvironment env = context.getEnvironment();
@@ -115,7 +124,7 @@ class IntegrationTest {
 	}
 
 	private ConfigurableApplicationContext run(String... args) {
-		return new SpringApplicationBuilder(SpringBoot3Application.class)
+		return new SpringApplicationBuilder(BindingsTestApplication.class)
 				.web(WebApplicationType.NONE)
 				.run(args);
 	}

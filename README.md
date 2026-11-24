@@ -36,9 +36,9 @@ The more common usage of the library is opt-in automatic Spring Boot configurati
 * Adds a `PropertySource` with binding-specific Spring Boot configuration properties.
 
 ### Compatibility
-* One jar supports Spring Boot 3.1+ and 4.x. Boot 4 support requires the release that contains spring-cloud/spring-cloud-bindings#118.
+* One jar supports Spring Boot 3.1+ and 4.x. Boot 4 support requires a release later than 2.0.4.
 * The library is tested against Spring Boot 3.1.0, 3.5.16, 4.0.9 and 4.2.0.
-* Binding properties override system properties and `application.properties`, and command-line arguments override binding properties.
+* The binding properties are added just after the command-line arguments. Command-line arguments override binding properties. Binding properties override every other source, including `spring.application.json`, system properties, environment variables and `application.properties`. A `-D` system property cannot override a binding property.
 
 ## Auto-Configurations
 Each auto-configuration is triggered by the type of binding.  Each auto-configuration can be disabled using a System Property specific to that type and defaults to enable. Auto-configuration is disabled by default and can be enabled by setting the `org.springframework.cloud.bindings.boot.enable` System Property to `true`.
@@ -471,7 +471,7 @@ If `{authentication-method}` is equal to `token`:
 Type: `wavefront`
 Disable Property: `org.springframework.cloud.bindings.boot.wavefront.enable`
 
-Spring Boot 4 removed Wavefront support, so these properties have no effect on Boot 4.
+Spring Boot 4 removed Wavefront support. The library still writes these properties on Boot 4, but nothing reads them.
 
 | Property                                        | Value         |
 | ----------------------------------------------- | ------------- |
