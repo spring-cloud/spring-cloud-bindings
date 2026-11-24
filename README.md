@@ -5,7 +5,7 @@ The Spring Cloud Bindings library exposes a rich Java language binding for the [
 
 ## Features
 * Java 17
-* Spring Boot 3
+* Spring Boot 3 and 4 (see [Compatibility](#compatibility))
 
 For Spring Boot 2 compatibility, please have a look at the [1.x releases](https://github.com/spring-cloud/spring-cloud-bindings/tree/1.x).
 
@@ -34,6 +34,11 @@ The more common usage of the library is opt-in automatic Spring Boot configurati
 
 * Adds a `PropertySource` with a flattened representation (`k8s.bindings.{name}.*`) of the bindings.
 * Adds a `PropertySource` with binding-specific Spring Boot configuration properties.
+
+### Compatibility
+* One jar supports Spring Boot 3.1+ and 4.x. Boot 4 support requires a release later than 2.0.4.
+* The library is tested against Spring Boot 3.1.0, 3.5.16, 4.0.9 and 4.2.0.
+* The binding properties are added just after the command-line arguments. Command-line arguments override binding properties. Binding properties override every other source, including `spring.application.json`, system properties, environment variables and `application.properties`. A `-D` system property cannot override a binding property.
 
 ## Auto-Configurations
 Each auto-configuration is triggered by the type of binding.  Each auto-configuration can be disabled using a System Property specific to that type and defaults to enable. Auto-configuration is disabled by default and can be enabled by setting the `org.springframework.cloud.bindings.boot.enable` System Property to `true`.
@@ -155,16 +160,25 @@ Disable Property: `org.springframework.cloud.bindings.boot.ldap.enable`
 Type: `mongodb`
 Disable Property: `org.springframework.cloud.bindings.boot.mongodb.enable`
 
+Both prefixes are written so the same binding works on Spring Boot 3 (`spring.data.mongodb.*`) and Spring Boot 4 (`spring.mongodb.*`). Each Spring Boot line ignores the prefix it does not use. `gridfs.database` is written only as `spring.data.mongodb.gridfs.database`, because Spring Boot 4 still uses that key.
+
 | Property                                      | Value                       |
 | --------------------------------------------- | --------------------------- |
 | `spring.data.mongodb.authentication-database` | `{authentication-database}` |
+| `spring.mongodb.authentication-database`      | `{authentication-database}` |
 | `spring.data.mongodb.database`                | `{database}`                |
-| `spring.data.mongodb.gridfs.database"`        | `{grid-fs-database}`        |
+| `spring.mongodb.database`                     | `{database}`                |
+| `spring.data.mongodb.gridfs.database`         | `{grid-fs-database}`        |
 | `spring.data.mongodb.host`                    | `{host}`                    |
+| `spring.mongodb.host`                         | `{host}`                    |
 | `spring.data.mongodb.password`                | `{password}`                |
+| `spring.mongodb.password`                     | `{password}`                |
 | `spring.data.mongodb.port`                    | `{port}`                    |
+| `spring.mongodb.port`                         | `{port}`                    |
 | `spring.data.mongodb.uri`                     | `{uri}`                     |
+| `spring.mongodb.uri`                          | `{uri}`                     |
 | `spring.data.mongodb.username`                | `{username}`                |
+| `spring.mongodb.username`                     | `{username}`                |
 
 ### MySQL RDBMS
 Type: `mysql`
@@ -456,6 +470,8 @@ If `{authentication-method}` is equal to `token`:
 
 Type: `wavefront`
 Disable Property: `org.springframework.cloud.bindings.boot.wavefront.enable`
+
+Spring Boot 4 removed Wavefront support. The library still writes these properties on Boot 4, but nothing reads them.
 
 | Property                                        | Value         |
 | ----------------------------------------------- | ------------- |

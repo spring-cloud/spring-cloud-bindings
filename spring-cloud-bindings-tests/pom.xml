@@ -9,24 +9,27 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>spring-cloud-bindings-tests</artifactId>
-	<description>Test project to verify Spring Cloud Bindings works properly with Spring Boot 2</description>
+	<description>Test project to verify Spring Cloud Bindings works properly with Spring Boot 3 and 4</description>
+	<properties>
+		<tests.spring-boot.version>${spring-boot.version}</tests.spring-boot.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${tests.spring-boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
-			<version>${spring-boot.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-redis</artifactId>
-			<version>${spring-boot.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.annotation</groupId>
-			<artifactId>javax.annotation-api</artifactId>
-			<version>1.3.1</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -38,13 +41,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-			<version>${spring-boot.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.github.kstyrc</groupId>
-			<artifactId>embedded-redis</artifactId>
-			<version>0.6</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -62,12 +58,15 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.10.1</version>
+				<version>3.13.0</version>
+				<configuration>
+					<release>17</release>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.22.2</version>
+				<version>3.5.4</version>
 				<configuration>
 					<forkCount>1</forkCount>
 					<reuseForks>false</reuseForks>
