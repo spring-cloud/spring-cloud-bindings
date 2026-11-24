@@ -19,9 +19,17 @@ package org.springframework.cloud.bindings.boot;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.context.properties.source.ConfigurationPropertySources;
+import org.springframework.core.convert.ConversionException;
+import org.springframework.core.env.MapPropertySource;
+import org.springframework.core.env.StandardEnvironment;
+import org.springframework.core.env.SystemEnvironmentPropertySource;
 import org.springframework.mock.env.MockEnvironment;
 
+import java.util.Map;
+
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.springframework.cloud.bindings.boot.Guards.isGlobalEnabled;
 import static org.springframework.cloud.bindings.boot.Guards.isTypeEnabled;
 
@@ -80,6 +88,162 @@ final class GuardsTest {
         void setFalse() {
             environment.setProperty("org.springframework.cloud.bindings.boot.test.enable", "false");
             assertThat(isTypeEnabled(environment, "test")).isFalse();
+        }
+
+    }
+
+    @Nested
+    @DisplayName("Application JSON")
+    final class ApplicationJson {
+
+        private final MockEnvironment environment = new MockEnvironment();
+
+        @Test
+        @DisplayName("honours a flat global switch in spring.application.json")
+        void globalFlat() {
+            environment.setProperty("spring.application.json",
+                    "{\"org.springframework.cloud.bindings.boot.enable\":false}");
+            assertThat(isGlobalEnabled(environment)).isFalse();
+        }
+
+        @Test
+        @DisplayName("honours a nested type switch in spring.application.json")
+        void typeNested() {
+            environment.setProperty("spring.application.json",
+                    "{\"org\":{\"springframework\":{\"cloud\":{\"bindings\":{\"boot\":{\"redis\":"
+                            + "{\"enable\":\"false\"}}}}}}}");
+            assertThat(isTypeEnabled(environment, "redis")).isFalse();
+            assertThat(isTypeEnabled(environment, "kafka")).isTrue();
+        }
+
+        @Test
+        @DisplayName("honours SPRING_APPLICATION_JSON")
+        void envVar() {
+            environment.setProperty("SPRING_APPLICATION_JSON",
+                    "{\"org.springframework.cloud.bindings.boot.enable\":false}");
+            assertThat(isGlobalEnabled(environment)).isFalse();
+        }
+
+        @Test
+        @DisplayName("prefers a directly set property over the JSON")
+        void directWins() {
+            environment.setProperty("org.springframework.cloud.bindings.boot.enable", "true");
+            environment.setProperty("spring.application.json",
+                    "{\"org.springframework.cloud.bindings.boot.enable\":false}");
+            assertThat(isGlobalEnabled(environment)).isTrue();
+        }
+
+        @Test
+        @DisplayName("treats yes, on and 1 as true and no, off and 0 as false")
+        void truthyValues() {
+            for (String value : new String[]{"yes", "on", "1", "TRUE"}) {
+                environment.setProperty("spring.application.json",
+                        "{\"org.springframework.cloud.bindings.boot.enable\":\"" + value + "\"}");
+                assertThat(isGlobalEnabled(environment)).as(value).isTrue();
+            }
+            for (String value : new String[]{"no", "off", "0", "false"}) {
+                environment.setProperty("spring.application.json",
+                        "{\"org.springframework.cloud.bindings.boot.enable\":\"" + value + "\"}");
+                assertThat(isGlobalEnabled(environment)).as(value).isFalse();
+            }
+        }
+
+        @Test
+        @DisplayName("ranks the JSON above system properties")
+        void jsonAboveSystemProperties() {
+            StandardEnvironment standard = new StandardEnvironment();
+            standard.getPropertySources().replace("systemProperties", new MapPropertySource("systemProperties",
+                    Map.of("org.springframework.cloud.bindings.boot.enable", "true",
+                            "spring.application.json", "{\"org.springframework.cloud.bindings.boot.enable\":false}")));
+            ConfigurationPropertySources.attach(standard);
+
+            assertThat(isGlobalEnabled(standard)).isFalse();
+        }
+
+        @Test
+        @DisplayName("ranks command line arguments above the JSON")
+        void commandLineAboveJson() {
+            StandardEnvironment standard = new StandardEnvironment();
+            standard.getPropertySources().replace("systemProperties", new MapPropertySource("systemProperties",
+                    Map.of("spring.application.json", "{\"org.springframework.cloud.bindings.boot.enable\":false}")));
+            standard.getPropertySources().addFirst(new MapPropertySource("commandLineArgs",
+                    Map.of("org.springframework.cloud.bindings.boot.enable", "true")));
+            ConfigurationPropertySources.attach(standard);
+
+            assertThat(isGlobalEnabled(standard)).isTrue();
+        }
+
+        @Test
+        @DisplayName("reads an environment variable when there is no JSON")
+        void environmentVariable() {
+            StandardEnvironment standard = new StandardEnvironment();
+            standard.getPropertySources().replace("systemEnvironment", new SystemEnvironmentPropertySource(
+                    "systemEnvironment", Map.of("ORG_SPRINGFRAMEWORK_CLOUD_BINDINGS_BOOT_ENABLE", "false")));
+            standard.getPropertySources().replace("systemProperties",
+                    new MapPropertySource("systemProperties", Map.of()));
+
+            assertThat(isGlobalEnabled(standard)).isFalse();
+        }
+
+        @Test
+        @DisplayName("ranks the JSON above environment variables")
+        void jsonAboveEnvironmentVariables() {
+            StandardEnvironment standard = new StandardEnvironment();
+            standard.getPropertySources().replace("systemEnvironment", new SystemEnvironmentPropertySource("systemEnvironment",
+                    Map.of("ORG_SPRINGFRAMEWORK_CLOUD_BINDINGS_BOOT_ENABLE", "true")));
+            standard.getPropertySources().replace("systemProperties", new MapPropertySource("systemProperties",
+                    Map.of("spring.application.json", "{\"org.springframework.cloud.bindings.boot.enable\":false}")));
+
+            assertThat(isGlobalEnabled(standard)).isFalse();
+        }
+
+        @Test
+        @DisplayName("fails on a value that cannot be converted")
+        void unconvertible() {
+            for (String json : new String[]{"\"abc\"", "0", "1"}) {
+                environment.setProperty("spring.application.json",
+                        "{\"org.springframework.cloud.bindings.boot.enable\":" + json + "}");
+                assertThatThrownBy(() -> isGlobalEnabled(environment)).as(json)
+                        .isInstanceOf(ConversionException.class);
+            }
+        }
+
+        @Test
+        @DisplayName("matches switch keys in the JSON that differ in case or dashes")
+        void relaxedKeysInJson() {
+            for (String key : new String[]{"org.springframework.cloud.bindings.boot.ENABLE",
+                    "org.springframework.cloud.bindings.boot.en-able", "org.springframework.cloud.bindings.boot.Enable"}) {
+                environment.setProperty("spring.application.json", "{\"" + key + "\":false}");
+                assertThat(isGlobalEnabled(environment)).as(key).isFalse();
+            }
+            environment.setProperty("spring.application.json",
+                    "{\"org.springframework.cloud.bindings.boot.re-dis.Enable\":false}");
+            assertThat(isTypeEnabled(environment, "redis")).isFalse();
+        }
+
+        @Test
+        @DisplayName("matches switch keys in a property source that differ in case or dashes")
+        void relaxedKeysInSource() {
+            StandardEnvironment standard = new StandardEnvironment();
+            standard.getPropertySources().addFirst(new MapPropertySource("commandLineArgs",
+                    Map.of("org.springframework.cloud.bindings.boot.ENABLE", "false")));
+            ConfigurationPropertySources.attach(standard);
+
+            assertThat(isGlobalEnabled(standard)).isFalse();
+        }
+
+        @Test
+        @DisplayName("ignores invalid JSON")
+        void invalidJson() {
+            environment.setProperty("spring.application.json", "{not json");
+            assertThat(isGlobalEnabled(environment)).isTrue();
+        }
+
+        @Test
+        @DisplayName("ignores JSON without the switch")
+        void unrelatedJson() {
+            environment.setProperty("spring.application.json", "{\"foo\":\"bar\"}");
+            assertThat(isGlobalEnabled(environment)).isTrue();
         }
 
     }
