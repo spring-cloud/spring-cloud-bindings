@@ -113,7 +113,7 @@ final class BindingSpecificEnvironmentPostProcessorTest {
     @Test
     @DisplayName("included implementations are registered")
     void includedImplementations() {
-        assertThat(new BindingSpecificEnvironmentPostProcessor().processors).hasSize(21);
+        assertThat(new BindingSpecificEnvironmentPostProcessor().processors).hasSize(27);
     }
 
     @Test
